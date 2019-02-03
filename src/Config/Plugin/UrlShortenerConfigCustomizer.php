@@ -5,6 +5,7 @@ namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
+use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_diff;
 use function array_keys;
@@ -30,12 +31,12 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
         self::NOT_FOUND_REDIRECT_TO,
     ];
 
-    /** @var callable */
-    private $randomCharsGenerator;
+    /** @var StringGeneratorInterface */
+    private $stringGenerator;
 
-    public function __construct(callable $randomCharsGenerator)
+    public function __construct(StringGeneratorInterface $stringGenerator)
     {
-        $this->randomCharsGenerator = $randomCharsGenerator;
+        $this->stringGenerator = $stringGenerator;
     }
 
     public function process(SymfonyStyle $io, CustomizableAppConfig $appConfig): void
@@ -77,7 +78,7 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
                 return $this->askRequired($io, 'hostname', 'Hostname for generated URLs');
             case self::CHARS:
                 // This won't actually ask anything, just generate the chars. Asking for this was confusing for users
-                return ($this->randomCharsGenerator)();
+                return $this->stringGenerator->generateRandomShortCodeChars();
             case self::VALIDATE_URL:
                 return $io->confirm('Do you want to validate long urls by 200 HTTP status code on response');
             case self::ENABLE_NOT_FOUND_REDIRECTION:

@@ -9,6 +9,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
+use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_shift;
 use function strpos;
@@ -25,7 +26,7 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
-        $this->plugin = new ApplicationConfigCustomizer();
+        $this->plugin = new ApplicationConfigCustomizer($this->prophesize(StringGeneratorInterface::class)->reveal());
     }
 
     /**
