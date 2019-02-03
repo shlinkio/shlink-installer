@@ -17,7 +17,7 @@ class LanguageConfigCustomizerTest extends TestCase
     /** @var ObjectProphecy */
     private $io;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
@@ -27,7 +27,7 @@ class LanguageConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function configIsRequestedToTheUser()
+    public function configIsRequestedToTheUser(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('en');
         $config = new CustomizableAppConfig();
@@ -44,7 +44,7 @@ class LanguageConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function onlyMissingOptionsAreAsked()
+    public function onlyMissingOptionsAreAsked(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('es');
         $config = new CustomizableAppConfig();
@@ -60,7 +60,7 @@ class LanguageConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function noQuestionsAskedIfImportedConfigContainsEverything()
+    public function noQuestionsAskedIfImportedConfigContainsEverything(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('en');
 

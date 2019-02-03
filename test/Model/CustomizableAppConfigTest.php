@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer;
+namespace ShlinkioTest\Shlink\Installer\Model;
 
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
@@ -13,7 +13,7 @@ class CustomizableAppConfigTest extends TestCase
     /**
      * @test
      */
-    public function exchangeArrayIgnoresAnyNonProvidedKey()
+    public function exchangeArrayIgnoresAnyNonProvidedKey(): void
     {
         $config = new CustomizableAppConfig();
 

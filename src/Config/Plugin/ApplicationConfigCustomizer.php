@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
-use Shlinkio\Shlink\Common\Util\StringUtilsTrait;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
+use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_diff;
 use function array_keys;
@@ -14,8 +14,6 @@ use function sprintf;
 
 class ApplicationConfigCustomizer implements ConfigCustomizerInterface
 {
-    use StringUtilsTrait;
-
     public const SECRET = 'SECRET';
     public const DISABLE_TRACK_PARAM = 'DISABLE_TRACK_PARAM';
     public const CHECK_VISITS_THRESHOLD = 'CHECK_VISITS_THRESHOLD';
@@ -26,6 +24,14 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
         self::CHECK_VISITS_THRESHOLD,
         self::VISITS_THRESHOLD,
     ];
+
+    /** @var StringGeneratorInterface */
+    private $stringGenerator;
+
+    public function __construct(StringGeneratorInterface $stringGenerator)
+    {
+        $this->stringGenerator = $stringGenerator;
+    }
 
     public function process(SymfonyStyle $io, CustomizableAppConfig $appConfig): void
     {
@@ -55,7 +61,7 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
                 return $io->ask(
                     'Define a secret string that will be used to sign API tokens (leave empty to autogenerate one) '
                     . '<fg=red>[DEPRECATED. TO BE REMOVED]</>'
-                ) ?: $this->generateRandomString(32);
+                ) ?: $this->stringGenerator->generateRandomString(32);
             case self::DISABLE_TRACK_PARAM:
                 return $io->ask(
                     'Provide a parameter name that you will be able to use to disable tracking on specific request to '

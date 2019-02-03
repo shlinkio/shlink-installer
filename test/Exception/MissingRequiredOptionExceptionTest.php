@@ -11,7 +11,7 @@ class MissingRequiredOptionExceptionTest extends TestCase
     /**
      * @test
      */
-    public function fromOptionsGeneratesExpectedMessage()
+    public function fromOptionsGeneratesExpectedMessage(): void
     {
         $e = MissingRequiredOptionException::fromOption('foo');
         $this->assertEquals('The "foo" is required and can\'t be empty', $e->getMessage());

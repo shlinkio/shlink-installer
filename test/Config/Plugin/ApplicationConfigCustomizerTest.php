@@ -9,6 +9,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
+use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_shift;
 use function strpos;
@@ -20,18 +21,18 @@ class ApplicationConfigCustomizerTest extends TestCase
     /** @var ObjectProphecy */
     private $io;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
-        $this->plugin = new ApplicationConfigCustomizer();
+        $this->plugin = new ApplicationConfigCustomizer($this->prophesize(StringGeneratorInterface::class)->reveal());
     }
 
     /**
      * @test
      */
-    public function configIsRequestedToTheUser()
+    public function configIsRequestedToTheUser(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
         $confirm = $this->io->confirm(Argument::cetera())->willReturn(false);
@@ -53,7 +54,7 @@ class ApplicationConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function visitsThresholdIsRequestedIfCheckIsEnabled()
+    public function visitsThresholdIsRequestedIfCheckIsEnabled(): void
     {
         $ask = $this->io->ask(Argument::cetera())->will(function (array $args) {
             $message = array_shift($args);
@@ -79,7 +80,7 @@ class ApplicationConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function onlyMissingOptionsAreAsked()
+    public function onlyMissingOptionsAreAsked(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('disable_param');
         $config = new CustomizableAppConfig();
@@ -103,7 +104,7 @@ class ApplicationConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function noQuestionsAskedIfImportedConfigContainsEverything()
+    public function noQuestionsAskedIfImportedConfigContainsEverything(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('the_new_secret');
 
@@ -131,7 +132,7 @@ class ApplicationConfigCustomizerTest extends TestCase
      * @dataProvider provideInvalidValues
      * @param mixed $value
      */
-    public function validateVisitsThresholdThrowsExceptionWhenProvidedValueIsInvalid($value)
+    public function validateVisitsThresholdThrowsExceptionWhenProvidedValueIsInvalid($value): void
     {
         $this->expectException(InvalidConfigOptionException::class);
         $this->plugin->validateVisitsThreshold($value);
@@ -154,7 +155,7 @@ class ApplicationConfigCustomizerTest extends TestCase
      * @dataProvider provideValidValues
      * @param mixed $value
      */
-    public function validateVisitsThresholdCastsToIntWhenProvidedValueIsValid($value, int $expected)
+    public function validateVisitsThresholdCastsToIntWhenProvidedValueIsValid($value, int $expected): void
     {
         $this->assertEquals($expected, $this->plugin->validateVisitsThreshold($value));
     }

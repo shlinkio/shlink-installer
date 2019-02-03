@@ -1,0 +1,82 @@
+{
+    "name": "shlinkio/shlink-installer",
+    "type": "project",
+    "homepage": "https://shlink.io",
+    "description": "A PHP command line tool used to install shlink",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alejandro Celaya Alastrué",
+            "homepage": "https://www.alejandrocelaya.com",
+            "email": "alejandro@alejandrocelaya.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "lstrojny/functional-php": "^1.9",
+        "symfony/console": "^4.2",
+        "symfony/filesystem": "^4.2",
+        "symfony/process": "^4.2",
+        "zendframework/zend-config": "^3.2",
+        "zendframework/zend-servicemanager": "^3.2",
+        "zendframework/zend-stdlib": "^3.2"
+    },
+    "require-dev": {
+        "devster/ubench": "^2.0",
+        "infection/infection": "^0.11.0",
+        "phpstan/phpstan": "^0.10.0",
+        "phpunit/phpunit": "^8.0 || ^7.3",
+        "roave/security-advisories": "dev-master",
+        "shlinkio/php-coding-standard": "~1.0.0",
+        "symfony/var-dumper": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shlinkio\\Shlink\\Installer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ShlinkioTest\\Shlink\\Installer\\": "test"
+        }
+    },
+    "scripts": {
+        "ci": [
+            "@cs",
+            "@stan",
+            "@test:ci",
+            "@infect:ci"
+        ],
+
+        "cs": "phpcs",
+        "cs:fix": "phpcbf",
+        "stan": "phpstan analyse src --level=6 -c phpstan.neon",
+
+        "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random",
+        "test:ci": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/phpunit.junit.xml",
+        "test:pretty": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-html build/html",
+
+        "infect": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered",
+        "infect:ci": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered --coverage=build",
+        "infect:show": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered --show-mutations"
+    },
+    "scripts-descriptions": {
+        "ci": "<fg=blue;options=bold>Alias for \"cs\", \"stan\", \"test:ci\" and \"infect:ci\"</>",
+        "cs": "<fg=blue;options=bold>Checks coding styles</>",
+        "cs:fix": "<fg=blue;options=bold>Fixes coding styles, when possible</>",
+        "stan": "<fg=blue;options=bold>Inspects code with phpstan</>",
+        "test": "<fg=blue;options=bold>Runs unit tests with no coverage reports</>",
+        "test:ci": "<fg=blue;options=bold>Runs unit tests generating coverage reports and logs</>",
+        "test:pretty": "<fg=blue;options=bold>Runs unit tests generating coverage reports in html</>",
+        "infect": "<fg=blue;options=bold>Checks unit tests quality applying mutation testing</>",
+        "infect:ci": "<fg=blue;options=bold>Checks unit tests quality applying mutation testing with existing reports and logs</>",
+        "infect:show": "<fg=blue;options=bold>Checks unit tests quality applying mutation testing and shows applied mutators</>"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "bin": [
+        "bin/shlink-install",
+        "bin/shlink-update"
+    ]
+}

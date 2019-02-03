@@ -31,7 +31,7 @@ class InstallCommandTest extends TestCase
     /** @var ObjectProphecy */
     private $filesystem;
 
-    public function setUp()
+    public function setUp(): void
     {
         $processMock = $this->prophesize(Process::class);
         $processMock->isSuccessful()->willReturn(true);
@@ -71,7 +71,7 @@ class InstallCommandTest extends TestCase
     /**
      * @test
      */
-    public function generatedConfigIsProperlyPersisted()
+    public function generatedConfigIsProperlyPersisted(): void
     {
         $this->configWriter->toFile(Argument::any(), Argument::type('array'), false)->shouldBeCalledOnce();
         $this->commandTester->execute([]);
@@ -80,7 +80,7 @@ class InstallCommandTest extends TestCase
     /**
      * @test
      */
-    public function cachedConfigIsDeletedIfExists()
+    public function cachedConfigIsDeletedIfExists(): void
     {
         /** @var MethodProphecy $appConfigExists */
         $appConfigExists = $this->filesystem->exists('data/cache/app_config.php')->willReturn(true);
@@ -96,7 +96,7 @@ class InstallCommandTest extends TestCase
     /**
      * @test
      */
-    public function exceptionWhileDeletingCachedConfigCancelsProcess()
+    public function exceptionWhileDeletingCachedConfigCancelsProcess(): void
     {
         /** @var MethodProphecy $appConfigExists */
         $appConfigExists = $this->filesystem->exists('data/cache/app_config.php')->willReturn(true);
@@ -115,7 +115,7 @@ class InstallCommandTest extends TestCase
     /**
      * @test
      */
-    public function whenCommandIsUpdatePreviousConfigCanBeImported()
+    public function whenCommandIsUpdatePreviousConfigCanBeImported(): void
     {
         $ref = new ReflectionObject($this->command);
         $prop = $ref->getProperty('isUpdate');
