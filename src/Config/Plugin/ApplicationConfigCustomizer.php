@@ -11,6 +11,7 @@ use function array_keys;
 use function is_numeric;
 use function random_int;
 use function sprintf;
+use function strlen;
 
 class ApplicationConfigCustomizer implements ConfigCustomizerInterface
 {
