@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Model;
 
 use PDO;
-use Shlinkio\Shlink\Common\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\DatabaseConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\LanguageConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
+use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Zend\Stdlib\ArraySerializableInterface;
 
 final class CustomizableAppConfig implements ArraySerializableInterface

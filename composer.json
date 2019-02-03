@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": "^7.1",
+        "lstrojny/functional-php": "^1.9",
         "symfony/console": "^4.2",
         "symfony/filesystem": "^4.2",
         "symfony/process": "^4.2",

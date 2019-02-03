@@ -3,19 +3,17 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
-use Shlinkio\Shlink\Common\Util\StringUtilsTrait;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_diff;
 use function array_keys;
 use function is_numeric;
+use function random_int;
 use function sprintf;
 
 class ApplicationConfigCustomizer implements ConfigCustomizerInterface
 {
-    use StringUtilsTrait;
-
     public const SECRET = 'SECRET';
     public const DISABLE_TRACK_PARAM = 'DISABLE_TRACK_PARAM';
     public const CHECK_VISITS_THRESHOLD = 'CHECK_VISITS_THRESHOLD';
@@ -86,5 +84,17 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
         }
 
         return (int) $value;
+    }
+
+    private function generateRandomString(int $length = 10): string
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
     }
 }
