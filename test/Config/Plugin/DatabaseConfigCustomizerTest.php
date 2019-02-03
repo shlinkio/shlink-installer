@@ -20,7 +20,7 @@ class DatabaseConfigCustomizerTest extends TestCase
     /** @var ObjectProphecy */
     private $filesystem;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
@@ -32,7 +32,7 @@ class DatabaseConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function configIsRequestedToTheUser()
+    public function configIsRequestedToTheUser(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('MySQL');
         $ask = $this->io->ask(Argument::cetera())->willReturn('param');
@@ -56,7 +56,7 @@ class DatabaseConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function onlyMissingOptionsAreAsked()
+    public function onlyMissingOptionsAreAsked(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('MySQL');
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -85,7 +85,7 @@ class DatabaseConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function noQuestionsAskedIfImportedConfigContainsEverything()
+    public function noQuestionsAskedIfImportedConfigContainsEverything(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('MySQL');
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -117,7 +117,7 @@ class DatabaseConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function sqliteDatabaseIsImportedWhenRequested()
+    public function sqliteDatabaseIsImportedWhenRequested(): void
     {
         $copy = $this->filesystem->copy(Argument::cetera())->willReturn(null);
 

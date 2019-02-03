@@ -17,7 +17,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
     /** @var ObjectProphecy */
     private $io;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
@@ -29,7 +29,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function configIsRequestedToTheUser()
+    public function configIsRequestedToTheUser(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -55,7 +55,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function onlyMissingOptionsAreAsked()
+    public function onlyMissingOptionsAreAsked(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -85,7 +85,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function noQuestionsAskedIfImportedConfigContainsEverything()
+    public function noQuestionsAskedIfImportedConfigContainsEverything(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -119,7 +119,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
     /**
      * @test
      */
-    public function redirectUrlOptionIsNotAskedIfAnswerToPreviousQuestionIsNo()
+    public function redirectUrlOptionIsNotAskedIfAnswerToPreviousQuestionIsNo(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
         $confirm = $this->io->confirm(Argument::cetera())->willReturn(false);
