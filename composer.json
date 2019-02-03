@@ -74,5 +74,9 @@
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "bin": [
+        "bin/shlink-install",
+        "bin/shlink-update"
+    ]
 }
