@@ -116,4 +116,30 @@ class InstallCommandTest extends TestCase
 
         $importedConfigExists->shouldHaveBeenCalled();
     }
+
+    /**
+     * @test
+     * @dataProvider provideAmounts
+     */
+    public function commandRunnerIsInvokedTheProperAmountOfTimes(bool $isUpdate, int $expectedAmount): void
+    {
+        $ref = new ReflectionObject($this->command);
+        $prop = $ref->getProperty('isUpdate');
+        $prop->setAccessible(true);
+        $prop->setValue($this->command, $isUpdate);
+        $this->filesystem->exists('data/cache/app_config.php')->willReturn(false);
+
+        $execPhpCommand = $this->commandsRunner->execPhpCommand(Argument::cetera())->willReturn(true);
+
+        $this->commandTester->setInputs(['no']);
+        $this->commandTester->execute([]);
+
+        $execPhpCommand->shouldHaveBeenCalledTimes($expectedAmount);
+    }
+
+    public function provideAmounts(): iterable
+    {
+        yield [false, 4];
+        yield [true, 3];
+    }
 }

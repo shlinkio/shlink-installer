@@ -19,6 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Zend\Config\Writer\WriterInterface;
+use function Functional\every;
+use function Functional\tail;
 use function sprintf;
 
 class InstallCommand extends Command
@@ -173,11 +175,10 @@ class InstallCommand extends Command
 
     private function execPostInstallCommands(SymfonyStyle $io): bool
     {
-//        $commands = $this->isUpdate ? self::POST_INSTALL_COMMANDS : self::POST_INSTALL_COMMANDS;
+        $commands = $this->isUpdate ? tail(self::POST_INSTALL_COMMANDS) : self::POST_INSTALL_COMMANDS;
 
-        return ($this->isUpdate && $this->commandsRunner->execPhpCommand('db_create_schema', $io))
-            && $this->commandsRunner->execPhpCommand('db_migrate', $io)
-            && $this->commandsRunner->execPhpCommand('orm_proxies', $io)
-            && $this->commandsRunner->execPhpCommand('geolite_download', $io);
+        return every($commands, function (string $commandName) use ($io) {
+            return $this->commandsRunner->execPhpCommand($commandName, $io);
+        });
     }
 }
