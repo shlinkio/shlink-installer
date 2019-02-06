@@ -4,9 +4,4 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
-use Symfony\Component\Console\Application;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-/** @var ServiceLocatorInterface $container */
-$container = include __DIR__ . '/../config/container.php';
-$container->build(Application::class)->run();
+(require __DIR__ . '/run.php')(false);

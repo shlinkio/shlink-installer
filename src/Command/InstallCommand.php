@@ -8,31 +8,33 @@ use Psr\Container\NotFoundExceptionInterface;
 use Shlinkio\Shlink\Installer\Config\ConfigCustomizerManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Plugin;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
+use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Exception\RuntimeException;
-use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Zend\Config\Writer\WriterInterface;
-use function array_unshift;
-use function implode;
+use function Functional\every;
+use function Functional\tail;
+use function sprintf;
 
 class InstallCommand extends Command
 {
     use AskUtilsTrait;
 
     public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
+    private const POST_INSTALL_COMMANDS = [
+        'db_create_schema',
+        'db_migrate',
+        'orm_proxies',
+        'geolite_download',
+    ];
 
-    /** @var SymfonyStyle */
-    private $io;
-    /** @var ProcessHelper */
-    private $processHelper;
     /** @var WriterInterface */
     private $configWriter;
     /** @var Filesystem */
@@ -41,33 +43,25 @@ class InstallCommand extends Command
     private $configCustomizers;
     /** @var bool */
     private $isUpdate;
-    /** @var PhpExecutableFinder */
-    private $phpFinder;
-    /** @var string|bool */
-    private $phpBinary;
+    /** @var InstallationCommandsRunnerInterface */
+    private $commandsRunner;
 
     /**
-     * InstallCommand constructor.
-     * @param WriterInterface $configWriter
-     * @param Filesystem $filesystem
-     * @param ConfigCustomizerManagerInterface $configCustomizers
-     * @param bool $isUpdate
-     * @param PhpExecutableFinder|null $phpFinder
      * @throws LogicException
      */
     public function __construct(
         WriterInterface $configWriter,
         Filesystem $filesystem,
         ConfigCustomizerManagerInterface $configCustomizers,
-        bool $isUpdate = false,
-        PhpExecutableFinder $phpFinder = null
+        InstallationCommandsRunnerInterface $commandsRunner,
+        bool $isUpdate
     ) {
         parent::__construct();
         $this->configWriter = $configWriter;
         $this->isUpdate = $isUpdate;
         $this->filesystem = $filesystem;
         $this->configCustomizers = $configCustomizers;
-        $this->phpFinder = $phpFinder ?: new PhpExecutableFinder();
+        $this->commandsRunner = $commandsRunner;
     }
 
     protected function configure(): void
@@ -86,25 +80,25 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
-        $this->io->writeln([
+        $io->writeln([
             '<info>Welcome to Shlink!!</info>',
             'This tool will guide you through the installation process.',
         ]);
 
         // Check if a cached config file exists and drop it if so
         if ($this->filesystem->exists('data/cache/app_config.php')) {
-            $this->io->write('Deleting old cached config...');
+            $io->write('Deleting old cached config...');
             try {
                 $this->filesystem->remove('data/cache/app_config.php');
-                $this->io->writeln(' <info>Success</info>');
+                $io->writeln(' <info>Success</info>');
             } catch (IOException $e) {
-                $this->io->error(
+                $io->error(
                     'Failed! You will have to manually delete the data/cache/app_config.php file to'
                     . ' get new config applied.'
                 );
-                if ($this->io->isVerbose()) {
+                if ($io->isVerbose()) {
                     $this->getApplication()->renderException($e, $output);
                 }
                 return;
@@ -112,7 +106,7 @@ class InstallCommand extends Command
         }
 
         // If running update command, ask the user to import previous config
-        $config = $this->isUpdate ? $this->importConfig() : new CustomizableAppConfig();
+        $config = $this->isUpdate ? $this->importConfig($io) : new CustomizableAppConfig();
 
         // Ask for custom config params
         foreach ([
@@ -123,64 +117,27 @@ class InstallCommand extends Command
         ] as $pluginName) {
             /** @var Plugin\ConfigCustomizerInterface $configCustomizer */
             $configCustomizer = $this->configCustomizers->get($pluginName);
-            $configCustomizer->process($this->io, $config);
+            $configCustomizer->process($io, $config);
         }
 
         // Generate config params files
         $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config->getArrayCopy(), false);
-        $this->io->writeln(['<info>Custom configuration properly generated!</info>', '']);
+        $io->writeln(['<info>Custom configuration properly generated!</info>', '']);
 
-        // If current command is not update, generate database
-        if (! $this->isUpdate) {
-            $this->io->write('Initializing database...');
-            if (! $this->execPhp(
-                ['vendor/doctrine/orm/bin/doctrine.php', 'orm:schema-tool:create'],
-                'Error generating database.',
-                $output
-            )) {
-                return;
-            }
+        if ($this->execPostInstallCommands($io)) {
+            $io->success('Installation complete!');
         }
-
-        // Run database migrations
-        $this->io->write('Updating database...');
-        if (! $this->execPhp(
-            ['vendor/doctrine/migrations/bin/doctrine-migrations.php', 'migrations:migrate'],
-            'Error updating database.',
-            $output
-        )) {
-            return;
-        }
-
-        // Generate proxies
-        $this->io->write('Generating proxies...');
-        if (! $this->execPhp(
-            ['vendor/doctrine/orm/bin/doctrine.php', 'orm:generate-proxies'],
-            'Error generating proxies.',
-            $output
-        )) {
-            return;
-        }
-
-        // Download GeoLite2 db file
-        $this->io->write('Downloading GeoLite2 db...');
-        if (! $this->execPhp(['bin/cli', 'visit:update-db'], 'Error downloading GeoLite2 db.', $output)) {
-            return;
-        }
-
-        $this->io->success('Installation complete!');
     }
 
     /**
-     * @return CustomizableAppConfig
      * @throws RuntimeException
      */
-    private function importConfig(): CustomizableAppConfig
+    private function importConfig(SymfonyStyle $io): CustomizableAppConfig
     {
         $config = new CustomizableAppConfig();
 
         // Ask the user if he/she wants to import an older configuration
-        $importConfig = $this->io->confirm(
+        $importConfig = $io->confirm(
             'Do you want to import configuration from previous installation? (You will still be asked for any new '
             . 'config option that did not exist in previous shlink versions)'
         );
@@ -192,15 +149,15 @@ class InstallCommand extends Command
         $keepAsking = true;
         do {
             $config->setImportedInstallationPath($this->askRequired(
-                $this->io,
+                $io,
                 'previous installation path',
                 'Previous shlink installation path from which to import config'
             ));
-            $configFile = $config->getImportedInstallationPath() . '/' . self::GENERATED_CONFIG_PATH;
+            $configFile = sprintf('%s/%s', $config->getImportedInstallationPath(), self::GENERATED_CONFIG_PATH);
             $configExists = $this->filesystem->exists($configFile);
 
             if (! $configExists) {
-                $keepAsking = $this->io->confirm(
+                $keepAsking = $io->confirm(
                     'Provided path does not seem to be a valid shlink root path. Do you want to try another path?'
                 );
             }
@@ -216,32 +173,12 @@ class InstallCommand extends Command
         return $config;
     }
 
-    private function execPhp(array $command, string $errorMessage, OutputInterface $output): bool
+    private function execPostInstallCommands(SymfonyStyle $io): bool
     {
-        if ($this->processHelper === null) {
-            $this->processHelper = $this->getHelper('process');
-        }
+        $commands = $this->isUpdate ? tail(self::POST_INSTALL_COMMANDS) : self::POST_INSTALL_COMMANDS;
 
-        if ($this->phpBinary === null) {
-            $this->phpBinary = $this->phpFinder->find(false) ?: 'php';
-        }
-
-        array_unshift($command, $this->phpBinary);
-        $this->io->write(
-            ' <options=bold>[Running "' . implode(' ', $command) . '"]</> ',
-            false,
-            OutputInterface::VERBOSITY_VERBOSE
-        );
-        $process = $this->processHelper->run($output, $command);
-        if ($process->isSuccessful()) {
-            $this->io->writeln(' <info>Success!</info>');
-            return true;
-        }
-
-        if (! $this->io->isVerbose()) {
-            $this->io->error($errorMessage . ' Run this command with -vvv to see specific error info.');
-        }
-
-        return false;
+        return every($commands, function (string $commandName) use ($io) {
+            return $this->commandsRunner->execPhpCommand($commandName, $io);
+        });
     }
 }
