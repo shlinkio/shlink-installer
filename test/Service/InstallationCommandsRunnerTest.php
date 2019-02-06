@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
-use function implode;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -12,10 +11,11 @@ use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 use function array_combine;
 use function Functional\map;
+use function implode;
 use function sprintf;
-use Symfony\Component\Process\Process;
 
 class InstallationCommandsRunnerTest extends TestCase
 {
