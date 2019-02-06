@@ -7,6 +7,7 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigCustomizerManager;
+use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -39,6 +40,7 @@ class InstallApplicationFactory implements FactoryInterface
             new PhpArray(),
             $container->get(Filesystem::class),
             new ConfigCustomizerManager($container, $container->get('config')['config_customizer_plugins']),
+            $container->get(InstallationCommandsRunner::class),
             $isUpdate
         );
         $app->add($command);

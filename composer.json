@@ -58,7 +58,13 @@
 
         "infect": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered",
         "infect:ci": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered --coverage=build",
-        "infect:show": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered --show-mutations"
+        "infect:show": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered --show-mutations",
+        "infect:show:ci": "infection --threads=4 --min-msi=40 --log-verbosity=default --only-covered --show-mutations --coverage=build",
+
+        "test:infect": [
+            "@test:ci",
+            "@infect:show:ci"
+        ]
     },
     "scripts-descriptions": {
         "ci": "<fg=blue;options=bold>Alias for \"cs\", \"stan\", \"test:ci\" and \"infect:ci\"</>",

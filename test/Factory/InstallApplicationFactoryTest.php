@@ -5,6 +5,7 @@ namespace ShlinkioTest\Shlink\Installer\Factory;
 
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Factory\InstallApplicationFactory;
+use Shlinkio\Shlink\Installer\Service;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 use Zend\ServiceManager\ServiceManager;
@@ -26,6 +27,9 @@ class InstallApplicationFactoryTest extends TestCase
     {
         $instance = ($this->factory)(new ServiceManager(['services' => [
             Filesystem::class => $this->prophesize(Filesystem::class)->reveal(),
+            Service\InstallationCommandsRunner::class => $this->prophesize(
+                Service\InstallationCommandsRunnerInterface::class
+            )->reveal(),
             'config' => ['config_customizer_plugins' => []],
         ]]), '');
 

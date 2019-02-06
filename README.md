@@ -37,7 +37,6 @@ There are two main ways to run this tool:
     <?php
     declare(strict_types=1);
 
-    require 'vendor/autoload.php';
     $run = require 'vendor/shlinkio/shlink-installer/bin/run.php';
 
     // The flag determines if we are running an update or not
