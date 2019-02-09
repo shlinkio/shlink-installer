@@ -145,16 +145,14 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->plugin->validateVisitsThreshold($value);
     }
 
-    public function provideInvalidValues(): array
+    public function provideInvalidValues(): iterable
     {
-        return [
-            'string' => ['foo'],
-            'empty string' => [''],
-            'negative number' => [-5],
-            'negative number as string' => ['-5'],
-            'zero' => [0],
-            'zero as string' => ['0'],
-        ];
+        yield 'string' => ['foo'];
+        yield 'empty string' => [''];
+        yield 'negative number' => [-5];
+        yield 'negative number as string' => ['-5'];
+        yield 'zero' => [0];
+        yield 'zero as string' => ['0'];
     }
 
     /**
@@ -167,13 +165,11 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->assertEquals($expected, $this->plugin->validateVisitsThreshold($value));
     }
 
-    public function provideValidValues(): array
+    public function provideValidValues(): iterable
     {
-        return [
-            'positive as string' => ['20', 20],
-            'positive as integer' => [5, 5],
-            'one as string' => ['1', 1],
-            'one as integer' => [1, 1],
-        ];
+        yield 'positive as string' => ['20', 20];
+        yield 'positive as integer' => [5, 5];
+        yield 'one as string' => ['1', 1];
+        yield 'one as integer' => [1, 1];
     }
 }

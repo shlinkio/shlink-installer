@@ -28,13 +28,11 @@ class StringGeneratorTest extends TestCase
         $this->assertEquals($size, strlen($generated));
     }
 
-    public function provideSizes(): array
+    public function provideSizes(): iterable
     {
-        return [
-            [1],
-            [10],
-            [33],
-            [random_int(5, 50)],
-        ];
+        yield [1];
+        yield [10];
+        yield [33];
+        yield [random_int(5, 50)];
     }
 }
