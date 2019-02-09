@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\DatabaseConfigCustomizer;
+use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
@@ -26,7 +27,10 @@ class DatabaseConfigCustomizerTest extends TestCase
         $this->io->title(Argument::any())->willReturn(null);
         $this->filesystem = $this->prophesize(Filesystem::class);
 
-        $this->plugin = new DatabaseConfigCustomizer($this->filesystem->reveal());
+        $resolver = $this->prophesize(ExpectedConfigResolverInterface::class);
+        $resolver->resolveExpectedKeys(Argument::cetera())->willReturnArgument(1);
+
+        $this->plugin = new DatabaseConfigCustomizer($resolver->reveal(), $this->filesystem->reveal());
     }
 
     /**

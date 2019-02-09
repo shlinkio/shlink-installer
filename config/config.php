@@ -16,6 +16,7 @@ return [
             Filesystem::class => InvokableFactory::class,
             Util\StringGenerator::class => InvokableFactory::class,
             Service\InstallationCommandsRunner::class => Service\InstallationCommandsRunnerFactory::class,
+            Config\Util\ExpectedConfigResolver::class => Config\Util\ExpectedConfigResolverFactory::class,
         ],
     ],
 
@@ -23,15 +24,22 @@ return [
         'factories' => [
             Config\Plugin\DatabaseConfigCustomizer::class => ConfigAbstractFactory::class,
             Config\Plugin\UrlShortenerConfigCustomizer::class => ConfigAbstractFactory::class,
-            Config\Plugin\LanguageConfigCustomizer::class => InvokableFactory::class,
+            Config\Plugin\LanguageConfigCustomizer::class => ConfigAbstractFactory::class,
             Config\Plugin\ApplicationConfigCustomizer::class => ConfigAbstractFactory::class,
         ],
     ],
 
     ConfigAbstractFactory::class => [
-        Config\Plugin\DatabaseConfigCustomizer::class => [Filesystem::class],
-        Config\Plugin\UrlShortenerConfigCustomizer::class => [Util\StringGenerator::class],
-        Config\Plugin\ApplicationConfigCustomizer::class => [Util\StringGenerator::class],
+        Config\Plugin\DatabaseConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class, Filesystem::class],
+        Config\Plugin\UrlShortenerConfigCustomizer::class => [
+            Config\Util\ExpectedConfigResolver::class,
+            Util\StringGenerator::class,
+        ],
+        Config\Plugin\LanguageConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class],
+        Config\Plugin\ApplicationConfigCustomizer::class => [
+            Config\Util\ExpectedConfigResolver::class,
+            Util\StringGenerator::class,
+        ],
     ],
 
     'installation_commands' => [

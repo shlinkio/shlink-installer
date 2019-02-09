@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\LanguageConfigCustomizer;
+use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -21,7 +22,11 @@ class LanguageConfigCustomizerTest extends TestCase
     {
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
-        $this->plugin = new LanguageConfigCustomizer();
+
+        $resolver = $this->prophesize(ExpectedConfigResolverInterface::class);
+        $resolver->resolveExpectedKeys(Argument::cetera())->willReturnArgument(1);
+
+        $this->plugin = new LanguageConfigCustomizer($resolver->reveal());
     }
 
     /**

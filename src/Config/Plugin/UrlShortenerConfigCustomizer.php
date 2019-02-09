@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
+use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
@@ -22,7 +23,7 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
     public const VALIDATE_URL = 'VALIDATE_URL';
     public const ENABLE_NOT_FOUND_REDIRECTION = 'ENABLE_NOT_FOUND_REDIRECTION';
     public const NOT_FOUND_REDIRECT_TO = 'NOT_FOUND_REDIRECT_TO';
-    private const EXPECTED_KEYS = [
+    private const ALL_EXPECTED_KEYS = [
         self::SCHEMA,
         self::HOSTNAME,
         self::CHARS,
@@ -31,11 +32,14 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
         self::NOT_FOUND_REDIRECT_TO,
     ];
 
+    /** @var array */
+    private $expectedKeys;
     /** @var StringGeneratorInterface */
     private $stringGenerator;
 
-    public function __construct(StringGeneratorInterface $stringGenerator)
+    public function __construct(ExpectedConfigResolverInterface $resolver, StringGeneratorInterface $stringGenerator)
     {
+        $this->expectedKeys = $resolver->resolveExpectedKeys(__CLASS__, self::ALL_EXPECTED_KEYS);
         $this->stringGenerator = $stringGenerator;
     }
 
@@ -43,7 +47,7 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
     {
         $urlShortener = $appConfig->getUrlShortener();
         $doImport = $appConfig->hasUrlShortener();
-        $keysToAskFor = $doImport ? array_diff(self::EXPECTED_KEYS, array_keys($urlShortener)) : self::EXPECTED_KEYS;
+        $keysToAskFor = $doImport ? array_diff($this->expectedKeys, array_keys($urlShortener)) : $this->expectedKeys;
 
         if (empty($keysToAskFor)) {
             return;

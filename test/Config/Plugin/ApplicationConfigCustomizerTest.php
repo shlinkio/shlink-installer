@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
+use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
@@ -26,7 +27,13 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
-        $this->plugin = new ApplicationConfigCustomizer($this->prophesize(StringGeneratorInterface::class)->reveal());
+        $resolver = $this->prophesize(ExpectedConfigResolverInterface::class);
+        $resolver->resolveExpectedKeys(Argument::cetera())->willReturnArgument(1);
+
+        $this->plugin = new ApplicationConfigCustomizer(
+            $resolver->reveal(),
+            $this->prophesize(StringGeneratorInterface::class)->reveal()
+        );
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer;
 
 use Zend\ServiceManager\ServiceManager;
+use Zend\Stdlib\ArrayUtils;
 use function file_exists;
 
 $autoloadFiles = [
@@ -17,7 +18,21 @@ foreach ($autoloadFiles as $autoloadFile) {
     }
 }
 
-$config = require __DIR__ . '/config.php';
+$installerConfig = require __DIR__ . '/config.php';
+$appConfig = (function () {
+    $appConfigPath = __DIR__ . '/../../../../config/config.php';
+    if (! file_exists($appConfigPath)) {
+        return [];
+    };
+
+    $appConfig = require $appConfigPath;
+    // Let's avoid service name conflicts
+    unset($appConfig['dependencies']);
+
+    return $appConfig;
+})();
+
+$config = ArrayUtils::merge($installerConfig, $appConfig);
 $container = new ServiceManager($config['dependencies']);
 $container->setService('config', $config);
 
