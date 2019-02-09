@@ -43,3 +43,45 @@ There are two main ways to run this tool:
     $run(false); // To install
     $run(true); // To update
     ```
+
+### Customize options
+
+In order to retain backwards compatibility, it is possible to configure the installer to ask just a specific subset of questions.
+
+Add a configuration file including a configuration like this:
+
+```php
+<?php
+declare(strict_types=1);
+
+use Shlinkio\Shlink\Installer\Config\Plugin;
+
+return [
+
+    'installer_plugins_expected_config' => [
+        Plugin\LanguageConfigCustomizer::class => [
+            Plugin\LanguageConfigCustomizer::DEFAULT_LANG,
+        ],
+
+        Plugin\UrlShortenerConfigCustomizer::class => [
+            Plugin\UrlShortenerConfigCustomizer::CHARS,
+            Plugin\UrlShortenerConfigCustomizer::HOSTNAME,
+            Plugin\UrlShortenerConfigCustomizer::SCHEMA,
+        ],
+
+        Plugin\ApplicationConfigCustomizer::class => [
+            Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM,
+            Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD,
+        ],
+
+        Plugin\DatabaseConfigCustomizer::class => [
+            Plugin\DatabaseConfigCustomizer::DRIVER,
+            Plugin\DatabaseConfigCustomizer::HOST,
+            Plugin\DatabaseConfigCustomizer::PASSWORD,
+        ],
+    ],
+
+];
+```
+
+By default, the installer will configure all available options for any plugin which is not provided.
