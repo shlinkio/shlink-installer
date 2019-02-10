@@ -161,58 +161,64 @@ final class CustomizableAppConfig implements ArraySerializableInterface
 
     public function getArrayCopy(): array
     {
-        $dbDriver = $this->database[DatabaseConfigCustomizer::DRIVER] ?? '';
-        $config = [
-            'app_options' => [
-                'secret_key' => $this->app[ApplicationConfigCustomizer::SECRET] ?? '',
-                'disable_track_param' => $this->app[ApplicationConfigCustomizer::DISABLE_TRACK_PARAM] ?? null,
-            ],
-            'delete_short_urls' => [
-                'check_visits_threshold' => $this->app[ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD] ?? true,
-                'visits_threshold' => $this->app[ApplicationConfigCustomizer::VISITS_THRESHOLD] ?? 15,
-            ],
-            'entity_manager' => [
-                'connection' => [
-                    'driver' => $dbDriver,
-                ],
-            ],
-            'translator' => [
-                'locale' => $this->language[LanguageConfigCustomizer::DEFAULT_LANG] ?? 'en',
-            ],
-            'url_shortener' => [
-                'domain' => [
-                    'schema' => $this->urlShortener[UrlShortenerConfigCustomizer::SCHEMA] ?? 'http',
-                    'hostname' => $this->urlShortener[UrlShortenerConfigCustomizer::HOSTNAME] ?? '',
-                ],
-                'shortcode_chars' => $this->urlShortener[UrlShortenerConfigCustomizer::CHARS] ?? '',
-                'validate_url' => $this->urlShortener[UrlShortenerConfigCustomizer::VALIDATE_URL] ?? true,
-                'not_found_short_url' => [
-                    'enable_redirection' =>
-                        $this->urlShortener[UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION] ?? false,
-                    'redirect_to' => $this->urlShortener[UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO] ?? null,
-                ],
-            ],
+        $app = [
+            'secret_key' => $this->app[ApplicationConfigCustomizer::SECRET] ?? '',
+            'disable_track_param' => $this->app[ApplicationConfigCustomizer::DISABLE_TRACK_PARAM] ?? null,
         ];
+        $deleteShortUrls = [
+            'check_visits_threshold' => $this->app[ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD] ?? true,
+            'visits_threshold' => $this->app[ApplicationConfigCustomizer::VISITS_THRESHOLD] ?? 15,
+        ];
+        $connection = $this->buildConnectionConfig();
+        $translator = [
+            'locale' => $this->language[LanguageConfigCustomizer::DEFAULT_LANG] ?? 'en',
+        ];
+        $urlShortener = [
+            'domain' => [
+                'schema' => $this->urlShortener[UrlShortenerConfigCustomizer::SCHEMA] ?? 'http',
+                'hostname' => $this->urlShortener[UrlShortenerConfigCustomizer::HOSTNAME] ?? '',
+            ],
+            'shortcode_chars' => $this->urlShortener[UrlShortenerConfigCustomizer::CHARS] ?? '',
+            'validate_url' => $this->urlShortener[UrlShortenerConfigCustomizer::VALIDATE_URL] ?? true,
+        ];
+        $notFoundShortUrl = [
+            'enable_redirection' =>
+                $this->urlShortener[UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION] ?? false,
+            'redirect_to' => $this->urlShortener[UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO] ?? null,
+        ];
+        $urlShortener['not_found_short_url'] = $notFoundShortUrl;
 
+        return [
+            'app_options' => $app,
+            'delete_short_urls' => $deleteShortUrls,
+            'entity_manager' => ['connection' => $connection],
+            'translator' => $translator,
+            'url_shortener' => $urlShortener,
+        ];
+    }
+
+    private function buildConnectionConfig(): array
+    {
+        $dbDriver = $this->database[DatabaseConfigCustomizer::DRIVER] ?? '';
+        $connection = ['driver' => $dbDriver];
         // Build dynamic database config based on selected driver
         if ($dbDriver === 'pdo_sqlite') {
-            $config['entity_manager']['connection']['path'] = self::SQLITE_DB_PATH;
+            $connection['path'] = self::SQLITE_DB_PATH;
         } else {
-            $config['entity_manager']['connection']['user'] = $this->database[DatabaseConfigCustomizer::USER] ?? '';
-            $config['entity_manager']['connection']['password'] =
-                $this->database[DatabaseConfigCustomizer::PASSWORD] ?? '';
-            $config['entity_manager']['connection']['dbname'] = $this->database[DatabaseConfigCustomizer::NAME] ?? '';
-            $config['entity_manager']['connection']['host'] = $this->database[DatabaseConfigCustomizer::HOST] ?? '';
-            $config['entity_manager']['connection']['port'] = $this->database[DatabaseConfigCustomizer::PORT] ?? '';
+            $connection['user'] = $this->database[DatabaseConfigCustomizer::USER] ?? '';
+            $connection['password'] = $this->database[DatabaseConfigCustomizer::PASSWORD] ?? '';
+            $connection['dbname'] = $this->database[DatabaseConfigCustomizer::NAME] ?? '';
+            $connection['host'] = $this->database[DatabaseConfigCustomizer::HOST] ?? '';
+            $connection['port'] = $this->database[DatabaseConfigCustomizer::PORT] ?? '';
 
             if ($dbDriver === 'pdo_mysql') {
-                $config['entity_manager']['connection']['driverOptions'] = [
+                $connection['driverOptions'] = [
                     // PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     1002 => 'SET NAMES utf8',
                 ];
             }
         }
 
-        return $config;
+        return $connection;
     }
 }
