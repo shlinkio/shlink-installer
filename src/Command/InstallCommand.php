@@ -58,10 +58,10 @@ class InstallCommand extends Command
     ) {
         parent::__construct();
         $this->configWriter = $configWriter;
-        $this->isUpdate = $isUpdate;
         $this->filesystem = $filesystem;
         $this->configCustomizers = $configCustomizers;
         $this->commandsRunner = $commandsRunner;
+        $this->isUpdate = $isUpdate;
     }
 
     protected function configure(): void
@@ -105,8 +105,7 @@ class InstallCommand extends Command
             }
         }
 
-        // If running update command, ask the user to import previous config
-        $config = $this->isUpdate ? $this->importConfig($io) : new CustomizableAppConfig();
+        $config = $this->resolveConfig($io);
 
         // Ask for custom config params
         foreach ([
@@ -132,9 +131,13 @@ class InstallCommand extends Command
     /**
      * @throws RuntimeException
      */
-    private function importConfig(SymfonyStyle $io): CustomizableAppConfig
+    private function resolveConfig(SymfonyStyle $io): CustomizableAppConfig
     {
         $config = new CustomizableAppConfig();
+
+        if (! $this->isUpdate) {
+            return $config;
+        }
 
         // Ask the user if he/she wants to import an older configuration
         $importConfig = $io->confirm(
