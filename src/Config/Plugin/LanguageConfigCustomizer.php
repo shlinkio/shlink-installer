@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
+use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_diff;
@@ -11,18 +12,26 @@ use function array_keys;
 class LanguageConfigCustomizer implements ConfigCustomizerInterface
 {
     public const DEFAULT_LANG = 'DEFAULT';
-    private const EXPECTED_KEYS = [
+    private const ALL_EXPECTED_KEYS = [
         self::DEFAULT_LANG,
     ];
 
     private const SUPPORTED_LANGUAGES = ['en', 'es'];
 
+    /** @var array */
+    private $expectedKeys;
+
+    public function __construct(ExpectedConfigResolverInterface $resolver)
+    {
+        $this->expectedKeys = $resolver->resolveExpectedKeys(__CLASS__, self::ALL_EXPECTED_KEYS);
+    }
+
     public function process(SymfonyStyle $io, CustomizableAppConfig $appConfig): void
     {
         $lang = $appConfig->getLanguage();
         $keysToAskFor = $appConfig->hasLanguage()
-            ? array_diff(self::EXPECTED_KEYS, array_keys($lang))
-            : self::EXPECTED_KEYS;
+            ? array_diff($this->expectedKeys, array_keys($lang))
+            : $this->expectedKeys;
 
         if (empty($keysToAskFor)) {
             return;

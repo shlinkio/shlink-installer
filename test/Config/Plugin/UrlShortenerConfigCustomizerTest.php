@@ -9,10 +9,13 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
+use ShlinkioTest\Shlink\Installer\Util\TestUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UrlShortenerConfigCustomizerTest extends TestCase
 {
+    use TestUtilsTrait;
+
     /** @var UrlShortenerConfigCustomizer */
     private $plugin;
     /** @var ObjectProphecy */
@@ -26,7 +29,10 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $stringGenerator = $this->prophesize(StringGeneratorInterface::class);
         $stringGenerator->generateRandomShortCodeChars()->willReturn('the_chars');
 
-        $this->plugin = new UrlShortenerConfigCustomizer($stringGenerator->reveal());
+        $this->plugin = new UrlShortenerConfigCustomizer(
+            $this->createExpectedConfigResolverMock(),
+            $stringGenerator->reveal()
+        );
     }
 
     /**

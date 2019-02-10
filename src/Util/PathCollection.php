@@ -5,6 +5,7 @@ namespace Shlinkio\Shlink\Installer\Util;
 
 use function array_key_exists;
 use function array_shift;
+use function count;
 use function is_array;
 
 final class PathCollection
@@ -12,7 +13,7 @@ final class PathCollection
     /** @var array */
     private $array;
 
-    public function __construct(array $array)
+    public function __construct(array $array = [])
     {
         $this->array = $array;
     }
@@ -61,5 +62,26 @@ final class PathCollection
         } while (! empty($path));
 
         return $array;
+    }
+
+    public function setValueInPath($value, array $path): void
+    {
+        $ref =& $this->array;
+
+        while (count($path) > 1) {
+            $currentKey = array_shift($path);
+            if (! array_key_exists($currentKey, $ref)) {
+                $ref[$currentKey] = [];
+            }
+
+            $ref =& $ref[$currentKey];
+        }
+
+        $ref[array_shift($path)] = $value;
+    }
+
+    public function toArray(): array
+    {
+        return $this->array;
     }
 }

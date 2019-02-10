@@ -10,12 +10,15 @@ use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
+use ShlinkioTest\Shlink\Installer\Util\TestUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_shift;
 use function strpos;
 
 class ApplicationConfigCustomizerTest extends TestCase
 {
+    use TestUtilsTrait;
+
     /** @var ApplicationConfigCustomizer */
     private $plugin;
     /** @var ObjectProphecy */
@@ -26,12 +29,16 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
-        $this->plugin = new ApplicationConfigCustomizer($this->prophesize(StringGeneratorInterface::class)->reveal());
+        $stringGenerator = $this->prophesize(StringGeneratorInterface::class);
+        $stringGenerator->generateRandomString(32)->willReturn('the_secret');
+
+        $this->plugin = new ApplicationConfigCustomizer(
+            $this->createExpectedConfigResolverMock(),
+            $stringGenerator->reveal()
+        );
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function configIsRequestedToTheUser(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -43,17 +50,15 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $this->assertTrue($config->hasApp());
         $this->assertEquals([
-            'SECRET' => 'asked',
+            'SECRET' => 'the_secret',
             'DISABLE_TRACK_PARAM' => 'asked',
             'CHECK_VISITS_THRESHOLD' => false,
         ], $config->getApp());
-        $ask->shouldHaveBeenCalledTimes(2);
+        $ask->shouldHaveBeenCalledTimes(1);
         $confirm->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function visitsThresholdIsRequestedIfCheckIsEnabled(): void
     {
         $ask = $this->io->ask(Argument::cetera())->will(function (array $args) {
@@ -68,18 +73,16 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $this->assertTrue($config->hasApp());
         $this->assertEquals([
-            'SECRET' => 'asked',
+            'SECRET' => 'the_secret',
             'DISABLE_TRACK_PARAM' => 'asked',
             'CHECK_VISITS_THRESHOLD' => true,
             'VISITS_THRESHOLD' => 20,
         ], $config->getApp());
-        $ask->shouldHaveBeenCalledTimes(3);
+        $ask->shouldHaveBeenCalledTimes(2);
         $confirm->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function onlyMissingOptionsAreAsked(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('disable_param');
@@ -101,9 +104,7 @@ class ApplicationConfigCustomizerTest extends TestCase
         $ask->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function noQuestionsAskedIfImportedConfigContainsEverything(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('the_new_secret');
@@ -138,16 +139,14 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->plugin->validateVisitsThreshold($value);
     }
 
-    public function provideInvalidValues(): array
+    public function provideInvalidValues(): iterable
     {
-        return [
-            'string' => ['foo'],
-            'empty string' => [''],
-            'negative number' => [-5],
-            'negative number as string' => ['-5'],
-            'zero' => [0],
-            'zero as string' => ['0'],
-        ];
+        yield 'string' => ['foo'];
+        yield 'empty string' => [''];
+        yield 'negative number' => [-5];
+        yield 'negative number as string' => ['-5'];
+        yield 'zero' => [0];
+        yield 'zero as string' => ['0'];
     }
 
     /**
@@ -160,13 +159,11 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->assertEquals($expected, $this->plugin->validateVisitsThreshold($value));
     }
 
-    public function provideValidValues(): array
+    public function provideValidValues(): iterable
     {
-        return [
-            'positive as string' => ['20', 20],
-            'positive as integer' => [5, 5],
-            'one as string' => ['1', 1],
-            'one as integer' => [1, 1],
-        ];
+        yield 'positive as string' => ['20', 20];
+        yield 'positive as integer' => [5, 5];
+        yield 'one as string' => ['1', 1];
+        yield 'one as integer' => [1, 1];
     }
 }

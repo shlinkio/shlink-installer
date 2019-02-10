@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
+use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -30,7 +31,7 @@ class DatabaseConfigCustomizer implements ConfigCustomizerInterface
         self::HOST,
         self::PORT,
     ];
-    private const EXPECTED_KEYS = self::DRIVER_DEPENDANT_OPTIONS; // Same now, but could change in the future
+    private const ALL_EXPECTED_KEYS = self::DRIVER_DEPENDANT_OPTIONS; // Same now, but could change in the future
 
     private const DATABASE_DRIVERS = [
         'MySQL' => 'pdo_mysql',
@@ -38,11 +39,14 @@ class DatabaseConfigCustomizer implements ConfigCustomizerInterface
         'SQLite' => 'pdo_sqlite',
     ];
 
+    /** @var array */
+    private $expectedConfig;
     /** @var Filesystem */
     private $filesystem;
 
-    public function __construct(Filesystem $filesystem)
+    public function __construct(ExpectedConfigResolverInterface $resolver, Filesystem $filesystem)
     {
+        $this->expectedConfig = $resolver->resolveExpectedKeys(__CLASS__, self::ALL_EXPECTED_KEYS);
         $this->filesystem = $filesystem;
     }
 
@@ -54,7 +58,7 @@ class DatabaseConfigCustomizer implements ConfigCustomizerInterface
         $titlePrinted = false;
         $db = $appConfig->getDatabase();
         $doImport = $appConfig->hasDatabase();
-        $keysToAskFor = $doImport ? array_diff(self::EXPECTED_KEYS, array_keys($db)) : self::EXPECTED_KEYS;
+        $keysToAskFor = $doImport ? array_diff($this->expectedConfig, array_keys($db)) : $this->expectedConfig;
 
         // If the user selected to keep DB, try to import SQLite database
         if ($doImport) {

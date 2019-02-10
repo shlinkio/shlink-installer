@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
+use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
@@ -18,25 +19,28 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
     public const DISABLE_TRACK_PARAM = 'DISABLE_TRACK_PARAM';
     public const CHECK_VISITS_THRESHOLD = 'CHECK_VISITS_THRESHOLD';
     public const VISITS_THRESHOLD = 'VISITS_THRESHOLD';
-    private const EXPECTED_KEYS = [
+    private const ALL_EXPECTED_KEYS = [
         self::SECRET,
         self::DISABLE_TRACK_PARAM,
         self::CHECK_VISITS_THRESHOLD,
         self::VISITS_THRESHOLD,
     ];
 
+    /** @var array */
+    private $expectedKeys;
     /** @var StringGeneratorInterface */
     private $stringGenerator;
 
-    public function __construct(StringGeneratorInterface $stringGenerator)
+    public function __construct(ExpectedConfigResolverInterface $resolver, StringGeneratorInterface $stringGenerator)
     {
+        $this->expectedKeys = $resolver->resolveExpectedKeys(__CLASS__, self::ALL_EXPECTED_KEYS);
         $this->stringGenerator = $stringGenerator;
     }
 
     public function process(SymfonyStyle $io, CustomizableAppConfig $appConfig): void
     {
         $app = $appConfig->getApp();
-        $keysToAskFor = $appConfig->hasApp() ? array_diff(self::EXPECTED_KEYS, array_keys($app)) : self::EXPECTED_KEYS;
+        $keysToAskFor = $appConfig->hasApp() ? array_diff($this->expectedKeys, array_keys($app)) : $this->expectedKeys;
 
         if (empty($keysToAskFor)) {
             return;
@@ -58,10 +62,8 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
     {
         switch ($key) {
             case self::SECRET:
-                return $io->ask(
-                    'Define a secret string that will be used to sign API tokens (leave empty to autogenerate one) '
-                    . '<fg=red>[DEPRECATED. TO BE REMOVED]</>'
-                ) ?: $this->stringGenerator->generateRandomString(32);
+                // This won't actually ask anything, just generate the chars. Asking for this was confusing for users
+                return $this->stringGenerator->generateRandomString(32);
             case self::DISABLE_TRACK_PARAM:
                 return $io->ask(
                     'Provide a parameter name that you will be able to use to disable tracking on specific request to '

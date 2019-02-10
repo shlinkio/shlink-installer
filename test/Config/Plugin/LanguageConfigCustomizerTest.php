@@ -8,10 +8,13 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\LanguageConfigCustomizer;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
+use ShlinkioTest\Shlink\Installer\Util\TestUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class LanguageConfigCustomizerTest extends TestCase
 {
+    use TestUtilsTrait;
+
     /** @var LanguageConfigCustomizer */
     private $plugin;
     /** @var ObjectProphecy */
@@ -21,7 +24,7 @@ class LanguageConfigCustomizerTest extends TestCase
     {
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
-        $this->plugin = new LanguageConfigCustomizer();
+        $this->plugin = new LanguageConfigCustomizer($this->createExpectedConfigResolverMock());
     }
 
     /**

@@ -54,12 +54,12 @@
 
         "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random",
         "test:ci": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/phpunit.junit.xml",
-        "test:pretty": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-html build/html",
+        "test:pretty": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-html build/coverage-html",
 
-        "infect": "infection --threads=4 --min-msi=50 --log-verbosity=default --only-covered",
-        "infect:ci": "infection --threads=4 --min-msi=50 --log-verbosity=default --only-covered --coverage=build",
-        "infect:show": "infection --threads=4 --min-msi=50 --log-verbosity=default --only-covered --show-mutations",
-        "infect:show:ci": "infection --threads=4 --min-msi=50 --log-verbosity=default --only-covered --show-mutations --coverage=build",
+        "infect": "infection --threads=4 --min-msi=70 --log-verbosity=default --only-covered",
+        "infect:ci": "infection --threads=4 --min-msi=70 --log-verbosity=default --only-covered --coverage=build",
+        "infect:show": "infection --threads=4 --min-msi=70 --log-verbosity=default --only-covered --show-mutations",
+        "infect:show:ci": "infection --threads=4 --min-msi=70 --log-verbosity=default --only-covered --show-mutations --coverage=build",
 
         "test:infect": [
             "@test:ci",

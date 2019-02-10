@@ -35,18 +35,16 @@ class PathCollectionTest extends TestCase
         $this->assertEquals($expected, $this->collection->pathExists($path));
     }
 
-    public function providePaths(): array
+    public function providePaths(): iterable
     {
-        return [
-            [[], false],
-            [['boo'], false],
-            [['foo', 'nop'], false],
-            [['another', 'one', 'nop'], false],
-            [['foo'], true],
-            [['foo', 'bar'], true],
-            [['foo', 'bar', 'baz'], true],
-            [['something'], true],
-        ];
+        yield [[], false];
+        yield [['boo'], false];
+        yield [['foo', 'nop'], false];
+        yield [['another', 'one', 'nop'], false];
+        yield [['foo'], true];
+        yield [['foo', 'bar'], true];
+        yield [['foo', 'bar', 'baz'], true];
+        yield [['something'], true];
     }
 
     /**
@@ -58,23 +56,21 @@ class PathCollectionTest extends TestCase
         $this->assertEquals($expected, $this->collection->getValueInPath($path));
     }
 
-    public function providePathsWithValue(): array
+    public function providePathsWithValue(): iterable
     {
-        return [
-            [[], null],
-            [['boo'], null],
-            [['foo', 'nop'], null],
-            [['another', 'one', 'nop'], null],
-            [['foo'], [
-                'bar' => [
-                    'baz' => 'Hello world!',
-                ],
-            ]],
-            [['foo', 'bar'], [
+        yield [[], null];
+        yield [['boo'], null];
+        yield [['foo', 'nop'], null];
+        yield [['another', 'one', 'nop'], null];
+        yield [['foo'], [
+            'bar' => [
                 'baz' => 'Hello world!',
-            ]],
-            [['foo', 'bar', 'baz'], 'Hello world!'],
-            [['something'], []],
-        ];
+            ],
+        ]];
+        yield [['foo', 'bar'], [
+            'baz' => 'Hello world!',
+        ]];
+        yield [['foo', 'bar', 'baz'], 'Hello world!'];
+        yield [['something'], []];
     }
 }
