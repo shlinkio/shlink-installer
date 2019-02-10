@@ -9,10 +9,49 @@ use Shlinkio\Shlink\Installer\Config\Plugin\LanguageConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Zend\Stdlib\ArraySerializableInterface;
+use Zend\Stdlib\ArrayUtils;
+use function array_key_exists;
+use function array_reduce;
+use function array_shift;
+use function count;
 
 final class CustomizableAppConfig implements ArraySerializableInterface
 {
     public const SQLITE_DB_PATH = 'data/database.sqlite';
+
+    private const APP_CONFIG_MAP = [
+        ApplicationConfigCustomizer::SECRET => ['app_options', 'secret_key'],
+        ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => ['app_options', 'disable_track_param'],
+        ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => ['delete_short_urls', 'check_visits_threshold'],
+        ApplicationConfigCustomizer::VISITS_THRESHOLD => ['delete_short_urls', 'visits_threshold'],
+    ];
+    private const DB_CONFIG_MAP = [
+        DatabaseConfigCustomizer::DRIVER => ['entity_manager', 'connection', 'driver'],
+        DatabaseConfigCustomizer::USER => ['entity_manager', 'connection', 'user'],
+        DatabaseConfigCustomizer::PASSWORD => ['entity_manager', 'connection', 'password'],
+        DatabaseConfigCustomizer::NAME => ['entity_manager', 'connection', 'dbname'],
+        DatabaseConfigCustomizer::HOST => ['entity_manager', 'connection', 'host'],
+        DatabaseConfigCustomizer::PORT => ['entity_manager', 'connection', 'port'],
+    ];
+    private const LANG_CONFIG_MAP = [
+        LanguageConfigCustomizer::DEFAULT_LANG => ['translator', 'locale'],
+    ];
+    private const URL_SHORTENER_CONFIG_MAP = [
+        UrlShortenerConfigCustomizer::SCHEMA => ['url_shortener', 'domain', 'schema'],
+        UrlShortenerConfigCustomizer::HOSTNAME => ['url_shortener', 'domain', 'hostname'],
+        UrlShortenerConfigCustomizer::CHARS => ['url_shortener', 'shortcode_chars'],
+        UrlShortenerConfigCustomizer::VALIDATE_URL => ['url_shortener', 'validate_url'],
+        UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => [
+            'url_shortener',
+            'not_found_short_url',
+            'enable_redirection',
+        ],
+        UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => [
+            'url_shortener',
+            'not_found_short_url',
+            'redirect_to',
+        ],
+    ];
 
     /** @var array */
     private $database = [];
@@ -109,42 +148,10 @@ final class CustomizableAppConfig implements ArraySerializableInterface
     {
         $pathCollection = new PathCollection($array);
 
-        $this->setApp($this->mapExistingPathsToKeys([
-            ApplicationConfigCustomizer::SECRET => ['app_options', 'secret_key'],
-            ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => ['app_options', 'disable_track_param'],
-            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => ['delete_short_urls', 'check_visits_threshold'],
-            ApplicationConfigCustomizer::VISITS_THRESHOLD => ['delete_short_urls', 'visits_threshold'],
-        ], $pathCollection));
-
-        $this->setDatabase($this->mapExistingPathsToKeys([
-            DatabaseConfigCustomizer::DRIVER => ['entity_manager', 'connection', 'driver'],
-            DatabaseConfigCustomizer::USER => ['entity_manager', 'connection', 'user'],
-            DatabaseConfigCustomizer::PASSWORD => ['entity_manager', 'connection', 'password'],
-            DatabaseConfigCustomizer::NAME => ['entity_manager', 'connection', 'dbname'],
-            DatabaseConfigCustomizer::HOST => ['entity_manager', 'connection', 'host'],
-            DatabaseConfigCustomizer::PORT => ['entity_manager', 'connection', 'port'],
-        ], $pathCollection));
-
-        $this->setLanguage($this->mapExistingPathsToKeys([
-            LanguageConfigCustomizer::DEFAULT_LANG => ['translator', 'locale'],
-        ], $pathCollection));
-
-        $this->setUrlShortener($this->mapExistingPathsToKeys([
-            UrlShortenerConfigCustomizer::SCHEMA => ['url_shortener', 'domain', 'schema'],
-            UrlShortenerConfigCustomizer::HOSTNAME => ['url_shortener', 'domain', 'hostname'],
-            UrlShortenerConfigCustomizer::CHARS => ['url_shortener', 'shortcode_chars'],
-            UrlShortenerConfigCustomizer::VALIDATE_URL => ['url_shortener', 'validate_url'],
-            UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => [
-                'url_shortener',
-                'not_found_short_url',
-                'enable_redirection',
-            ],
-            UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => [
-                'url_shortener',
-                'not_found_short_url',
-                'redirect_to',
-            ],
-        ], $pathCollection));
+        $this->setApp($this->mapExistingPathsToKeys(self::APP_CONFIG_MAP, $pathCollection));
+        $this->setDatabase($this->mapExistingPathsToKeys(self::DB_CONFIG_MAP, $pathCollection));
+        $this->setLanguage($this->mapExistingPathsToKeys(self::LANG_CONFIG_MAP, $pathCollection));
+        $this->setUrlShortener($this->mapExistingPathsToKeys(self::URL_SHORTENER_CONFIG_MAP, $pathCollection));
     }
 
     private function mapExistingPathsToKeys(array $map, PathCollection $pathCollection): array
@@ -161,64 +168,54 @@ final class CustomizableAppConfig implements ArraySerializableInterface
 
     public function getArrayCopy(): array
     {
-        $app = [
-            'secret_key' => $this->app[ApplicationConfigCustomizer::SECRET] ?? '',
-            'disable_track_param' => $this->app[ApplicationConfigCustomizer::DISABLE_TRACK_PARAM] ?? null,
-        ];
-        $deleteShortUrls = [
-            'check_visits_threshold' => $this->app[ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD] ?? true,
-            'visits_threshold' => $this->app[ApplicationConfigCustomizer::VISITS_THRESHOLD] ?? 15,
-        ];
-        $connection = $this->buildConnectionConfig();
-        $translator = [
-            'locale' => $this->language[LanguageConfigCustomizer::DEFAULT_LANG] ?? 'en',
-        ];
-        $urlShortener = [
-            'domain' => [
-                'schema' => $this->urlShortener[UrlShortenerConfigCustomizer::SCHEMA] ?? 'http',
-                'hostname' => $this->urlShortener[UrlShortenerConfigCustomizer::HOSTNAME] ?? '',
-            ],
-            'shortcode_chars' => $this->urlShortener[UrlShortenerConfigCustomizer::CHARS] ?? '',
-            'validate_url' => $this->urlShortener[UrlShortenerConfigCustomizer::VALIDATE_URL] ?? true,
-        ];
-        $notFoundShortUrl = [
-            'enable_redirection' =>
-                $this->urlShortener[UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION] ?? false,
-            'redirect_to' => $this->urlShortener[UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO] ?? null,
-        ];
-        $urlShortener['not_found_short_url'] = $notFoundShortUrl;
+        $app = $this->mapExistingKeysToPaths(self::APP_CONFIG_MAP, $this->app);
+        $db = $this->buildConnectionConfig();
+        $translator = $this->mapExistingKeysToPaths(self::LANG_CONFIG_MAP, $this->language);
+        $urlShortener = $this->mapExistingKeysToPaths(self::URL_SHORTENER_CONFIG_MAP, $this->urlShortener);
 
-        return [
-            'app_options' => $app,
-            'delete_short_urls' => $deleteShortUrls,
-            'entity_manager' => ['connection' => $connection],
-            'translator' => $translator,
-            'url_shortener' => $urlShortener,
-        ];
+        return array_reduce([$app, $db, $translator, $urlShortener], [ArrayUtils::class, 'merge'], []);
     }
 
     private function buildConnectionConfig(): array
     {
         $dbDriver = $this->database[DatabaseConfigCustomizer::DRIVER] ?? '';
-        $connection = ['driver' => $dbDriver];
+        $db = $this->mapExistingKeysToPaths(self::DB_CONFIG_MAP, $this->database);
+
         // Build dynamic database config based on selected driver
         if ($dbDriver === 'pdo_sqlite') {
-            $connection['path'] = self::SQLITE_DB_PATH;
-        } else {
-            $connection['user'] = $this->database[DatabaseConfigCustomizer::USER] ?? '';
-            $connection['password'] = $this->database[DatabaseConfigCustomizer::PASSWORD] ?? '';
-            $connection['dbname'] = $this->database[DatabaseConfigCustomizer::NAME] ?? '';
-            $connection['host'] = $this->database[DatabaseConfigCustomizer::HOST] ?? '';
-            $connection['port'] = $this->database[DatabaseConfigCustomizer::PORT] ?? '';
-
-            if ($dbDriver === 'pdo_mysql') {
-                $connection['driverOptions'] = [
-                    // PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                    1002 => 'SET NAMES utf8',
-                ];
-            }
+            $db['entity_manager']['connection']['path'] = self::SQLITE_DB_PATH;
+        } elseif ($dbDriver === 'pdo_mysql') {
+            $db['entity_manager']['connection']['driverOptions'] = [
+                // PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                1002 => 'SET NAMES utf8',
+            ];
         }
 
-        return $connection;
+        return $db;
+    }
+
+    private function mapExistingKeysToPaths(array $map, array $sourceConfig): array
+    {
+        $result = [];
+
+        foreach ($map as $key => $path) {
+            if (! array_key_exists($key, $sourceConfig)) {
+                continue;
+            }
+
+            $value = $sourceConfig[$key];
+            $ref =& $result;
+            while (count($path) > 1) {
+                $currentKey = array_shift($path);
+                if (! array_key_exists($currentKey, $ref)) {
+                    $ref[$currentKey] = [];
+                }
+
+                $ref =& $ref[$currentKey];
+            }
+            $ref[array_shift($path)] = $value;
+        }
+
+        return $result;
     }
 }

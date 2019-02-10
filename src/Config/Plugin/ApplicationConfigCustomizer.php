@@ -62,7 +62,7 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
     {
         switch ($key) {
             case self::SECRET:
-                return $io->ask(
+                return $io->ask( // FIXME Do not ask, just generate a value
                     'Define a secret string that will be used to sign API tokens (leave empty to autogenerate one) '
                     . '<fg=red>[DEPRECATED. TO BE REMOVED]</>'
                 ) ?: $this->stringGenerator->generateRandomString(32);

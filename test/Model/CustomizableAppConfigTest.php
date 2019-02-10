@@ -9,9 +9,7 @@ use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 
 class CustomizableAppConfigTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function exchangeArrayIgnoresAnyNonProvidedKey(): void
     {
         $config = new CustomizableAppConfig();
@@ -65,11 +63,23 @@ class CustomizableAppConfigTest extends TestCase
             ],
             Plugin\DatabaseConfigCustomizer::class => [
                 Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_mysql',
+                Plugin\DatabaseConfigCustomizer::USER => '',
                 Plugin\DatabaseConfigCustomizer::PASSWORD => 'foo',
+                Plugin\DatabaseConfigCustomizer::NAME => '',
                 Plugin\DatabaseConfigCustomizer::HOST => 'local',
+                Plugin\DatabaseConfigCustomizer::PORT => '',
             ],
-            Plugin\LanguageConfigCustomizer::class => [],
-            Plugin\UrlShortenerConfigCustomizer::class => [],
+            Plugin\LanguageConfigCustomizer::class => [
+                Plugin\LanguageConfigCustomizer::DEFAULT_LANG => 'en',
+            ],
+            Plugin\UrlShortenerConfigCustomizer::class => [
+                Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'http',
+                Plugin\UrlShortenerConfigCustomizer::HOSTNAME => '',
+                Plugin\UrlShortenerConfigCustomizer::CHARS => '',
+                Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+                Plugin\UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => false,
+                Plugin\UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => null,
+            ],
         ], [
             'app_options' => [
                 'secret_key' => 'abc123',
@@ -108,13 +118,28 @@ class CustomizableAppConfigTest extends TestCase
                 ],
             ],
         ]];
+
         yield [[
-            Plugin\ApplicationConfigCustomizer::class => [],
+            Plugin\ApplicationConfigCustomizer::class => [
+                Plugin\ApplicationConfigCustomizer::SECRET => '',
+                Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => null,
+                Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+                Plugin\ApplicationConfigCustomizer::VISITS_THRESHOLD => 15,
+            ],
             Plugin\DatabaseConfigCustomizer::class => [
                 Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_sqlite',
             ],
-            Plugin\LanguageConfigCustomizer::class => [],
-            Plugin\UrlShortenerConfigCustomizer::class => [],
+            Plugin\LanguageConfigCustomizer::class => [
+                Plugin\LanguageConfigCustomizer::DEFAULT_LANG => 'en',
+            ],
+            Plugin\UrlShortenerConfigCustomizer::class => [
+                Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'http',
+                Plugin\UrlShortenerConfigCustomizer::HOSTNAME => '',
+                Plugin\UrlShortenerConfigCustomizer::CHARS => '',
+                Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+                Plugin\UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => false,
+                Plugin\UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => null,
+            ],
         ], [
             'app_options' => [
                 'secret_key' => '',
@@ -146,8 +171,14 @@ class CustomizableAppConfigTest extends TestCase
                 ],
             ],
         ]];
+
         yield [[
-            Plugin\ApplicationConfigCustomizer::class => [],
+            Plugin\ApplicationConfigCustomizer::class => [
+                Plugin\ApplicationConfigCustomizer::SECRET => '',
+                Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => null,
+                Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+                Plugin\ApplicationConfigCustomizer::VISITS_THRESHOLD => 15,
+            ],
             Plugin\DatabaseConfigCustomizer::class => [
                 Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_sqlite',
             ],
@@ -187,6 +218,44 @@ class CustomizableAppConfigTest extends TestCase
                 ],
                 'shortcode_chars' => '123456789abcdef',
                 'validate_url' => false,
+                'not_found_short_url' => [
+                    'enable_redirection' => true,
+                    'redirect_to' => 'aaabbbccc',
+                ],
+            ],
+        ]];
+
+        yield [[
+            Plugin\ApplicationConfigCustomizer::class => [
+                Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+                Plugin\ApplicationConfigCustomizer::VISITS_THRESHOLD => 15,
+            ],
+            Plugin\DatabaseConfigCustomizer::class => [
+                Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_sqlite',
+            ],
+            Plugin\LanguageConfigCustomizer::class => [],
+            Plugin\UrlShortenerConfigCustomizer::class => [
+                Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
+                Plugin\UrlShortenerConfigCustomizer::CHARS => '123456789abcdef',
+                Plugin\UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
+                Plugin\UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'aaabbbccc',
+            ],
+        ], [
+            'delete_short_urls' => [
+                'check_visits_threshold' => true,
+                'visits_threshold' => 15,
+            ],
+            'entity_manager' => [
+                'connection' => [
+                    'driver' => 'pdo_sqlite',
+                    'path' => 'data/database.sqlite',
+                ],
+            ],
+            'url_shortener' => [
+                'domain' => [
+                    'schema' => 'https',
+                ],
+                'shortcode_chars' => '123456789abcdef',
                 'not_found_short_url' => [
                     'enable_redirection' => true,
                     'redirect_to' => 'aaabbbccc',
