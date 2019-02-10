@@ -29,15 +29,16 @@ class ApplicationConfigCustomizerTest extends TestCase
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
+        $stringGenerator = $this->prophesize(StringGeneratorInterface::class);
+        $stringGenerator->generateRandomString(32)->willReturn('the_secret');
+
         $this->plugin = new ApplicationConfigCustomizer(
             $this->createExpectedConfigResolverMock(),
-            $this->prophesize(StringGeneratorInterface::class)->reveal()
+            $stringGenerator->reveal()
         );
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function configIsRequestedToTheUser(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -49,17 +50,15 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $this->assertTrue($config->hasApp());
         $this->assertEquals([
-            'SECRET' => 'asked',
+            'SECRET' => 'the_secret',
             'DISABLE_TRACK_PARAM' => 'asked',
             'CHECK_VISITS_THRESHOLD' => false,
         ], $config->getApp());
-        $ask->shouldHaveBeenCalledTimes(2);
+        $ask->shouldHaveBeenCalledTimes(1);
         $confirm->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function visitsThresholdIsRequestedIfCheckIsEnabled(): void
     {
         $ask = $this->io->ask(Argument::cetera())->will(function (array $args) {
@@ -74,18 +73,16 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $this->assertTrue($config->hasApp());
         $this->assertEquals([
-            'SECRET' => 'asked',
+            'SECRET' => 'the_secret',
             'DISABLE_TRACK_PARAM' => 'asked',
             'CHECK_VISITS_THRESHOLD' => true,
             'VISITS_THRESHOLD' => 20,
         ], $config->getApp());
-        $ask->shouldHaveBeenCalledTimes(3);
+        $ask->shouldHaveBeenCalledTimes(2);
         $confirm->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function onlyMissingOptionsAreAsked(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('disable_param');
@@ -107,9 +104,7 @@ class ApplicationConfigCustomizerTest extends TestCase
         $ask->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function noQuestionsAskedIfImportedConfigContainsEverything(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('the_new_secret');

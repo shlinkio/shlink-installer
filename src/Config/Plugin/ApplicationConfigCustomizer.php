@@ -62,10 +62,8 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
     {
         switch ($key) {
             case self::SECRET:
-                return $io->ask( // FIXME Do not ask, just generate a value
-                    'Define a secret string that will be used to sign API tokens (leave empty to autogenerate one) '
-                    . '<fg=red>[DEPRECATED. TO BE REMOVED]</>'
-                ) ?: $this->stringGenerator->generateRandomString(32);
+                // This won't actually ask anything, just generate the chars. Asking for this was confusing for users
+                return $this->stringGenerator->generateRandomString(32);
             case self::DISABLE_TRACK_PARAM:
                 return $io->ask(
                     'Provide a parameter name that you will be able to use to disable tracking on specific request to '
