@@ -5,6 +5,7 @@ namespace Shlinkio\Shlink\Installer;
 
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
+use function array_reduce;
 use function file_exists;
 
 $autoloadFiles = [
@@ -31,8 +32,12 @@ $appConfig = (function () {
 
     return $appConfig;
 })();
+$localConfig = (function () {
+    $localConfig = __DIR__ . '/config.local.php';
+    return file_exists($localConfig) ? require $localConfig : [];
+})();
 
-$config = ArrayUtils::merge($installerConfig, $appConfig);
+$config = array_reduce([$installerConfig, $appConfig, $localConfig], [ArrayUtils::class, 'merge'], []);
 $container = new ServiceManager($config['dependencies']);
 $container->setService('config', $config);
 
