@@ -5,6 +5,7 @@ namespace ShlinkioTest\Shlink\Installer\Util;
 
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Util\StringGenerator;
+
 use function random_int;
 use function strlen;
 

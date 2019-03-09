@@ -5,6 +5,7 @@ namespace Shlinkio\Shlink\Installer;
 
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
+
 use function array_reduce;
 use function file_exists;
 

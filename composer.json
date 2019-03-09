@@ -27,7 +27,7 @@
         "phpstan/phpstan": "^0.10.0",
         "phpunit/phpunit": "^8.0 || ^7.3",
         "roave/security-advisories": "dev-master",
-        "shlinkio/php-coding-standard": "~1.0.0",
+        "shlinkio/php-coding-standard": "~1.1.0",
         "symfony/var-dumper": "^4.2"
     },
     "autoload": {

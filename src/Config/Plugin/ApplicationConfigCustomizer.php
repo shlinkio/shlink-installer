@@ -8,6 +8,7 @@ use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
 use function array_diff;
 use function array_keys;
 use function is_numeric;
