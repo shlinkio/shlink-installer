@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+
+#### Added
+
+* *Nothing*
+
+#### Changed
+
+* [#10](https://github.com/shlinkio/shlink-installer/issues/10) Updated coding standard to [shlinkio/php-coding-standard](https://github.com/shlinkio/php-coding-standard) v1.1.0.
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 1.1.0 - 2019-02-10
 
 #### Added

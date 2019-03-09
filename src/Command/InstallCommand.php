@@ -19,6 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Zend\Config\Writer\WriterInterface;
+
 use function Functional\every;
 use function Functional\tail;
 use function sprintf;

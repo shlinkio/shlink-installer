@@ -9,6 +9,7 @@ use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+
 use function array_diff;
 use function array_keys;
 use function Functional\contains;

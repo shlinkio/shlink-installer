@@ -6,6 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Plugin;
 use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
 use function array_diff;
 use function array_keys;
 

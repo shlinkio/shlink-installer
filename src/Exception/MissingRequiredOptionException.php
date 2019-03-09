@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Exception;
 
 use RuntimeException;
+
 use function sprintf;
 
 class MissingRequiredOptionException extends RuntimeException implements ExceptionInterface

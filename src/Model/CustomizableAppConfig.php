@@ -9,6 +9,7 @@ use Shlinkio\Shlink\Installer\Config\Plugin\LanguageConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Zend\Stdlib\ArraySerializableInterface;
+
 use function array_key_exists;
 
 final class CustomizableAppConfig implements ArraySerializableInterface
