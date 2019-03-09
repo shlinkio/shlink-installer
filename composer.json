@@ -52,9 +52,9 @@
         "cs:fix": "phpcbf",
         "stan": "phpstan analyse src --level=6 -c phpstan.neon",
 
-        "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random",
-        "test:ci": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/phpunit.junit.xml",
-        "test:pretty": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-html build/coverage-html",
+        "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random --testdox",
+        "test:ci": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/phpunit.junit.xml --testdox",
+        "test:pretty": "phpdbg -qrr vendor/bin/phpunit --order-by=random --coverage-html build/coverage-html --testdox",
 
         "infect": "infection --threads=4 --min-msi=70 --log-verbosity=default --only-covered",
         "infect:ci": "infection --threads=4 --min-msi=70 --log-verbosity=default --only-covered --coverage=build",
