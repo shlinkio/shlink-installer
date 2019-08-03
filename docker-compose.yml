@@ -3,6 +3,6 @@ version: '3'
 services:
   shlink_installer_php:
     container_name: shlink_installer_php
-    image: composer:1.8.3
+    image: composer:1.8.6
     volumes:
       - ./:/app

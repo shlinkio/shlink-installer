@@ -5,5 +5,5 @@ namespace Shlinkio\Shlink\Installer\Config\Util;
 
 interface ExpectedConfigResolverInterface
 {
-    public function resolveExpectedKeys(string $pluginName, array $defaultExpectedKeys = null): array;
+    public function resolveExpectedKeys(string $pluginName, ?array $defaultExpectedKeys = null): array;
 }

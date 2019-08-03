@@ -78,7 +78,7 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
             case self::VISITS_THRESHOLD:
                 return $io->ask(
                     'What is the amount of visits from which the system will not allow short URLs to be deleted?',
-                    15,
+                    '15',
                     [$this, 'validateVisitsThreshold']
                 );
         }
