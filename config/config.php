@@ -49,7 +49,7 @@ return [
 
     'installation_commands' => [
         'db_create_schema' => [
-            'command' => 'vendor/shlinkio/shlink-installer/bin/shlink-installer shlink:db:create',
+            'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:schema-tool:create',
             'initMessage' => 'Initializing database...',
             'errorMessage' => 'Error generating database.',
         ],

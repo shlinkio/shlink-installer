@@ -30,7 +30,7 @@ $localConfig = (function () {
     return file_exists($localConfig) ? require $localConfig : [];
 })();
 
-$config = array_reduce([$installerConfig, $appConfig, $localConfig], [ArrayUtils::class, 'merge'], []);
+$config = array_reduce([$appConfig, $installerConfig, $localConfig], [ArrayUtils::class, 'merge'], []);
 $container = new ServiceManager($config['dependencies']);
 $container->setService('config', $config);
 

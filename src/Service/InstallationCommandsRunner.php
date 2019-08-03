@@ -31,15 +31,12 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
 
     public function execPhpCommand(string $name, SymfonyStyle $io): bool
     {
-        if (! isset($this->commandsMapping[$name])) {
+        $commandConfig = $this->commandsMapping[$name] ?? null;
+        if ($commandConfig === null) {
             return false;
         }
 
-        [
-            'command' => $command,
-            'initMessage' => $initMessage,
-            'errorMessage' => $errorMessage,
-        ] = $this->commandsMapping[$name];
+        ['command' => $command, 'initMessage' => $initMessage, 'errorMessage' => $errorMessage] = $commandConfig;
         $io->write($initMessage);
 
         $command = explode(' ', $command);
