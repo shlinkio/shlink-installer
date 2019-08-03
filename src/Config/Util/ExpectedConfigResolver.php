@@ -13,7 +13,7 @@ class ExpectedConfigResolver implements ExpectedConfigResolverInterface
         $this->expectedKeysMap = $expectedKeysMap;
     }
 
-    public function resolveExpectedKeys(string $pluginName, array $defaultExpectedKeys = null): array
+    public function resolveExpectedKeys(string $pluginName, ?array $defaultExpectedKeys = null): array
     {
         return $this->expectedKeysMap[$pluginName] ?? $defaultExpectedKeys ?? [];
     }

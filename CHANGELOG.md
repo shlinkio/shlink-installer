@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 #### Changed
 
 * [#10](https://github.com/shlinkio/shlink-installer/issues/10) Updated coding standard to [shlinkio/php-coding-standard](https://github.com/shlinkio/php-coding-standard) v1.1.0.
+* [#13](https://github.com/shlinkio/shlink-installer/issues/13) Updated coding standard to [shlinkio/php-coding-standard](https://github.com/shlinkio/php-coding-standard) v1.2.x.
 
 #### Deprecated
 
