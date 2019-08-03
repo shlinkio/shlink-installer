@@ -48,7 +48,7 @@ class InstallationCommandsRunnerTest extends TestCase
     {
         return array_combine($names, map($names, function (string $name) {
             return [
-                'command' => [$name, 'something'],
+                'command' => sprintf('%s something', $name),
                 'initMessage' => sprintf('%s_init', $name),
                 'errorMessage' => sprintf('%s_error', $name),
             ];
