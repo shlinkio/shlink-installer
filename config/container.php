@@ -25,10 +25,10 @@ $appConfig = (function () {
     $appConfigPath = __DIR__ . '/../../../../config/config.php';
     if (! file_exists($appConfigPath)) {
         return [];
-    };
+    }
 
     $appConfig = require $appConfigPath;
-    // Let's avoid service name conflicts
+    // Let's avoid service name conflicts between installer config and shlink config
     unset($appConfig['dependencies']);
 
     return $appConfig;

@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
-use Symfony\Component\Console\Application;
+use Shlinkio\Shlink\Installer\Factory\ProcessHelperFactory;
+use Symfony\Component\Console;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -12,8 +14,11 @@ return [
 
     'dependencies' => [
         'factories' => [
-            Application::class => Factory\InstallApplicationFactory::class,
+            Console\Application::class => Factory\InstallApplicationFactory::class,
             Filesystem::class => InvokableFactory::class,
+            PhpExecutableFinder::class => InvokableFactory::class,
+            Console\Helper\ProcessHelper::class => ProcessHelperFactory::class,
+
             Util\StringGenerator::class => InvokableFactory::class,
             Service\InstallationCommandsRunner::class => Service\InstallationCommandsRunnerFactory::class,
             Config\Util\ExpectedConfigResolver::class => Config\Util\ExpectedConfigResolverFactory::class,
