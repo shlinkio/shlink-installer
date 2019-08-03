@@ -1,4 +1,7 @@
-test
+config/config.local.php.dist export-ignore
+config/params export-ignore
+test export-ignore
+test-resources export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
 .phpstorm.meta.php export-ignore
@@ -8,5 +11,7 @@ CHANGELOG.md export-ignore
 docker-compose.override.yml.dist export-ignore
 docker-compose.yml export-ignore
 indocker export-ignore
+infection.json export-ignore
 phpcs.xml export-ignore
+phpstan.neon export-ignore
 phpunit.xml.dist export-ignore

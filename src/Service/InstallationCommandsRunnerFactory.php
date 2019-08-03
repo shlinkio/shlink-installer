@@ -3,29 +3,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Service;
 
-use Interop\Container\ContainerInterface;
-use Symfony\Component\Console\Helper;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class InstallationCommandsRunnerFactory implements FactoryInterface
+class InstallationCommandsRunnerFactory
 {
-    public function __invoke(
-        ContainerInterface $container,
-        $requestedName,
-        ?array $options = null
-    ): InstallationCommandsRunner {
+    public function __invoke(ContainerInterface $container): InstallationCommandsRunner
+    {
         $config = $container->get('config');
 
-        $processHelper = new Helper\ProcessHelper();
-        $processHelper->setHelperSet(new Helper\HelperSet([
-            new Helper\FormatterHelper(),
-            new Helper\DebugFormatterHelper(),
-        ]));
-
         return new InstallationCommandsRunner(
-            $processHelper,
-            new PhpExecutableFinder(),
+            $container->get(ProcessHelper::class),
+            $container->get(PhpExecutableFinder::class),
             $config['installation_commands'] ?? []
         );
     }
