@@ -23,15 +23,7 @@ foreach ($autoloadFiles as $autoloadFile) {
 $installerConfig = require __DIR__ . '/config.php';
 $appConfig = (function () {
     $appConfigPath = __DIR__ . '/../../../../config/config.php';
-    if (! file_exists($appConfigPath)) {
-        return [];
-    }
-
-    $appConfig = require $appConfigPath;
-    // Let's avoid service name conflicts between installer config and shlink config
-    unset($appConfig['dependencies']);
-
-    return $appConfig;
+    return file_exists($appConfigPath) ? require $appConfigPath : [];
 })();
 $localConfig = (function () {
     $localConfig = __DIR__ . '/config.local.php';

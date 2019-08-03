@@ -19,7 +19,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
     private $processHelper;
     /** @var array */
     private $commandsMapping;
-    /** @var string|null */
+    /** @var string */
     private $phpBinary;
 
     public function __construct(ProcessHelper $processHelper, PhpExecutableFinder $phpFinder, array $commandsMapping)
