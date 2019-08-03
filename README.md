@@ -9,13 +9,13 @@ A PHP command line tool used to install [shlink](https://shlink.io/).
 [![License](https://img.shields.io/github/license/shlinkio/shlink-installer.svg?style=flat-square)](https://github.com/shlinkio/shlink-installer/blob/master/LICENSE)
 [![Paypal donate](https://img.shields.io/badge/Donate-paypal-blue.svg?style=flat-square&logo=paypal&colorA=aaaaaa)](https://acel.me/donate)
 
-### Installation
+## Installation
 
 Install this tool using [composer](https://getcomposer.org/).
 
     composer install shlinkio/shlink-installer
 
-### Usage
+## Usage
 
 This is the command line tool used by [shlink](https://github.com/shlinkio/shlink) to guide you through the installation process.
 
@@ -44,7 +44,9 @@ There are two main ways to run this tool:
     $run(true); // To update
     ```
 
-### Customize options
+## Customize options
+
+### Questions to ask the user
 
 In order to retain backwards compatibility, it is possible to configure the installer to ask just a specific subset of questions.
 
@@ -85,3 +87,37 @@ return [
 ```
 
 By default, the installer will configure all available options for any plugin which is not provided.
+
+### Commands to run after installation
+
+After the user has been asked for all the config, the installer will run a set of scripts which will create/update the database, download assets, etc.
+
+It is possible to overwrite those commands via configuration too, using a syntax like this:
+
+```php
+<?php
+declare(strict_types=1);
+
+return [
+
+    'installation_commands' => [
+        'db_create_schema' => [
+            'command' => 'bin/shlink shlink:db:create',
+        ],
+        'db_migrate' => [
+            'command' => 'bin/some-script some:command', // Just print PHP version
+        ],
+        'orm_proxies' => [
+            'command' => '-v', // Just print PHP version
+        ],
+        'geolite_download' => [
+            'command' => '-v', // Just print PHP version
+        ],
+    ],
+
+];
+```
+
+This example shows all the currently available commands. They are run in the order they have been set here. 
+
+> **Important:** Take into consideration that all the commands must be PHP scripts, since the installer will prefix all of them with the php binary. 
