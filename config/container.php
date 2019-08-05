@@ -23,14 +23,22 @@ foreach ($autoloadFiles as $autoloadFile) {
 $installerConfig = require __DIR__ . '/config.php';
 $appConfig = (function () {
     $appConfigPath = __DIR__ . '/../../../../config/config.php';
-    return file_exists($appConfigPath) ? require $appConfigPath : [];
+    if (! file_exists($appConfigPath)) {
+        return [];
+    }
+
+    $appConfig = require $appConfigPath;
+    // Let's avoid service name conflicts
+    unset($appConfig['dependencies']);
+
+    return $appConfig;
 })();
 $localConfig = (function () {
     $localConfig = __DIR__ . '/config.local.php';
     return file_exists($localConfig) ? require $localConfig : [];
 })();
 
-$config = array_reduce([$appConfig, $installerConfig, $localConfig], [ArrayUtils::class, 'merge'], []);
+$config = array_reduce([$installerConfig, $appConfig, $localConfig], [ArrayUtils::class, 'merge'], []);
 $container = new ServiceManager($config['dependencies']);
 $container->setService('config', $config);
 
