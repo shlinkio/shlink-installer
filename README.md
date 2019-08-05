@@ -105,7 +105,7 @@ return [
             'command' => 'bin/shlink shlink:db:create',
         ],
         'db_migrate' => [
-            'command' => 'bin/some-script some:command', // Just print PHP version
+            'command' => 'bin/some-script some:command',
         ],
         'orm_proxies' => [
             'command' => '-v', // Just print PHP version
