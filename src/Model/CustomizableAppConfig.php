@@ -19,7 +19,7 @@ final class CustomizableAppConfig implements ArraySerializableInterface
     private const APP_CONFIG_MAP = [
         ApplicationConfigCustomizer::SECRET => ['app_options', 'secret_key'],
         ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => ['app_options', 'disable_track_param'],
-        ApplicationConfigCustomizer::BASE_PATH => ['app_options', 'base_path'],
+        ApplicationConfigCustomizer::BASE_PATH => ['router', 'base_path'],
         ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => ['delete_short_urls', 'check_visits_threshold'],
         ApplicationConfigCustomizer::VISITS_THRESHOLD => ['delete_short_urls', 'visits_threshold'],
     ];
