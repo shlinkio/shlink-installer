@@ -20,11 +20,13 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
     public const DISABLE_TRACK_PARAM = 'DISABLE_TRACK_PARAM';
     public const CHECK_VISITS_THRESHOLD = 'CHECK_VISITS_THRESHOLD';
     public const VISITS_THRESHOLD = 'VISITS_THRESHOLD';
+    public const BASE_PATH = 'BASE_PATH';
     private const ALL_EXPECTED_KEYS = [
         self::SECRET,
         self::DISABLE_TRACK_PARAM,
         self::CHECK_VISITS_THRESHOLD,
         self::VISITS_THRESHOLD,
+        self::BASE_PATH,
     ];
 
     /** @var array */
@@ -81,6 +83,11 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
                     '15',
                     [$this, 'validateVisitsThreshold']
                 );
+            case self::BASE_PATH:
+                return $io->ask(
+                    'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '
+                    . 'shlink from the root of the domain)'
+                ) ?? '';
         }
 
         return '';

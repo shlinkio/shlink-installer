@@ -51,11 +51,12 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $this->assertTrue($config->hasApp());
         $this->assertEquals([
-            'SECRET' => 'the_secret',
-            'DISABLE_TRACK_PARAM' => 'asked',
-            'CHECK_VISITS_THRESHOLD' => false,
+            ApplicationConfigCustomizer::SECRET => 'the_secret',
+            ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => 'asked',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => false,
+            ApplicationConfigCustomizer::BASE_PATH => 'asked',
         ], $config->getApp());
-        $ask->shouldHaveBeenCalledTimes(1);
+        $ask->shouldHaveBeenCalledTimes(2);
         $confirm->shouldHaveBeenCalledOnce();
     }
 
@@ -74,12 +75,13 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $this->assertTrue($config->hasApp());
         $this->assertEquals([
-            'SECRET' => 'the_secret',
-            'DISABLE_TRACK_PARAM' => 'asked',
-            'CHECK_VISITS_THRESHOLD' => true,
-            'VISITS_THRESHOLD' => 20,
+            ApplicationConfigCustomizer::SECRET => 'the_secret',
+            ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => 'asked',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+            ApplicationConfigCustomizer::VISITS_THRESHOLD => 20,
+            ApplicationConfigCustomizer::BASE_PATH => 'asked',
         ], $config->getApp());
-        $ask->shouldHaveBeenCalledTimes(2);
+        $ask->shouldHaveBeenCalledTimes(3);
         $confirm->shouldHaveBeenCalledOnce();
     }
 
@@ -89,18 +91,20 @@ class ApplicationConfigCustomizerTest extends TestCase
         $ask = $this->io->ask(Argument::cetera())->willReturn('disable_param');
         $config = new CustomizableAppConfig();
         $config->setApp([
-            'SECRET' => 'foo',
-            'CHECK_VISITS_THRESHOLD' => true,
-            'VISITS_THRESHOLD' => 20,
+            ApplicationConfigCustomizer::SECRET => 'foo',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+            ApplicationConfigCustomizer::VISITS_THRESHOLD => 20,
+            ApplicationConfigCustomizer::BASE_PATH => '/foo/bar',
         ]);
 
         $this->plugin->process($this->io->reveal(), $config);
 
         $this->assertEquals([
-            'SECRET' => 'foo',
-            'DISABLE_TRACK_PARAM' => 'disable_param',
-            'CHECK_VISITS_THRESHOLD' => true,
-            'VISITS_THRESHOLD' => 20,
+            ApplicationConfigCustomizer::SECRET => 'foo',
+            ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => 'disable_param',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+            ApplicationConfigCustomizer::VISITS_THRESHOLD => 20,
+            ApplicationConfigCustomizer::BASE_PATH => '/foo/bar',
         ], $config->getApp());
         $ask->shouldHaveBeenCalledOnce();
     }
@@ -112,19 +116,21 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $config = new CustomizableAppConfig();
         $config->setApp([
-            'SECRET' => 'foo',
-            'DISABLE_TRACK_PARAM' => 'the_new_secret',
-            'CHECK_VISITS_THRESHOLD' => true,
-            'VISITS_THRESHOLD' => 20,
+            ApplicationConfigCustomizer::SECRET => 'foo',
+            ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => 'the_new_secret',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+            ApplicationConfigCustomizer::VISITS_THRESHOLD => 20,
+            ApplicationConfigCustomizer::BASE_PATH => '/foo/bar',
         ]);
 
         $this->plugin->process($this->io->reveal(), $config);
 
         $this->assertEquals([
-            'SECRET' => 'foo',
-            'DISABLE_TRACK_PARAM' => 'the_new_secret',
-            'CHECK_VISITS_THRESHOLD' => true,
-            'VISITS_THRESHOLD' => 20,
+            ApplicationConfigCustomizer::SECRET => 'foo',
+            ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => 'the_new_secret',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+            ApplicationConfigCustomizer::VISITS_THRESHOLD => 20,
+            ApplicationConfigCustomizer::BASE_PATH => '/foo/bar',
         ], $config->getApp());
         $ask->shouldNotHaveBeenCalled();
     }
