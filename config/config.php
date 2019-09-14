@@ -29,7 +29,6 @@ return [
         'factories' => [
             Config\Plugin\DatabaseConfigCustomizer::class => ConfigAbstractFactory::class,
             Config\Plugin\UrlShortenerConfigCustomizer::class => ConfigAbstractFactory::class,
-            Config\Plugin\LanguageConfigCustomizer::class => ConfigAbstractFactory::class,
             Config\Plugin\ApplicationConfigCustomizer::class => ConfigAbstractFactory::class,
         ],
     ],
@@ -40,7 +39,6 @@ return [
             Config\Util\ExpectedConfigResolver::class,
             Util\StringGenerator::class,
         ],
-        Config\Plugin\LanguageConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class],
         Config\Plugin\ApplicationConfigCustomizer::class => [
             Config\Util\ExpectedConfigResolver::class,
             Util\StringGenerator::class,

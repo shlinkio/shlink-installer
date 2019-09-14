@@ -18,22 +18,15 @@ class CustomizableAppConfigTest extends TestCase
             'app_options' => [
                 'disable_track_param' => null,
             ],
-            'translator' => [
-                'locale' => 'es',
-            ],
         ]);
 
         $this->assertFalse($config->hasImportedInstallationPath());
         $this->assertFalse($config->hasDatabase());
         $this->assertFalse($config->hasUrlShortener());
         $this->assertTrue($config->hasApp());
-        $this->assertTrue($config->hasLanguage());
         $this->assertEquals([
             Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => null,
         ], $config->getApp());
-        $this->assertEquals([
-            Plugin\LanguageConfigCustomizer::DEFAULT_LANG => 'es',
-        ], $config->getLanguage());
     }
 
     /**
@@ -46,7 +39,6 @@ class CustomizableAppConfigTest extends TestCase
         $config
             ->setApp($provided[Plugin\ApplicationConfigCustomizer::class])
             ->setDatabase($provided[Plugin\DatabaseConfigCustomizer::class])
-            ->setLanguage($provided[Plugin\LanguageConfigCustomizer::class])
             ->setUrlShortener($provided[Plugin\UrlShortenerConfigCustomizer::class]);
 
         $this->assertEquals($expected, $config->getArrayCopy());
@@ -68,9 +60,6 @@ class CustomizableAppConfigTest extends TestCase
                 Plugin\DatabaseConfigCustomizer::NAME => '',
                 Plugin\DatabaseConfigCustomizer::HOST => 'local',
                 Plugin\DatabaseConfigCustomizer::PORT => '',
-            ],
-            Plugin\LanguageConfigCustomizer::class => [
-                Plugin\LanguageConfigCustomizer::DEFAULT_LANG => 'en',
             ],
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'http',
@@ -102,9 +91,6 @@ class CustomizableAppConfigTest extends TestCase
                     ],
                 ],
             ],
-            'translator' => [
-                'locale' => 'en',
-            ],
             'url_shortener' => [
                 'domain' => [
                     'schema' => 'http',
@@ -128,9 +114,6 @@ class CustomizableAppConfigTest extends TestCase
             ],
             Plugin\DatabaseConfigCustomizer::class => [
                 Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_sqlite',
-            ],
-            Plugin\LanguageConfigCustomizer::class => [
-                Plugin\LanguageConfigCustomizer::DEFAULT_LANG => 'en',
             ],
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'http',
@@ -155,9 +138,6 @@ class CustomizableAppConfigTest extends TestCase
                     'path' => 'data/database.sqlite',
                 ],
             ],
-            'translator' => [
-                'locale' => 'en',
-            ],
             'url_shortener' => [
                 'domain' => [
                     'schema' => 'http',
@@ -182,9 +162,6 @@ class CustomizableAppConfigTest extends TestCase
             Plugin\DatabaseConfigCustomizer::class => [
                 Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_sqlite',
             ],
-            Plugin\LanguageConfigCustomizer::class => [
-                Plugin\LanguageConfigCustomizer::DEFAULT_LANG => 'es',
-            ],
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::HOSTNAME => 'doma.in',
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
@@ -208,9 +185,6 @@ class CustomizableAppConfigTest extends TestCase
                     'path' => 'data/database.sqlite',
                 ],
             ],
-            'translator' => [
-                'locale' => 'es',
-            ],
             'url_shortener' => [
                 'domain' => [
                     'schema' => 'https',
@@ -233,7 +207,6 @@ class CustomizableAppConfigTest extends TestCase
             Plugin\DatabaseConfigCustomizer::class => [
                 Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_sqlite',
             ],
-            Plugin\LanguageConfigCustomizer::class => [],
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
                 Plugin\UrlShortenerConfigCustomizer::CHARS => '123456789abcdef',
