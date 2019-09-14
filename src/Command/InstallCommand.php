@@ -111,7 +111,6 @@ class InstallCommand extends Command
         foreach ([
             Plugin\DatabaseConfigCustomizer::class,
             Plugin\UrlShortenerConfigCustomizer::class,
-            Plugin\LanguageConfigCustomizer::class,
             Plugin\ApplicationConfigCustomizer::class,
         ] as $pluginName) {
             /** @var Plugin\ConfigCustomizerInterface $configCustomizer */

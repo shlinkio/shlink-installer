@@ -61,10 +61,6 @@ use Shlinkio\Shlink\Installer\Config\Plugin;
 return [
 
     'installer_plugins_expected_config' => [
-        Plugin\LanguageConfigCustomizer::class => [
-            Plugin\LanguageConfigCustomizer::DEFAULT_LANG,
-        ],
-
         Plugin\UrlShortenerConfigCustomizer::class => [
             Plugin\UrlShortenerConfigCustomizer::CHARS,
             Plugin\UrlShortenerConfigCustomizer::HOSTNAME,

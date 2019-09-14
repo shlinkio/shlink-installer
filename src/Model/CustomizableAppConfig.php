@@ -5,7 +5,6 @@ namespace Shlinkio\Shlink\Installer\Model;
 
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\DatabaseConfigCustomizer;
-use Shlinkio\Shlink\Installer\Config\Plugin\LanguageConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Zend\Stdlib\ArraySerializableInterface;
@@ -31,9 +30,6 @@ final class CustomizableAppConfig implements ArraySerializableInterface
         DatabaseConfigCustomizer::HOST => ['entity_manager', 'connection', 'host'],
         DatabaseConfigCustomizer::PORT => ['entity_manager', 'connection', 'port'],
     ];
-    private const LANG_CONFIG_MAP = [
-        LanguageConfigCustomizer::DEFAULT_LANG => ['translator', 'locale'],
-    ];
     private const URL_SHORTENER_CONFIG_MAP = [
         UrlShortenerConfigCustomizer::SCHEMA => ['url_shortener', 'domain', 'schema'],
         UrlShortenerConfigCustomizer::HOSTNAME => ['url_shortener', 'domain', 'hostname'],
@@ -55,8 +51,6 @@ final class CustomizableAppConfig implements ArraySerializableInterface
     private $database = [];
     /** @var array */
     private $urlShortener = [];
-    /** @var array */
-    private $language = [];
     /** @var array */
     private $app = [];
     /** @var string|null */
@@ -92,22 +86,6 @@ final class CustomizableAppConfig implements ArraySerializableInterface
     public function hasUrlShortener(): bool
     {
         return ! empty($this->urlShortener);
-    }
-
-    public function getLanguage(): array
-    {
-        return $this->language;
-    }
-
-    public function setLanguage(array $language): self
-    {
-        $this->language = $language;
-        return $this;
-    }
-
-    public function hasLanguage(): bool
-    {
-        return ! empty($this->language);
     }
 
     public function getApp(): array
@@ -148,7 +126,6 @@ final class CustomizableAppConfig implements ArraySerializableInterface
 
         $this->setApp($this->mapExistingPathsToKeys(self::APP_CONFIG_MAP, $pathCollection));
         $this->setDatabase($this->mapExistingPathsToKeys(self::DB_CONFIG_MAP, $pathCollection));
-        $this->setLanguage($this->mapExistingPathsToKeys(self::LANG_CONFIG_MAP, $pathCollection));
         $this->setUrlShortener($this->mapExistingPathsToKeys(self::URL_SHORTENER_CONFIG_MAP, $pathCollection));
     }
 
@@ -170,7 +147,6 @@ final class CustomizableAppConfig implements ArraySerializableInterface
 
         $this->mapExistingKeysToPaths(self::APP_CONFIG_MAP, $this->app, $pathCollection);
         $this->buildConnectionConfig($pathCollection);
-        $this->mapExistingKeysToPaths(self::LANG_CONFIG_MAP, $this->language, $pathCollection);
         $this->mapExistingKeysToPaths(self::URL_SHORTENER_CONFIG_MAP, $this->urlShortener, $pathCollection);
 
         return $pathCollection->toArray();
