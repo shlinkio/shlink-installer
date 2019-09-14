@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 #### Removed
 
-* *Nothing*
+* [#23](https://github.com/shlinkio/shlink-installer/issues/23) Removed the option to ask for the language for shlink.
 
 #### Fixed
 
