@@ -80,7 +80,7 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
                     'http'
                 );
             case self::HOSTNAME:
-                return $this->askRequired($io, 'hostname', 'Hostname for generated URLs');
+                return $this->askRequired($io, 'domain', 'Default domain for generated short URLs');
             case self::CHARS:
                 // This won't actually ask anything, just generate the chars. Asking for this was confusing for users
                 return $this->stringGenerator->generateRandomShortCodeChars();

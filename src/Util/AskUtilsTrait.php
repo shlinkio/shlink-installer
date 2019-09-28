@@ -16,7 +16,7 @@ trait AskUtilsTrait
         return $io->ask($question, null, function ($value) use ($optionName) {
             if (empty($value)) {
                 throw MissingRequiredOptionException::fromOption($optionName);
-            };
+            }
 
             return $value;
         });

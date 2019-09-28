@@ -35,9 +35,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function configIsRequestedToTheUser(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
@@ -49,21 +47,19 @@ class UrlShortenerConfigCustomizerTest extends TestCase
 
         $this->assertTrue($config->hasUrlShortener());
         $this->assertEquals([
-            'SCHEMA' => 'chosen',
-            'HOSTNAME' => 'asked',
-            'CHARS' => 'the_chars',
-            'VALIDATE_URL' => true,
-            'ENABLE_NOT_FOUND_REDIRECTION' => true,
-            'NOT_FOUND_REDIRECT_TO' => 'asked',
+            UrlShortenerConfigCustomizer::SCHEMA => 'chosen',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
+            UrlShortenerConfigCustomizer::CHARS => 'the_chars',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
+            UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'asked',
         ], $config->getUrlShortener());
         $ask->shouldHaveBeenCalledTimes(2);
         $choice->shouldHaveBeenCalledOnce();
         $confirm->shouldHaveBeenCalledTimes(2);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function onlyMissingOptionsAreAsked(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
@@ -71,29 +67,27 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $confirm = $this->io->confirm(Argument::cetera())->willReturn(false);
         $config = new CustomizableAppConfig();
         $config->setUrlShortener([
-            'SCHEMA' => 'foo',
-            'ENABLE_NOT_FOUND_REDIRECTION' => true,
-            'NOT_FOUND_REDIRECT_TO' => 'foo',
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
+            UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'foo',
         ]);
 
         $this->plugin->process($this->io->reveal(), $config);
 
         $this->assertEquals([
-            'SCHEMA' => 'foo',
-            'HOSTNAME' => 'asked',
-            'CHARS' => 'the_chars',
-            'VALIDATE_URL' => false,
-            'ENABLE_NOT_FOUND_REDIRECTION' => true,
-            'NOT_FOUND_REDIRECT_TO' => 'foo',
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
+            UrlShortenerConfigCustomizer::CHARS => 'the_chars',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => false,
+            UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
+            UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'foo',
         ], $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
         $ask->shouldHaveBeenCalledOnce();
         $confirm->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function noQuestionsAskedIfImportedConfigContainsEverything(): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
@@ -102,32 +96,30 @@ class UrlShortenerConfigCustomizerTest extends TestCase
 
         $config = new CustomizableAppConfig();
         $config->setUrlShortener([
-            'SCHEMA' => 'foo',
-            'HOSTNAME' => 'foo',
-            'CHARS' => 'foo',
-            'VALIDATE_URL' => true,
-            'ENABLE_NOT_FOUND_REDIRECTION' => true,
-            'NOT_FOUND_REDIRECT_TO' => 'foo',
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::CHARS => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
+            UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'foo',
         ]);
 
         $this->plugin->process($this->io->reveal(), $config);
 
         $this->assertEquals([
-            'SCHEMA' => 'foo',
-            'HOSTNAME' => 'foo',
-            'CHARS' => 'foo',
-            'VALIDATE_URL' => true,
-            'ENABLE_NOT_FOUND_REDIRECTION' => true,
-            'NOT_FOUND_REDIRECT_TO' => 'foo',
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::CHARS => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
+            UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'foo',
         ], $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
         $ask->shouldNotHaveBeenCalled();
         $confirm->shouldNotHaveBeenCalled();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function redirectUrlOptionIsNotAskedIfAnswerToPreviousQuestionIsNo(): void
     {
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
@@ -135,21 +127,21 @@ class UrlShortenerConfigCustomizerTest extends TestCase
 
         $config = new CustomizableAppConfig();
         $config->setUrlShortener([
-            'SCHEMA' => 'foo',
-            'HOSTNAME' => 'foo',
-            'CHARS' => 'foo',
-            'VALIDATE_URL' => true,
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::CHARS => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
         ]);
 
         $this->plugin->process($this->io->reveal(), $config);
 
         $this->assertTrue($config->hasUrlShortener());
         $this->assertEquals([
-            'SCHEMA' => 'foo',
-            'HOSTNAME' => 'foo',
-            'CHARS' => 'foo',
-            'VALIDATE_URL' => true,
-            'ENABLE_NOT_FOUND_REDIRECTION' => false,
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::CHARS => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => false,
         ], $config->getUrlShortener());
         $ask->shouldNotHaveBeenCalled();
         $confirm->shouldHaveBeenCalledOnce();
