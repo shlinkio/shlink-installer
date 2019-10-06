@@ -36,6 +36,7 @@ class DatabaseConfigCustomizer implements ConfigCustomizerInterface
 
     private const DATABASE_DRIVERS = [
         'MySQL' => 'pdo_mysql',
+        'MariaDB' => 'pdo_mysql',
         'PostgreSQL' => 'pdo_pgsql',
         'SQLite' => 'pdo_sqlite',
     ];
