@@ -23,11 +23,11 @@
     },
     "require-dev": {
         "devster/ubench": "^2.0",
-        "infection/infection": "^0.13.4",
+        "infection/infection": "^0.14.1",
         "phpstan/phpstan": "^0.11.12",
         "phpunit/phpunit": "^8.0",
         "roave/security-advisories": "dev-master",
-        "shlinkio/php-coding-standard": "~1.2.2",
+        "shlinkio/php-coding-standard": "~2.0.0",
         "symfony/var-dumper": "^4.3"
     },
     "autoload": {

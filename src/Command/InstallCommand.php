@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
@@ -108,11 +109,12 @@ class InstallCommand extends Command
         $config = $this->resolveConfig($io);
 
         // Ask for custom config params
-        foreach ([
+        $plugins = [
             Plugin\DatabaseConfigCustomizer::class,
             Plugin\UrlShortenerConfigCustomizer::class,
             Plugin\ApplicationConfigCustomizer::class,
-        ] as $pluginName) {
+        ];
+        foreach ($plugins as $pluginName) {
             /** @var Plugin\ConfigCustomizerInterface $configCustomizer */
             $configCustomizer = $this->configCustomizers->get($pluginName);
             $configCustomizer->process($io, $config);
