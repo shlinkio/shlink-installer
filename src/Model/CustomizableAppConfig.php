@@ -6,6 +6,7 @@ namespace Shlinkio\Shlink\Installer\Model;
 
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\DatabaseConfigCustomizer;
+use Shlinkio\Shlink\Installer\Config\Plugin\RedirectsConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Zend\Stdlib\ArraySerializableInterface;
@@ -36,16 +37,11 @@ final class CustomizableAppConfig implements ArraySerializableInterface
         UrlShortenerConfigCustomizer::HOSTNAME => ['url_shortener', 'domain', 'hostname'],
         UrlShortenerConfigCustomizer::CHARS => ['url_shortener', 'shortcode_chars'],
         UrlShortenerConfigCustomizer::VALIDATE_URL => ['url_shortener', 'validate_url'],
-        UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => [
-            'url_shortener',
-            'not_found_short_url',
-            'enable_redirection',
-        ],
-        UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => [
-            'url_shortener',
-            'not_found_short_url',
-            'redirect_to',
-        ],
+    ];
+    private const REDIRECTS_CONFIG_MAP = [
+        RedirectsConfigCustomizer::INVALID_SHORT_URL_REDIRECT_TO => ['not_found_redirects', 'invalid_short_url'],
+        RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => ['not_found_redirects', 'regular_404'],
+        RedirectsConfigCustomizer::BASE_URL_REDIRECT_TO => ['not_found_redirects', 'base_url'],
     ];
 
     /** @var array */
@@ -54,6 +50,8 @@ final class CustomizableAppConfig implements ArraySerializableInterface
     private $urlShortener = [];
     /** @var array */
     private $app = [];
+    /** @var array */
+    private $redirects = [];
     /** @var string|null */
     private $importedInstallationPath;
 
@@ -105,6 +103,22 @@ final class CustomizableAppConfig implements ArraySerializableInterface
         return ! empty($this->app);
     }
 
+    public function getRedirects(): array
+    {
+        return $this->redirects;
+    }
+
+    public function setRedirects(array $redirects): self
+    {
+        $this->redirects = $redirects;
+        return $this;
+    }
+
+    public function hasRedirects(): bool
+    {
+        return ! empty($this->redirects);
+    }
+
     public function getImportedInstallationPath(): ?string
     {
         return $this->importedInstallationPath;
@@ -128,6 +142,7 @@ final class CustomizableAppConfig implements ArraySerializableInterface
         $this->setApp($this->mapExistingPathsToKeys(self::APP_CONFIG_MAP, $pathCollection));
         $this->setDatabase($this->mapExistingPathsToKeys(self::DB_CONFIG_MAP, $pathCollection));
         $this->setUrlShortener($this->mapExistingPathsToKeys(self::URL_SHORTENER_CONFIG_MAP, $pathCollection));
+        $this->setRedirects($this->mapExistingPathsToKeys(self::REDIRECTS_CONFIG_MAP, $pathCollection));
     }
 
     private function mapExistingPathsToKeys(array $map, PathCollection $pathCollection): array
@@ -149,6 +164,7 @@ final class CustomizableAppConfig implements ArraySerializableInterface
         $this->mapExistingKeysToPaths(self::APP_CONFIG_MAP, $this->app, $pathCollection);
         $this->buildConnectionConfig($pathCollection);
         $this->mapExistingKeysToPaths(self::URL_SHORTENER_CONFIG_MAP, $this->urlShortener, $pathCollection);
+        $this->mapExistingKeysToPaths(self::REDIRECTS_CONFIG_MAP, $this->redirects, $pathCollection);
 
         return $pathCollection->toArray();
     }

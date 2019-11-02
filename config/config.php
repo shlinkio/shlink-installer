@@ -31,6 +31,7 @@ return [
             Config\Plugin\DatabaseConfigCustomizer::class => ConfigAbstractFactory::class,
             Config\Plugin\UrlShortenerConfigCustomizer::class => ConfigAbstractFactory::class,
             Config\Plugin\ApplicationConfigCustomizer::class => ConfigAbstractFactory::class,
+            Config\Plugin\RedirectsConfigCustomizer::class => ConfigAbstractFactory::class,
         ],
     ],
 
@@ -44,6 +45,7 @@ return [
             Config\Util\ExpectedConfigResolver::class,
             Util\StringGenerator::class,
         ],
+        Config\Plugin\RedirectsConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class],
     ],
 
     'installation_commands' => [
