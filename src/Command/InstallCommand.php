@@ -112,6 +112,7 @@ class InstallCommand extends Command
         $plugins = [
             Plugin\DatabaseConfigCustomizer::class,
             Plugin\UrlShortenerConfigCustomizer::class,
+            Plugin\RedirectsConfigCustomizer::class,
             Plugin\ApplicationConfigCustomizer::class,
         ];
         foreach ($plugins as $pluginName) {

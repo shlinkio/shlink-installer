@@ -24,6 +24,7 @@ class CustomizableAppConfigTest extends TestCase
         $this->assertFalse($config->hasImportedInstallationPath());
         $this->assertFalse($config->hasDatabase());
         $this->assertFalse($config->hasUrlShortener());
+        $this->assertFalse($config->hasRedirects());
         $this->assertTrue($config->hasApp());
         $this->assertEquals([
             Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => null,
@@ -40,7 +41,8 @@ class CustomizableAppConfigTest extends TestCase
         $config
             ->setApp($provided[Plugin\ApplicationConfigCustomizer::class])
             ->setDatabase($provided[Plugin\DatabaseConfigCustomizer::class])
-            ->setUrlShortener($provided[Plugin\UrlShortenerConfigCustomizer::class]);
+            ->setUrlShortener($provided[Plugin\UrlShortenerConfigCustomizer::class])
+            ->setRedirects($provided[Plugin\RedirectsConfigCustomizer::class]);
 
         $this->assertEquals($expected, $config->getArrayCopy());
     }
@@ -67,8 +69,11 @@ class CustomizableAppConfigTest extends TestCase
                 Plugin\UrlShortenerConfigCustomizer::HOSTNAME => '',
                 Plugin\UrlShortenerConfigCustomizer::CHARS => '',
                 Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => true,
-                Plugin\UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => false,
-                Plugin\UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => null,
+            ],
+            Plugin\RedirectsConfigCustomizer::class => [
+                Plugin\RedirectsConfigCustomizer::INVALID_SHORT_URL_REDIRECT_TO => null,
+                Plugin\RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => null,
+                Plugin\RedirectsConfigCustomizer::BASE_URL_REDIRECT_TO => null,
             ],
         ], [
             'app_options' => [
@@ -99,10 +104,11 @@ class CustomizableAppConfigTest extends TestCase
                 ],
                 'shortcode_chars' => '',
                 'validate_url' => true,
-                'not_found_short_url' => [
-                    'enable_redirection' => false,
-                    'redirect_to' => null,
-                ],
+            ],
+            'not_found_redirects' => [
+                'invalid_short_url' => null,
+                'regular_404' => null,
+                'base_url' => null,
             ],
         ]];
 
@@ -121,8 +127,11 @@ class CustomizableAppConfigTest extends TestCase
                 Plugin\UrlShortenerConfigCustomizer::HOSTNAME => '',
                 Plugin\UrlShortenerConfigCustomizer::CHARS => '',
                 Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => true,
-                Plugin\UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => false,
-                Plugin\UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => null,
+            ],
+            Plugin\RedirectsConfigCustomizer::class => [
+                Plugin\RedirectsConfigCustomizer::INVALID_SHORT_URL_REDIRECT_TO => null,
+                Plugin\RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => null,
+                Plugin\RedirectsConfigCustomizer::BASE_URL_REDIRECT_TO => null,
             ],
         ], [
             'app_options' => [
@@ -146,10 +155,11 @@ class CustomizableAppConfigTest extends TestCase
                 ],
                 'shortcode_chars' => '',
                 'validate_url' => true,
-                'not_found_short_url' => [
-                    'enable_redirection' => false,
-                    'redirect_to' => null,
-                ],
+            ],
+            'not_found_redirects' => [
+                'invalid_short_url' => null,
+                'regular_404' => null,
+                'base_url' => null,
             ],
         ]];
 
@@ -168,8 +178,11 @@ class CustomizableAppConfigTest extends TestCase
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
                 Plugin\UrlShortenerConfigCustomizer::CHARS => '123456789abcdef',
                 Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => false,
-                Plugin\UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
-                Plugin\UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'aaabbbccc',
+            ],
+            Plugin\RedirectsConfigCustomizer::class => [
+                Plugin\RedirectsConfigCustomizer::INVALID_SHORT_URL_REDIRECT_TO => 'aaabbbccc',
+                Plugin\RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => null,
+                Plugin\RedirectsConfigCustomizer::BASE_URL_REDIRECT_TO => 'something',
             ],
         ], [
             'app_options' => [
@@ -193,10 +206,11 @@ class CustomizableAppConfigTest extends TestCase
                 ],
                 'shortcode_chars' => '123456789abcdef',
                 'validate_url' => false,
-                'not_found_short_url' => [
-                    'enable_redirection' => true,
-                    'redirect_to' => 'aaabbbccc',
-                ],
+            ],
+            'not_found_redirects' => [
+                'invalid_short_url' => 'aaabbbccc',
+                'regular_404' => null,
+                'base_url' => 'something',
             ],
         ]];
 
@@ -211,8 +225,9 @@ class CustomizableAppConfigTest extends TestCase
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
                 Plugin\UrlShortenerConfigCustomizer::CHARS => '123456789abcdef',
-                Plugin\UrlShortenerConfigCustomizer::ENABLE_NOT_FOUND_REDIRECTION => true,
-                Plugin\UrlShortenerConfigCustomizer::NOT_FOUND_REDIRECT_TO => 'aaabbbccc',
+            ],
+            Plugin\RedirectsConfigCustomizer::class => [
+                Plugin\RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => 'aaabbbccc',
             ],
         ], [
             'delete_short_urls' => [
@@ -230,10 +245,9 @@ class CustomizableAppConfigTest extends TestCase
                     'schema' => 'https',
                 ],
                 'shortcode_chars' => '123456789abcdef',
-                'not_found_short_url' => [
-                    'enable_redirection' => true,
-                    'redirect_to' => 'aaabbbccc',
-                ],
+            ],
+            'not_found_redirects' => [
+                'regular_404' => 'aaabbbccc',
             ],
         ]];
     }
