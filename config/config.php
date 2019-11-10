@@ -37,10 +37,7 @@ return [
 
     ConfigAbstractFactory::class => [
         Config\Plugin\DatabaseConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class, Filesystem::class],
-        Config\Plugin\UrlShortenerConfigCustomizer::class => [
-            Config\Util\ExpectedConfigResolver::class,
-            Util\StringGenerator::class,
-        ],
+        Config\Plugin\UrlShortenerConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class],
         Config\Plugin\ApplicationConfigCustomizer::class => [
             Config\Util\ExpectedConfigResolver::class,
             Util\StringGenerator::class,

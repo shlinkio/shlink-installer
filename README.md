@@ -62,7 +62,6 @@ return [
 
     'installer_plugins_expected_config' => [
         Plugin\UrlShortenerConfigCustomizer::class => [
-            Plugin\UrlShortenerConfigCustomizer::CHARS,
             Plugin\UrlShortenerConfigCustomizer::HOSTNAME,
             Plugin\UrlShortenerConfigCustomizer::SCHEMA,
         ],
@@ -70,6 +69,7 @@ return [
         Plugin\ApplicationConfigCustomizer::class => [
             Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM,
             Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD,
+            Plugin\ApplicationConfigCustomizer::WEB_WORKER_NUM,
         ],
 
         Plugin\DatabaseConfigCustomizer::class => [

@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 3.1.0 - 2019-11-10
+
+#### Added
+
+* [#30](https://github.com/shlinkio/shlink-installer/issues/30) Added support to ask for the amount of web workers and task workers that should be used when serving the app with swoole.
+
+#### Changed
+
+* *Nothing*
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 3.0.0 - 2019-11-02
 
 #### Added

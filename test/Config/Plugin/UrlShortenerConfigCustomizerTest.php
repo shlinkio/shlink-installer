@@ -9,7 +9,6 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
-use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use ShlinkioTest\Shlink\Installer\Util\TestUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -27,13 +26,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
-        $stringGenerator = $this->prophesize(StringGeneratorInterface::class);
-        $stringGenerator->generateRandomShortCodeChars()->willReturn('the_chars');
-
-        $this->plugin = new UrlShortenerConfigCustomizer(
-            $this->createExpectedConfigResolverMock(),
-            $stringGenerator->reveal()
-        );
+        $this->plugin = new UrlShortenerConfigCustomizer($this->createExpectedConfigResolverMock());
     }
 
     /** @test */
@@ -50,7 +43,6 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $this->assertEquals([
             UrlShortenerConfigCustomizer::SCHEMA => 'chosen',
             UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
-            UrlShortenerConfigCustomizer::CHARS => 'the_chars',
             UrlShortenerConfigCustomizer::VALIDATE_URL => true,
         ], $config->getUrlShortener());
         $ask->shouldHaveBeenCalledOnce();
@@ -74,7 +66,6 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $this->assertEquals([
             UrlShortenerConfigCustomizer::SCHEMA => 'foo',
             UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
-            UrlShortenerConfigCustomizer::CHARS => 'the_chars',
             UrlShortenerConfigCustomizer::VALIDATE_URL => false,
         ], $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
@@ -93,7 +84,6 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $config->setUrlShortener([
             UrlShortenerConfigCustomizer::SCHEMA => 'foo',
             UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
-            UrlShortenerConfigCustomizer::CHARS => 'foo',
             UrlShortenerConfigCustomizer::VALIDATE_URL => true,
         ]);
 
@@ -102,7 +92,6 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $this->assertEquals([
             UrlShortenerConfigCustomizer::SCHEMA => 'foo',
             UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
-            UrlShortenerConfigCustomizer::CHARS => 'foo',
             UrlShortenerConfigCustomizer::VALIDATE_URL => true,
         ], $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
