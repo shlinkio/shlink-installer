@@ -11,8 +11,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_diff;
 use function array_keys;
-use function count;
-use function Functional\contains;
 
 class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
 {
