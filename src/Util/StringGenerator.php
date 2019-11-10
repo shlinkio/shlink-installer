@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Util;
 
 use function random_int;
-use function str_shuffle;
 use function strlen;
 
 class StringGenerator implements StringGeneratorInterface
@@ -22,10 +21,5 @@ class StringGenerator implements StringGeneratorInterface
         }
 
         return $randomString;
-    }
-
-    public function generateRandomShortCodeChars(): string
-    {
-        return str_shuffle(self::BASE62);
     }
 }
