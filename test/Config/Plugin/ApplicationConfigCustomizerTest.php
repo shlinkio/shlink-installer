@@ -25,9 +25,13 @@ class ApplicationConfigCustomizerTest extends TestCase
     private $plugin;
     /** @var ObjectProphecy */
     private $io;
+    /** @var bool */
+    private $swooleEnabled;
 
     public function setUp(): void
     {
+        $this->swooleEnabled = false;
+
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
@@ -36,7 +40,10 @@ class ApplicationConfigCustomizerTest extends TestCase
 
         $this->plugin = new ApplicationConfigCustomizer(
             $this->createExpectedConfigResolverMock(),
-            $stringGenerator->reveal()
+            $stringGenerator->reveal(),
+            function () {
+                return $this->swooleEnabled;
+            }
         );
     }
 
@@ -136,15 +143,43 @@ class ApplicationConfigCustomizerTest extends TestCase
         $ask->shouldNotHaveBeenCalled();
     }
 
+    /** @test */
+    public function swooleConfigIsIncludedWhenSwooleIsLoaded(): void
+    {
+        $this->swooleEnabled = true;
+
+        $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
+        $config = new CustomizableAppConfig();
+        $config->setApp([
+            ApplicationConfigCustomizer::SECRET => 'foo',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+            ApplicationConfigCustomizer::VISITS_THRESHOLD => 20,
+            ApplicationConfigCustomizer::BASE_PATH => '/foo/bar',
+        ]);
+
+        $this->plugin->process($this->io->reveal(), $config);
+
+        $this->assertEquals([
+            ApplicationConfigCustomizer::SECRET => 'foo',
+            ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => 'asked',
+            ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
+            ApplicationConfigCustomizer::VISITS_THRESHOLD => 20,
+            ApplicationConfigCustomizer::BASE_PATH => '/foo/bar',
+            ApplicationConfigCustomizer::WEB_WORKER_NUM => 'asked',
+            ApplicationConfigCustomizer::TASK_WORKER_NUM => 'asked',
+        ], $config->getApp());
+        $ask->shouldHaveBeenCalledTimes(3);
+    }
+
     /**
      * @test
      * @dataProvider provideInvalidValues
      * @param mixed $value
      */
-    public function validateVisitsThresholdThrowsExceptionWhenProvidedValueIsInvalid($value): void
+    public function validatePositiveNumberThrowsExceptionWhenProvidedValueIsInvalid($value): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->plugin->validateVisitsThreshold($value);
+        $this->plugin->validatePositiveNumber($value);
     }
 
     public function provideInvalidValues(): iterable
@@ -162,9 +197,9 @@ class ApplicationConfigCustomizerTest extends TestCase
      * @dataProvider provideValidValues
      * @param mixed $value
      */
-    public function validateVisitsThresholdCastsToIntWhenProvidedValueIsValid($value, int $expected): void
+    public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid($value, int $expected): void
     {
-        $this->assertEquals($expected, $this->plugin->validateVisitsThreshold($value));
+        $this->assertEquals($expected, $this->plugin->validatePositiveNumber($value));
     }
 
     public function provideValidValues(): iterable

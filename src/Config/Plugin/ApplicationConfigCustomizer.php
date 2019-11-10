@@ -12,6 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_diff;
 use function array_keys;
+use function extension_loaded;
 use function is_numeric;
 use function sprintf;
 
@@ -22,29 +23,48 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
     public const CHECK_VISITS_THRESHOLD = 'CHECK_VISITS_THRESHOLD';
     public const VISITS_THRESHOLD = 'VISITS_THRESHOLD';
     public const BASE_PATH = 'BASE_PATH';
+    public const WEB_WORKER_NUM = 'WEB_WORKER_NUM';
+    public const TASK_WORKER_NUM = 'TASK_WORKER_NUM';
     private const ALL_EXPECTED_KEYS = [
         self::SECRET,
         self::DISABLE_TRACK_PARAM,
         self::CHECK_VISITS_THRESHOLD,
         self::VISITS_THRESHOLD,
         self::BASE_PATH,
+        self::WEB_WORKER_NUM,
+        self::TASK_WORKER_NUM,
+    ];
+    private const SWOOLE_RELATED_KEYS = [
+        self::WEB_WORKER_NUM,
+        self::TASK_WORKER_NUM,
     ];
 
     /** @var array */
     private $expectedKeys;
     /** @var StringGeneratorInterface */
     private $stringGenerator;
+    /** @var callable */
+    private $swooleEnabled;
 
-    public function __construct(ExpectedConfigResolverInterface $resolver, StringGeneratorInterface $stringGenerator)
-    {
+    public function __construct(
+        ExpectedConfigResolverInterface $resolver,
+        StringGeneratorInterface $stringGenerator,
+        ?callable $swooleEnabled = null
+    ) {
         $this->expectedKeys = $resolver->resolveExpectedKeys(__CLASS__, self::ALL_EXPECTED_KEYS);
         $this->stringGenerator = $stringGenerator;
+        $this->swooleEnabled = $swooleEnabled ?? static function (): bool {
+            return extension_loaded('swoole');
+        };
     }
 
     public function process(SymfonyStyle $io, CustomizableAppConfig $appConfig): void
     {
         $app = $appConfig->getApp();
         $keysToAskFor = $appConfig->hasApp() ? array_diff($this->expectedKeys, array_keys($app)) : $this->expectedKeys;
+        if (! ($this->swooleEnabled)()) {
+            $keysToAskFor = array_diff($keysToAskFor, self::SWOOLE_RELATED_KEYS);
+        }
 
         if (empty($keysToAskFor)) {
             return;
@@ -82,21 +102,35 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
                 return $io->ask(
                     'What is the amount of visits from which the system will not allow short URLs to be deleted?',
                     '15',
-                    [$this, 'validateVisitsThreshold']
+                    [$this, 'validatePositiveNumber']
                 );
             case self::BASE_PATH:
                 return $io->ask(
                     'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '
                     . 'shlink from the root of the domain)'
                 ) ?? '';
+            case self::WEB_WORKER_NUM:
+                return $io->ask(
+                    'How many concurrent requests do you want Shlink to be able to serve? '
+                    . '(Ignore this if you are not serving shlink with swoole)',
+                    '16',
+                    [$this, 'validatePositiveNumber']
+                );
+            case self::TASK_WORKER_NUM:
+                return $io->ask(
+                    'How many concurrent background tasks do you want Shlink to be able to execute? '
+                    . '(Ignore this if you are not serving shlink with swoole)',
+                    '16',
+                    [$this, 'validatePositiveNumber']
+                );
         }
 
         return '';
     }
 
-    public function validateVisitsThreshold($value): int
+    public function validatePositiveNumber($value): int
     {
-        if (! is_numeric($value) || $value < 1) {
+        if (! is_numeric($value) || 1 > (int) $value) {
             throw new InvalidConfigOptionException(
                 sprintf('Provided value "%s" is invalid. Expected a number greater than 1', $value)
             );

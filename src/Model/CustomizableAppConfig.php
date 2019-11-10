@@ -23,6 +23,8 @@ final class CustomizableAppConfig implements ArraySerializableInterface
         ApplicationConfigCustomizer::BASE_PATH => ['router', 'base_path'],
         ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => ['delete_short_urls', 'check_visits_threshold'],
         ApplicationConfigCustomizer::VISITS_THRESHOLD => ['delete_short_urls', 'visits_threshold'],
+        ApplicationConfigCustomizer::WEB_WORKER_NUM => ['web_worker_num'], // Using simplified config
+        ApplicationConfigCustomizer::TASK_WORKER_NUM => ['task_worker_num'], // Using simplified config
     ];
     private const DB_CONFIG_MAP = [
         DatabaseConfigCustomizer::DRIVER => ['entity_manager', 'connection', 'driver'],
@@ -35,7 +37,6 @@ final class CustomizableAppConfig implements ArraySerializableInterface
     private const URL_SHORTENER_CONFIG_MAP = [
         UrlShortenerConfigCustomizer::SCHEMA => ['url_shortener', 'domain', 'schema'],
         UrlShortenerConfigCustomizer::HOSTNAME => ['url_shortener', 'domain', 'hostname'],
-        UrlShortenerConfigCustomizer::CHARS => ['url_shortener', 'shortcode_chars'],
         UrlShortenerConfigCustomizer::VALIDATE_URL => ['url_shortener', 'validate_url'],
     ];
     private const REDIRECTS_CONFIG_MAP = [

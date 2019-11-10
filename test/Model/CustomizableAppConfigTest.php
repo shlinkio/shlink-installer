@@ -55,6 +55,8 @@ class CustomizableAppConfigTest extends TestCase
                 Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => 'foo',
                 Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => true,
                 Plugin\ApplicationConfigCustomizer::VISITS_THRESHOLD => 50,
+                Plugin\ApplicationConfigCustomizer::WEB_WORKER_NUM => 64,
+                Plugin\ApplicationConfigCustomizer::TASK_WORKER_NUM => 32,
             ],
             Plugin\DatabaseConfigCustomizer::class => [
                 Plugin\DatabaseConfigCustomizer::DRIVER => 'pdo_mysql',
@@ -67,7 +69,6 @@ class CustomizableAppConfigTest extends TestCase
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'http',
                 Plugin\UrlShortenerConfigCustomizer::HOSTNAME => '',
-                Plugin\UrlShortenerConfigCustomizer::CHARS => '',
                 Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => true,
             ],
             Plugin\RedirectsConfigCustomizer::class => [
@@ -102,7 +103,6 @@ class CustomizableAppConfigTest extends TestCase
                     'schema' => 'http',
                     'hostname' => '',
                 ],
-                'shortcode_chars' => '',
                 'validate_url' => true,
             ],
             'not_found_redirects' => [
@@ -110,6 +110,8 @@ class CustomizableAppConfigTest extends TestCase
                 'regular_404' => null,
                 'base_url' => null,
             ],
+            'web_worker_num' => 64,
+            'task_worker_num' => 32,
         ]];
 
         yield [[
@@ -125,7 +127,6 @@ class CustomizableAppConfigTest extends TestCase
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'http',
                 Plugin\UrlShortenerConfigCustomizer::HOSTNAME => '',
-                Plugin\UrlShortenerConfigCustomizer::CHARS => '',
                 Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => true,
             ],
             Plugin\RedirectsConfigCustomizer::class => [
@@ -153,7 +154,6 @@ class CustomizableAppConfigTest extends TestCase
                     'schema' => 'http',
                     'hostname' => '',
                 ],
-                'shortcode_chars' => '',
                 'validate_url' => true,
             ],
             'not_found_redirects' => [
@@ -176,7 +176,6 @@ class CustomizableAppConfigTest extends TestCase
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::HOSTNAME => 'doma.in',
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
-                Plugin\UrlShortenerConfigCustomizer::CHARS => '123456789abcdef',
                 Plugin\UrlShortenerConfigCustomizer::VALIDATE_URL => false,
             ],
             Plugin\RedirectsConfigCustomizer::class => [
@@ -204,7 +203,6 @@ class CustomizableAppConfigTest extends TestCase
                     'schema' => 'https',
                     'hostname' => 'doma.in',
                 ],
-                'shortcode_chars' => '123456789abcdef',
                 'validate_url' => false,
             ],
             'not_found_redirects' => [
@@ -224,7 +222,6 @@ class CustomizableAppConfigTest extends TestCase
             ],
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
-                Plugin\UrlShortenerConfigCustomizer::CHARS => '123456789abcdef',
             ],
             Plugin\RedirectsConfigCustomizer::class => [
                 Plugin\RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => 'aaabbbccc',
@@ -244,7 +241,6 @@ class CustomizableAppConfigTest extends TestCase
                 'domain' => [
                     'schema' => 'https',
                 ],
-                'shortcode_chars' => '123456789abcdef',
             ],
             'not_found_redirects' => [
                 'regular_404' => 'aaabbbccc',
