@@ -30,6 +30,12 @@ class InstallCommand extends Command
     use AskUtilsTrait;
 
     public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
+    private const INSTALLATION_PLUGINS = [
+        Plugin\DatabaseConfigCustomizer::class,
+        Plugin\UrlShortenerConfigCustomizer::class,
+        Plugin\RedirectsConfigCustomizer::class,
+        Plugin\ApplicationConfigCustomizer::class,
+    ];
     private const POST_INSTALL_COMMANDS = [
         'db_create_schema',
         'db_migrate',
@@ -79,7 +85,7 @@ class InstallCommand extends Command
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -100,22 +106,16 @@ class InstallCommand extends Command
                     . ' get new config applied.'
                 );
                 if ($io->isVerbose()) {
-                    $this->getApplication()->renderException($e, $output);
+                    $this->getApplication()->renderThrowable($e, $output);
                 }
-                return;
+                return 1;
             }
         }
 
         $config = $this->resolveConfig($io);
 
         // Ask for custom config params
-        $plugins = [
-            Plugin\DatabaseConfigCustomizer::class,
-            Plugin\UrlShortenerConfigCustomizer::class,
-            Plugin\RedirectsConfigCustomizer::class,
-            Plugin\ApplicationConfigCustomizer::class,
-        ];
-        foreach ($plugins as $pluginName) {
+        foreach (self::INSTALLATION_PLUGINS as $pluginName) {
             /** @var Plugin\ConfigCustomizerInterface $configCustomizer */
             $configCustomizer = $this->configCustomizers->get($pluginName);
             $configCustomizer->process($io, $config);
@@ -127,7 +127,10 @@ class InstallCommand extends Command
 
         if ($this->execPostInstallCommands($io)) {
             $io->success('Installation complete!');
+            return 0;
         }
+
+        return -1;
     }
 
     /**
