@@ -18,7 +18,6 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
 
     public const SCHEMA = 'SCHEMA';
     public const HOSTNAME = 'HOSTNAME';
-    public const CHARS = 'CHARS';
     public const VALIDATE_URL = 'VALIDATE_URL';
     private const ALL_EXPECTED_KEYS = [
         self::SCHEMA,
