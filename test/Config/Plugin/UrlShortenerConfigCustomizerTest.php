@@ -26,7 +26,9 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
-        $this->plugin = new UrlShortenerConfigCustomizer($this->createExpectedConfigResolverMock());
+        $this->plugin = new UrlShortenerConfigCustomizer($this->createExpectedConfigResolverMock(), static function () {
+            return true;
+        });
     }
 
     /** @test */
