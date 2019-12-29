@@ -54,9 +54,9 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
         $urlShortener = $appConfig->getUrlShortener();
         $doImport = $appConfig->hasUrlShortener();
         $keysToAskFor = $doImport ? array_diff($this->expectedKeys, array_keys($urlShortener)) : $this->expectedKeys;
-//        if (! ($this->swooleEnabled)()) {
-//            $keysToAskFor = array_diff($keysToAskFor, self::SWOOLE_RELATED_KEYS);
-//        }
+        if (! ($this->swooleEnabled)()) {
+            $keysToAskFor = array_diff($keysToAskFor, self::SWOOLE_RELATED_KEYS);
+        }
 
         if (empty($keysToAskFor)) {
             return;
