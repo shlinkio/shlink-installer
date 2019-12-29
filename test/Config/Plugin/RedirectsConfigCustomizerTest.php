@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\RedirectsConfigCustomizer;
-use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use ShlinkioTest\Shlink\Installer\Util\TestUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -87,14 +86,5 @@ class RedirectsConfigCustomizerTest extends TestCase
             RedirectsConfigCustomizer::BASE_URL_REDIRECT_TO => 'baz',
         ], $config->getRedirects());
         $ask->shouldNotHaveBeenCalled();
-    }
-
-    /** @test */
-    public function throwsAnExceptionIfInvalidUrlIsProvided(): void
-    {
-        $this->expectException(InvalidConfigOptionException::class);
-        $this->expectExceptionMessage('Provided value "something" is not a valid URL');
-
-        $this->plugin->validateUrl('something');
     }
 }

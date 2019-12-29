@@ -12,9 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_diff;
 use function array_keys;
-use function explode;
 use function extension_loaded;
-use function Functional\map;
 
 class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
 {
