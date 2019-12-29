@@ -222,6 +222,7 @@ class CustomizableAppConfigTest extends TestCase
             ],
             Plugin\UrlShortenerConfigCustomizer::class => [
                 Plugin\UrlShortenerConfigCustomizer::SCHEMA => 'https',
+                Plugin\UrlShortenerConfigCustomizer::VISITS_WEBHOOKS => ['foo', 'bar'],
             ],
             Plugin\RedirectsConfigCustomizer::class => [
                 Plugin\RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => 'aaabbbccc',
@@ -241,6 +242,7 @@ class CustomizableAppConfigTest extends TestCase
                 'domain' => [
                     'schema' => 'https',
                 ],
+                'visits_webhooks' => ['foo', 'bar'],
             ],
             'not_found_redirects' => [
                 'regular_404' => 'aaabbbccc',

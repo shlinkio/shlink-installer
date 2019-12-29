@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
+use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
@@ -11,11 +12,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_diff;
 use function array_keys;
+use function explode;
 use function extension_loaded;
+use function Functional\map;
 
 class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
 {
     use AskUtilsTrait;
+    use ConfigOptionsValidatorsTrait;
 
     public const SCHEMA = 'SCHEMA';
     public const HOSTNAME = 'HOSTNAME';
@@ -52,9 +56,9 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
         $urlShortener = $appConfig->getUrlShortener();
         $doImport = $appConfig->hasUrlShortener();
         $keysToAskFor = $doImport ? array_diff($this->expectedKeys, array_keys($urlShortener)) : $this->expectedKeys;
-        if (! ($this->swooleEnabled)()) {
-            $keysToAskFor = array_diff($keysToAskFor, self::SWOOLE_RELATED_KEYS);
-        }
+//        if (! ($this->swooleEnabled)()) {
+//            $keysToAskFor = array_diff($keysToAskFor, self::SWOOLE_RELATED_KEYS);
+//        }
 
         if (empty($keysToAskFor)) {
             return;
@@ -88,11 +92,14 @@ class UrlShortenerConfigCustomizer implements ConfigCustomizerInterface
             case self::NOTIFY_VISITS_WEBHOOKS:
                 return $io->confirm(
                     'Do you want to configure external webhooks to receive POST notifications every time a short URL '
-                    . 'receives a visit? (Ignore this if you are not serving shlink with swoole)'
+                    . 'receives a visit? (Ignore this if you are not serving shlink with swoole)',
+                    false
                 );
             case self::VISITS_WEBHOOKS:
                 return $io->ask(
-                    'Provide a comma-separated list of webhook URLs which will receive the POST notifications'
+                    'Provide a comma-separated list of webhook URLs which will receive the POST notifications',
+                    null,
+                    [$this, 'splitAndValidateMultipleUrls']
                 );
         }
 

@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
+use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use ShlinkioTest\Shlink\Installer\Util\TestUtilsTrait;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -44,10 +45,12 @@ class UrlShortenerConfigCustomizerTest extends TestCase
             UrlShortenerConfigCustomizer::SCHEMA => 'chosen',
             UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
             UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => true,
+            UrlShortenerConfigCustomizer::VISITS_WEBHOOKS => 'asked',
         ], $config->getUrlShortener());
-        $ask->shouldHaveBeenCalledOnce();
+        $ask->shouldHaveBeenCalledTimes(2);
         $choice->shouldHaveBeenCalledOnce();
-        $confirm->shouldHaveBeenCalledOnce();
+        $confirm->shouldHaveBeenCalledTimes(2);
     }
 
     /** @test */
@@ -59,6 +62,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $config = new CustomizableAppConfig();
         $config->setUrlShortener([
             UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => false,
         ]);
 
         $this->plugin->process($this->io->reveal(), $config);
@@ -67,35 +71,86 @@ class UrlShortenerConfigCustomizerTest extends TestCase
             UrlShortenerConfigCustomizer::SCHEMA => 'foo',
             UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
             UrlShortenerConfigCustomizer::VALIDATE_URL => false,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => false,
         ], $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
         $ask->shouldHaveBeenCalledOnce();
         $confirm->shouldHaveBeenCalledOnce();
     }
 
-    /** @test */
-    public function noQuestionsAskedIfImportedConfigContainsEverything(): void
+    /**
+     * @test
+     * @dataProvider provideWholeConfig
+     */
+    public function noQuestionsAskedIfImportedConfigContainsEverything(array $urlShortenerConfig): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
         $confirm = $this->io->confirm(Argument::cetera())->willReturn(false);
 
         $config = new CustomizableAppConfig();
-        $config->setUrlShortener([
-            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
-            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
-            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
-        ]);
+        $config->setUrlShortener($urlShortenerConfig);
 
         $this->plugin->process($this->io->reveal(), $config);
 
-        $this->assertEquals([
-            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
-            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
-            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
-        ], $config->getUrlShortener());
+        $this->assertEquals($urlShortenerConfig, $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
         $ask->shouldNotHaveBeenCalled();
         $confirm->shouldNotHaveBeenCalled();
+    }
+
+    public function provideWholeConfig(): iterable
+    {
+        yield [[
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => false,
+        ]];
+        yield [[
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => true,
+            UrlShortenerConfigCustomizer::VISITS_WEBHOOKS => 'webhook',
+        ]];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWebhooks
+     */
+    public function webhooksAreProperlySplitAndValidated(?string $webhooks, array $expectedResult): void
+    {
+        $result = $this->plugin->splitAndValidateMultipleUrls($webhooks);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function provideWebhooks(): iterable
+    {
+        yield 'no webhooks' => [null, []];
+        yield 'single webhook' => ['https://foo.com/bar', ['https://foo.com/bar']];
+        yield 'multiple webhook' => ['https://foo.com/bar,http://bar.io/foo/bar', [
+            'https://foo.com/bar',
+            'http://bar.io/foo/bar',
+        ]];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideInvalidWebhooks
+     */
+    public function webhooksFailWhenProvidedValueIsNotValidUrl(string $webhooks): void
+    {
+        $this->expectException(InvalidConfigOptionException::class);
+        $this->plugin->splitAndValidateMultipleUrls($webhooks);
+    }
+
+    public function provideInvalidWebhooks(): iterable
+    {
+        yield 'single invalid webhook' => ['invalid'];
+        yield 'first invalid webhook' => ['invalid,http://bar.io/foo/bar'];
+        yield 'last invalid webhook' => ['http://bar.io/foo/bar,invalid'];
+        yield 'middle invalid webhook' => ['http://bar.io/foo/bar,invalid,https://foo.com/bar'];
     }
 }
