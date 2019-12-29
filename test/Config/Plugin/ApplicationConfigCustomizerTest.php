@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
-use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use ShlinkioTest\Shlink\Installer\Util\TestUtilsTrait;
@@ -169,44 +168,5 @@ class ApplicationConfigCustomizerTest extends TestCase
             ApplicationConfigCustomizer::TASK_WORKER_NUM => 'asked',
         ], $config->getApp());
         $ask->shouldHaveBeenCalledTimes(3);
-    }
-
-    /**
-     * @test
-     * @dataProvider provideInvalidValues
-     * @param mixed $value
-     */
-    public function validatePositiveNumberThrowsExceptionWhenProvidedValueIsInvalid($value): void
-    {
-        $this->expectException(InvalidConfigOptionException::class);
-        $this->plugin->validatePositiveNumber($value);
-    }
-
-    public function provideInvalidValues(): iterable
-    {
-        yield 'string' => ['foo'];
-        yield 'empty string' => [''];
-        yield 'negative number' => [-5];
-        yield 'negative number as string' => ['-5'];
-        yield 'zero' => [0];
-        yield 'zero as string' => ['0'];
-    }
-
-    /**
-     * @test
-     * @dataProvider provideValidValues
-     * @param mixed $value
-     */
-    public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid($value, int $expected): void
-    {
-        $this->assertEquals($expected, $this->plugin->validatePositiveNumber($value));
-    }
-
-    public function provideValidValues(): iterable
-    {
-        yield 'positive as string' => ['20', 20];
-        yield 'positive as integer' => [5, 5];
-        yield 'one as string' => ['1', 1];
-        yield 'one as integer' => [1, 1];
     }
 }

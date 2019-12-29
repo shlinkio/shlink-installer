@@ -38,6 +38,7 @@ final class CustomizableAppConfig implements ArraySerializableInterface
         UrlShortenerConfigCustomizer::SCHEMA => ['url_shortener', 'domain', 'schema'],
         UrlShortenerConfigCustomizer::HOSTNAME => ['url_shortener', 'domain', 'hostname'],
         UrlShortenerConfigCustomizer::VALIDATE_URL => ['url_shortener', 'validate_url'],
+        UrlShortenerConfigCustomizer::VISITS_WEBHOOKS => ['url_shortener', 'visits_webhooks'],
     ];
     private const REDIRECTS_CONFIG_MAP = [
         RedirectsConfigCustomizer::INVALID_SHORT_URL_REDIRECT_TO => ['not_found_redirects', 'invalid_short_url'],

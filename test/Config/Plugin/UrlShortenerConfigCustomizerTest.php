@@ -26,7 +26,9 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $this->io = $this->prophesize(SymfonyStyle::class);
         $this->io->title(Argument::any())->willReturn(null);
 
-        $this->plugin = new UrlShortenerConfigCustomizer($this->createExpectedConfigResolverMock());
+        $this->plugin = new UrlShortenerConfigCustomizer($this->createExpectedConfigResolverMock(), static function () {
+            return true;
+        });
     }
 
     /** @test */
@@ -44,10 +46,12 @@ class UrlShortenerConfigCustomizerTest extends TestCase
             UrlShortenerConfigCustomizer::SCHEMA => 'chosen',
             UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
             UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => true,
+            UrlShortenerConfigCustomizer::VISITS_WEBHOOKS => 'asked',
         ], $config->getUrlShortener());
-        $ask->shouldHaveBeenCalledOnce();
+        $ask->shouldHaveBeenCalledTimes(2);
         $choice->shouldHaveBeenCalledOnce();
-        $confirm->shouldHaveBeenCalledOnce();
+        $confirm->shouldHaveBeenCalledTimes(2);
     }
 
     /** @test */
@@ -59,6 +63,7 @@ class UrlShortenerConfigCustomizerTest extends TestCase
         $config = new CustomizableAppConfig();
         $config->setUrlShortener([
             UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => false,
         ]);
 
         $this->plugin->process($this->io->reveal(), $config);
@@ -67,35 +72,48 @@ class UrlShortenerConfigCustomizerTest extends TestCase
             UrlShortenerConfigCustomizer::SCHEMA => 'foo',
             UrlShortenerConfigCustomizer::HOSTNAME => 'asked',
             UrlShortenerConfigCustomizer::VALIDATE_URL => false,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => false,
         ], $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
         $ask->shouldHaveBeenCalledOnce();
         $confirm->shouldHaveBeenCalledOnce();
     }
 
-    /** @test */
-    public function noQuestionsAskedIfImportedConfigContainsEverything(): void
+    /**
+     * @test
+     * @dataProvider provideWholeConfig
+     */
+    public function noQuestionsAskedIfImportedConfigContainsEverything(array $urlShortenerConfig): void
     {
         $choice = $this->io->choice(Argument::cetera())->willReturn('chosen');
         $ask = $this->io->ask(Argument::cetera())->willReturn('asked');
         $confirm = $this->io->confirm(Argument::cetera())->willReturn(false);
 
         $config = new CustomizableAppConfig();
-        $config->setUrlShortener([
-            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
-            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
-            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
-        ]);
+        $config->setUrlShortener($urlShortenerConfig);
 
         $this->plugin->process($this->io->reveal(), $config);
 
-        $this->assertEquals([
-            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
-            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
-            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
-        ], $config->getUrlShortener());
+        $this->assertEquals($urlShortenerConfig, $config->getUrlShortener());
         $choice->shouldNotHaveBeenCalled();
         $ask->shouldNotHaveBeenCalled();
         $confirm->shouldNotHaveBeenCalled();
+    }
+
+    public function provideWholeConfig(): iterable
+    {
+        yield [[
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => false,
+        ]];
+        yield [[
+            UrlShortenerConfigCustomizer::SCHEMA => 'foo',
+            UrlShortenerConfigCustomizer::HOSTNAME => 'foo',
+            UrlShortenerConfigCustomizer::VALIDATE_URL => true,
+            UrlShortenerConfigCustomizer::NOTIFY_VISITS_WEBHOOKS => true,
+            UrlShortenerConfigCustomizer::VISITS_WEBHOOKS => 'webhook',
+        ]];
     }
 }

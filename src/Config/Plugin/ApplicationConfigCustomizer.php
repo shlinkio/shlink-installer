@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Plugin;
 
+use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Shlinkio\Shlink\Installer\Config\Util\ExpectedConfigResolverInterface;
-use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Util\StringGeneratorInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -13,11 +13,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_diff;
 use function array_keys;
 use function extension_loaded;
-use function is_numeric;
-use function sprintf;
 
 class ApplicationConfigCustomizer implements ConfigCustomizerInterface
 {
+    use ConfigOptionsValidatorsTrait;
+
     public const SECRET = 'SECRET';
     public const DISABLE_TRACK_PARAM = 'DISABLE_TRACK_PARAM';
     public const CHECK_VISITS_THRESHOLD = 'CHECK_VISITS_THRESHOLD';
@@ -126,16 +126,5 @@ class ApplicationConfigCustomizer implements ConfigCustomizerInterface
         }
 
         return '';
-    }
-
-    public function validatePositiveNumber($value): int
-    {
-        if (! is_numeric($value) || 1 > (int) $value) {
-            throw new InvalidConfigOptionException(
-                sprintf('Provided value "%s" is invalid. Expected a number greater than 1', $value)
-            );
-        }
-
-        return (int) $value;
     }
 }
