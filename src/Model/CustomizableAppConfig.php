@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Model;
 
-use Shlinkio\Shlink\Installer\Config\Plugin\ApplicationConfigCustomizer;
 use Shlinkio\Shlink\Installer\Config\Plugin\DatabaseConfigCustomizer;
-use Shlinkio\Shlink\Installer\Config\Plugin\RedirectsConfigCustomizer;
-use Shlinkio\Shlink\Installer\Config\Plugin\UrlShortenerConfigCustomizer;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Zend\Stdlib\ArraySerializableInterface;
 
@@ -18,32 +15,31 @@ final class CustomizableAppConfig implements ArraySerializableInterface
     public const SQLITE_DB_PATH = 'data/database.sqlite';
 
     private const APP_CONFIG_MAP = [
-        ApplicationConfigCustomizer::SECRET => ['app_options', 'secret_key'],
-        ApplicationConfigCustomizer::DISABLE_TRACK_PARAM => ['app_options', 'disable_track_param'],
-        ApplicationConfigCustomizer::BASE_PATH => ['router', 'base_path'],
-        ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD => ['delete_short_urls', 'check_visits_threshold'],
-        ApplicationConfigCustomizer::VISITS_THRESHOLD => ['delete_short_urls', 'visits_threshold'],
-        ApplicationConfigCustomizer::WEB_WORKER_NUM => ['web_worker_num'], // Using simplified config
-        ApplicationConfigCustomizer::TASK_WORKER_NUM => ['task_worker_num'], // Using simplified config
+//        Option\DisableTrackParamConfigOption::class => ['app_options', 'disable_track_param'],
+//        Option\BasePathConfigOption::class => ['router', 'base_path'],
+//        Option\CheckVisitsThresholdConfigOption::class => ['delete_short_urls', 'check_visits_threshold'],
+//        Option\VisitsThresholdConfigOption::class => ['delete_short_urls', 'visits_threshold'],
+//        Option\WebWorkerNumConfigOption::class => ['web_worker_num'], // Using simplified config
+//        Option\TaskWorkerNumConfigOption::class => ['task_worker_num'], // Using simplified config
     ];
     private const DB_CONFIG_MAP = [
-        DatabaseConfigCustomizer::DRIVER => ['entity_manager', 'connection', 'driver'],
-        DatabaseConfigCustomizer::USER => ['entity_manager', 'connection', 'user'],
-        DatabaseConfigCustomizer::PASSWORD => ['entity_manager', 'connection', 'password'],
-        DatabaseConfigCustomizer::NAME => ['entity_manager', 'connection', 'dbname'],
-        DatabaseConfigCustomizer::HOST => ['entity_manager', 'connection', 'host'],
-        DatabaseConfigCustomizer::PORT => ['entity_manager', 'connection', 'port'],
+//        Option\DatabaseDriverConfigOption::class => ['entity_manager', 'connection', 'driver'],
+//        Option\DatabaseUserConfigOption::class => ['entity_manager', 'connection', 'user'],
+//        Option\DatabasePasswordConfigOption::class => ['entity_manager', 'connection', 'password'],
+//        Option\DatabaseNameConfigOption::class => ['entity_manager', 'connection', 'dbname'],
+//        Option\DatabaseHostConfigOption::class => ['entity_manager', 'connection', 'host'],
+//        Option\DatabasePortConfigOption::class => ['entity_manager', 'connection', 'port'],
     ];
     private const URL_SHORTENER_CONFIG_MAP = [
-        UrlShortenerConfigCustomizer::SCHEMA => ['url_shortener', 'domain', 'schema'],
-        UrlShortenerConfigCustomizer::HOSTNAME => ['url_shortener', 'domain', 'hostname'],
-        UrlShortenerConfigCustomizer::VALIDATE_URL => ['url_shortener', 'validate_url'],
-        UrlShortenerConfigCustomizer::VISITS_WEBHOOKS => ['url_shortener', 'visits_webhooks'],
+//        Option\ShortDomainSchemaConfigOption::class => ['url_shortener', 'domain', 'schema'],
+//        Option\ShortDomainHostConfigOption::class => ['url_shortener', 'domain', 'hostname'],
+//        Option\ValidateUrlConfigOption::class => ['url_shortener', 'validate_url'],
+//        Option\VisitsWebhooksConfigOption::class => ['url_shortener', 'visits_webhooks'],
     ];
     private const REDIRECTS_CONFIG_MAP = [
-        RedirectsConfigCustomizer::INVALID_SHORT_URL_REDIRECT_TO => ['not_found_redirects', 'invalid_short_url'],
-        RedirectsConfigCustomizer::REGULAR_404_REDIRECT_TO => ['not_found_redirects', 'regular_404'],
-        RedirectsConfigCustomizer::BASE_URL_REDIRECT_TO => ['not_found_redirects', 'base_url'],
+//        Option\InvalidShortUrlRedirectConfigOption::class => ['not_found_redirects', 'invalid_short_url'],
+//        Option\Regular404RedirectConfigOption::class => ['not_found_redirects', 'regular_404'],
+//        Option\BaseUrlRedirectConfigOption::class => ['not_found_redirects', 'base_url'],
     ];
 
     /** @var array */

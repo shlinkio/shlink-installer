@@ -9,12 +9,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 trait AskUtilsTrait
 {
-    /**
-     * @return mixed
-     */
-    private function askRequired(SymfonyStyle $io, string $optionName, string $question)
+    private function askRequired(SymfonyStyle $io, string $optionName, string $question): string
     {
-        return $io->ask($question, null, function ($value) use ($optionName) {
+        return $io->ask($question, null, static function ($value) use ($optionName) {
             if (empty($value)) {
                 throw MissingRequiredOptionException::fromOption($optionName);
             }
