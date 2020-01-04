@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Factory;
 
 use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Installer\Config;
 use Shlinkio\Shlink\Installer\Factory\InstallApplicationFactory;
 use Shlinkio\Shlink\Installer\Service;
-use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 use Zend\ServiceManager\ServiceManager;
+
+use function array_filter;
+use function array_shift;
+use function Functional\contains;
+
+use const ARRAY_FILTER_USE_KEY;
 
 class InstallApplicationFactoryTest extends TestCase
 {
@@ -26,14 +33,20 @@ class InstallApplicationFactoryTest extends TestCase
      */
     public function serviceIsCreated(): void
     {
-        $instance = ($this->factory)(new ServiceManager(['services' => [
+        $app = ($this->factory)(new ServiceManager(['services' => [
             Filesystem::class => $this->prophesize(Filesystem::class)->reveal(),
             Service\InstallationCommandsRunner::class => $this->prophesize(
                 Service\InstallationCommandsRunnerInterface::class
             )->reveal(),
-            'config' => ['config_customizer_plugins' => []],
+            Config\ConfigGenerator::class => $this->prophesize(Config\ConfigGeneratorInterface::class)->reveal(),
         ]]), '');
 
-        $this->assertInstanceOf(Application::class, $instance);
+        /** @var Command[] $commands */
+        $commands = array_filter($app->all(), static function (string $key) {
+            return ! contains(['list', 'help'], $key); // Remove list and help commands
+        }, ARRAY_FILTER_USE_KEY);
+
+        $this->assertCount(1, $commands);
+        $this->assertEquals('shlink:install', array_shift($commands)->getName());
     }
 }

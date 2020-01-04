@@ -74,9 +74,7 @@ return [
 ];
 ```
 
-> Some questions depend on other questions. For example, the database name requires the driver to be asked first, since it will not be asked for SQLite.
->
-> If you don't enable the dependant question (database driver) but you enable the dependee one (database name), both will be asked anyway.
+> If `installer.enabled_options` is not provided at all, all the config options will be asked.
 
 ### Commands to run after installation
 
