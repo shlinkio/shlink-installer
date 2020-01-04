@@ -56,8 +56,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
                     $io->title($title);
                 }
 
-                $answer = $plugin->ask($io, $answers);
-                $answers->setValueInPath($answer, $plugin->getConfigPath());
+                $answers->setValueInPath($plugin->ask($io, $answers), $plugin->getConfigPath());
             }
         }
 
