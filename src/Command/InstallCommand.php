@@ -158,7 +158,7 @@ class InstallCommand extends Command
         return ImportedConfig::imported($installationPath, include $configFile);
     }
 
-    private function importSqliteIfNeeded(SymfonyStyle $io, string $importPath, string $dbDriver): void
+    private function importSqliteIfNeeded(SymfonyStyle $io, string $importPath, ?string $dbDriver): void
     {
         if (! $this->isUpdate || $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER) {
             return;

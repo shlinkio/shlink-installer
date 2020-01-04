@@ -8,7 +8,7 @@ class TaskWorkerNumConfigOption extends AbstractWorkerNumConfigOption
 {
     public function getConfigPath(): array
     {
-        return ['web_worker_num'];
+        return ['task_worker_num'];
     }
 
     protected function getQuestionToAsk(): string
