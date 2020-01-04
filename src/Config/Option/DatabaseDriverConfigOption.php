@@ -13,11 +13,12 @@ class DatabaseDriverConfigOption extends BaseConfigOption
 {
     public const CONFIG_PATH = ['entity_manager', 'connection', 'driver'];
     public const MYSQL_DRIVER = 'pdo_mysql';
+    public const POSTGRES_DRIVER = 'pdo_pgsql';
     public const SQLITE_DRIVER = 'pdo_sqlite';
     private const DATABASE_DRIVERS = [
         'MySQL' => self::MYSQL_DRIVER,
         'MariaDB' => self::MYSQL_DRIVER,
-        'PostgreSQL' => 'pdo_pgsql',
+        'PostgreSQL' => self::POSTGRES_DRIVER,
         'SQLite' => self::SQLITE_DRIVER,
     ];
 

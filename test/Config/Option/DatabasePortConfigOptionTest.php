@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ShlinkioTest\Shlink\Installer\Config\Option;
+
+use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\DatabasePortConfigOption;
+use Shlinkio\Shlink\Installer\Util\PathCollection;
+use Symfony\Component\Console\Style\StyleInterface;
+
+class DatabasePortConfigOptionTest extends TestCase
+{
+    /** @var DatabasePortConfigOption */
+    private $configOption;
+
+    public function setUp(): void
+    {
+        $this->configOption = new DatabasePortConfigOption();
+    }
+
+    /** @test */
+    public function returnsExpectedConfig(): void
+    {
+        $this->assertEquals(['entity_manager', 'connection', 'port'], $this->configOption->getConfigPath());
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCurrentOptions
+     */
+    public function expectedQuestionIsAsked(PathCollection $currentOptions, string $expectedPort): void
+    {
+        $expectedAnswer = 'the_answer';
+        $io = $this->prophesize(StyleInterface::class);
+        $ask = $io->ask('Database port', $expectedPort)->willReturn($expectedAnswer);
+
+        $answer = $this->configOption->ask($io->reveal(), $currentOptions);
+
+        $this->assertEquals($expectedAnswer, $answer);
+        $ask->shouldHaveBeenCalledOnce();
+    }
+
+    public function provideCurrentOptions(): iterable
+    {
+        $buildCollection = static function (string $driver): PathCollection {
+            $collection = new PathCollection();
+            $collection->setValueInPath($driver, DatabaseDriverConfigOption::CONFIG_PATH);
+
+            return $collection;
+        };
+
+        yield 'mysql' => [$buildCollection(DatabaseDriverConfigOption::MYSQL_DRIVER), '3306'];
+        yield 'postgres' => [$buildCollection(DatabaseDriverConfigOption::POSTGRES_DRIVER), '5432'];
+    }
+}
