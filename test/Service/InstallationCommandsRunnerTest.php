@@ -36,7 +36,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->commandsRunner = new InstallationCommandsRunner(
             $this->processHelper->reveal(),
             $phpFinder->reveal(),
-            $this->buildCommands(self::COMMAND_NAMES)
+            $this->buildCommands(self::COMMAND_NAMES),
         );
 
         $this->io = $this->prophesize(SymfonyStyle::class);
@@ -67,14 +67,14 @@ class InstallationCommandsRunnerTest extends TestCase
 
         $process = $this->createProcessMock(true);
         $run = $this->processHelper->run($this->io->reveal(), $command)->willReturn(
-            $process->reveal()
+            $process->reveal(),
         );
 
         $writInitMsg = $this->io->write(sprintf('%s_init', $name));
         $writRunningMsg = $this->io->write(
             Argument::containingString(sprintf('Running "%s"', implode(' ', $command))),
             false,
-            OutputInterface::VERBOSITY_VERBOSE
+            OutputInterface::VERBOSITY_VERBOSE,
         );
         $writErrorMsg = $this->io->error(Argument::containingString(sprintf('%s_error', $name)));
         $writSuccessMsg = $this->io->writeln(' <info>Success!</info>');
@@ -97,14 +97,14 @@ class InstallationCommandsRunnerTest extends TestCase
 
         $process = $this->createProcessMock(false);
         $run = $this->processHelper->run($this->io->reveal(), $command)->willReturn(
-            $process->reveal()
+            $process->reveal(),
         );
 
         $writInitMsg = $this->io->write(sprintf('%s_init', $name));
         $writRunningMsg = $this->io->write(
             Argument::containingString(sprintf('Running "%s"', implode(' ', $command))),
             false,
-            OutputInterface::VERBOSITY_VERBOSE
+            OutputInterface::VERBOSITY_VERBOSE,
         );
         $writErrorMsg = $this->io->error(Argument::containingString(sprintf('%s_error', $name)));
         $writSuccessMsg = $this->io->writeln(' <info>Success!</info>');

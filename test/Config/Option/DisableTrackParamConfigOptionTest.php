@@ -31,7 +31,7 @@ class DisableTrackParamConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'Provide a parameter name that you will be able to use to disable tracking on specific request to '
-            . 'short URLs (leave empty and this feature won\'t be enabled)'
+            . 'short URLs (leave empty and this feature won\'t be enabled)',
         )->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

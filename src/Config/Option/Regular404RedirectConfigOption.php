@@ -23,7 +23,7 @@ class Regular404RedirectConfigOption extends BaseConfigOption
             'Custom URL to redirect to when a user hits a not found URL other than an invalid short URL '
             . '(If no value is provided, the user will see a default "404 not found" page)',
             null,
-            [$this, 'validateUrl']
+            [$this, 'validateUrl'],
         );
     }
 }

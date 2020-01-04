@@ -35,7 +35,7 @@ class InstallApplicationFactoryTest extends TestCase
         $app = ($this->factory)(new ServiceManager(['services' => [
             Filesystem::class => $this->prophesize(Filesystem::class)->reveal(),
             Service\InstallationCommandsRunner::class => $this->prophesize(
-                Service\InstallationCommandsRunnerInterface::class
+                Service\InstallationCommandsRunnerInterface::class,
             )->reveal(),
             Config\ConfigGenerator::class => $this->prophesize(Config\ConfigGeneratorInterface::class)->reveal(),
         ]]), '');
@@ -44,7 +44,7 @@ class InstallApplicationFactoryTest extends TestCase
         $commands = array_filter(
             $app->all(),
             fn (string $key) => ! contains(['list', 'help'], $key), // Remove list and help commands
-            ARRAY_FILTER_USE_KEY
+            ARRAY_FILTER_USE_KEY,
         );
 
         $this->assertCount(1, $commands);

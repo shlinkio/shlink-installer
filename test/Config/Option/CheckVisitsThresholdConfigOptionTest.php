@@ -31,7 +31,7 @@ class CheckVisitsThresholdConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $confirm = $io->confirm(
             'Do you want to enable a safety check which will not allow short URLs to be deleted after receiving '
-            . 'a specific amount of visits?'
+            . 'a specific amount of visits?',
         )->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

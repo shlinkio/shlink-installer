@@ -34,7 +34,7 @@ class Regular404RedirectConfigOptionTest extends TestCase
             'Custom URL to redirect to when a user hits a not found URL other than an invalid short URL '
             . '(If no value is provided, the user will see a default "404 not found" page)',
             null,
-            Argument::any()
+            Argument::any(),
         )->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

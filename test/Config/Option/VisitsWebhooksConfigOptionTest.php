@@ -36,7 +36,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
             . 'receive visits (Ignore this if you are not serving shlink with swoole)',
             null,
-            Argument::any()
+            Argument::any(),
         )->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

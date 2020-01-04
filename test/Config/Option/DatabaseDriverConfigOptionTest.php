@@ -37,7 +37,7 @@ class DatabaseDriverConfigOptionTest extends TestCase
                 'PostgreSQL',
                 'SQLite',
             ],
-            'MySQL'
+            'MySQL',
         )->willReturn('SQLite');
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

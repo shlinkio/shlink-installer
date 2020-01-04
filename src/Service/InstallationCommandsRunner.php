@@ -42,7 +42,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         $io->write(
             sprintf(' <options=bold>[Running "%s"]</> ', implode(' ', $command)),
             false,
-            OutputInterface::VERBOSITY_VERBOSE
+            OutputInterface::VERBOSITY_VERBOSE,
         );
 
         $process = $this->processHelper->run($io, $command);

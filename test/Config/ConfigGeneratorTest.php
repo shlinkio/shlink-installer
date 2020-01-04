@@ -89,9 +89,8 @@ class ConfigGeneratorTest extends TestCase
             DependentConfigOptionInterface
         {
             /** @var array */
-            private $orderedAskedOptions;
-            /** @var string */
-            private $regularPluginClass;
+            private array $orderedAskedOptions;
+            private string $regularPluginClass;
 
             public function __construct(array &$orderedAskedOptions, string $regularPluginClass)
             {
@@ -129,7 +128,7 @@ class ConfigGeneratorTest extends TestCase
             function (array $args) use ($regularPlugin, $dependentPlugin) {
                 [$configOption] = $args;
                 return $configOption === 'a' ? $regularPlugin : $dependentPlugin;
-            }
+            },
         );
 
         $optionsGroups = [

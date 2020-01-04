@@ -84,7 +84,7 @@ class InstallCommand extends Command
             } catch (IOException $e) {
                 $io->error(
                     'Failed! You will have to manually delete the data/cache/app_config.php file to'
-                    . ' get new config applied.'
+                    . ' get new config applied.',
                 );
                 throw $e;
             }
@@ -93,7 +93,7 @@ class InstallCommand extends Command
         $importedConfig = $this->resolvePreviousConfig($io);
         $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
         $this->importSqliteIfNeeded($io, $importedConfig->importPath(), $config->getValueInPath(
-            DatabaseDriverConfigOption::CONFIG_PATH
+            DatabaseDriverConfigOption::CONFIG_PATH,
         ));
 
         // Generate config params files
@@ -117,7 +117,7 @@ class InstallCommand extends Command
         // Ask the user if he/she wants to import an older configuration
         $importConfig = $io->confirm(
             'Do you want to import configuration from previous installation? (You will still be asked for any new '
-            . 'config option that did not exist in previous shlink versions)'
+            . 'config option that did not exist in previous shlink versions)',
         );
         if (! $importConfig) {
             return ImportedConfig::notImported();
@@ -129,14 +129,14 @@ class InstallCommand extends Command
             $installationPath = $this->askRequired(
                 $io,
                 'previous installation path',
-                'Previous shlink installation path from which to import config'
+                'Previous shlink installation path from which to import config',
             );
             $configFile = sprintf('%s/%s', $installationPath, self::GENERATED_CONFIG_PATH);
             $configExists = $this->filesystem->exists($configFile);
 
             if (! $configExists) {
                 $keepAsking = $io->confirm(
-                    'Provided path does not seem to be a valid shlink root path. Do you want to try another path?'
+                    'Provided path does not seem to be a valid shlink root path. Do you want to try another path?',
                 );
             }
         } while (! $configExists && $keepAsking);

@@ -34,7 +34,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
         $ask = $io->ask(
             'What is the amount of visits from which the system will not allow short URLs to be deleted?',
             '15',
-            Argument::any()
+            Argument::any(),
         )->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

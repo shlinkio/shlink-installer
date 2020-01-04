@@ -27,7 +27,7 @@
         "phpstan/phpstan": "^0.12.0",
         "phpunit/phpunit": "^8.0",
         "roave/security-advisories": "dev-master",
-        "shlinkio/php-coding-standard": "~2.0.0",
+        "shlinkio/php-coding-standard": "~2.1.0",
         "symfony/var-dumper": "^5.0"
     },
     "autoload": {
@@ -50,7 +50,7 @@
 
         "cs": "phpcs",
         "cs:fix": "phpcbf",
-        "stan": "phpstan analyse src --level=5",
+        "stan": "phpstan analyse src --level=6",
 
         "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random --testdox --colors=always",
         "test:ci": "@test --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/junit.xml",
