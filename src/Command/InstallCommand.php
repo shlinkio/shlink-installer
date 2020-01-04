@@ -91,10 +91,7 @@ class InstallCommand extends Command
                     'Failed! You will have to manually delete the data/cache/app_config.php file to'
                     . ' get new config applied.'
                 );
-                if ($io->isVerbose()) {
-                    $this->getApplication()->renderThrowable($e, $output);
-                }
-                return 1;
+                throw $e;
             }
         }
 

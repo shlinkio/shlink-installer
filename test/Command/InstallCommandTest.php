@@ -10,6 +10,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionObject;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
+use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Application;
@@ -31,6 +32,8 @@ class InstallCommandTest extends TestCase
     private $filesystem;
     /** @var ObjectProphecy */
     private $commandsRunner;
+    /** @var PathCollection */
+    private $config;
 
     public function setUp(): void
     {
@@ -42,8 +45,9 @@ class InstallCommandTest extends TestCase
         $this->commandsRunner = $this->prophesize(InstallationCommandsRunnerInterface::class);
         $this->commandsRunner->execPhpCommand(Argument::cetera())->willReturn(true);
 
+        $this->config = new PathCollection();
         $configGenerator = $this->prophesize(ConfigGeneratorInterface::class);
-        $configGenerator->generateConfigInteractively(Argument::cetera())->willReturn(new PathCollection());
+        $configGenerator->generateConfigInteractively(Argument::cetera())->willReturn($this->config);
 
         $finder = $this->prophesize(PhpExecutableFinder::class);
         $finder->find(false)->willReturn('php');
@@ -87,20 +91,19 @@ class InstallCommandTest extends TestCase
         $appConfigRemove = $this->filesystem->remove('data/cache/app_config.php')->willThrow(IOException::class);
         $configToFile = $this->configWriter->toFile(Argument::cetera())->willReturn(true);
 
-        $this->commandTester->execute([]);
+        $appConfigExists->shouldBeCalledOnce();
+        $appConfigRemove->shouldBeCalledOnce();
+        $configToFile->shouldNotBeCalled();
 
-        $appConfigExists->shouldHaveBeenCalledOnce();
-        $appConfigRemove->shouldHaveBeenCalledOnce();
-        $configToFile->shouldNotHaveBeenCalled();
+        $this->expectException(IOException::class);
+
+        $this->commandTester->execute([]);
     }
 
     /** @test */
     public function whenCommandIsUpdatePreviousConfigCanBeImported(): void
     {
-        $ref = new ReflectionObject($this->command);
-        $prop = $ref->getProperty('isUpdate');
-        $prop->setAccessible(true);
-        $prop->setValue($this->command, true);
+        $this->setIsUpdate();
 
         $importedConfigExists = $this->filesystem->exists(
             __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH
@@ -117,16 +120,70 @@ class InstallCommandTest extends TestCase
         $importedConfigExists->shouldHaveBeenCalled();
     }
 
+    /** @test */
+    public function sqliteDatabaseIsImportedOnUpdate(): void
+    {
+        $this->setIsUpdate();
+        $this->config->setValueInPath(
+            DatabaseDriverConfigOption::SQLITE_DRIVER,
+            DatabaseDriverConfigOption::CONFIG_PATH
+        );
+
+        $copy = $this->filesystem->copy(
+            __DIR__ . '/../../test-resources/data/database.sqlite',
+            'data/database.sqlite'
+        )->will(function (): void {
+        });
+        $importedConfigExists = $this->filesystem->exists(
+            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH
+        )->willReturn(true);
+
+        $this->commandTester->setInputs([
+            '',
+            __DIR__ . '/../../test-resources',
+        ]);
+        $this->commandTester->execute([]);
+
+        $importedConfigExists->shouldHaveBeenCalledOnce();
+        $copy->shouldHaveBeenCalledOnce();
+    }
+
+    /** @test */
+    public function processIsCancelledWhenSqliteImportFails(): void
+    {
+        $this->setIsUpdate();
+        $this->config->setValueInPath(
+            DatabaseDriverConfigOption::SQLITE_DRIVER,
+            DatabaseDriverConfigOption::CONFIG_PATH
+        );
+
+        $copy = $this->filesystem->copy(
+            __DIR__ . '/../../test-resources/data/database.sqlite',
+            'data/database.sqlite'
+        )->willThrow(IOException::class);
+        $importedConfigExists = $this->filesystem->exists(
+            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH
+        )->willReturn(true);
+
+        $importedConfigExists->shouldBeCalledOnce();
+        $copy->shouldBeCalledOnce();
+
+        $this->expectException(IOException::class);
+
+        $this->commandTester->setInputs([
+            '',
+            __DIR__ . '/../../test-resources',
+        ]);
+        $this->commandTester->execute([]);
+    }
+
     /**
      * @test
      * @dataProvider provideAmounts
      */
     public function commandRunnerIsInvokedTheProperAmountOfTimes(bool $isUpdate, int $expectedAmount): void
     {
-        $ref = new ReflectionObject($this->command);
-        $prop = $ref->getProperty('isUpdate');
-        $prop->setAccessible(true);
-        $prop->setValue($this->command, $isUpdate);
+        $this->setIsUpdate($isUpdate);
         $this->filesystem->exists('data/cache/app_config.php')->willReturn(false);
 
         $execPhpCommand = $this->commandsRunner->execPhpCommand(Argument::cetera())->willReturn(true);
@@ -141,5 +198,13 @@ class InstallCommandTest extends TestCase
     {
         yield [false, 4];
         yield [true, 3];
+    }
+
+    private function setIsUpdate(bool $isUpdate = true): void
+    {
+        $ref = new ReflectionObject($this->command);
+        $prop = $ref->getProperty('isUpdate');
+        $prop->setAccessible(true);
+        $prop->setValue($this->command, $isUpdate);
     }
 }
