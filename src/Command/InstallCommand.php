@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Shlinkio\Shlink\Installer\Config\ConfigCustomizerManagerInterface;
-use Shlinkio\Shlink\Installer\Config\Plugin;
-use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
+use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
+use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
+use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException;
-use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -30,25 +27,20 @@ class InstallCommand extends Command
     use AskUtilsTrait;
 
     public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
-    private const INSTALLATION_PLUGINS = [
-        Plugin\DatabaseConfigCustomizer::class,
-        Plugin\UrlShortenerConfigCustomizer::class,
-        Plugin\RedirectsConfigCustomizer::class,
-        Plugin\ApplicationConfigCustomizer::class,
-    ];
     private const POST_INSTALL_COMMANDS = [
         'db_create_schema',
         'db_migrate',
         'orm_proxies',
         'geolite_download',
     ];
+    private const SQLITE_DB_PATH = 'data/database.sqlite';
 
     /** @var WriterInterface */
     private $configWriter;
     /** @var Filesystem */
     private $filesystem;
-    /** @var ConfigCustomizerManagerInterface */
-    private $configCustomizers;
+    /** @var ConfigGeneratorInterface */
+    private $configGenerator;
     /** @var bool */
     private $isUpdate;
     /** @var InstallationCommandsRunnerInterface */
@@ -60,14 +52,14 @@ class InstallCommand extends Command
     public function __construct(
         WriterInterface $configWriter,
         Filesystem $filesystem,
-        ConfigCustomizerManagerInterface $configCustomizers,
+        ConfigGeneratorInterface $configGenerator,
         InstallationCommandsRunnerInterface $commandsRunner,
         bool $isUpdate
     ) {
         parent::__construct();
         $this->configWriter = $configWriter;
         $this->filesystem = $filesystem;
-        $this->configCustomizers = $configCustomizers;
+        $this->configGenerator = $configGenerator;
         $this->commandsRunner = $commandsRunner;
         $this->isUpdate = $isUpdate;
     }
@@ -79,12 +71,6 @@ class InstallCommand extends Command
             ->setDescription('Installs or updates Shlink');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -105,24 +91,18 @@ class InstallCommand extends Command
                     'Failed! You will have to manually delete the data/cache/app_config.php file to'
                     . ' get new config applied.'
                 );
-                if ($io->isVerbose()) {
-                    $this->getApplication()->renderThrowable($e, $output);
-                }
-                return 1;
+                throw $e;
             }
         }
 
-        $config = $this->resolveConfig($io);
-
-        // Ask for custom config params
-        foreach (self::INSTALLATION_PLUGINS as $pluginName) {
-            /** @var Plugin\ConfigCustomizerInterface $configCustomizer */
-            $configCustomizer = $this->configCustomizers->get($pluginName);
-            $configCustomizer->process($io, $config);
-        }
+        $importedConfig = $this->resolvePreviousConfig($io);
+        $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
+        $this->importSqliteIfNeeded($io, $importedConfig->importPath(), $config->getValueInPath(
+            DatabaseDriverConfigOption::CONFIG_PATH
+        ));
 
         // Generate config params files
-        $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config->getArrayCopy(), false);
+        $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config->toArray(), false);
         $io->writeln(['<info>Custom configuration properly generated!</info>', '']);
 
         if ($this->execPostInstallCommands($io)) {
@@ -133,15 +113,10 @@ class InstallCommand extends Command
         return -1;
     }
 
-    /**
-     * @throws RuntimeException
-     */
-    private function resolveConfig(SymfonyStyle $io): CustomizableAppConfig
+    private function resolvePreviousConfig(SymfonyStyle $io): ImportedConfig
     {
-        $config = new CustomizableAppConfig();
-
         if (! $this->isUpdate) {
-            return $config;
+            return ImportedConfig::notImported();
         }
 
         // Ask the user if he/she wants to import an older configuration
@@ -150,18 +125,18 @@ class InstallCommand extends Command
             . 'config option that did not exist in previous shlink versions)'
         );
         if (! $importConfig) {
-            return $config;
+            return ImportedConfig::notImported();
         }
 
         // Ask the user for the older shlink path
         $keepAsking = true;
         do {
-            $config->setImportedInstallationPath($this->askRequired(
+            $installationPath = $this->askRequired(
                 $io,
                 'previous installation path',
                 'Previous shlink installation path from which to import config'
-            ));
-            $configFile = sprintf('%s/%s', $config->getImportedInstallationPath(), self::GENERATED_CONFIG_PATH);
+            );
+            $configFile = sprintf('%s/%s', $installationPath, self::GENERATED_CONFIG_PATH);
             $configExists = $this->filesystem->exists($configFile);
 
             if (! $configExists) {
@@ -173,12 +148,25 @@ class InstallCommand extends Command
 
         // If after some retries the user has chosen not to test another path, return
         if (! $configExists) {
-            return $config;
+            return ImportedConfig::notImported();
         }
 
         // Read the config file
-        $config->exchangeArray(include $configFile);
-        return $config;
+        return ImportedConfig::imported($installationPath, include $configFile);
+    }
+
+    private function importSqliteIfNeeded(SymfonyStyle $io, string $importPath, ?string $dbDriver): void
+    {
+        if (! $this->isUpdate || $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER) {
+            return;
+        }
+
+        try {
+            $this->filesystem->copy($importPath . '/' . self::SQLITE_DB_PATH, self::SQLITE_DB_PATH);
+        } catch (IOException $e) {
+            $io->error('It wasn\'t possible to import the SQLite database');
+            throw $e;
+        }
     }
 
     private function execPostInstallCommands(SymfonyStyle $io): bool

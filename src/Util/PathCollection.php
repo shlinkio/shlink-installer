@@ -65,6 +65,9 @@ final class PathCollection
         return $array;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function setValueInPath($value, array $path): void
     {
         $ref =& $this->array;

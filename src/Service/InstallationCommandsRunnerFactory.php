@@ -17,7 +17,7 @@ class InstallationCommandsRunnerFactory
         return new InstallationCommandsRunner(
             $container->get(ProcessHelper::class),
             $container->get(PhpExecutableFinder::class),
-            $config['installation_commands'] ?? []
+            $config['installer']['installation_commands'] ?? []
         );
     }
 }

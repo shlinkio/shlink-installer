@@ -29,19 +29,18 @@ There are two main ways to run this tool:
 
 * Using the `bin/run.php` helper script.
 
-    This script returns a function that can be used to either install or update a shlink instance.
+    This script returns two functions that can be used to either install or update a shlink instance.
 
-    Just require it and invoke the function:
+    Just require it and invoke the appropriate function:
 
     ```php
     <?php
+
     declare(strict_types=1);
 
-    $run = require 'vendor/shlinkio/shlink-installer/bin/run.php';
-
-    // The flag determines if we are running an update or not
-    $run(false); // To install
-    $run(true); // To update
+    [$install, $update] = require 'vendor/shlinkio/shlink-installer/bin/run.php';
+    $install(); // To install
+    $update(); // To update
     ```
 
 ## Customize options
@@ -54,35 +53,28 @@ Add a configuration file including a configuration like this:
 
 ```php
 <?php
+
 declare(strict_types=1);
 
-use Shlinkio\Shlink\Installer\Config\Plugin;
+use Shlinkio\Shlink\Installer\Config\Option;
 
 return [
 
-    'installer_plugins_expected_config' => [
-        Plugin\UrlShortenerConfigCustomizer::class => [
-            Plugin\UrlShortenerConfigCustomizer::HOSTNAME,
-            Plugin\UrlShortenerConfigCustomizer::SCHEMA,
-        ],
-
-        Plugin\ApplicationConfigCustomizer::class => [
-            Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM,
-            Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD,
-            Plugin\ApplicationConfigCustomizer::WEB_WORKER_NUM,
-        ],
-
-        Plugin\DatabaseConfigCustomizer::class => [
-            Plugin\DatabaseConfigCustomizer::DRIVER,
-            Plugin\DatabaseConfigCustomizer::HOST,
-            Plugin\DatabaseConfigCustomizer::PASSWORD,
+    'installer' => [
+        'enabled_options' => [
+            Option\DatabaseDriverConfigOption::class,
+            Option\DatabaseHostConfigOption::class,
+            Option\BasePathConfigOption::class,
+            Option\Regular404RedirectConfigOption::class,
+            Option\ShortDomainHostConfigOption::class,
+            Option\ShortDomainSchemaConfigOption::class,
         ],
     ],
 
 ];
 ```
 
-By default, the installer will configure all available options for any plugin which is not provided.
+> If `installer.enabled_options` is not provided at all, all the config options will be asked.
 
 ### Commands to run after installation
 
@@ -92,22 +84,25 @@ It is possible to overwrite those commands via configuration too, using a syntax
 
 ```php
 <?php
+
 declare(strict_types=1);
 
 return [
 
-    'installation_commands' => [
-        'db_create_schema' => [
-            'command' => 'bin/shlink shlink:db:create',
-        ],
-        'db_migrate' => [
-            'command' => 'bin/some-script some:command',
-        ],
-        'orm_proxies' => [
-            'command' => '-v', // Just print PHP version
-        ],
-        'geolite_download' => [
-            'command' => '-v', // Just print PHP version
+    'installer' => [
+        'installation_commands' => [
+            'db_create_schema' => [
+                'command' => 'bin/shlink shlink:db:create',
+            ],
+            'db_migrate' => [
+                'command' => 'bin/some-script some:command',
+            ],
+            'orm_proxies' => [
+                'command' => '-v', // Just print PHP version
+            ],
+            'geolite_download' => [
+                'command' => '-v', // Just print PHP version
+            ],
         ],
     ],
 
