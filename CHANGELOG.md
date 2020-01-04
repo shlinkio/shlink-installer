@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 * [#38](https://github.com/shlinkio/shlink-installer/issues/38) Configuration generation deeply refactoring, easing including new options.
 * [#44](https://github.com/shlinkio/shlink-installer/issues/44) Updated to [coding standard](https://github.com/shlinkio/php-coding-standard) v2.1.0
+* [#45](https://github.com/shlinkio/shlink-installer/issues/45) Migrated from Zend Framework components to [Laminas](https://getlaminas.org/).
 
 #### Deprecated
 

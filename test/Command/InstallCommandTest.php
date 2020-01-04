@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Command;
 
+use Laminas\Config\Writer\WriterInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -18,7 +19,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Zend\Config\Writer\WriterInterface;
 
 class InstallCommandTest extends TestCase
 {
