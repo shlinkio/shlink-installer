@@ -7,9 +7,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class DatabaseSqlitePathConfigOption implements
-    ConfigOptionInterface,
-    DependentConfigOptionInterface
+class DatabaseSqlitePathConfigOption extends AbstractDriverDependentConfigOption
 {
     public function getConfigPath(): array
     {
@@ -24,19 +22,8 @@ class DatabaseSqlitePathConfigOption implements
         return 'data/database.sqlite';
     }
 
-    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependantOption): bool
+    protected function shouldBeAskedForDbDriver(string $dbDriver): bool
     {
-        $currentOptionExists = $currentOptions->pathExists($this->getConfigPath());
-        if ($dependantOption === null) {
-            return ! $currentOptionExists;
-        }
-
-        $dbDriver = $currentOptions->getValueInPath($dependantOption->getConfigPath());
-        return $dbDriver === DatabaseDriverConfigOption::SQLITE_DRIVER && ! $currentOptionExists;
-    }
-
-    public function getDependentOption(): string
-    {
-        return DatabaseDriverConfigOption::class;
+        return $dbDriver === DatabaseDriverConfigOption::SQLITE_DRIVER;
     }
 }
