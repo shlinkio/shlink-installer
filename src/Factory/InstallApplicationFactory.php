@@ -33,7 +33,7 @@ class InstallApplicationFactory
             $container->get(Filesystem::class),
             $container->get(ConfigGenerator::class),
             $container->get(InstallationCommandsRunner::class),
-            $isUpdate
+            $isUpdate,
         );
     }
 }

@@ -23,18 +23,21 @@ trait ConfigOptionsValidatorsTrait
 
         if (! $valueIsValid) {
             throw new InvalidConfigOptionException(
-                sprintf('Provided value "%s" is not a valid URL', $value)
+                sprintf('Provided value "%s" is not a valid URL', $value),
             );
         }
 
         return $value;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function validatePositiveNumber($value): int
     {
         if (! is_numeric($value) || 1 > (int) $value) {
             throw new InvalidConfigOptionException(
-                sprintf('Provided value "%s" is invalid. Expected a number greater than 1', $value)
+                sprintf('Provided value "%s" is invalid. Expected a number greater than 1', $value),
             );
         }
 

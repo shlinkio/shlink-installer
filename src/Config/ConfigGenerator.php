@@ -81,11 +81,11 @@ class ConfigGenerator implements ConfigGeneratorInterface
                 sort(
                     map(
                         $configOptions,
-                        fn (string $configOption) => $this->configOptionsManager->get($configOption)
+                        fn (string $configOption) => $this->configOptionsManager->get($configOption),
                     ),
-                    $dependentPluginSorter
-                )
-            )
+                    $dependentPluginSorter,
+                ),
+            ),
         );
     }
 }

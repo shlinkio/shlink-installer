@@ -20,7 +20,7 @@ class CheckVisitsThresholdConfigOption extends BaseConfigOption
     {
         return $io->confirm(
             'Do you want to enable a safety check which will not allow short URLs to be deleted after receiving '
-            . 'a specific amount of visits?'
+            . 'a specific amount of visits?',
         );
     }
 }

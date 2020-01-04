@@ -40,6 +40,9 @@ class InstallationCommandsRunnerFactoryTest extends TestCase
         $this->assertSame($expectedPhpExecutable, $this->getPropFromInstance($instance, 'phpBinary'));
     }
 
+    /**
+     * @return mixed
+     */
     private function getPropFromInstance(Service\InstallationCommandsRunner $instance, string $propName)
     {
         $ref = new ReflectionObject($instance);

@@ -36,7 +36,7 @@ class WebWorkerNumConfigOptionTest extends TestCase
             'How many concurrent requests do you want Shlink to be able to serve? (Ignore this if you are '
             . 'not serving shlink with swoole)',
             '16',
-            Argument::any()
+            Argument::any(),
         )->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

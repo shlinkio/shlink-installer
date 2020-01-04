@@ -17,7 +17,7 @@ class DatabasePortConfigOption extends AbstractNonSqliteDependentConfigOption
     public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
         return $io->ask('Database port', $this->getDefaultDbPortForDriver($currentOptions->getValueInPath(
-            DatabaseDriverConfigOption::CONFIG_PATH
+            DatabaseDriverConfigOption::CONFIG_PATH,
         )));
     }
 

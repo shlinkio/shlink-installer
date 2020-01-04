@@ -52,7 +52,7 @@ class InstallCommandTest extends TestCase
             $this->filesystem->reveal(),
             $configGenerator->reveal(),
             $this->commandsRunner->reveal(),
-            false
+            false,
         );
         $app->add($this->command);
 
@@ -100,7 +100,7 @@ class InstallCommandTest extends TestCase
         $this->setIsUpdate();
 
         $importedConfigExists = $this->filesystem->exists(
-            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH
+            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH,
         )->willReturn(true);
 
         $this->commandTester->setInputs([
@@ -120,16 +120,16 @@ class InstallCommandTest extends TestCase
         $this->setIsUpdate();
         $this->config->setValueInPath(
             DatabaseDriverConfigOption::SQLITE_DRIVER,
-            DatabaseDriverConfigOption::CONFIG_PATH
+            DatabaseDriverConfigOption::CONFIG_PATH,
         );
 
         $copy = $this->filesystem->copy(
             __DIR__ . '/../../test-resources/data/database.sqlite',
-            'data/database.sqlite'
+            'data/database.sqlite',
         )->will(function (): void {
         });
         $importedConfigExists = $this->filesystem->exists(
-            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH
+            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH,
         )->willReturn(true);
 
         $this->commandTester->setInputs([
@@ -148,15 +148,15 @@ class InstallCommandTest extends TestCase
         $this->setIsUpdate();
         $this->config->setValueInPath(
             DatabaseDriverConfigOption::SQLITE_DRIVER,
-            DatabaseDriverConfigOption::CONFIG_PATH
+            DatabaseDriverConfigOption::CONFIG_PATH,
         );
 
         $copy = $this->filesystem->copy(
             __DIR__ . '/../../test-resources/data/database.sqlite',
-            'data/database.sqlite'
+            'data/database.sqlite',
         )->willThrow(IOException::class);
         $importedConfigExists = $this->filesystem->exists(
-            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH
+            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH,
         )->willReturn(true);
 
         $importedConfigExists->shouldBeCalledOnce();

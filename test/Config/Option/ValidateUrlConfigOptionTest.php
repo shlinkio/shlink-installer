@@ -30,7 +30,7 @@ class ValidateUrlConfigOptionTest extends TestCase
         $expectedAnswer = true;
         $io = $this->prophesize(StyleInterface::class);
         $confirm = $io->confirm('Do you want to validate long urls by 200 HTTP status code on response?')->willReturn(
-            $expectedAnswer
+            $expectedAnswer,
         );
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

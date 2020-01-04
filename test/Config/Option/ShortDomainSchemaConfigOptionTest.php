@@ -30,7 +30,7 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
         $expectedAnswer = 'https';
         $io = $this->prophesize(StyleInterface::class);
         $choice = $io->choice('Select schema for generated short URLs', ['http', 'https'], 'http')->willReturn(
-            $expectedAnswer
+            $expectedAnswer,
         );
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

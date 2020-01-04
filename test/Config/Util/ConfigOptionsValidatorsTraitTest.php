@@ -10,7 +10,7 @@ use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 
 class ConfigOptionsValidatorsTraitTest extends TestCase
 {
-    private $validators;
+    private object $validators;
 
     protected function setUp(): void
     {

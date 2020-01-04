@@ -48,6 +48,7 @@ class PathCollectionTest extends TestCase
     }
 
     /**
+     * @param mixed $expected
      * @test
      * @dataProvider providePathsWithValue
      */

@@ -28,7 +28,7 @@ class VisitsThresholdConfigOption implements ConfigOptionInterface, DependentCon
         return $io->ask(
             'What is the amount of visits from which the system will not allow short URLs to be deleted?',
             '15',
-            [$this, 'validatePositiveNumber']
+            [$this, 'validatePositiveNumber'],
         );
     }
 
