@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class VisitsThresholdConfigOption implements ConfigOptionInterface, DependentConfigOptionInterface
 {
@@ -23,7 +23,7 @@ class VisitsThresholdConfigOption implements ConfigOptionInterface, DependentCon
         return $shouldCheckVisits && ! $currentOptions->pathExists($this->getConfigPath());
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): int
+    public function ask(StyleInterface $io, PathCollection $currentOptions): int
     {
         return $io->ask(
             'What is the amount of visits from which the system will not allow short URLs to be deleted?',

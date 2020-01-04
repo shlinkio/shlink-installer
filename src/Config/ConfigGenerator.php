@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config;
 
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 use function Functional\contains;
 
@@ -29,7 +29,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
         $this->enabledOptions = $enabledOptions;
     }
 
-    public function generateConfigInteractively(SymfonyStyle $io, array $previousConfig): PathCollection
+    public function generateConfigInteractively(StyleInterface $io, array $previousConfig): PathCollection
     {
         // TODO Sort config options, based on which they depend on
 

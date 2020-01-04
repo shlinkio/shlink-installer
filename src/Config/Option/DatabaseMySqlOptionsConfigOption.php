@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseMySqlOptionsConfigOption extends AbstractDriverDependentConfigOption
 {
@@ -14,7 +14,7 @@ class DatabaseMySqlOptionsConfigOption extends AbstractDriverDependentConfigOpti
         return ['entity_manager', 'connection', 'driverOptions'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): array
+    public function ask(StyleInterface $io, PathCollection $currentOptions): array
     {
         return [
             // PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',

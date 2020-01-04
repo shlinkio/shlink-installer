@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainHostConfigOption extends BaseConfigOption
 {
@@ -17,7 +17,7 @@ class ShortDomainHostConfigOption extends BaseConfigOption
         return ['url_shortener', 'domain', 'hostname'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): string
+    public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
         return $this->askRequired($io, 'domain', 'Default domain for generated short URLs');
     }

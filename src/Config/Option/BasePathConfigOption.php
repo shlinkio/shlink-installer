@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class BasePathConfigOption extends BaseConfigOption
 {
@@ -14,11 +14,12 @@ class BasePathConfigOption extends BaseConfigOption
         return ['router', 'base_path'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
         return $io->ask(
             'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '
-            . 'shlink from the root of the domain)'
-        ) ?? '';
+            . 'shlink from the root of the domain)',
+            ''
+        );
     }
 }

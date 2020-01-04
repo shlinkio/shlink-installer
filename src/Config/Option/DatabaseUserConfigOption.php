@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseUserConfigOption extends AbstractNonSqliteDependentConfigOption
 {
@@ -17,7 +17,7 @@ class DatabaseUserConfigOption extends AbstractNonSqliteDependentConfigOption
         return ['entity_manager', 'connection', 'user'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): string
+    public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
         return $this->askRequired($io, 'username', 'Database username');
     }

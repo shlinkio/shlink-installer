@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class VisitsWebhooksConfigOption implements ConfigOptionInterface
 {
@@ -20,7 +20,7 @@ class VisitsWebhooksConfigOption implements ConfigOptionInterface
         $this->swooleInstalled = $swooleInstalled;
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): array
+    public function ask(StyleInterface $io, PathCollection $currentOptions): array
     {
         return $io->ask(
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableTrackParamConfigOption extends BaseConfigOption
 {
@@ -14,7 +14,7 @@ class DisableTrackParamConfigOption extends BaseConfigOption
         return ['app_options', 'disable_track_param'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): ?string
+    public function ask(StyleInterface $io, PathCollection $currentOptions): ?string
     {
         return $io->ask(
             'Provide a parameter name that you will be able to use to disable tracking on specific request to '

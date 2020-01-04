@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\PathCollection;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseNameConfigOption extends AbstractNonSqliteDependentConfigOption
 {
@@ -14,7 +14,7 @@ class DatabaseNameConfigOption extends AbstractNonSqliteDependentConfigOption
         return ['entity_manager', 'connection', 'dbname'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): string
+    public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
         return $io->ask('Database name', 'shlink');
     }
