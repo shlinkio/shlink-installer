@@ -82,7 +82,9 @@ return [
 ];
 ```
 
-By default, the installer will configure all available options for any plugin which is not provided.
+> Some questions depend on other questions. For example, the database name requires the driver to be asked first, since it will not be asked for SQLite.
+>
+> If you don't enable the dependant question (database driver) but you enable the dependee one (database name), both will be asked anyway.
 
 ### Commands to run after installation
 

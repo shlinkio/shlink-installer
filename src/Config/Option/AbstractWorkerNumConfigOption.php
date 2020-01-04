@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
+use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function sprintf;
@@ -21,15 +22,15 @@ abstract class AbstractWorkerNumConfigOption implements ConfigOptionInterface
         $this->swooleInstalled = $swooleInstalled;
     }
 
-    public function ask(SymfonyStyle $io, array $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         $question = sprintf('%s (Ignore this if you are not serving shlink with swoole)', $this->getQuestionToAsk());
         return $io->ask($question, '16', [$this, 'validatePositiveNumber']);
     }
 
-    public function shouldBeAsked(array $currentOptions): bool
+    public function shouldBeAsked(PathCollection $currentOptions): bool
     {
-        return ($this->swooleInstalled)() && ! isset($currentOptions[self::class]);
+        return ($this->swooleInstalled)() && ! $currentOptions->pathExists($this->getConfigPath());
     }
 
     abstract protected function getQuestionToAsk(): string;

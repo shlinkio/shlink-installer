@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class DatabaseNameConfigOption extends AbstractDatabaseDriverDependentConfigOption
@@ -13,7 +14,7 @@ class DatabaseNameConfigOption extends AbstractDatabaseDriverDependentConfigOpti
         return ['entity_manager', 'connection', 'dbname'];
     }
 
-    public function ask(SymfonyStyle $io, array $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         return $io->ask('Database name', 'shlink');
     }

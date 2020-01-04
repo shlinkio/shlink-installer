@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
+use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class DatabaseUserConfigOption extends AbstractDatabaseDriverDependentConfigOption
@@ -16,7 +17,7 @@ class DatabaseUserConfigOption extends AbstractDatabaseDriverDependentConfigOpti
         return ['entity_manager', 'connection', 'user'];
     }
 
-    public function ask(SymfonyStyle $io, array $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         return $this->askRequired($io, 'username', 'Database username');
     }

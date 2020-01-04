@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Shlinkio\Shlink\Installer\Util\PathCollection;
+
 abstract class BaseConfigOption implements ConfigOptionInterface
 {
-    public function shouldBeAsked(array $currentOptions): bool
+    public function shouldBeAsked(PathCollection $currentOptions): bool
     {
-        return ! isset($currentOptions[static::class]);
+        return ! $currentOptions->pathExists($this->getConfigPath());
     }
 }

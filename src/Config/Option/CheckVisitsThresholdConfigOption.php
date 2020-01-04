@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CheckVisitsThresholdConfigOption extends BaseConfigOption
@@ -13,7 +14,7 @@ class CheckVisitsThresholdConfigOption extends BaseConfigOption
         return ['delete_short_urls', 'check_visits_threshold'];
     }
 
-    public function ask(SymfonyStyle $io, array $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         return $io->confirm(
             'Do you want to enable a safety check which will not allow short URLs to be deleted after receiving '

@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Factory;
 
 use Psr\Container\ContainerInterface;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
-use Shlinkio\Shlink\Installer\Config\ConfigCustomizerManager;
+use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,7 +14,7 @@ use Zend\Config\Writer\PhpArray as PhpArrayConfigWriter;
 
 class InstallApplicationFactory
 {
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): Application
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Application
     {
         $isUpdate = $options !== null && isset($options['isUpdate']) ? (bool) $options['isUpdate'] : false;
         $app = new Application();
@@ -31,7 +31,7 @@ class InstallApplicationFactory
         return new InstallCommand(
             new PhpArrayConfigWriter(),
             $container->get(Filesystem::class),
-            new ConfigCustomizerManager($container, $container->get('config')['config_customizer_plugins']),
+            $container->get(ConfigGenerator::class),
             $container->get(InstallationCommandsRunner::class),
             $isUpdate
         );

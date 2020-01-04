@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Shlinkio\Shlink\Installer\Config\ConfigCustomizerManagerInterface;
-use Shlinkio\Shlink\Installer\Config\Plugin;
+use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
@@ -30,12 +27,6 @@ class InstallCommand extends Command
     use AskUtilsTrait;
 
     public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
-    private const INSTALLATION_PLUGINS = [
-        Plugin\DatabaseConfigCustomizer::class,
-        Plugin\UrlShortenerConfigCustomizer::class,
-        Plugin\RedirectsConfigCustomizer::class,
-        Plugin\ApplicationConfigCustomizer::class,
-    ];
     private const POST_INSTALL_COMMANDS = [
         'db_create_schema',
         'db_migrate',
@@ -47,8 +38,8 @@ class InstallCommand extends Command
     private $configWriter;
     /** @var Filesystem */
     private $filesystem;
-    /** @var ConfigCustomizerManagerInterface */
-    private $configCustomizers;
+    /** @var ConfigGeneratorInterface */
+    private $configGenerator;
     /** @var bool */
     private $isUpdate;
     /** @var InstallationCommandsRunnerInterface */
@@ -60,14 +51,14 @@ class InstallCommand extends Command
     public function __construct(
         WriterInterface $configWriter,
         Filesystem $filesystem,
-        ConfigCustomizerManagerInterface $configCustomizers,
+        ConfigGeneratorInterface $configGenerator,
         InstallationCommandsRunnerInterface $commandsRunner,
         bool $isUpdate
     ) {
         parent::__construct();
         $this->configWriter = $configWriter;
         $this->filesystem = $filesystem;
-        $this->configCustomizers = $configCustomizers;
+        $this->configGenerator = $configGenerator;
         $this->commandsRunner = $commandsRunner;
         $this->isUpdate = $isUpdate;
     }
@@ -79,12 +70,6 @@ class InstallCommand extends Command
             ->setDescription('Installs or updates Shlink');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -112,17 +97,9 @@ class InstallCommand extends Command
             }
         }
 
-        $config = $this->resolveConfig($io);
-
-        // Ask for custom config params
-        foreach (self::INSTALLATION_PLUGINS as $pluginName) {
-            /** @var Plugin\ConfigCustomizerInterface $configCustomizer */
-            $configCustomizer = $this->configCustomizers->get($pluginName);
-            $configCustomizer->process($io, $config);
-        }
-
+        $config = $this->configGenerator->generateConfigInteractively($io, $this->resolvePreviousConfig($io));
         // Generate config params files
-        $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config->getArrayCopy(), false);
+        $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config, false);
         $io->writeln(['<info>Custom configuration properly generated!</info>', '']);
 
         if ($this->execPostInstallCommands($io)) {
@@ -136,12 +113,10 @@ class InstallCommand extends Command
     /**
      * @throws RuntimeException
      */
-    private function resolveConfig(SymfonyStyle $io): CustomizableAppConfig
+    private function resolvePreviousConfig(SymfonyStyle $io): array
     {
-        $config = new CustomizableAppConfig();
-
         if (! $this->isUpdate) {
-            return $config;
+            return [];
         }
 
         // Ask the user if he/she wants to import an older configuration
@@ -150,18 +125,18 @@ class InstallCommand extends Command
             . 'config option that did not exist in previous shlink versions)'
         );
         if (! $importConfig) {
-            return $config;
+            return [];
         }
 
         // Ask the user for the older shlink path
         $keepAsking = true;
         do {
-            $config->setImportedInstallationPath($this->askRequired(
+            $installationPath = $this->askRequired(
                 $io,
                 'previous installation path',
                 'Previous shlink installation path from which to import config'
-            ));
-            $configFile = sprintf('%s/%s', $config->getImportedInstallationPath(), self::GENERATED_CONFIG_PATH);
+            );
+            $configFile = sprintf('%s/%s', $installationPath, self::GENERATED_CONFIG_PATH);
             $configExists = $this->filesystem->exists($configFile);
 
             if (! $configExists) {
@@ -173,12 +148,11 @@ class InstallCommand extends Command
 
         // If after some retries the user has chosen not to test another path, return
         if (! $configExists) {
-            return $config;
+            return [];
         }
 
         // Read the config file
-        $config->exchangeArray(include $configFile);
-        return $config;
+        return include $configFile;
     }
 
     private function execPostInstallCommands(SymfonyStyle $io): bool

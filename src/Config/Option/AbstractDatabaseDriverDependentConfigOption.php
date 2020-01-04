@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Shlinkio\Shlink\Installer\Util\PathCollection;
+
 abstract class AbstractDatabaseDriverDependentConfigOption implements
     ConfigOptionInterface,
     DependentConfigOptionInterface
@@ -13,9 +15,12 @@ abstract class AbstractDatabaseDriverDependentConfigOption implements
         return DatabaseDriverConfigOption::class;
     }
 
-    public function shouldBeAsked(array $currentOptions): bool
+    public function shouldBeAsked(PathCollection $currentOptions): bool
     {
-        $dbDriver = $currentOptions[DatabaseDriverConfigOption::class] ?? null;
-        return $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER && ! isset($currentOptions[static::class]);
+        // FIXME We should not instantiate other plugin here
+        $dbDriver = $currentOptions->getValueInPath((new DatabaseDriverConfigOption())->getConfigPath());
+        return $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER && ! $currentOptions->pathExists(
+            $this->getConfigPath()
+        );
     }
 }

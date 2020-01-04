@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_keys;
@@ -23,7 +24,7 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         return ['entity_manager', 'connection', 'driver'];
     }
 
-    public function ask(SymfonyStyle $io, array $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         $databases = array_keys(self::DATABASE_DRIVERS);
         $dbType = $io->choice('Select database type', $databases, $databases[0]);
