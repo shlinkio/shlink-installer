@@ -75,18 +75,17 @@ class ConfigGenerator implements ConfigGeneratorInterface
 
         return map(
             $this->configOptionsGroups,
-            function (array $configOptions) use ($dependentPluginSorter): array {
+            fn (array $configOptions) => array_combine(
+                $configOptions,
                 // Resolve all plugins for every config option, and then sort them
-                return array_combine(
-                    $configOptions,
-                    sort(
-                        map($configOptions, function (string $configOption): ConfigOptionInterface {
-                            return $this->configOptionsManager->get($configOption);
-                        }),
-                        $dependentPluginSorter
-                    )
-                );
-            }
+                sort(
+                    map(
+                        $configOptions,
+                        fn (string $configOption) => $this->configOptionsManager->get($configOption)
+                    ),
+                    $dependentPluginSorter
+                )
+            )
         );
     }
 }

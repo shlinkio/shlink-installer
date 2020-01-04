@@ -12,8 +12,6 @@ class SwooleInstalledFactory
 
     public function __invoke(): callable
     {
-        return static function (): bool {
-            return extension_loaded('swoole');
-        };
+        return fn (): bool => extension_loaded('swoole');
     }
 }

@@ -44,13 +44,11 @@ class InstallationCommandsRunnerTest extends TestCase
 
     private function buildCommands(array $names): array
     {
-        return array_combine($names, map($names, function (string $name) {
-            return [
-                'command' => sprintf('%s something', $name),
-                'initMessage' => sprintf('%s_init', $name),
-                'errorMessage' => sprintf('%s_error', $name),
-            ];
-        }));
+        return array_combine($names, map($names, fn (string $name) => [
+            'command' => sprintf('%s something', $name),
+            'initMessage' => sprintf('%s_init', $name),
+            'errorMessage' => sprintf('%s_error', $name),
+        ]));
     }
 
     /** @test */
@@ -121,9 +119,7 @@ class InstallationCommandsRunnerTest extends TestCase
 
     public function provideCommandNames(): array
     {
-        return map(self::COMMAND_NAMES, function (string $name) {
-            return [$name];
-        });
+        return map(self::COMMAND_NAMES, fn (string $name) => [$name]);
     }
 
     private function createProcessMock(bool $isSuccessful): ObjectProphecy

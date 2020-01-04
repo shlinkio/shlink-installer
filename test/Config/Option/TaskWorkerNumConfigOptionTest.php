@@ -18,9 +18,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     public function setUp(): void
     {
         $this->swooleInstalled = true;
-        $this->configOption = new TaskWorkerNumConfigOption(function () {
-            return $this->swooleInstalled;
-        });
+        $this->configOption = new TaskWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
     /** @test */

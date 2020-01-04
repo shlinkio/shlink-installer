@@ -18,9 +18,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
     public function setUp(): void
     {
         $this->swooleInstalled = true;
-        $this->configOption = new VisitsWebhooksConfigOption(function () {
-            return $this->swooleInstalled;
-        });
+        $this->configOption = new VisitsWebhooksConfigOption(fn () => $this->swooleInstalled);
     }
 
     /** @test */

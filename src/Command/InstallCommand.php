@@ -168,8 +168,6 @@ class InstallCommand extends Command
     {
         $commands = $this->isUpdate ? tail(self::POST_INSTALL_COMMANDS) : self::POST_INSTALL_COMMANDS;
 
-        return every($commands, function (string $commandName) use ($io) {
-            return $this->commandsRunner->execPhpCommand($commandName, $io);
-        });
+        return every($commands, fn (string $commandName) => $this->commandsRunner->execPhpCommand($commandName, $io));
     }
 }

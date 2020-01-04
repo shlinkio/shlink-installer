@@ -41,9 +41,11 @@ class InstallApplicationFactoryTest extends TestCase
         ]]), '');
 
         /** @var Command[] $commands */
-        $commands = array_filter($app->all(), static function (string $key) {
-            return ! contains(['list', 'help'], $key); // Remove list and help commands
-        }, ARRAY_FILTER_USE_KEY);
+        $commands = array_filter(
+            $app->all(),
+            fn (string $key) => ! contains(['list', 'help'], $key), // Remove list and help commands
+            ARRAY_FILTER_USE_KEY
+        );
 
         $this->assertCount(1, $commands);
         $this->assertEquals('shlink:install', array_shift($commands)->getName());

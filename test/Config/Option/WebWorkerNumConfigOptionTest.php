@@ -18,9 +18,7 @@ class WebWorkerNumConfigOptionTest extends TestCase
     public function setUp(): void
     {
         $this->swooleInstalled = true;
-        $this->configOption = new WebWorkerNumConfigOption(function () {
-            return $this->swooleInstalled;
-        });
+        $this->configOption = new WebWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
     /** @test */
