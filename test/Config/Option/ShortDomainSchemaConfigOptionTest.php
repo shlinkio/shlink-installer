@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Shlinkio\Shlink\Installer\Config\Option\ShortDomainSchemaConfigOption;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\StyleInterface;
