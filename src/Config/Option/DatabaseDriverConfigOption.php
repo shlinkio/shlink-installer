@@ -11,10 +11,11 @@ use function array_keys;
 
 class DatabaseDriverConfigOption extends BaseConfigOption
 {
+    public const MYSQL_DRIVER = 'pdo_mysql';
     public const SQLITE_DRIVER = 'pdo_sqlite';
     private const DATABASE_DRIVERS = [
-        'MySQL' => 'pdo_mysql',
-        'MariaDB' => 'pdo_mysql',
+        'MySQL' => self::MYSQL_DRIVER,
+        'MariaDB' => self::MYSQL_DRIVER,
         'PostgreSQL' => 'pdo_pgsql',
         'SQLite' => self::SQLITE_DRIVER,
     ];

@@ -45,6 +45,8 @@ return [
                 Config\Option\DatabasePortConfigOption::class,
                 Config\Option\DatabaseUserConfigOption::class,
                 Config\Option\DatabasePasswordConfigOption::class,
+                Config\Option\DatabaseSqlitePathConfigOption::class,
+                Config\Option\DatabaseMySqlOptionsConfigOption::class,
             ],
             'URL SHORTENER' => [
                 Config\Option\ShortDomainHostConfigOption::class,
@@ -77,6 +79,8 @@ return [
             Config\Option\DatabasePortConfigOption::class => InvokableFactory::class,
             Config\Option\DatabaseUserConfigOption::class => InvokableFactory::class,
             Config\Option\DatabasePasswordConfigOption::class => InvokableFactory::class,
+            Config\Option\DatabaseSqlitePathConfigOption::class => InvokableFactory::class,
+            Config\Option\DatabaseMySqlOptionsConfigOption::class => InvokableFactory::class,
             Config\Option\DisableTrackParamConfigOption::class => InvokableFactory::class,
             Config\Option\BaseUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\InvalidShortUrlRedirectConfigOption::class => InvokableFactory::class,

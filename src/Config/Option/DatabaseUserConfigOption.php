@@ -8,7 +8,7 @@ use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class DatabaseUserConfigOption extends AbstractDatabaseDriverDependentConfigOption
+class DatabaseUserConfigOption extends AbstractNonSqliteDependentConfigOption
 {
     use AskUtilsTrait;
 

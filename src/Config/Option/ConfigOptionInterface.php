@@ -11,6 +11,7 @@ interface ConfigOptionInterface
 {
     public function getConfigPath(): array;
 
+    // FIXME Add ?ConfigOptionInterface $dependentOption = null
     public function shouldBeAsked(PathCollection $currentOptions): bool;
 
     /**

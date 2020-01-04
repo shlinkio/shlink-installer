@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 
-abstract class AbstractDatabaseDriverDependentConfigOption implements
+abstract class AbstractNonSqliteDependentConfigOption implements
     ConfigOptionInterface,
     DependentConfigOptionInterface
 {

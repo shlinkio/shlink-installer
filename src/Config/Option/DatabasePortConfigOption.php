@@ -7,7 +7,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class DatabasePortConfigOption extends AbstractDatabaseDriverDependentConfigOption
+class DatabasePortConfigOption extends AbstractNonSqliteDependentConfigOption
 {
     public function getConfigPath(): array
     {
@@ -24,6 +24,6 @@ class DatabasePortConfigOption extends AbstractDatabaseDriverDependentConfigOpti
 
     private function getDefaultDbPort(string $driver): string
     {
-        return $driver === 'pdo_mysql' ? '3306' : '5432';
+        return $driver === DatabaseDriverConfigOption::MYSQL_DRIVER ? '3306' : '5432';
     }
 }
