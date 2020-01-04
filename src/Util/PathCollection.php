@@ -11,8 +11,7 @@ use function is_array;
 
 final class PathCollection
 {
-    /** @var array */
-    private $array;
+    private array $array;
 
     public function __construct(array $array = [])
     {

@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseHostConfigOptionTest extends TestCase
 {
-    /** @var DatabaseHostConfigOption */
-    private $configOption;
+    private DatabaseHostConfigOption $configOption;
 
     public function setUp(): void
     {

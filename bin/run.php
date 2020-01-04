@@ -11,10 +11,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 $container = include __DIR__ . '/../config/container.php';
 
 return [
-    static function () use ($container) {
-        $container->build(Application::class, ['isUpdate' => false])->run();
-    },
-    static function () use ($container) {
-        $container->build(Application::class, ['isUpdate' => true])->run();
-    },
+    fn () => $container->build(Application::class, ['isUpdate' => false])->run(),
+    fn () => $container->build(Application::class, ['isUpdate' => true])->run(),
 ];

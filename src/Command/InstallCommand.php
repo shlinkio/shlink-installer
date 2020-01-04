@@ -35,16 +35,11 @@ class InstallCommand extends Command
     ];
     private const SQLITE_DB_PATH = 'data/database.sqlite';
 
-    /** @var WriterInterface */
-    private $configWriter;
-    /** @var Filesystem */
-    private $filesystem;
-    /** @var ConfigGeneratorInterface */
-    private $configGenerator;
-    /** @var bool */
-    private $isUpdate;
-    /** @var InstallationCommandsRunnerInterface */
-    private $commandsRunner;
+    private WriterInterface $configWriter;
+    private Filesystem $filesystem;
+    private ConfigGeneratorInterface $configGenerator;
+    private bool $isUpdate;
+    private InstallationCommandsRunnerInterface $commandsRunner;
 
     /**
      * @throws LogicException
@@ -173,8 +168,6 @@ class InstallCommand extends Command
     {
         $commands = $this->isUpdate ? tail(self::POST_INSTALL_COMMANDS) : self::POST_INSTALL_COMMANDS;
 
-        return every($commands, function (string $commandName) use ($io) {
-            return $this->commandsRunner->execPhpCommand($commandName, $io);
-        });
+        return every($commands, fn (string $commandName) => $this->commandsRunner->execPhpCommand($commandName, $io));
     }
 }

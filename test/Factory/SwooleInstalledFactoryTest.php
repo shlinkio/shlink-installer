@@ -9,8 +9,7 @@ use Shlinkio\Shlink\Installer\Factory\SwooleInstalledFactory;
 
 class SwooleInstalledFactoryTest extends TestCase
 {
-    /** @var SwooleInstalledFactory */
-    private $factory;
+    private SwooleInstalledFactory $factory;
 
     public function setUp(): void
     {

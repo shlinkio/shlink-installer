@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class Regular404RedirectConfigOptionTest extends TestCase
 {
-    /** @var Regular404RedirectConfigOption */
-    private $configOption;
+    private Regular404RedirectConfigOption $configOption;
 
     public function setUp(): void
     {

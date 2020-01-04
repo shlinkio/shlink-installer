@@ -13,8 +13,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class VisitsThresholdConfigOptionTest extends TestCase
 {
-    /** @var VisitsThresholdConfigOption */
-    private $configOption;
+    private VisitsThresholdConfigOption $configOption;
 
     public function setUp(): void
     {

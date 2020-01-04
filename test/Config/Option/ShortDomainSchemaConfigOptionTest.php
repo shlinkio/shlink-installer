@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainSchemaConfigOptionTest extends TestCase
 {
-    /** @var ShortDomainSchemaConfigOption */
-    private $configOption;
+    private ShortDomainSchemaConfigOption $configOption;
 
     public function setUp(): void
     {

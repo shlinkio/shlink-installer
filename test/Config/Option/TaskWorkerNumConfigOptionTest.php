@@ -12,17 +12,13 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class TaskWorkerNumConfigOptionTest extends TestCase
 {
-    /** @var TaskWorkerNumConfigOption */
-    private $configOption;
-    /** @var bool */
-    private $swooleInstalled;
+    private TaskWorkerNumConfigOption $configOption;
+    private bool $swooleInstalled;
 
     public function setUp(): void
     {
         $this->swooleInstalled = true;
-        $this->configOption = new TaskWorkerNumConfigOption(function () {
-            return $this->swooleInstalled;
-        });
+        $this->configOption = new TaskWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
     /** @test */

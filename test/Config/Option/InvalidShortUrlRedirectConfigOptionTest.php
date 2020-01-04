@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class InvalidShortUrlRedirectConfigOptionTest extends TestCase
 {
-    /** @var InvalidShortUrlRedirectConfigOption */
-    private $configOption;
+    private InvalidShortUrlRedirectConfigOption $configOption;
 
     public function setUp(): void
     {

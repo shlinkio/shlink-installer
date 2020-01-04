@@ -9,8 +9,7 @@ use Shlinkio\Shlink\Installer\Factory\ProcessHelperFactory;
 
 class ProcessHelperFactoryTest extends TestCase
 {
-    /** @var ProcessHelperFactory */
-    private $factory;
+    private ProcessHelperFactory $factory;
 
     public function setUp(): void
     {

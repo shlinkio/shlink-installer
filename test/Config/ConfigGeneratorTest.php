@@ -20,12 +20,9 @@ use function get_class;
 
 class ConfigGeneratorTest extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $configOptionsManager;
-    /** @var ObjectProphecy */
-    private $plugin;
-    /** @var ObjectProphecy */
-    private $io;
+    private ObjectProphecy $configOptionsManager;
+    private ObjectProphecy $plugin;
+    private ObjectProphecy $io;
 
     public function setUp(): void
     {

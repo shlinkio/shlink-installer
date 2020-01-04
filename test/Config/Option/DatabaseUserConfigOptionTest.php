@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseUserConfigOptionTest extends TestCase
 {
-    /** @var DatabaseUserConfigOption */
-    private $configOption;
+    private DatabaseUserConfigOption $configOption;
 
     public function setUp(): void
     {

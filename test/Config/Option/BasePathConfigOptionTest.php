@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class BasePathConfigOptionTest extends TestCase
 {
-    /** @var BasePathConfigOption */
-    private $configOption;
+    private BasePathConfigOption $configOption;
 
     public function setUp(): void
     {

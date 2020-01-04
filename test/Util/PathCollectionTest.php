@@ -9,8 +9,7 @@ use Shlinkio\Shlink\Installer\Util\PathCollection;
 
 class PathCollectionTest extends TestCase
 {
-    /** @var PathCollection */
-    private $collection;
+    private PathCollection $collection;
 
     public function setUp(): void
     {
@@ -31,7 +30,7 @@ class PathCollectionTest extends TestCase
      * @test
      * @dataProvider providePaths
      */
-    public function pathExistsReturnsExpectedValue(array $path, bool $expected)
+    public function pathExistsReturnsExpectedValue(array $path, bool $expected): void
     {
         $this->assertEquals($expected, $this->collection->pathExists($path));
     }
@@ -52,7 +51,7 @@ class PathCollectionTest extends TestCase
      * @test
      * @dataProvider providePathsWithValue
      */
-    public function getValueInPathReturnsExpectedValue(array $path, $expected)
+    public function getValueInPathReturnsExpectedValue(array $path, $expected): void
     {
         $this->assertEquals($expected, $this->collection->getValueInPath($path));
     }

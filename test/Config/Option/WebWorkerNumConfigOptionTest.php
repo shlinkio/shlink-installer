@@ -12,17 +12,13 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class WebWorkerNumConfigOptionTest extends TestCase
 {
-    /** @var WebWorkerNumConfigOption */
-    private $configOption;
-    /** @var bool */
-    private $swooleInstalled;
+    private WebWorkerNumConfigOption $configOption;
+    private bool $swooleInstalled;
 
     public function setUp(): void
     {
         $this->swooleInstalled = true;
-        $this->configOption = new WebWorkerNumConfigOption(function () {
-            return $this->swooleInstalled;
-        });
+        $this->configOption = new WebWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
     /** @test */

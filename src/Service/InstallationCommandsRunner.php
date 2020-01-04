@@ -16,12 +16,9 @@ use function sprintf;
 
 class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
 {
-    /** @var ProcessHelper */
-    private $processHelper;
-    /** @var array */
-    private $commandsMapping;
-    /** @var string */
-    private $phpBinary;
+    private ProcessHelper $processHelper;
+    private array $commandsMapping;
+    private string $phpBinary;
 
     public function __construct(ProcessHelper $processHelper, PhpExecutableFinder $phpFinder, array $commandsMapping)
     {

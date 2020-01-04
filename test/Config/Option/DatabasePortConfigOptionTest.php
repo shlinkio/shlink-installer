@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabasePortConfigOptionTest extends TestCase
 {
-    /** @var DatabasePortConfigOption */
-    private $configOption;
+    private DatabasePortConfigOption $configOption;
 
     public function setUp(): void
     {

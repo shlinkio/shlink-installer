@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabasePasswordConfigOptionTest extends TestCase
 {
-    /** @var DatabasePasswordConfigOption */
-    private $configOption;
+    private DatabasePasswordConfigOption $configOption;
 
     public function setUp(): void
     {

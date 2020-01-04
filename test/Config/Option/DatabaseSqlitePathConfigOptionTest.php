@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseSqlitePathConfigOptionTest extends TestCase
 {
-    /** @var DatabaseSqlitePathConfigOption */
-    private $configOption;
+    private DatabaseSqlitePathConfigOption $configOption;
 
     public function setUp(): void
     {
