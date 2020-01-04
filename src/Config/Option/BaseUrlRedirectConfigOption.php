@@ -17,7 +17,7 @@ class BaseUrlRedirectConfigOption extends BaseConfigOption
         return ['not_found_redirects', 'base_url'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         return $io->ask(
             'Custom URL to redirect to when a user hits Shlink\'s base URL (If no value is provided, the '

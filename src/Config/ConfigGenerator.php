@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config;
 
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
-use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -46,11 +45,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
 
                 /** @var ConfigOptionInterface $plugin */
                 $plugin = $this->configOptionsManager->get($configOption);
-                $dependantPlugin = $plugin instanceof DependentConfigOptionInterface
-                    ? $this->configOptionsManager->get($plugin->getDependentOption())
-                    : null;
-
-                if (! $plugin->shouldBeAsked($answers, $dependantPlugin)) {
+                if (! $plugin->shouldBeAsked($answers)) {
                     continue;
                 }
 
@@ -60,7 +55,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
                     $io->title($title);
                 }
 
-                $answer = $plugin->ask($io, $answers, $dependantPlugin);
+                $answer = $plugin->ask($io, $answers);
                 $answers->setValueInPath($answer, $plugin->getConfigPath());
             }
         }

@@ -20,7 +20,7 @@ class VisitsWebhooksConfigOption implements ConfigOptionInterface
         $this->swooleInstalled = $swooleInstalled;
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions): array
     {
         return $io->ask(
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
@@ -35,7 +35,7 @@ class VisitsWebhooksConfigOption implements ConfigOptionInterface
         return ['url_shortener', 'visits_webhooks'];
     }
 
-    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption): bool
+    public function shouldBeAsked(PathCollection $currentOptions): bool
     {
         return ($this->swooleInstalled)() && ! $currentOptions->pathExists($this->getConfigPath());
     }

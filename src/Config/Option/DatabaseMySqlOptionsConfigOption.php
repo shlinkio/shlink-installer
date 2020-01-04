@@ -14,11 +14,8 @@ class DatabaseMySqlOptionsConfigOption extends AbstractDriverDependentConfigOpti
         return ['entity_manager', 'connection', 'driverOptions'];
     }
 
-    public function ask(
-        SymfonyStyle $io,
-        PathCollection $currentOptions,
-        ?ConfigOptionInterface $dependantOption
-    ): array {
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions): array
+    {
         return [
             // PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
             1002 => 'SET NAMES utf8',

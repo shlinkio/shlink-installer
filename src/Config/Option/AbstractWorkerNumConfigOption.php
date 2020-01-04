@@ -22,13 +22,13 @@ abstract class AbstractWorkerNumConfigOption implements ConfigOptionInterface
         $this->swooleInstalled = $swooleInstalled;
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependantOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         $question = sprintf('%s (Ignore this if you are not serving shlink with swoole)', $this->getQuestionToAsk());
         return $io->ask($question, '16', [$this, 'validatePositiveNumber']);
     }
 
-    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependantOption): bool
+    public function shouldBeAsked(PathCollection $currentOptions): bool
     {
         return ($this->swooleInstalled)() && ! $currentOptions->pathExists($this->getConfigPath());
     }

@@ -17,7 +17,7 @@ class InvalidShortUrlRedirectConfigOption extends BaseConfigOption
         return ['not_found_redirects', 'invalid_short_url'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions): ?string
     {
         return $io->ask(
             'Custom URL to redirect to when a user hits an invalid short URL (If no value is provided, the '

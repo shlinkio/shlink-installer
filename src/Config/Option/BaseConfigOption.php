@@ -8,7 +8,7 @@ use Shlinkio\Shlink\Installer\Util\PathCollection;
 
 abstract class BaseConfigOption implements ConfigOptionInterface
 {
-    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependantOption): bool
+    public function shouldBeAsked(PathCollection $currentOptions): bool
     {
         return ! $currentOptions->pathExists($this->getConfigPath());
     }

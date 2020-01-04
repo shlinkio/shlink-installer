@@ -11,13 +11,10 @@ interface ConfigOptionInterface
 {
     public function getConfigPath(): array;
 
-    // FIXME Instead of having to pass optional ConfigOptions to every method, statically expose paths as public
-    //       constants on those options that need the static access, together with the getConfigPath method
-
-    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption): bool;
+    public function shouldBeAsked(PathCollection $currentOptions): bool;
 
     /**
      * @return mixed
      */
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption);
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions);
 }

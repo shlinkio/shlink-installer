@@ -14,11 +14,8 @@ class DatabaseSqlitePathConfigOption extends AbstractDriverDependentConfigOption
         return ['entity_manager', 'connection', 'path'];
     }
 
-    public function ask(
-        SymfonyStyle $io,
-        PathCollection $currentOptions,
-        ?ConfigOptionInterface $dependantOption
-    ): string {
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions): string
+    {
         return 'data/database.sqlite';
     }
 

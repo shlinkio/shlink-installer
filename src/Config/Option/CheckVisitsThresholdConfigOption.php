@@ -9,12 +9,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CheckVisitsThresholdConfigOption extends BaseConfigOption
 {
+    public const CONFIG_PATH = ['delete_short_urls', 'check_visits_threshold'];
+
     public function getConfigPath(): array
     {
-        return ['delete_short_urls', 'check_visits_threshold'];
+        return self::CONFIG_PATH;
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         return $io->confirm(
             'Do you want to enable a safety check which will not allow short URLs to be deleted after receiving '

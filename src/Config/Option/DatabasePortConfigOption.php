@@ -14,10 +14,10 @@ class DatabasePortConfigOption extends AbstractNonSqliteDependentConfigOption
         return ['entity_manager', 'connection', 'port'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions): string
     {
         return $io->ask('Database port', $this->getDefaultDbPort($currentOptions->getValueInPath(
-            $dependentOption !== null ? $dependentOption->getConfigPath() : DatabaseDriverConfigOption::MYSQL_DRIVER
+            DatabaseDriverConfigOption::CONFIG_PATH
         )));
     }
 

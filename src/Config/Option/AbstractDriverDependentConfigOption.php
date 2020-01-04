@@ -15,15 +15,10 @@ abstract class AbstractDriverDependentConfigOption implements
         return DatabaseDriverConfigOption::class;
     }
 
-    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependantOption): bool
+    public function shouldBeAsked(PathCollection $currentOptions): bool
     {
-        $currentOptionExists = $currentOptions->pathExists($this->getConfigPath());
-        if ($dependantOption === null) {
-            return ! $currentOptionExists;
-        }
-
-        $dbDriver = $currentOptions->getValueInPath($dependantOption->getConfigPath());
-        return $this->shouldBeAskedForDbDriver($dbDriver) && ! $currentOptionExists;
+        $dbDriver = $currentOptions->getValueInPath(DatabaseDriverConfigOption::CONFIG_PATH);
+        return $this->shouldBeAskedForDbDriver($dbDriver) && ! $currentOptions->pathExists($this->getConfigPath());
     }
 
     abstract protected function shouldBeAskedForDbDriver(string $dbDriver): bool;

@@ -26,7 +26,7 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         return self::CONFIG_PATH;
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
     {
         $databases = array_keys(self::DATABASE_DRIVERS);
         $dbType = $io->choice('Select database type', $databases, $databases[0]);

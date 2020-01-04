@@ -17,7 +17,7 @@ class DatabaseUserConfigOption extends AbstractNonSqliteDependentConfigOption
         return ['entity_manager', 'connection', 'user'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions): string
     {
         return $this->askRequired($io, 'username', 'Database username');
     }

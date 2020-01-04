@@ -14,7 +14,7 @@ class ValidateUrlConfigOption extends BaseConfigOption
         return ['url_shortener', 'validate_url'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions): bool
     {
         return $io->confirm('Do you want to validate long urls by 200 HTTP status code on response?');
     }
