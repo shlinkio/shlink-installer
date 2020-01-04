@@ -23,12 +23,9 @@ class InstallationCommandsRunnerTest extends TestCase
 {
     private const COMMAND_NAMES = ['foo', 'bar'];
 
-    /** @var InstallationCommandsRunner */
-    private $commandsRunner;
-    /** @var ObjectProphecy */
-    private $processHelper;
-    /** @var ObjectProphecy */
-    private $io;
+    private InstallationCommandsRunner $commandsRunner;
+    private ObjectProphecy $processHelper;
+    private ObjectProphecy $io;
 
     public function setUp(): void
     {

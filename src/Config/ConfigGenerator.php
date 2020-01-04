@@ -17,12 +17,9 @@ use function get_class;
 
 class ConfigGenerator implements ConfigGeneratorInterface
 {
-    /** @var ConfigOptionsManagerInterface */
-    private $configOptionsManager;
-    /** @var array */
-    private $configOptionsGroups;
-    /** @var array|null */
-    private $enabledOptions;
+    private ConfigOptionsManagerInterface $configOptionsManager;
+    private array $configOptionsGroups;
+    private ?array $enabledOptions;
 
     public function __construct(
         ConfigOptionsManagerInterface $configOptionsManager,

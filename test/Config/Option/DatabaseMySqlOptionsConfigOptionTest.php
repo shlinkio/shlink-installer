@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseMySqlOptionsConfigOptionTest extends TestCase
 {
-    /** @var DatabaseMySqlOptionsConfigOption */
-    private $configOption;
+    private DatabaseMySqlOptionsConfigOption $configOption;
 
     public function setUp(): void
     {

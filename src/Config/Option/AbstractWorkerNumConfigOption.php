@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Closure;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -14,12 +15,11 @@ abstract class AbstractWorkerNumConfigOption implements ConfigOptionInterface
 {
     use ConfigOptionsValidatorsTrait;
 
-    /** @var callable */
-    private $swooleInstalled;
+    private Closure $swooleInstalled;
 
     public function __construct(callable $swooleInstalled)
     {
-        $this->swooleInstalled = $swooleInstalled;
+        $this->swooleInstalled = Closure::fromCallable($swooleInstalled);
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int

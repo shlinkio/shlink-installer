@@ -13,8 +13,7 @@ use Zend\ServiceManager\ServiceManager;
 
 class InstallationCommandsRunnerFactoryTest extends TestCase
 {
-    /** @var Service\InstallationCommandsRunnerFactory */
-    private $factory;
+    private Service\InstallationCommandsRunnerFactory $factory;
 
     public function setUp(): void
     {

@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class CheckVisitsThresholdConfigOptionTest extends TestCase
 {
-    /** @var CheckVisitsThresholdConfigOption */
-    private $configOption;
+    private CheckVisitsThresholdConfigOption $configOption;
 
     public function setUp(): void
     {

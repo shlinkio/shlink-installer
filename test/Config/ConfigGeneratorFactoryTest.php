@@ -12,10 +12,8 @@ use Shlinkio\Shlink\Installer\Config\ConfigGeneratorFactory;
 
 class ConfigGeneratorFactoryTest extends TestCase
 {
-    /** @var ConfigGeneratorFactory */
-    private $factory;
-    /** @var ObjectProphecy */
-    private $container;
+    private ConfigGeneratorFactory $factory;
+    private ObjectProphecy $container;
 
     public function setUp(): void
     {

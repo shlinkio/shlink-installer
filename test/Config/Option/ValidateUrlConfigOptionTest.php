@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class ValidateUrlConfigOptionTest extends TestCase
 {
-    /** @var ValidateUrlConfigOption */
-    private $configOption;
+    private ValidateUrlConfigOption $configOption;
 
     public function setUp(): void
     {

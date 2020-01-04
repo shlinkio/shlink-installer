@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseNameConfigOptionTest extends TestCase
 {
-    /** @var DatabaseNameConfigOption */
-    private $configOption;
+    private DatabaseNameConfigOption $configOption;
 
     public function setUp(): void
     {

@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainHostConfigOptionTest extends TestCase
 {
-    /** @var ShortDomainHostConfigOption */
-    private $configOption;
+    private ShortDomainHostConfigOption $configOption;
 
     public function setUp(): void
     {

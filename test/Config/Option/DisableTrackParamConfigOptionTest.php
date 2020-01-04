@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableTrackParamConfigOptionTest extends TestCase
 {
-    /** @var DisableTrackParamConfigOption */
-    private $configOption;
+    private DisableTrackParamConfigOption $configOption;
 
     public function setUp(): void
     {

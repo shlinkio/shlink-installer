@@ -20,8 +20,7 @@ use const ARRAY_FILTER_USE_KEY;
 
 class InstallApplicationFactoryTest extends TestCase
 {
-    /** @var InstallApplicationFactory */
-    private $factory;
+    private InstallApplicationFactory $factory;
 
     public function setUp(): void
     {

@@ -35,16 +35,11 @@ class InstallCommand extends Command
     ];
     private const SQLITE_DB_PATH = 'data/database.sqlite';
 
-    /** @var WriterInterface */
-    private $configWriter;
-    /** @var Filesystem */
-    private $filesystem;
-    /** @var ConfigGeneratorInterface */
-    private $configGenerator;
-    /** @var bool */
-    private $isUpdate;
-    /** @var InstallationCommandsRunnerInterface */
-    private $commandsRunner;
+    private WriterInterface $configWriter;
+    private Filesystem $filesystem;
+    private ConfigGeneratorInterface $configGenerator;
+    private bool $isUpdate;
+    private InstallationCommandsRunnerInterface $commandsRunner;
 
     /**
      * @throws LogicException

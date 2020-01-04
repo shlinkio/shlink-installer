@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class BaseUrlRedirectConfigOptionTest extends TestCase
 {
-    /** @var BaseUrlRedirectConfigOption */
-    private $configOption;
+    private BaseUrlRedirectConfigOption $configOption;
 
     public function setUp(): void
     {

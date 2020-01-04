@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseDriverConfigOptionTest extends TestCase
 {
-    /** @var DatabaseDriverConfigOption */
-    private $configOption;
+    private DatabaseDriverConfigOption $configOption;
 
     public function setUp(): void
     {

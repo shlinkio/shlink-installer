@@ -12,10 +12,8 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class VisitsWebhooksConfigOptionTest extends TestCase
 {
-    /** @var VisitsWebhooksConfigOption */
-    private $configOption;
-    /** @var bool */
-    private $swooleInstalled;
+    private VisitsWebhooksConfigOption $configOption;
+    private bool $swooleInstalled;
 
     public function setUp(): void
     {

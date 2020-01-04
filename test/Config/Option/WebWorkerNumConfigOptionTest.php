@@ -12,10 +12,8 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class WebWorkerNumConfigOptionTest extends TestCase
 {
-    /** @var WebWorkerNumConfigOption */
-    private $configOption;
-    /** @var bool */
-    private $swooleInstalled;
+    private WebWorkerNumConfigOption $configOption;
+    private bool $swooleInstalled;
 
     public function setUp(): void
     {
