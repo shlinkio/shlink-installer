@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
+use Laminas\Config\Writer\WriterInterface;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
@@ -16,7 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Zend\Config\Writer\WriterInterface;
 
 use function Functional\every;
 use function Functional\tail;

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Factory;
 
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config;
 use Shlinkio\Shlink\Installer\Factory\InstallApplicationFactory;
 use Shlinkio\Shlink\Installer\Service;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
-use Zend\ServiceManager\ServiceManager;
 
 use function array_filter;
 use function array_shift;

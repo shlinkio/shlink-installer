@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config;
 
-use Zend\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractPluginManager;
 
 class ConfigOptionsManager extends AbstractPluginManager implements ConfigOptionsManagerInterface
 {

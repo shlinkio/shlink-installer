@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use Shlinkio\Shlink\Installer\Service;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Zend\ServiceManager\ServiceManager;
 
 class InstallationCommandsRunnerFactoryTest extends TestCase
 {
