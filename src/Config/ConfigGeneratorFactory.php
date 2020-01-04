@@ -11,7 +11,7 @@ class ConfigGeneratorFactory
     public function __invoke(ContainerInterface $container): ConfigGenerator
     {
         $config = $container->get('config');
-        $configOptions = $config['config_options'];
+        $configOptions = $config['config_options'] ?? [];
         $enabledOptions = $config['installer']['enabled_options'] ?? null;
         $configOptionsManager = new ConfigOptionsManager($container, $configOptions);
 

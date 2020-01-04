@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ShlinkioTest\Shlink\Installer\Factory;
+
+use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Installer\Factory\SwooleInstalledFactory;
+
+class SwooleInstalledFactoryTest extends TestCase
+{
+    /** @var SwooleInstalledFactory */
+    private $factory;
+
+    public function setUp(): void
+    {
+        $this->factory = new SwooleInstalledFactory();
+    }
+
+    /** @test */
+    public function properlyCreatesHelperFunction(): void
+    {
+        $func = ($this->factory)();
+
+        $this->assertFalse($func());
+    }
+}
