@@ -19,10 +19,8 @@ return [
             PhpExecutableFinder::class => InvokableFactory::class,
             Console\Helper\ProcessHelper::class => Factory\ProcessHelperFactory::class,
 
-            Util\StringGenerator::class => InvokableFactory::class,
             Service\InstallationCommandsRunner::class => Service\InstallationCommandsRunnerFactory::class,
             Config\ConfigGenerator::class => Config\ConfigGeneratorFactory::class,
-            Config\Util\ExpectedConfigResolver::class => Config\Util\ExpectedConfigResolverFactory::class,
             Factory\SwooleInstalledFactory::SWOOLE_INSTALLED => Factory\SwooleInstalledFactory::class,
         ],
     ],
