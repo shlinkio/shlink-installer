@@ -15,12 +15,14 @@ abstract class AbstractNonSqliteDependentConfigOption implements
         return DatabaseDriverConfigOption::class;
     }
 
-    public function shouldBeAsked(PathCollection $currentOptions): bool
+    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependantOption): bool
     {
-        // FIXME We should not instantiate other plugin here
-        $dbDriver = $currentOptions->getValueInPath((new DatabaseDriverConfigOption())->getConfigPath());
-        return $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER && ! $currentOptions->pathExists(
-            $this->getConfigPath()
-        );
+        $currentOptionExists = $currentOptions->pathExists($this->getConfigPath());
+        if ($dependantOption === null) {
+            return ! $currentOptionExists;
+        }
+
+        $dbDriver = $currentOptions->getValueInPath($dependantOption->getConfigPath());
+        return $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER && ! $currentOptionExists;
     }
 }

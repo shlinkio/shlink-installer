@@ -14,7 +14,7 @@ class DatabaseHostConfigOption extends AbstractNonSqliteDependentConfigOption
         return ['entity_manager', 'connection', 'host'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->ask('Database host', 'localhost');
     }

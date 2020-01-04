@@ -16,17 +16,22 @@ class DatabaseMySqlOptionsConfigOption implements
         return ['entity_manager', 'connection', 'driverOptions'];
     }
 
-    public function shouldBeAsked(PathCollection $currentOptions): bool
+    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependantOption): bool
     {
-        // FIXME We should not instantiate other plugin here
-        $dbDriver = $currentOptions->getValueInPath((new DatabaseDriverConfigOption())->getConfigPath());
-        return $dbDriver === DatabaseDriverConfigOption::MYSQL_DRIVER && ! $currentOptions->pathExists(
-            $this->getConfigPath()
-        );
+        $currentOptionExists = $currentOptions->pathExists($this->getConfigPath());
+        if ($dependantOption === null) {
+            return ! $currentOptionExists;
+        }
+
+        $dbDriver = $currentOptions->getValueInPath($dependantOption->getConfigPath());
+        return $dbDriver === DatabaseDriverConfigOption::MYSQL_DRIVER && ! $currentOptionExists;
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions): array
-    {
+    public function ask(
+        SymfonyStyle $io,
+        PathCollection $currentOptions,
+        ?ConfigOptionInterface $dependantOption
+    ): array {
         return [
             // PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
             1002 => 'SET NAMES utf8',
@@ -35,6 +40,6 @@ class DatabaseMySqlOptionsConfigOption implements
 
     public function getDependentOption(): string
     {
-        // TODO: Implement getDependentOption() method.
+        return DatabaseDriverConfigOption::class;
     }
 }

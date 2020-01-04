@@ -14,7 +14,7 @@ class ShortDomainSchemaConfigOption extends BaseConfigOption
         return ['url_shortener', 'domain', 'schema'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->choice('Select schema for generated short URLs', ['http', 'https'], 'http');
     }

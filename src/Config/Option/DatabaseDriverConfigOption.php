@@ -25,7 +25,7 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         return ['entity_manager', 'connection', 'driver'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         $databases = array_keys(self::DATABASE_DRIVERS);
         $dbType = $io->choice('Select database type', $databases, $databases[0]);

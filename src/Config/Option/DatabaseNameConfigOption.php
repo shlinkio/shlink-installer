@@ -14,7 +14,7 @@ class DatabaseNameConfigOption extends AbstractNonSqliteDependentConfigOption
         return ['entity_manager', 'connection', 'dbname'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->ask('Database name', 'shlink');
     }

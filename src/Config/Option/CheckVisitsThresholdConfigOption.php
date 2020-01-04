@@ -14,7 +14,7 @@ class CheckVisitsThresholdConfigOption extends BaseConfigOption
         return ['delete_short_urls', 'check_visits_threshold'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->confirm(
             'Do you want to enable a safety check which will not allow short URLs to be deleted after receiving '

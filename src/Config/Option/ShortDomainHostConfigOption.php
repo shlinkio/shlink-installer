@@ -17,7 +17,7 @@ class ShortDomainHostConfigOption extends BaseConfigOption
         return ['url_shortener', 'domain', 'hostname'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $this->askRequired($io, 'domain', 'Default domain for generated short URLs');
     }

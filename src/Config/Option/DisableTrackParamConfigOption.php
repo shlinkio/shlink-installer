@@ -14,7 +14,7 @@ class DisableTrackParamConfigOption extends BaseConfigOption
         return ['app_options', 'disable_track_param'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->ask(
             'Provide a parameter name that you will be able to use to disable tracking on specific request to '

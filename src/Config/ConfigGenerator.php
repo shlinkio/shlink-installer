@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config;
 
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
+use function Functional\contains;
 
 class ConfigGenerator implements ConfigGeneratorInterface
 {
@@ -27,33 +30,27 @@ class ConfigGenerator implements ConfigGeneratorInterface
         // TODO Sort config options, based on which they depend on
 
         $answers = new PathCollection($previousConfig);
+        $alreadyRenderedTitles = [];
 
         foreach ($this->configOptionsGroups as $title => $configOptions) {
             foreach ($configOptions as $index => $configOption) {
                 /** @var ConfigOptionInterface $plugin */
                 $plugin = $this->configOptionsManager->get($configOption);
-                if (! $plugin->shouldBeAsked($answers)) {
-                    unset($this->configOptionsGroups[$title][$index]);
-                } else {
-                    $this->configOptionsGroups[$title][$index] = $plugin;
-                }
-            }
+                $dependantPlugin = $plugin instanceof DependentConfigOptionInterface
+                    ? $this->configOptionsManager->get($plugin->getDependentOption())
+                    : null;
 
-            if (empty($this->configOptionsGroups[$title])) {
-                unset($this->configOptionsGroups[$title]);
-            }
-        }
-
-        foreach ($this->configOptionsGroups as $title => $configOptions) {
-            $io->title($title);
-
-            /** @var ConfigOptionInterface $plugin */
-            foreach ($configOptions as $plugin) {
-                if (! $plugin->shouldBeAsked($answers)) { // FIXME We are checking this twice...
+                if (! $plugin->shouldBeAsked($answers, $dependantPlugin)) {
                     continue;
                 }
 
-                $answer = $plugin->ask($io, $answers);
+                // Render every title only once, and only as soon as we find a plugin that needs to be asked
+                if (! contains($alreadyRenderedTitles, $title)) {
+                    $alreadyRenderedTitles[] = $title;
+                    $io->title($title);
+                }
+
+                $answer = $plugin->ask($io, $answers, $dependantPlugin);
                 $answers->setValueInPath($answer, $plugin->getConfigPath());
             }
         }

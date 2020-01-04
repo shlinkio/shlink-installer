@@ -11,11 +11,10 @@ interface ConfigOptionInterface
 {
     public function getConfigPath(): array;
 
-    // FIXME Add ?ConfigOptionInterface $dependentOption = null
-    public function shouldBeAsked(PathCollection $currentOptions): bool;
+    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption): bool;
 
     /**
      * @return mixed
      */
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions);
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption);
 }

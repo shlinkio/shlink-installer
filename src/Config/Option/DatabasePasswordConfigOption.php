@@ -17,7 +17,7 @@ class DatabasePasswordConfigOption extends AbstractNonSqliteDependentConfigOptio
         return ['entity_manager', 'connection', 'password'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $this->askRequired($io, 'password', 'Database password');
     }

@@ -14,7 +14,7 @@ class BasePathConfigOption extends BaseConfigOption
         return ['router', 'base_path'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->ask(
             'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '

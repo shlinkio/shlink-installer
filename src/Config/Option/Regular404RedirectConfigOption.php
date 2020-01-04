@@ -17,7 +17,7 @@ class Regular404RedirectConfigOption extends BaseConfigOption
         return ['not_found_redirects', 'regular_404'];
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->ask(
             'Custom URL to redirect to when a user hits a not found URL other than an invalid short URL '

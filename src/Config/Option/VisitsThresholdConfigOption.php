@@ -17,14 +17,15 @@ class VisitsThresholdConfigOption implements ConfigOptionInterface, DependentCon
         return ['delete_short_urls', 'visits_threshold'];
     }
 
-    public function shouldBeAsked(PathCollection $currentOptions): bool
+    public function shouldBeAsked(PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption): bool
     {
-        // FIXME We should not instantiate a plugin here
-        $shouldCheckVisits = $currentOptions->getValueInPath((new CheckVisitsThresholdConfigOption())->getConfigPath());
-        return $shouldCheckVisits === true && ! $currentOptions->pathExists($this->getConfigPath());
+        $shouldCheckVisits = $dependentOption !== null
+            ? $currentOptions->getValueInPath($dependentOption->getConfigPath())
+            : true;
+        return $shouldCheckVisits && ! $currentOptions->pathExists($this->getConfigPath());
     }
 
-    public function ask(SymfonyStyle $io, PathCollection $currentOptions)
+    public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)
     {
         return $io->ask(
             'What is the amount of visits from which the system will not allow short URLs to be deleted?',
