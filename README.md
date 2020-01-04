@@ -29,20 +29,18 @@ There are two main ways to run this tool:
 
 * Using the `bin/run.php` helper script.
 
-    This script returns a function that can be used to either install or update a shlink instance.
+    This script returns two functions that can be used to either install or update a shlink instance.
 
-    Just require it and invoke the function:
+    Just require it and invoke the appropriate function:
 
     ```php
     <?php
 
     declare(strict_types=1);
 
-    $run = require 'vendor/shlinkio/shlink-installer/bin/run.php';
-
-    // The flag determines if we are running an update or not
-    $run(false); // To install
-    $run(true); // To update
+    [$install, $update] = require 'vendor/shlinkio/shlink-installer/bin/run.php';
+    $install(); // To install
+    $update(); // To update
     ```
 
 ## Customize options

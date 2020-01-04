@@ -4,4 +4,5 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
-(require __DIR__ . '/run.php')(true);
+[, $update] = require __DIR__ . '/run.php';
+$update();
