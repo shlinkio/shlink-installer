@@ -93,18 +93,20 @@ declare(strict_types=1);
 
 return [
 
-    'installation_commands' => [
-        'db_create_schema' => [
-            'command' => 'bin/shlink shlink:db:create',
-        ],
-        'db_migrate' => [
-            'command' => 'bin/some-script some:command',
-        ],
-        'orm_proxies' => [
-            'command' => '-v', // Just print PHP version
-        ],
-        'geolite_download' => [
-            'command' => '-v', // Just print PHP version
+    'installer' => [
+        'installation_commands' => [
+            'db_create_schema' => [
+                'command' => 'bin/shlink shlink:db:create',
+            ],
+            'db_migrate' => [
+                'command' => 'bin/some-script some:command',
+            ],
+            'orm_proxies' => [
+                'command' => '-v', // Just print PHP version
+            ],
+            'geolite_download' => [
+                'command' => '-v', // Just print PHP version
+            ],
         ],
     ],
 
