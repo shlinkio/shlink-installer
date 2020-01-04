@@ -27,15 +27,6 @@ return [
         ],
     ],
 
-    'config_customizer_plugins' => [
-        'factories' => [
-            Config\Plugin\DatabaseConfigCustomizer::class => ConfigAbstractFactory::class,
-            Config\Plugin\UrlShortenerConfigCustomizer::class => ConfigAbstractFactory::class,
-            Config\Plugin\ApplicationConfigCustomizer::class => ConfigAbstractFactory::class,
-            Config\Plugin\RedirectsConfigCustomizer::class => ConfigAbstractFactory::class,
-        ],
-    ],
-
     'config_options' => [
         'groups' => [
             'DATABASE' => [
@@ -95,14 +86,6 @@ return [
     ],
 
     ConfigAbstractFactory::class => [
-        Config\Plugin\DatabaseConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class, Filesystem::class],
-        Config\Plugin\UrlShortenerConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class],
-        Config\Plugin\ApplicationConfigCustomizer::class => [
-            Config\Util\ExpectedConfigResolver::class,
-            Util\StringGenerator::class,
-        ],
-        Config\Plugin\RedirectsConfigCustomizer::class => [Config\Util\ExpectedConfigResolver::class],
-
         Config\Option\VisitsWebhooksConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\TaskWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\WebWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],

@@ -11,6 +11,7 @@ use function array_keys;
 
 class DatabaseDriverConfigOption extends BaseConfigOption
 {
+    public const CONFIG_PATH = ['entity_manager', 'connection', 'driver'];
     public const MYSQL_DRIVER = 'pdo_mysql';
     public const SQLITE_DRIVER = 'pdo_sqlite';
     private const DATABASE_DRIVERS = [
@@ -22,7 +23,7 @@ class DatabaseDriverConfigOption extends BaseConfigOption
 
     public function getConfigPath(): array
     {
-        return ['entity_manager', 'connection', 'driver'];
+        return self::CONFIG_PATH;
     }
 
     public function ask(SymfonyStyle $io, PathCollection $currentOptions, ?ConfigOptionInterface $dependentOption)

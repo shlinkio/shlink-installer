@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer\Config\Util;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
+/** @deprecated */
 class ExpectedConfigResolverFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)

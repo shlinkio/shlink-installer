@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Command;
 
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
-use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
+use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
+use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException;
-use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -33,6 +33,7 @@ class InstallCommand extends Command
         'orm_proxies',
         'geolite_download',
     ];
+    private const SQLITE_DB_PATH = 'data/database.sqlite';
 
     /** @var WriterInterface */
     private $configWriter;
@@ -97,9 +98,14 @@ class InstallCommand extends Command
             }
         }
 
-        $config = $this->configGenerator->generateConfigInteractively($io, $this->resolvePreviousConfig($io));
+        $importedConfig = $this->resolvePreviousConfig($io);
+        $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
+        $this->importSqliteIfNeeded($io, $importedConfig->importPath(), $config->getValueInPath(
+            DatabaseDriverConfigOption::CONFIG_PATH
+        ));
+
         // Generate config params files
-        $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config, false);
+        $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config->toArray(), false);
         $io->writeln(['<info>Custom configuration properly generated!</info>', '']);
 
         if ($this->execPostInstallCommands($io)) {
@@ -110,13 +116,10 @@ class InstallCommand extends Command
         return -1;
     }
 
-    /**
-     * @throws RuntimeException
-     */
-    private function resolvePreviousConfig(SymfonyStyle $io): array
+    private function resolvePreviousConfig(SymfonyStyle $io): ImportedConfig
     {
         if (! $this->isUpdate) {
-            return [];
+            return ImportedConfig::notImported();
         }
 
         // Ask the user if he/she wants to import an older configuration
@@ -125,7 +128,7 @@ class InstallCommand extends Command
             . 'config option that did not exist in previous shlink versions)'
         );
         if (! $importConfig) {
-            return [];
+            return ImportedConfig::notImported();
         }
 
         // Ask the user for the older shlink path
@@ -148,11 +151,25 @@ class InstallCommand extends Command
 
         // If after some retries the user has chosen not to test another path, return
         if (! $configExists) {
-            return [];
+            return ImportedConfig::notImported();
         }
 
         // Read the config file
-        return include $configFile;
+        return ImportedConfig::imported($installationPath, include $configFile);
+    }
+
+    private function importSqliteIfNeeded(SymfonyStyle $io, string $importPath, string $dbDriver): void
+    {
+        if (! $this->isUpdate || $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER) {
+            return;
+        }
+
+        try {
+            $this->filesystem->copy($importPath . '/' . self::SQLITE_DB_PATH, self::SQLITE_DB_PATH);
+        } catch (IOException $e) {
+            $io->error('It wasn\'t possible to import the SQLite database');
+            throw $e;
+        }
     }
 
     private function execPostInstallCommands(SymfonyStyle $io): bool

@@ -17,23 +17,33 @@ class ConfigGenerator implements ConfigGeneratorInterface
     private $configOptionsManager;
     /** @var array */
     private $configOptionsGroups;
+    /** @var array|null */
+    private $enabledOptions;
 
-    public function __construct(ConfigOptionsManagerInterface $configOptionsManager, array $configOptionsGroups)
-    {
+    public function __construct(
+        ConfigOptionsManagerInterface $configOptionsManager,
+        array $configOptionsGroups,
+        ?array $enabledOptions
+    ) {
         $this->configOptionsManager = $configOptionsManager;
         $this->configOptionsGroups = $configOptionsGroups;
+        $this->enabledOptions = $enabledOptions;
     }
 
-    public function generateConfigInteractively(SymfonyStyle $io, array $previousConfig): array
+    public function generateConfigInteractively(SymfonyStyle $io, array $previousConfig): PathCollection
     {
-        // TODO Filter config options, based on those which answer is present in current config,
         // TODO Sort config options, based on which they depend on
 
         $answers = new PathCollection($previousConfig);
         $alreadyRenderedTitles = [];
 
+        // FIXME Improve code quality on these nested loops
         foreach ($this->configOptionsGroups as $title => $configOptions) {
-            foreach ($configOptions as $index => $configOption) {
+            foreach ($configOptions as $configOption) {
+                if ($this->enabledOptions !== null && ! contains($this->enabledOptions, $configOption)) {
+                    continue;
+                }
+
                 /** @var ConfigOptionInterface $plugin */
                 $plugin = $this->configOptionsManager->get($configOption);
                 $dependantPlugin = $plugin instanceof DependentConfigOptionInterface
@@ -55,6 +65,6 @@ class ConfigGenerator implements ConfigGeneratorInterface
             }
         }
 
-        return $answers->toArray();
+        return $answers;
     }
 }

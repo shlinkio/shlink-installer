@@ -10,6 +10,7 @@ use Zend\Stdlib\ArraySerializableInterface;
 
 use function array_key_exists;
 
+/** @deprecated */
 final class CustomizableAppConfig implements ArraySerializableInterface
 {
     public const SQLITE_DB_PATH = 'data/database.sqlite';

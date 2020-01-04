@@ -12,6 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_diff;
 use function array_keys;
 
+/** @deprecated */
 class RedirectsConfigCustomizer implements ConfigCustomizerInterface
 {
     use ConfigOptionsValidatorsTrait;

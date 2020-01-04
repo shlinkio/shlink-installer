@@ -15,6 +15,7 @@ use function array_diff;
 use function array_keys;
 use function Functional\contains;
 
+/** @deprecated */
 class DatabaseConfigCustomizer implements ConfigCustomizerInterface
 {
     use AskUtilsTrait;

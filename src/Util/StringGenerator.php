@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer\Util;
 use function random_int;
 use function strlen;
 
+/** @deprecated */
 class StringGenerator implements StringGeneratorInterface
 {
     private const BASE62 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

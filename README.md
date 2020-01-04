@@ -35,6 +35,7 @@ There are two main ways to run this tool:
 
     ```php
     <?php
+
     declare(strict_types=1);
 
     $run = require 'vendor/shlinkio/shlink-installer/bin/run.php';
@@ -54,28 +55,21 @@ Add a configuration file including a configuration like this:
 
 ```php
 <?php
+
 declare(strict_types=1);
 
-use Shlinkio\Shlink\Installer\Config\Plugin;
+use Shlinkio\Shlink\Installer\Config\Option;
 
 return [
 
-    'installer_plugins_expected_config' => [
-        Plugin\UrlShortenerConfigCustomizer::class => [
-            Plugin\UrlShortenerConfigCustomizer::HOSTNAME,
-            Plugin\UrlShortenerConfigCustomizer::SCHEMA,
-        ],
-
-        Plugin\ApplicationConfigCustomizer::class => [
-            Plugin\ApplicationConfigCustomizer::DISABLE_TRACK_PARAM,
-            Plugin\ApplicationConfigCustomizer::CHECK_VISITS_THRESHOLD,
-            Plugin\ApplicationConfigCustomizer::WEB_WORKER_NUM,
-        ],
-
-        Plugin\DatabaseConfigCustomizer::class => [
-            Plugin\DatabaseConfigCustomizer::DRIVER,
-            Plugin\DatabaseConfigCustomizer::HOST,
-            Plugin\DatabaseConfigCustomizer::PASSWORD,
+    'installer' => [
+        'enabled_options' => [
+            Option\DatabaseDriverConfigOption::class,
+            Option\DatabaseHostConfigOption::class,
+            Option\BasePathConfigOption::class,
+            Option\Regular404RedirectConfigOption::class,
+            Option\ShortDomainHostConfigOption::class,
+            Option\ShortDomainSchemaConfigOption::class,
         ],
     ],
 
@@ -94,6 +88,7 @@ It is possible to overwrite those commands via configuration too, using a syntax
 
 ```php
 <?php
+
 declare(strict_types=1);
 
 return [

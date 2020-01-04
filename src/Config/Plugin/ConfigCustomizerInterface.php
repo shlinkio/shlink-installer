@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer\Config\Plugin;
 use Shlinkio\Shlink\Installer\Model\CustomizableAppConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/** @deprecated */
 interface ConfigCustomizerInterface
 {
     public function process(SymfonyStyle $io, CustomizableAppConfig $appConfig): void;

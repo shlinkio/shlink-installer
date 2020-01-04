@@ -9,9 +9,9 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionObject;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
-use Shlinkio\Shlink\Installer\Config\ConfigCustomizerManagerInterface;
-use Shlinkio\Shlink\Installer\Config\Plugin\ConfigCustomizerInterface;
+use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
+use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -42,9 +42,8 @@ class InstallCommandTest extends TestCase
         $this->commandsRunner = $this->prophesize(InstallationCommandsRunnerInterface::class);
         $this->commandsRunner->execPhpCommand(Argument::cetera())->willReturn(true);
 
-        $configCustomizer = $this->prophesize(ConfigCustomizerInterface::class);
-        $configCustomizers = $this->prophesize(ConfigCustomizerManagerInterface::class);
-        $configCustomizers->get(Argument::cetera())->willReturn($configCustomizer->reveal());
+        $configGenerator = $this->prophesize(ConfigGeneratorInterface::class);
+        $configGenerator->generateConfigInteractively(Argument::cetera())->willReturn(new PathCollection());
 
         $finder = $this->prophesize(PhpExecutableFinder::class);
         $finder->find(false)->willReturn('php');
@@ -53,7 +52,7 @@ class InstallCommandTest extends TestCase
         $this->command = new InstallCommand(
             $this->configWriter->reveal(),
             $this->filesystem->reveal(),
-            $configCustomizers->reveal(),
+            $configGenerator->reveal(),
             $this->commandsRunner->reveal(),
             false
         );

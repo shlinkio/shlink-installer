@@ -14,6 +14,7 @@ use function array_diff;
 use function array_keys;
 use function extension_loaded;
 
+/** @deprecated */
 class ApplicationConfigCustomizer implements ConfigCustomizerInterface
 {
     use ConfigOptionsValidatorsTrait;
