@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 #### Removed
 
-* *Nothing*
+* [#43](https://github.com/shlinkio/shlink-installer/issues/43) Dropped support for PHP 7.2 and 7.3
 
 #### Fixed
 
