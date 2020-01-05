@@ -190,8 +190,8 @@ class InstallCommandTest extends TestCase
 
     public function provideAmounts(): iterable
     {
-        yield [false, 4];
-        yield [true, 3];
+        yield [false, 3];
+        yield [true, 2];
     }
 
     private function setIsUpdate(bool $isUpdate = true): void
