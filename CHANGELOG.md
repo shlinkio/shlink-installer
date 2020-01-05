@@ -4,11 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## 4.0.0 - 2020-01-05
 
 #### Added
 
-* *Nothing*
+* [#19](https://github.com/shlinkio/shlink-installer/issues/19) Added support to ask for redis servers URIs during installation.
 
 #### Changed
 

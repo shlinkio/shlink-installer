@@ -32,8 +32,8 @@ class RedisServersConfigOptionTest extends TestCase
     {
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'Provide a comma-separated list of redis servers which will be used for shared caching purposes '
-            . '(Leave empty if you don\'t want to use redis cache)',
+            'Provide a comma-separated list of redis server URIs which will be used for shared caching purposes under '
+            . 'shlink multi-instance contexts (Leave empty if you don\'t want to use redis cache)',
         )->willReturn($answered);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());

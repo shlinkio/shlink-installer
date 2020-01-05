@@ -22,8 +22,8 @@ class RedisServersConfigOption extends BaseConfigOption
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?array
     {
         $serves = $io->ask(
-            'Provide a comma-separated list of redis servers which will be used for shared caching purposes '
-            . '(Leave empty if you don\'t want to use redis cache)',
+            'Provide a comma-separated list of redis server URIs which will be used for shared caching purposes under '
+            . 'shlink multi-instance contexts (Leave empty if you don\'t want to use redis cache)',
         );
 
         return empty($serves) ? null : [
