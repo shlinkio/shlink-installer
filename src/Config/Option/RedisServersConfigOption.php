@@ -16,7 +16,7 @@ class RedisServersConfigOption extends BaseConfigOption
 
     public function getConfigPath(): array
     {
-        return ['redis', 'servers'];
+        return ['cache', 'redis'];
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?array
@@ -26,6 +26,8 @@ class RedisServersConfigOption extends BaseConfigOption
             . '(Leave empty if you don\'t want to use redis cache)',
         );
 
-        return empty($serves) ? null : explode(',', $serves);
+        return empty($serves) ? null : [
+            'servers' => explode(',', $serves),
+        ];
     }
 }
