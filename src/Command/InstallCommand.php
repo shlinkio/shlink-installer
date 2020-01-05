@@ -31,7 +31,6 @@ class InstallCommand extends Command
         'db_create_schema',
         'db_migrate',
         'orm_proxies',
-        'geolite_download',
     ];
     private const SQLITE_DB_PATH = 'data/database.sqlite';
 

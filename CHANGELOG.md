@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 #### Removed
 
 * [#43](https://github.com/shlinkio/shlink-installer/issues/43) Dropped support for PHP 7.2 and 7.3
+* [#52](https://github.com/shlinkio/shlink-installer/issues/52) GeoLite2 db is no longer downloaded during installation.
 
 #### Fixed
 

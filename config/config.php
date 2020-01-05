@@ -108,11 +108,6 @@ return [
                 'initMessage' => 'Generating proxies...',
                 'errorMessage' => 'Error generating proxies.',
             ],
-            'geolite_download' => [
-                'command' => 'bin/cli visit:update-db',
-                'initMessage' => 'Downloading GeoLite2 db...',
-                'errorMessage' => 'Error downloading GeoLite2 db.',
-            ],
         ],
     ],
 
