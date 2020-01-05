@@ -100,9 +100,6 @@ return [
             'orm_proxies' => [
                 'command' => '-v', // Just print PHP version
             ],
-            'geolite_download' => [
-                'command' => '-v', // Just print PHP version
-            ],
         ],
     ],
 
