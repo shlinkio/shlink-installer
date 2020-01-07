@@ -58,7 +58,7 @@ class ConfigGeneratorTest extends TestCase
         $pluginShouldBeAsked->shouldHaveBeenCalledTimes($expectedQuestions);
         $ask->shouldHaveBeenCalledTimes($expectedQuestions);
         $getPath->shouldHaveBeenCalledTimes($expectedQuestions);
-        $getPlugin->shouldHaveBeenCalledTimes($totalPlugins);
+        $getPlugin->shouldHaveBeenCalledTimes($expectedQuestions);
         $printTitle->shouldHaveBeenCalledTimes($expectedPrintTitleCalls);
     }
 
