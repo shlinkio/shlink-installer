@@ -9,6 +9,8 @@ A PHP command line tool used to install [shlink](https://shlink.io/).
 [![License](https://img.shields.io/github/license/shlinkio/shlink-installer.svg?style=flat-square)](https://github.com/shlinkio/shlink-installer/blob/master/LICENSE)
 [![Paypal donate](https://img.shields.io/badge/Donate-paypal-blue.svg?style=flat-square&logo=paypal&colorA=aaaaaa)](https://acel.me/donate)
 
+![Shlink installer](shlink-installer.gif)
+
 ## Installation
 
 Install this tool using [composer](https://getcomposer.org/).
