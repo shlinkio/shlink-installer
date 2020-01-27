@@ -118,11 +118,8 @@ class InstallCommandTest extends TestCase
     public function sqliteDatabaseIsImportedOnUpdate(): void
     {
         $this->setIsUpdate();
-        $this->config->setValueInPath(
-            DatabaseDriverConfigOption::SQLITE_DRIVER,
-            DatabaseDriverConfigOption::CONFIG_PATH,
-        );
 
+        $exists = $this->filesystem->exists(__DIR__ . '/../../test-resources/data/database.sqlite')->willReturn(true);
         $copy = $this->filesystem->copy(
             __DIR__ . '/../../test-resources/data/database.sqlite',
             'data/database.sqlite',
@@ -139,6 +136,7 @@ class InstallCommandTest extends TestCase
         $this->commandTester->execute([]);
 
         $importedConfigExists->shouldHaveBeenCalledOnce();
+        $exists->shouldHaveBeenCalledOnce();
         $copy->shouldHaveBeenCalledOnce();
     }
 
@@ -151,6 +149,7 @@ class InstallCommandTest extends TestCase
             DatabaseDriverConfigOption::CONFIG_PATH,
         );
 
+        $exists = $this->filesystem->exists(__DIR__ . '/../../test-resources/data/database.sqlite')->willReturn(true);
         $copy = $this->filesystem->copy(
             __DIR__ . '/../../test-resources/data/database.sqlite',
             'data/database.sqlite',
@@ -160,6 +159,7 @@ class InstallCommandTest extends TestCase
         )->willReturn(true);
 
         $importedConfigExists->shouldBeCalledOnce();
+        $exists->shouldBeCalledOnce();
         $copy->shouldBeCalledOnce();
 
         $this->expectException(IOException::class);
