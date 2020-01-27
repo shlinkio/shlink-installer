@@ -6,12 +6,10 @@ namespace Shlinkio\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
-use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -33,6 +31,7 @@ class InstallCommand extends Command
         'orm_proxies',
     ];
     private const SQLITE_DB_PATH = 'data/database.sqlite';
+    private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
 
     private WriterInterface $configWriter;
     private Filesystem $filesystem;
@@ -40,9 +39,6 @@ class InstallCommand extends Command
     private bool $isUpdate;
     private InstallationCommandsRunnerInterface $commandsRunner;
 
-    /**
-     * @throws LogicException
-     */
     public function __construct(
         WriterInterface $configWriter,
         Filesystem $filesystem,
@@ -90,10 +86,9 @@ class InstallCommand extends Command
         }
 
         $importedConfig = $this->resolvePreviousConfig($io);
+        $this->importSqliteIfNeeded($io, $importedConfig->importPath());
+        $this->importGeoLiteDbIfNeeded($io, $importedConfig->importPath());
         $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
-        $this->importSqliteIfNeeded($io, $importedConfig->importPath(), $config->getValueInPath(
-            DatabaseDriverConfigOption::CONFIG_PATH,
-        ));
 
         // Generate config params files
         $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config->toArray(), false);
@@ -149,17 +144,36 @@ class InstallCommand extends Command
         return ImportedConfig::imported($installationPath, include $configFile);
     }
 
-    private function importSqliteIfNeeded(SymfonyStyle $io, string $importPath, ?string $dbDriver): void
+    private function importSqliteIfNeeded(SymfonyStyle $io, string $importPath): void
     {
-        if (! $this->isUpdate || $dbDriver !== DatabaseDriverConfigOption::SQLITE_DRIVER) {
+        $fileToImport = $importPath . '/' . self::SQLITE_DB_PATH;
+        if (! $this->isUpdate || ! $this->filesystem->exists($fileToImport)) {
             return;
         }
 
         try {
-            $this->filesystem->copy($importPath . '/' . self::SQLITE_DB_PATH, self::SQLITE_DB_PATH);
+            $this->filesystem->copy($fileToImport, self::SQLITE_DB_PATH);
         } catch (IOException $e) {
             $io->error('It wasn\'t possible to import the SQLite database');
             throw $e;
+        }
+    }
+
+    private function importGeoLiteDbIfNeeded(SymfonyStyle $io, string $importPath): void
+    {
+        $fileToImport = $importPath . '/' . self::GEO_LITE_DB_PATH;
+        if (! $this->isUpdate || ! $this->filesystem->exists($fileToImport)) {
+            return;
+        }
+
+        try {
+            $this->filesystem->copy($fileToImport, self::GEO_LITE_DB_PATH);
+        } catch (IOException $e) {
+            $io->writeln(
+                '<comment>An error occurred while importing GeoLite db file. Skipping and letting regular update to '
+                . 'take care of it.</comment>',
+                OutputInterface::VERBOSITY_VERBOSE,
+            );
         }
     }
 

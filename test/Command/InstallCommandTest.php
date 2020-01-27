@@ -11,14 +11,16 @@ use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionObject;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
-use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
+
+use function Functional\each;
 
 class InstallCommandTest extends TestCase
 {
@@ -115,19 +117,14 @@ class InstallCommandTest extends TestCase
     }
 
     /** @test */
-    public function sqliteDatabaseIsImportedOnUpdate(): void
+    public function assetsAreImportedOnUpdate(): void
     {
+        $assets = ['database.sqlite', 'GeoLite2-City.mmdb'];
         $this->setIsUpdate();
-        $this->config->setValueInPath(
-            DatabaseDriverConfigOption::SQLITE_DRIVER,
-            DatabaseDriverConfigOption::CONFIG_PATH,
-        );
 
-        $copy = $this->filesystem->copy(
-            __DIR__ . '/../../test-resources/data/database.sqlite',
-            'data/database.sqlite',
-        )->will(function (): void {
-        });
+        each($assets, fn (string $asset) => $this->filesystem->exists(
+            __DIR__ . '/../../test-resources/data/' . $asset,
+        )->willReturn(true));
         $importedConfigExists = $this->filesystem->exists(
             __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH,
         )->willReturn(true);
@@ -139,27 +136,26 @@ class InstallCommandTest extends TestCase
         $this->commandTester->execute([]);
 
         $importedConfigExists->shouldHaveBeenCalledOnce();
-        $copy->shouldHaveBeenCalledOnce();
+        each($assets, fn (string $asset) => $this->filesystem->copy(
+            __DIR__ . '/../../test-resources/data/' . $asset,
+            'data/' . $asset,
+        )->shouldHaveBeenCalledOnce());
     }
 
     /** @test */
     public function processIsCancelledWhenSqliteImportFails(): void
     {
+        $sqlitePath = __DIR__ . '/../../test-resources/data/database.sqlite';
         $this->setIsUpdate();
-        $this->config->setValueInPath(
-            DatabaseDriverConfigOption::SQLITE_DRIVER,
-            DatabaseDriverConfigOption::CONFIG_PATH,
-        );
 
-        $copy = $this->filesystem->copy(
-            __DIR__ . '/../../test-resources/data/database.sqlite',
-            'data/database.sqlite',
-        )->willThrow(IOException::class);
+        $exists = $this->filesystem->exists($sqlitePath)->willReturn(true);
+        $copy = $this->filesystem->copy($sqlitePath, 'data/database.sqlite')->willThrow(IOException::class);
         $importedConfigExists = $this->filesystem->exists(
             __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH,
         )->willReturn(true);
 
         $importedConfigExists->shouldBeCalledOnce();
+        $exists->shouldBeCalledOnce();
         $copy->shouldBeCalledOnce();
 
         $this->expectException(IOException::class);
@@ -169,6 +165,41 @@ class InstallCommandTest extends TestCase
             __DIR__ . '/../../test-resources',
         ]);
         $this->commandTester->execute([]);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideVerboseVerbosities
+     */
+    public function warningIsPrintedWhenGeoLiteImportFails(int $verbosity): void
+    {
+        $geolitePath = __DIR__ . '/../../test-resources/data/GeoLite2-City.mmdb';
+        $this->setIsUpdate();
+
+        $exists = $this->filesystem->exists($geolitePath)->willReturn(true);
+        $copy = $this->filesystem->copy($geolitePath, 'data/GeoLite2-City.mmdb')->willThrow(IOException::class);
+        $importedConfigExists = $this->filesystem->exists(
+            __DIR__ . '/../../test-resources/' . InstallCommand::GENERATED_CONFIG_PATH,
+        )->willReturn(true);
+
+        $this->commandTester->setInputs([
+            '',
+            __DIR__ . '/../../test-resources',
+        ]);
+        $this->commandTester->execute([], ['verbosity' => $verbosity]);
+        $output = $this->commandTester->getDisplay();
+
+        $importedConfigExists->shouldHaveBeenCalledOnce();
+        $exists->shouldHaveBeenCalledOnce();
+        $copy->shouldHaveBeenCalledOnce();
+        $this->assertStringContainsString('An error occurred while importing GeoLite db file. Skipping', $output);
+    }
+
+    public function provideVerboseVerbosities(): iterable
+    {
+        yield 'VERBOSITY_VERBOSE' => [OutputInterface::VERBOSITY_VERBOSE];
+        yield 'VERBOSITY_VERY_VERBOSE' => [OutputInterface::VERBOSITY_VERY_VERBOSE];
+        yield 'VERBOSITY_DEBUG' => [OutputInterface::VERBOSITY_DEBUG];
     }
 
     /**
