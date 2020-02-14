@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+
+#### Added
+
+* [#56](https://github.com/shlinkio/shlink-installer/issues/56) Added MicrosoftSQL to the list of supported database servers.
+
+#### Changed
+
+* *Nothing*
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 4.0.1 - 2020-01-27
 
 #### Added
