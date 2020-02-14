@@ -52,5 +52,8 @@ class DatabasePortConfigOptionTest extends TestCase
 
         yield 'mysql' => [$buildCollection(DatabaseDriverConfigOption::MYSQL_DRIVER), '3306'];
         yield 'postgres' => [$buildCollection(DatabaseDriverConfigOption::POSTGRES_DRIVER), '5432'];
+        yield 'mssql' => [$buildCollection(DatabaseDriverConfigOption::MSSQL_DRIVER), '1433'];
+        yield 'sqlite' => [$buildCollection(DatabaseDriverConfigOption::SQLITE_DRIVER), ''];
+        yield 'unsupported' => [$buildCollection('unsupported'), ''];
     }
 }
