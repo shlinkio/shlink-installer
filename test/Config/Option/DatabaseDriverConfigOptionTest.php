@@ -36,6 +36,7 @@ class DatabaseDriverConfigOptionTest extends TestCase
                 'MariaDB',
                 'PostgreSQL',
                 'SQLite',
+                'MicrosoftSQL',
             ],
             'MySQL',
         )->willReturn('SQLite');
