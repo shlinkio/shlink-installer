@@ -9,6 +9,12 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabasePortConfigOption extends AbstractNonSqliteDependentConfigOption
 {
+    private const DRIVER_PORT_MAPPING = [
+        DatabaseDriverConfigOption::MYSQL_DRIVER => '3306',
+        DatabaseDriverConfigOption::POSTGRES_DRIVER => '5432',
+        DatabaseDriverConfigOption::MSSQL_DRIVER => '1433',
+    ];
+
     public function getConfigPath(): array
     {
         return ['entity_manager', 'connection', 'port'];
@@ -23,6 +29,6 @@ class DatabasePortConfigOption extends AbstractNonSqliteDependentConfigOption
 
     private function getDefaultDbPortForDriver(string $driver): string
     {
-        return $driver === DatabaseDriverConfigOption::MYSQL_DRIVER ? '3306' : '5432';
+        return self::DRIVER_PORT_MAPPING[$driver] ?? '';
     }
 }
