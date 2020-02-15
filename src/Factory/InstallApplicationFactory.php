@@ -9,8 +9,8 @@ use Psr\Container\ContainerInterface;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
+use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Filesystem\Filesystem;
 
 class InstallApplicationFactory
 {
@@ -30,7 +30,7 @@ class InstallApplicationFactory
     {
         return new InstallCommand(
             new PhpArrayConfigWriter(),
-            $container->get(Filesystem::class),
+            $container->get(ShlinkAssetsHandler::class),
             $container->get(ConfigGenerator::class),
             $container->get(InstallationCommandsRunner::class),
             $isUpdate,

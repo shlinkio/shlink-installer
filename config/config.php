@@ -20,6 +20,7 @@ return [
             Console\Helper\ProcessHelper::class => Factory\ProcessHelperFactory::class,
 
             Service\InstallationCommandsRunner::class => Service\InstallationCommandsRunnerFactory::class,
+            Service\ShlinkAssetsHandler::class => ConfigAbstractFactory::class,
             Config\ConfigGenerator::class => Config\ConfigGeneratorFactory::class,
             Factory\SwooleInstalledFactory::SWOOLE_INSTALLED => Factory\SwooleInstalledFactory::class,
         ],
@@ -89,6 +90,7 @@ return [
         Config\Option\VisitsWebhooksConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\TaskWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\WebWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Service\ShlinkAssetsHandler::class => [Filesystem::class],
     ],
 
     'installer' => [
