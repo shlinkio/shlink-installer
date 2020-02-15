@@ -10,7 +10,6 @@ use Shlinkio\Shlink\Installer\Config;
 use Shlinkio\Shlink\Installer\Factory\InstallApplicationFactory;
 use Shlinkio\Shlink\Installer\Service;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Filesystem\Filesystem;
 
 use function array_filter;
 use function array_shift;
@@ -33,7 +32,9 @@ class InstallApplicationFactoryTest extends TestCase
     public function serviceIsCreated(): void
     {
         $app = ($this->factory)(new ServiceManager(['services' => [
-            Filesystem::class => $this->prophesize(Filesystem::class)->reveal(),
+            Service\ShlinkAssetsHandler::class => $this->prophesize(
+                Service\ShlinkAssetsHandlerInterface::class,
+            )->reveal(),
             Service\InstallationCommandsRunner::class => $this->prophesize(
                 Service\InstallationCommandsRunnerInterface::class,
             )->reveal(),

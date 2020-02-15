@@ -8,47 +8,40 @@ use Laminas\Config\Writer\WriterInterface;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
-use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
+use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
+use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 
 use function Functional\every;
 use function Functional\tail;
-use function sprintf;
 
 class InstallCommand extends Command
 {
-    use AskUtilsTrait;
-
-    public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
     private const POST_INSTALL_COMMANDS = [
         'db_create_schema',
         'db_migrate',
         'orm_proxies',
     ];
-    private const SQLITE_DB_PATH = 'data/database.sqlite';
-    private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
 
     private WriterInterface $configWriter;
-    private Filesystem $filesystem;
+    private ShlinkAssetsHandlerInterface $assetsHandler;
     private ConfigGeneratorInterface $configGenerator;
-    private bool $isUpdate;
     private InstallationCommandsRunnerInterface $commandsRunner;
+    private bool $isUpdate;
 
     public function __construct(
         WriterInterface $configWriter,
-        Filesystem $filesystem,
+        ShlinkAssetsHandlerInterface $assetsHandler,
         ConfigGeneratorInterface $configGenerator,
         InstallationCommandsRunnerInterface $commandsRunner,
         bool $isUpdate
     ) {
         parent::__construct();
         $this->configWriter = $configWriter;
-        $this->filesystem = $filesystem;
+        $this->assetsHandler = $assetsHandler;
         $this->configGenerator = $configGenerator;
         $this->commandsRunner = $commandsRunner;
         $this->isUpdate = $isUpdate;
@@ -65,116 +58,40 @@ class InstallCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->writeln([
+        $io->text([
             '<info>Welcome to Shlink!!</info>',
             'This tool will guide you through the installation process.',
         ]);
 
         // Check if a cached config file exists and drop it if so
-        if ($this->filesystem->exists('data/cache/app_config.php')) {
-            $io->write('Deleting old cached config...');
-            try {
-                $this->filesystem->remove('data/cache/app_config.php');
-                $io->writeln(' <info>Success</info>');
-            } catch (IOException $e) {
-                $io->error(
-                    'Failed! You will have to manually delete the data/cache/app_config.php file to'
-                    . ' get new config applied.',
-                );
-                throw $e;
-            }
-        }
+        $this->assetsHandler->dropCachedConfigIfAny($io);
 
         $importedConfig = $this->resolvePreviousConfig($io);
-        $this->importSqliteIfNeeded($io, $importedConfig->importPath());
-        $this->importGeoLiteDbIfNeeded($io, $importedConfig->importPath());
+        if ($this->isUpdate) {
+            $this->assetsHandler->importShlinkAssetsFromPath($io, $importedConfig->importPath());
+        }
         $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
 
         // Generate config params files
-        $this->configWriter->toFile(self::GENERATED_CONFIG_PATH, $config->toArray(), false);
-        $io->writeln(['<info>Custom configuration properly generated!</info>', '']);
+        $this->configWriter->toFile(ShlinkAssetsHandler::GENERATED_CONFIG_PATH, $config->toArray(), false);
+        $io->text('<info>Custom configuration properly generated!</info>');
+        $io->newLine();
 
-        if ($this->execPostInstallCommands($io)) {
-            $io->success('Installation complete!');
-            return 0;
+        if (! $this->execPostInstallCommands($io)) {
+            return -1;
         }
 
-        return -1;
+        $io->success('Installation complete!');
+        return 0;
     }
 
     private function resolvePreviousConfig(SymfonyStyle $io): ImportedConfig
     {
-        if (! $this->isUpdate) {
-            return ImportedConfig::notImported();
+        if ($this->isUpdate) {
+            return $this->assetsHandler->resolvePreviousConfig($io);
         }
 
-        // Ask the user if he/she wants to import an older configuration
-        $importConfig = $io->confirm(
-            'Do you want to import configuration from previous installation? (You will still be asked for any new '
-            . 'config option that did not exist in previous shlink versions)',
-        );
-        if (! $importConfig) {
-            return ImportedConfig::notImported();
-        }
-
-        // Ask the user for the older shlink path
-        $keepAsking = true;
-        do {
-            $installationPath = $this->askRequired(
-                $io,
-                'previous installation path',
-                'Previous shlink installation path from which to import config',
-            );
-            $configFile = sprintf('%s/%s', $installationPath, self::GENERATED_CONFIG_PATH);
-            $configExists = $this->filesystem->exists($configFile);
-
-            if (! $configExists) {
-                $keepAsking = $io->confirm(
-                    'Provided path does not seem to be a valid shlink root path. Do you want to try another path?',
-                );
-            }
-        } while (! $configExists && $keepAsking);
-
-        // If after some retries the user has chosen not to test another path, return
-        if (! $configExists) {
-            return ImportedConfig::notImported();
-        }
-
-        // Read the config file
-        return ImportedConfig::imported($installationPath, include $configFile);
-    }
-
-    private function importSqliteIfNeeded(SymfonyStyle $io, string $importPath): void
-    {
-        $fileToImport = $importPath . '/' . self::SQLITE_DB_PATH;
-        if (! $this->isUpdate || ! $this->filesystem->exists($fileToImport)) {
-            return;
-        }
-
-        try {
-            $this->filesystem->copy($fileToImport, self::SQLITE_DB_PATH);
-        } catch (IOException $e) {
-            $io->error('It wasn\'t possible to import the SQLite database');
-            throw $e;
-        }
-    }
-
-    private function importGeoLiteDbIfNeeded(SymfonyStyle $io, string $importPath): void
-    {
-        $fileToImport = $importPath . '/' . self::GEO_LITE_DB_PATH;
-        if (! $this->isUpdate || ! $this->filesystem->exists($fileToImport)) {
-            return;
-        }
-
-        try {
-            $this->filesystem->copy($fileToImport, self::GEO_LITE_DB_PATH);
-        } catch (IOException $e) {
-            $io->writeln(
-                '<comment>An error occurred while importing GeoLite db file. Skipping and letting regular update to '
-                . 'take care of it.</comment>',
-                OutputInterface::VERBOSITY_VERBOSE,
-            );
-        }
+        return ImportedConfig::notImported();
     }
 
     private function execPostInstallCommands(SymfonyStyle $io): bool
