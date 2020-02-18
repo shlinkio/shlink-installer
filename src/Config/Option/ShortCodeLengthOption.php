@@ -21,7 +21,7 @@ class ShortCodeLengthOption extends BaseConfigOption
     {
         return $io->ask(
             'What is the default length you want generated short codes to have? (You will still be able to override '
-            . 'this on a per-short)',
+            . 'this on every created short URL)',
             '5',
             fn ($value) => $this->validatePositiveNumber($value, 4),
         );
