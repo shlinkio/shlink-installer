@@ -44,7 +44,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function dependsOnDriver(): void
+    public function dependsOnCheck(): void
     {
         $this->assertEquals(CheckVisitsThresholdConfigOption::class, $this->configOption->getDependentOption());
     }
