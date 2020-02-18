@@ -43,6 +43,7 @@ return [
                 Config\Option\ShortDomainSchemaConfigOption::class,
                 Config\Option\ValidateUrlConfigOption::class,
                 Config\Option\VisitsWebhooksConfigOption::class,
+                Config\Option\ShortCodeLengthOption::class,
             ],
             'REDIRECTS' => [
                 Config\Option\BaseUrlRedirectConfigOption::class,
@@ -83,6 +84,7 @@ return [
             Config\Option\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\WebWorkerNumConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\ShortCodeLengthOption::class => InvokableFactory::class,
         ],
     ],
 

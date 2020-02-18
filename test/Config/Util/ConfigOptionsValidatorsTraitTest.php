@@ -69,22 +69,23 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
     /**
      * @test
      * @dataProvider provideInvalidValues
-     * @param mixed $value
      */
-    public function validatePositiveNumberThrowsExceptionWhenProvidedValueIsInvalid($value): void
+    public function validatePositiveNumberThrowsExceptionWhenProvidedValueIsInvalid(array $args): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validators->validatePositiveNumber($value);
+        $this->validators->validatePositiveNumber(...$args);
     }
 
     public function provideInvalidValues(): iterable
     {
-        yield 'string' => ['foo'];
-        yield 'empty string' => [''];
-        yield 'negative number' => [-5];
-        yield 'negative number as string' => ['-5'];
-        yield 'zero' => [0];
-        yield 'zero as string' => ['0'];
+        yield 'string' => [['foo']];
+        yield 'empty string' => [['']];
+        yield 'negative number' => [[-5]];
+        yield 'negative number as string' => [['-5']];
+        yield 'zero' => [[0]];
+        yield 'zero as string' => [['0']];
+        yield 'null' => [[null]];
+        yield 'positive with min' => [[5, 6]];
     }
 
     /**

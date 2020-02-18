@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 4.2.0 - 2020-02-18
+
+#### Added
+
+* [#62](https://github.com/shlinkio/shlink-installer/issues/62) Added config option to ask for default short codes length.
+
+#### Changed
+
+* *Nothing*
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 4.1.0 - 2020-02-15
 
 #### Added

@@ -33,11 +33,11 @@ trait ConfigOptionsValidatorsTrait
     /**
      * @param mixed $value
      */
-    public function validatePositiveNumber($value): int
+    public function validatePositiveNumber($value, int $min = 1): int
     {
-        if (! is_numeric($value) || 1 > (int) $value) {
+        if (! is_numeric($value) || $min > (int) $value) {
             throw new InvalidConfigOptionException(
-                sprintf('Provided value "%s" is invalid. Expected a number greater than 1', $value),
+                sprintf('Provided value "%s" is invalid. Expected a number greater than %s', $value, $min),
             );
         }
 

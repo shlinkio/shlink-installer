@@ -20,8 +20,8 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         'MySQL' => self::MYSQL_DRIVER,
         'MariaDB' => self::MYSQL_DRIVER,
         'PostgreSQL' => self::POSTGRES_DRIVER,
-        'SQLite' => self::SQLITE_DRIVER,
         'MicrosoftSQL' => self::MSSQL_DRIVER,
+        'SQLite' => self::SQLITE_DRIVER,
     ];
 
     public function getConfigPath(): array
