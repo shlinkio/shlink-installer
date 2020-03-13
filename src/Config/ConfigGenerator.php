@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config;
 
+use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
-use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\StyleInterface;
 
 use function array_combine;

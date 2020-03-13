@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
-use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\StyleInterface;
 
 use function explode;
