@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DatabaseHostConfigOption;
-use Shlinkio\Shlink\Installer\Util\PathCollection;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseHostConfigOptionTest extends TestCase

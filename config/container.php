@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
+use Laminas\ConfigAggregator\ConfigAggregator;
+use Laminas\ConfigAggregator\PhpFileProvider;
 use Laminas\ServiceManager\ServiceManager;
-use Laminas\Stdlib\ArrayUtils;
+use Shlinkio\Shlink\Config;
 
-use function array_reduce;
 use function file_exists;
 
 $autoloadFiles = [
@@ -21,8 +22,7 @@ foreach ($autoloadFiles as $autoloadFile) {
     }
 }
 
-$installerConfig = require __DIR__ . '/config.php';
-$appConfig = (function () {
+$shlinkConfigLoader = static function () {
     $appConfigPath = __DIR__ . '/../../../../config/config.php';
     if (! file_exists($appConfigPath)) {
         return [];
@@ -33,13 +33,15 @@ $appConfig = (function () {
     unset($appConfig['dependencies']);
 
     return $appConfig;
-})();
-$localConfig = (function () {
-    $localConfig = __DIR__ . '/config.local.php';
-    return file_exists($localConfig) ? require $localConfig : [];
-})();
+};
 
-$config = array_reduce([$installerConfig, $appConfig, $localConfig], [ArrayUtils::class, 'merge'], []);
+$config = (new ConfigAggregator([
+    Config\ConfigProvider::class,
+    new PhpFileProvider('config/config.php'),       // Installer config
+    $shlinkConfigLoader,                            // Overwritten config coming from Shlink
+    new PhpFileProvider('config/config.local.php'), // Local config
+]))->getMergedConfig();
+
 $container = new ServiceManager($config['dependencies']);
 $container->setService('config', $config);
 
