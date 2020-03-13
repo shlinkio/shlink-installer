@@ -7,7 +7,7 @@ A PHP command line tool used to install [shlink](https://shlink.io/).
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/shlinkio/shlink-installer.svg?style=flat-square)](https://scrutinizer-ci.com/g/shlinkio/shlink-installer/?branch=master)
 [![Latest Stable Version](https://img.shields.io/github/release/shlinkio/shlink-installer.svg?style=flat-square)](https://packagist.org/packages/shlinkio/shlink-installer)
 [![License](https://img.shields.io/github/license/shlinkio/shlink-installer.svg?style=flat-square)](https://github.com/shlinkio/shlink-installer/blob/master/LICENSE)
-[![Paypal donate](https://img.shields.io/badge/Donate-paypal-blue.svg?style=flat-square&logo=paypal&colorA=aaaaaa)](https://acel.me/donate)
+[![Paypal donate](https://img.shields.io/badge/Donate-paypal-blue.svg?style=flat-square&logo=paypal&colorA=aaaaaa)](https://slnk.to/donate)
 
 ![Shlink installer](shlink-installer.gif)
 
