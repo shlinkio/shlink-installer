@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 4.3.0 - 2020-03-13
+
+#### Added
+
+* *Nothing*
+
+#### Changed
+
+* [#64](https://github.com/shlinkio/shlink-installer/issues/64) Added `shlinkio/shlink-config` as a project dependency, deprecating the `Shlinkio\Shlink\Installer\Utils\PathCollection` class.
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 4.2.0 - 2020-02-18
 
 #### Added
