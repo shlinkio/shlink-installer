@@ -37,9 +37,9 @@ $shlinkConfigLoader = static function () {
 
 $config = (new ConfigAggregator([
     Config\ConfigProvider::class,
-    new PhpFileProvider('config/config.php'),       // Installer config
-    $shlinkConfigLoader,                            // Overwritten config coming from Shlink
-    new PhpFileProvider('config/config.local.php'), // Local config
+    new PhpFileProvider(__DIR__ . '/config.php'),       // Installer config
+    $shlinkConfigLoader,                                // Overwritten config coming from Shlink
+    new PhpFileProvider(__DIR__ . '/config.local.php'), // Local config
 ]))->getMergedConfig();
 
 $container = new ServiceManager($config['dependencies']);
