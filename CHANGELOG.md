@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 4.3.2 - 2020-04-06
+
+#### Added
+
+* *Nothing*
+
+#### Changed
+
+* [#68](https://github.com/shlinkio/shlink-installer/issues/68) Updated dev dependencies.
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* [#69](https://github.com/shlinkio/shlink-installer/issues/69) Ensured `doctrine orm:clear-cache:meta` command is run after the installation, to avoid outdated cached metadata to be persisted between versions.
+
+
 ## 4.3.1 - 2020-03-23
 
 #### Added
