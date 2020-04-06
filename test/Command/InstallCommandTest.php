@@ -76,7 +76,7 @@ class InstallCommandTest extends TestCase
         $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);
 
-        $execPhpCommand->shouldHaveBeenCalledTimes($isUpdate ? 2 : 3);
+        $execPhpCommand->shouldHaveBeenCalledTimes($isUpdate ? 3 : 4);
         $resolvePreviousCommand->shouldHaveBeenCalledTimes($isUpdate ? 1 : 0);
         $importAssets->shouldHaveBeenCalledTimes($isUpdate ? 1 : 0);
         $persistConfig->shouldHaveBeenCalledOnce();

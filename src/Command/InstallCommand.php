@@ -24,6 +24,7 @@ class InstallCommand extends Command
         'db_create_schema',
         'db_migrate',
         'orm_proxies',
+        'orm_clear_cache',
     ];
 
     private WriterInterface $configWriter;
