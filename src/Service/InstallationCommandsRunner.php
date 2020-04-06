@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 
-use function array_unshift;
 use function explode;
 use function implode;
 use function sprintf;
@@ -37,8 +36,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         ['command' => $command, 'initMessage' => $initMessage, 'errorMessage' => $errorMessage] = $commandConfig;
         $io->write($initMessage);
 
-        $command = explode(' ', $command);
-        array_unshift($command, $this->phpBinary);
+        $command = [$this->phpBinary, ...explode(' ', $command)];
         $io->write(
             sprintf(' <options=bold>[Running "%s"]</> ', implode(' ', $command)),
             false,

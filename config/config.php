@@ -117,6 +117,11 @@ return [
                 'initMessage' => 'Generating proxies...',
                 'errorMessage' => 'Error generating proxies.',
             ],
+            'orm_clear_cache' => [
+                'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:clear-cache:metadata',
+                'initMessage' => 'Clearing entities cache...',
+                'errorMessage' => 'Error clearing entities cache.',
+            ],
         ],
     ],
 
