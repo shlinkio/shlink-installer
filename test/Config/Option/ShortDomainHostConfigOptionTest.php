@@ -6,12 +6,15 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\ShortDomainHostConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainHostConfigOptionTest extends TestCase
 {
+    use ProphecyTrait;
+
     private ShortDomainHostConfigOption $configOption;
 
     public function setUp(): void

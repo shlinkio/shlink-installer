@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Factory;
 
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config;
 use Shlinkio\Shlink\Installer\Factory\InstallApplicationFactory;
 use Shlinkio\Shlink\Installer\Service;
@@ -19,6 +20,8 @@ use const ARRAY_FILTER_USE_KEY;
 
 class InstallApplicationFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     private InstallApplicationFactory $factory;
 
     public function setUp(): void

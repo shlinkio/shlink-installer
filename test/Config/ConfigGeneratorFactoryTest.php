@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use ReflectionObject;
@@ -12,6 +13,8 @@ use Shlinkio\Shlink\Installer\Config\ConfigGeneratorFactory;
 
 class ConfigGeneratorFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     private ConfigGeneratorFactory $factory;
     private ObjectProphecy $container;
 
