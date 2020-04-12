@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Config;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
@@ -20,6 +21,8 @@ use function get_class;
 
 class ConfigGeneratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     private ObjectProphecy $configOptionsManager;
     private ObjectProphecy $plugin;
     private ObjectProphecy $io;

@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Service;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -21,6 +22,8 @@ use function sprintf;
 
 class InstallationCommandsRunnerTest extends TestCase
 {
+    use ProphecyTrait;
+
     private const COMMAND_NAMES = ['foo', 'bar'];
 
     private InstallationCommandsRunner $commandsRunner;

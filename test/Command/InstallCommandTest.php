@@ -7,6 +7,7 @@ namespace ShlinkioTest\Shlink\Installer\Command;
 use Laminas\Config\Writer\WriterInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionObject;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
@@ -21,6 +22,8 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 class InstallCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     private InstallCommand $command;
     private CommandTester $commandTester;
     private ObjectProphecy $configWriter;

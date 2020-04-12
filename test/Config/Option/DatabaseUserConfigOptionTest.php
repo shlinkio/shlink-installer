@@ -6,12 +6,15 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\DatabaseUserConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseUserConfigOptionTest extends TestCase
 {
+    use ProphecyTrait;
+
     private DatabaseUserConfigOption $configOption;
 
     public function setUp(): void
