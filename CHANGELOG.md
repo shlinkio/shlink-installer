@@ -12,7 +12,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 #### Changed
 
-* *Nothing*
+* [#74](https://github.com/shlinkio/shlink-installer/issues/74) Grouped several config options to sub-namespaces. The changed classes are as follows.
+
+    * `Database`:
+        * `Config\Option\DatabaseDriverConfigOption` -> `Config\Option\Database\DatabaseDriverConfigOption`
+        * `Config\Option\DatabaseNameConfigOption` -> `Config\Option\Database\DatabaseNameConfigOption`
+        * `Config\Option\DatabaseHostConfigOption` -> `Config\Option\Database\DatabaseHostConfigOption`
+        * `Config\Option\DatabasePortConfigOption` -> `Config\Option\Database\DatabasePortConfigOption`
+        * `Config\Option\DatabaseUserConfigOption` -> `Config\Option\Database\DatabaseUserConfigOption`
+        * `Config\Option\DatabasePasswordConfigOption` -> `Config\Option\Database\DatabasePasswordConfigOption`
+        * `Config\Option\DatabaseSqlitePathConfigOption` -> `Config\Option\Database\DatabaseSqlitePathConfigOption`
+        * `Config\Option\DatabaseMySqlOptionsConfigOption` -> `Config\Option\Database\DatabaseMySqlOptionsConfigOption`
+    * `UrlShortener`:
+        * `Config\Option\ShortDomainHostConfigOption` -> `Config\Option\UrlShortener\ShortDomainHostConfigOption`
+        * `Config\Option\ShortDomainSchemaConfigOption` -> `Config\Option\UrlShortener\ShortDomainSchemaConfigOption`
+        * `Config\Option\ValidateUrlConfigOption` -> `Config\Option\UrlShortener\ValidateUrlConfigOption`
+        * `Config\Option\ShortCodeLengthOption` -> `Config\Option\UrlShortener\ShortCodeLengthOption`
+    * `Visit`:
+        * `Config\Option\VisitsWebhooksConfigOption` -> `Config\Option\Visit\VisitsWebhooksConfigOption`
+        * `Config\Option\CheckVisitsThresholdConfigOption` -> `Config\Option\Visit\CheckVisitsThresholdConfigOption`
+        * `Config\Option\VisitsThresholdConfigOption` -> `Config\Option\Visit\VisitsThresholdConfigOption`
+    * `Redirect`:
+        * `Config\Option\BaseUrlRedirectConfigOption` -> `Config\Option\Redirect\BaseUrlRedirectConfigOption`
+        * `Config\Option\InvalidShortUrlRedirectConfigOption` -> `Config\Option\Redirect\InvalidShortUrlRedirectConfigOption`
+        * `Config\Option\Regular404RedirectConfigOption` -> `Config\Option\Redirect\Regular404RedirectConfigOption`
+    * `Worker`:
+        * `Config\Option\TaskWorkerNumConfigOption` -> `Config\Option\Worker\TaskWorkerNumConfigOption`
+        * `Config\Option\WebWorkerNumConfigOption` -> `Config\Option\Worker\WebWorkerNumConfigOption`
+
+    The rest remain the same.
 
 #### Deprecated
 
