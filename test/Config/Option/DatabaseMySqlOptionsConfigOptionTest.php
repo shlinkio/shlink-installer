@@ -7,8 +7,8 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
-use Shlinkio\Shlink\Installer\Config\Option\DatabaseMySqlOptionsConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseMySqlOptionsConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseMySqlOptionsConfigOptionTest extends TestCase

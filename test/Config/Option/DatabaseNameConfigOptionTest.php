@@ -7,7 +7,7 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\DatabaseNameConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseNameConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseNameConfigOptionTest extends TestCase

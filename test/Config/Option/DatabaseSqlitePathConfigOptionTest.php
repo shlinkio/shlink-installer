@@ -7,8 +7,8 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\DatabaseDriverConfigOption;
-use Shlinkio\Shlink\Installer\Config\Option\DatabaseSqlitePathConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseSqlitePathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseSqlitePathConfigOptionTest extends TestCase

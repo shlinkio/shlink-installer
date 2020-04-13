@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\CheckVisitsThresholdConfigOption;
-use Shlinkio\Shlink\Installer\Config\Option\VisitsThresholdConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Visit\CheckVisitsThresholdConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsThresholdConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class VisitsThresholdConfigOptionTest extends TestCase

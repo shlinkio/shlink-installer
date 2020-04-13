@@ -64,12 +64,12 @@ return [
 
     'installer' => [
         'enabled_options' => [
-            Option\DatabaseDriverConfigOption::class,
-            Option\DatabaseHostConfigOption::class,
+            Option\Database\DatabaseDriverConfigOption::class,
+            Option\Database\DatabaseHostConfigOption::class,
             Option\BasePathConfigOption::class,
-            Option\Regular404RedirectConfigOption::class,
-            Option\ShortDomainHostConfigOption::class,
-            Option\ShortDomainSchemaConfigOption::class,
+            Option\Redirect\Regular404RedirectConfigOption::class,
+            Option\UrlShortener\ShortDomainHostConfigOption::class,
+            Option\UrlShortener\ShortDomainSchemaConfigOption::class,
         ],
     ],
 

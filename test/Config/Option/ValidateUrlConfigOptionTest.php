@@ -7,7 +7,7 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\ValidateUrlConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ValidateUrlConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class ValidateUrlConfigOptionTest extends TestCase

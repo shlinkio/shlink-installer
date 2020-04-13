@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\ShortCodeLengthOption;
+use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortCodeLengthOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortCodeLengthOptionTest extends TestCase

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\TaskWorkerNumConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Worker\TaskWorkerNumConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class TaskWorkerNumConfigOptionTest extends TestCase

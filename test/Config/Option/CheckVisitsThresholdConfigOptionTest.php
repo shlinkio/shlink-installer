@@ -7,7 +7,7 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\CheckVisitsThresholdConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Visit\CheckVisitsThresholdConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class CheckVisitsThresholdConfigOptionTest extends TestCase

@@ -7,7 +7,7 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\ShortDomainSchemaConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainSchemaConfigOptionTest extends TestCase
