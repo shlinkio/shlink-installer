@@ -2,43 +2,43 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Worker\TaskWorkerNumConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class VisitsWebhooksConfigOptionTest extends TestCase
+class TaskWorkerNumConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private VisitsWebhooksConfigOption $configOption;
+    private TaskWorkerNumConfigOption $configOption;
     private bool $swooleInstalled;
 
     public function setUp(): void
     {
         $this->swooleInstalled = true;
-        $this->configOption = new VisitsWebhooksConfigOption(fn () => $this->swooleInstalled);
+        $this->configOption = new TaskWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'visits_webhooks'], $this->configOption->getConfigPath());
+        $this->assertEquals(['task_worker_num'], $this->configOption->getConfigPath());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = [];
+        $expectedAnswer = 16;
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
-            . 'receive visits (Ignore this if you are not serving shlink with swoole)',
-            null,
+            'How many concurrent background tasks do you want Shlink to be able to execute? (Ignore this if you are '
+            . 'not serving shlink with swoole)',
+            '16',
             Argument::any(),
         )->willReturn($expectedAnswer);
 
@@ -65,10 +65,6 @@ class VisitsWebhooksConfigOptionTest extends TestCase
     {
         yield 'without swoole' => [false, new PathCollection(), false];
         yield 'with swoole and no config' => [true, new PathCollection(), true];
-        yield 'with swoole and config' => [true, new PathCollection([
-            'url_shortener' => [
-                'visits_webhooks' => [],
-            ],
-        ]), false];
+        yield 'with swoole and config' => [true, new PathCollection(['task_worker_num' => 16]), false];
     }
 }

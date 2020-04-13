@@ -2,43 +2,41 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Redirect;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\Worker\WebWorkerNumConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Redirect\Regular404RedirectConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class WebWorkerNumConfigOptionTest extends TestCase
+class Regular404RedirectConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private WebWorkerNumConfigOption $configOption;
-    private bool $swooleInstalled;
+    private Regular404RedirectConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->swooleInstalled = true;
-        $this->configOption = new WebWorkerNumConfigOption(fn () => $this->swooleInstalled);
+        $this->configOption = new Regular404RedirectConfigOption();
     }
 
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['web_worker_num'], $this->configOption->getConfigPath());
+        $this->assertEquals(['not_found_redirects', 'regular_404'], $this->configOption->getConfigPath());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = 16;
+        $expectedAnswer = 'the_answer';
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'How many concurrent requests do you want Shlink to be able to serve? (Ignore this if you are '
-            . 'not serving shlink with swoole)',
-            '16',
+            'Custom URL to redirect to when a user hits a not found URL other than an invalid short URL '
+            . '(If no value is provided, the user will see a default "404 not found" page)',
+            null,
             Argument::any(),
         )->willReturn($expectedAnswer);
 

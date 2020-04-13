@@ -2,41 +2,43 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\Redirect\Regular404RedirectConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Worker\WebWorkerNumConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class Regular404RedirectConfigOptionTest extends TestCase
+class WebWorkerNumConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private Regular404RedirectConfigOption $configOption;
+    private WebWorkerNumConfigOption $configOption;
+    private bool $swooleInstalled;
 
     public function setUp(): void
     {
-        $this->configOption = new Regular404RedirectConfigOption();
+        $this->swooleInstalled = true;
+        $this->configOption = new WebWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['not_found_redirects', 'regular_404'], $this->configOption->getConfigPath());
+        $this->assertEquals(['web_worker_num'], $this->configOption->getConfigPath());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = 'the_answer';
+        $expectedAnswer = 16;
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'Custom URL to redirect to when a user hits a not found URL other than an invalid short URL '
-            . '(If no value is provided, the user will see a default "404 not found" page)',
-            null,
+            'How many concurrent requests do you want Shlink to be able to serve? (Ignore this if you are '
+            . 'not serving shlink with swoole)',
+            '16',
             Argument::any(),
         )->willReturn($expectedAnswer);
 

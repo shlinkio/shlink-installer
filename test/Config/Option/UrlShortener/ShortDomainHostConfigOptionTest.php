@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseUserConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainHostConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class DatabaseUserConfigOptionTest extends TestCase
+class ShortDomainHostConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private DatabaseUserConfigOption $configOption;
+    private ShortDomainHostConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new DatabaseUserConfigOption();
+        $this->configOption = new ShortDomainHostConfigOption();
     }
 
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['entity_manager', 'connection', 'user'], $this->configOption->getConfigPath());
+        $this->assertEquals(['url_shortener', 'domain', 'hostname'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -33,7 +33,7 @@ class DatabaseUserConfigOptionTest extends TestCase
     {
         $expectedAnswer = 'the_answer';
         $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask('Database username', null, Argument::any())->willReturn($expectedAnswer);
+        $ask = $io->ask('Default domain for generated short URLs', null, Argument::any())->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
