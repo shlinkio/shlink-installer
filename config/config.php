@@ -55,9 +55,15 @@ return [
                 Config\Option\CheckVisitsThresholdConfigOption::class,
                 Config\Option\VisitsThresholdConfigOption::class,
                 Config\Option\BasePathConfigOption::class,
-                Config\Option\RedisServersConfigOption::class,
                 Config\Option\TaskWorkerNumConfigOption::class,
                 Config\Option\WebWorkerNumConfigOption::class,
+            ],
+            'INTEGRATIONS' => [
+                Config\Option\RedisServersConfigOption::class,
+                Config\Option\Mercure\EnableMercureConfigOption::class,
+                Config\Option\Mercure\MercurePublicUrlConfigOption::class,
+                Config\Option\Mercure\MercureInternalUrlConfigOption::class,
+                Config\Option\Mercure\MercureJwtSecretConfigOption::class,
             ],
         ],
 
@@ -85,6 +91,10 @@ return [
             Config\Option\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\WebWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\ShortCodeLengthOption::class => InvokableFactory::class,
+            Config\Option\Mercure\EnableMercureConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\Mercure\MercurePublicUrlConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\Mercure\MercureInternalUrlConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\Mercure\MercureJwtSecretConfigOption::class => ConfigAbstractFactory::class,
         ],
     ],
 
@@ -92,6 +102,12 @@ return [
         Config\Option\VisitsWebhooksConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\TaskWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\WebWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\EnableMercureConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercurePublicUrlConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercureInternalUrlConfigOption::class => [
+            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
+        ],
+        Config\Option\Mercure\MercureJwtSecretConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Service\ShlinkAssetsHandler::class => [Filesystem::class],
         Service\InstallationCommandsRunner::class => [
             Console\Helper\ProcessHelper::class,

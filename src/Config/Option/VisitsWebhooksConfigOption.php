@@ -4,21 +4,13 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
-use Closure;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class VisitsWebhooksConfigOption implements ConfigOptionInterface
+class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
 {
     use ConfigOptionsValidatorsTrait;
-
-    private Closure $swooleInstalled;
-
-    public function __construct(callable $swooleInstalled)
-    {
-        $this->swooleInstalled = Closure::fromCallable($swooleInstalled);
-    }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): array
     {
@@ -33,10 +25,5 @@ class VisitsWebhooksConfigOption implements ConfigOptionInterface
     public function getConfigPath(): array
     {
         return ['url_shortener', 'visits_webhooks'];
-    }
-
-    public function shouldBeAsked(PathCollection $currentOptions): bool
-    {
-        return ($this->swooleInstalled)() && ! $currentOptions->pathExists($this->getConfigPath());
     }
 }
