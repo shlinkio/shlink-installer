@@ -32,7 +32,10 @@ class DatabaseMySqlOptionsConfigOptionTest extends TestCase
     public function askReturnsStaticValue(): void
     {
         $io = $this->prophesize(StyleInterface::class)->reveal();
-        $this->assertEquals([1002 => 'SET NAMES utf8'], $this->configOption->ask($io, new PathCollection()));
+        $this->assertEquals([
+            1002 => 'SET NAMES utf8',
+            1000 => true,
+        ], $this->configOption->ask($io, new PathCollection()));
     }
 
     /**
