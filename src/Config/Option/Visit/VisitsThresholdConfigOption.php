@@ -7,7 +7,6 @@ namespace Shlinkio\Shlink\Installer\Config\Option\Visit;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
-use Shlinkio\Shlink\Installer\Config\Option\Visit\CheckVisitsThresholdConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Symfony\Component\Console\Style\StyleInterface;
 
