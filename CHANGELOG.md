@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 #### Added
 
 * [#71](https://github.com/shlinkio/shlink-installer/issues/71) Added config options for mercure integration.
+* [#76](https://github.com/shlinkio/shlink-installer/issues/76) Added `MYSQL_ATTR_USE_BUFFERED_QUERY => true` driver option for mysql and mariadb connections.
 
 #### Changed
 
