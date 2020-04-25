@@ -53,6 +53,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 #### Fixed
 
+* [#78](https://github.com/shlinkio/shlink-installer/issues/78) Allowed clear cache command to fail, and ensured it is not run on new installs.
+
 
 ## 4.3.2 - 2020-04-06
 
