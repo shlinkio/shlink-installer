@@ -56,6 +56,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * [#78](https://github.com/shlinkio/shlink-installer/issues/78) Allowed clear cache command to fail, and ensured it is not run on new installs.
 
 
+## 4.4.0 - 2020-04-29
+
+#### Added
+
+* [#80](https://github.com/shlinkio/shlink-installer/issues/80) Added config option to ask for a custom GeoLite license key.
+
+#### Changed
+
+* *Nothing*
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 4.3.2 - 2020-04-06
 
 #### Added

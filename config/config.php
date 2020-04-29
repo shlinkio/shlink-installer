@@ -44,6 +44,7 @@ return [
                 Config\Option\UrlShortener\ValidateUrlConfigOption::class,
                 Config\Option\UrlShortener\ShortCodeLengthOption::class,
                 Config\Option\Visit\VisitsWebhooksConfigOption::class,
+                Config\Option\GeoLiteLicenseKeyConfigOption::class,
             ],
             'REDIRECTS' => [
                 Config\Option\Redirect\BaseUrlRedirectConfigOption::class,
@@ -95,6 +96,7 @@ return [
             Config\Option\Mercure\MercurePublicUrlConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Mercure\MercureInternalUrlConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Mercure\MercureJwtSecretConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
         ],
     ],
 
