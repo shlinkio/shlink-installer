@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 4.4.0 - 2020-04-29
+
+#### Added
+
+* [#80](https://github.com/shlinkio/shlink-installer/issues/80) Added config option to ask for a custom GeoLite license key.
+
+#### Changed
+
+* *Nothing*
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 4.3.2 - 2020-04-06
 
 #### Added
