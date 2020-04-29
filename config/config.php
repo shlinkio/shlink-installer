@@ -44,6 +44,7 @@ return [
                 Config\Option\ValidateUrlConfigOption::class,
                 Config\Option\VisitsWebhooksConfigOption::class,
                 Config\Option\ShortCodeLengthOption::class,
+                Config\Option\GeoLiteLicenseKeyConfigOption::class,
             ],
             'REDIRECTS' => [
                 Config\Option\BaseUrlRedirectConfigOption::class,
@@ -85,6 +86,7 @@ return [
             Config\Option\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\WebWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\ShortCodeLengthOption::class => InvokableFactory::class,
+            Config\Option\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
         ],
     ],
 
