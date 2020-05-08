@@ -7,24 +7,24 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ObfuscateConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\IpAnonymizationConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class ObfuscateConfigOptionTest extends TestCase
+class IpAnonymizationConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private ObfuscateConfigOption $configOption;
+    private IpAnonymizationConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new ObfuscateConfigOption();
+        $this->configOption = new IpAnonymizationConfigOption();
     }
 
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'obfuscate_remote_addr'], $this->configOption->getConfigPath());
+        $this->assertEquals(['url_shortener', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
     }
 
     /**

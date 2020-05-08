@@ -8,11 +8,11 @@ use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class ObfuscateConfigOption extends BaseConfigOption
+class IpAnonymizationConfigOption extends BaseConfigOption
 {
     public function getConfigPath(): array
     {
-        return ['url_shortener', 'obfuscate_remote_addr'];
+        return ['url_shortener', 'anonymize_remote_addr'];
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool
