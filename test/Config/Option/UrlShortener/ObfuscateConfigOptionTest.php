@@ -40,11 +40,11 @@ class ObfuscateConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
 
         $firstConfirm = $io->confirm(
-            'Do you want visitors\' remote IP addresses to be obfuscated before persisting them in the database?',
+            'Do you want visitors\' remote IP addresses to be anonymized before persisting them in the database?',
         )->willReturn($firstAnswer);
-        $secondConfirm = $io->confirm('Do you still want to disable obfuscation?', false)->willReturn($secondAnswer);
+        $secondConfirm = $io->confirm('Do you still want to disable anonymization?', false)->willReturn($secondAnswer);
         $warning = $io->warning(
-            'Careful! If you disable IP address obfuscation, you will no longer be in compliance with the GDPR and '
+            'Careful! If you disable IP address anonymization, you will no longer be in compliance with the GDPR and '
             . 'other similar data protection regulations.',
         );
 
@@ -58,9 +58,9 @@ class ObfuscateConfigOptionTest extends TestCase
 
     public function provideConfirmAnswers(): iterable
     {
-        yield 'obfuscating' => [true, true, false, true];
-        yield 'obfuscating 2' => [true, false, false, true];
-        yield 'obfuscating after warning' => [false, false, true, true];
-        yield 'not obfuscating' => [false, true, true, false];
+        yield 'anonymizing' => [true, true, false, true];
+        yield 'anonymizing 2' => [true, false, false, true];
+        yield 'anonymizing after warning' => [false, false, true, true];
+        yield 'not anonymizing' => [false, true, true, false];
     }
 }

@@ -17,17 +17,17 @@ class ObfuscateConfigOption extends BaseConfigOption
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool
     {
-        $obfuscate = $io->confirm(
-            'Do you want visitors\' remote IP addresses to be obfuscated before persisting them in the database?',
+        $anonymize = $io->confirm(
+            'Do you want visitors\' remote IP addresses to be anonymized before persisting them in the database?',
         );
-        if ($obfuscate) {
+        if ($anonymize) {
             return true;
         }
 
         $io->warning(
-            'Careful! If you disable IP address obfuscation, you will no longer be in compliance with the GDPR and '
+            'Careful! If you disable IP address anonymization, you will no longer be in compliance with the GDPR and '
             . 'other similar data protection regulations.',
         );
-        return ! $io->confirm('Do you still want to disable obfuscation?', false);
+        return ! $io->confirm('Do you still want to disable anonymization?', false);
     }
 }
