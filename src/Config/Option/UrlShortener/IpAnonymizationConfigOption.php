@@ -18,7 +18,7 @@ class IpAnonymizationConfigOption extends BaseConfigOption
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool
     {
         $anonymize = $io->confirm(
-            'Do you want visitors\' remote IP addresses to be anonymized before persisting them in the database?',
+            'Do you want visitors\' remote IP addresses to be anonymized before persisting them to the database?',
         );
         if ($anonymize) {
             return true;

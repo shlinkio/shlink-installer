@@ -40,7 +40,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
 
         $firstConfirm = $io->confirm(
-            'Do you want visitors\' remote IP addresses to be anonymized before persisting them in the database?',
+            'Do you want visitors\' remote IP addresses to be anonymized before persisting them to the database?',
         )->willReturn($firstAnswer);
         $secondConfirm = $io->confirm('Do you still want to disable anonymization?', false)->willReturn($secondAnswer);
         $warning = $io->warning(
