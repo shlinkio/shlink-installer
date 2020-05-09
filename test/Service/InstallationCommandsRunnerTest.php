@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Service;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -21,6 +22,8 @@ use function sprintf;
 
 class InstallationCommandsRunnerTest extends TestCase
 {
+    use ProphecyTrait;
+
     private const COMMAND_NAMES = ['foo', 'bar'];
 
     private InstallationCommandsRunner $commandsRunner;
@@ -48,6 +51,7 @@ class InstallationCommandsRunnerTest extends TestCase
             'command' => sprintf('%s something', $name),
             'initMessage' => sprintf('%s_init', $name),
             'errorMessage' => sprintf('%s_error', $name),
+            'failOnError' => $name === 'foo',
         ]));
     }
 
@@ -61,11 +65,11 @@ class InstallationCommandsRunnerTest extends TestCase
      * @test
      * @dataProvider provideCommandNames
      */
-    public function returnsSuccessWhenProcessIsProperlyRun(string $name): void
+    public function returnsSuccessWhenProcessIsProperlyRunOrDoesNotFailOnError(string $name): void
     {
         $command = ['php', $name, 'something'];
 
-        $process = $this->createProcessMock(true);
+        $process = $this->createProcessMock($name === 'foo');
         $run = $this->processHelper->run($this->io->reveal(), $command)->willReturn(
             $process->reveal(),
         );
@@ -87,12 +91,15 @@ class InstallationCommandsRunnerTest extends TestCase
         $writSuccessMsg->shouldHaveBeenCalledOnce();
     }
 
-    /**
-     * @test
-     * @dataProvider provideCommandNames
-     */
-    public function returnsErrorWhenProcessIsNotProperlyRun(string $name): void
+    public function provideCommandNames(): array
     {
+        return map(self::COMMAND_NAMES, fn (string $name) => [$name]);
+    }
+
+    /** @test */
+    public function returnsErrorWhenProcessIsNotProperlyRun(): void
+    {
+        $name = 'foo';
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
@@ -115,11 +122,6 @@ class InstallationCommandsRunnerTest extends TestCase
         $writRunningMsg->shouldHaveBeenCalledOnce();
         $writErrorMsg->shouldHaveBeenCalledOnce();
         $writSuccessMsg->shouldNotHaveBeenCalled();
-    }
-
-    public function provideCommandNames(): array
-    {
-        return map(self::COMMAND_NAMES, fn (string $name) => [$name]);
     }
 
     private function createProcessMock(bool $isSuccessful): ObjectProphecy

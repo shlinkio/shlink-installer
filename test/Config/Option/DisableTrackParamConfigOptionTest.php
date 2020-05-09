@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\DisableTrackParamConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableTrackParamConfigOptionTest extends TestCase
 {
+    use ProphecyTrait;
+
     private DisableTrackParamConfigOption $configOption;
 
     public function setUp(): void

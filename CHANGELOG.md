@@ -4,6 +4,59 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 5.0.0 - 2020-05-09
+
+#### Added
+
+* [#71](https://github.com/shlinkio/shlink-installer/issues/71) Added config options for mercure integration.
+* [#82](https://github.com/shlinkio/shlink-installer/issues/82) Added config option to optionally disable IP address anonymization.
+* [#76](https://github.com/shlinkio/shlink-installer/issues/76) Added `MYSQL_ATTR_USE_BUFFERED_QUERY => true` driver option for mysql and mariadb connections.
+
+#### Changed
+
+* [#74](https://github.com/shlinkio/shlink-installer/issues/74) Grouped several config options to sub-namespaces. The changed classes are as follows.
+
+    * `Database`:
+        * `Config\Option\DatabaseDriverConfigOption` -> `Config\Option\Database\DatabaseDriverConfigOption`
+        * `Config\Option\DatabaseNameConfigOption` -> `Config\Option\Database\DatabaseNameConfigOption`
+        * `Config\Option\DatabaseHostConfigOption` -> `Config\Option\Database\DatabaseHostConfigOption`
+        * `Config\Option\DatabasePortConfigOption` -> `Config\Option\Database\DatabasePortConfigOption`
+        * `Config\Option\DatabaseUserConfigOption` -> `Config\Option\Database\DatabaseUserConfigOption`
+        * `Config\Option\DatabasePasswordConfigOption` -> `Config\Option\Database\DatabasePasswordConfigOption`
+        * `Config\Option\DatabaseSqlitePathConfigOption` -> `Config\Option\Database\DatabaseSqlitePathConfigOption`
+        * `Config\Option\DatabaseMySqlOptionsConfigOption` -> `Config\Option\Database\DatabaseMySqlOptionsConfigOption`
+    * `UrlShortener`:
+        * `Config\Option\ShortDomainHostConfigOption` -> `Config\Option\UrlShortener\ShortDomainHostConfigOption`
+        * `Config\Option\ShortDomainSchemaConfigOption` -> `Config\Option\UrlShortener\ShortDomainSchemaConfigOption`
+        * `Config\Option\ValidateUrlConfigOption` -> `Config\Option\UrlShortener\ValidateUrlConfigOption`
+        * `Config\Option\ShortCodeLengthOption` -> `Config\Option\UrlShortener\ShortCodeLengthOption`
+    * `Visit`:
+        * `Config\Option\VisitsWebhooksConfigOption` -> `Config\Option\Visit\VisitsWebhooksConfigOption`
+        * `Config\Option\CheckVisitsThresholdConfigOption` -> `Config\Option\Visit\CheckVisitsThresholdConfigOption`
+        * `Config\Option\VisitsThresholdConfigOption` -> `Config\Option\Visit\VisitsThresholdConfigOption`
+    * `Redirect`:
+        * `Config\Option\BaseUrlRedirectConfigOption` -> `Config\Option\Redirect\BaseUrlRedirectConfigOption`
+        * `Config\Option\InvalidShortUrlRedirectConfigOption` -> `Config\Option\Redirect\InvalidShortUrlRedirectConfigOption`
+        * `Config\Option\Regular404RedirectConfigOption` -> `Config\Option\Redirect\Regular404RedirectConfigOption`
+    * `Worker`:
+        * `Config\Option\TaskWorkerNumConfigOption` -> `Config\Option\Worker\TaskWorkerNumConfigOption`
+        * `Config\Option\WebWorkerNumConfigOption` -> `Config\Option\Worker\WebWorkerNumConfigOption`
+
+    The rest remain the same.
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* [#78](https://github.com/shlinkio/shlink-installer/issues/78) Allowed clear cache command to fail, and ensured it is not run on new installs.
+
+
 ## 4.4.0 - 2020-04-29
 
 #### Added

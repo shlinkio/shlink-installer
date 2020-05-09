@@ -33,7 +33,12 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             return false;
         }
 
-        ['command' => $command, 'initMessage' => $initMessage, 'errorMessage' => $errorMessage] = $commandConfig;
+        [
+            'command' => $command,
+            'initMessage' => $initMessage,
+            'errorMessage' => $errorMessage,
+            'failOnError' => $failOnError,
+        ] = $commandConfig;
         $io->write($initMessage);
 
         $command = [$this->phpBinary, ...explode(' ', $command)];
@@ -44,7 +49,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         );
 
         $process = $this->processHelper->run($io, $command);
-        if ($process->isSuccessful()) {
+        if (! $failOnError || $process->isSuccessful()) {
             $io->writeln(' <info>Success!</info>');
             return true;
         }

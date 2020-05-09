@@ -16,12 +16,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function Functional\every;
-use function Functional\tail;
 
 class InstallCommand extends Command
 {
-    private const POST_INSTALL_COMMANDS = [
+    public const POST_INSTALL_COMMANDS = [
         'db_create_schema',
+        'db_migrate',
+        'orm_proxies',
+    ];
+    public const POST_UPDATE_COMMANDS = [
         'db_migrate',
         'orm_proxies',
         'orm_clear_cache',
@@ -97,7 +100,7 @@ class InstallCommand extends Command
 
     private function execPostInstallCommands(SymfonyStyle $io): bool
     {
-        $commands = $this->isUpdate ? tail(self::POST_INSTALL_COMMANDS) : self::POST_INSTALL_COMMANDS;
+        $commands = $this->isUpdate ? self::POST_UPDATE_COMMANDS : self::POST_INSTALL_COMMANDS;
 
         return every($commands, fn (string $commandName) => $this->commandsRunner->execPhpCommand($commandName, $io));
     }

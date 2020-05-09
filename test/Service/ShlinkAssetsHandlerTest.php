@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Service;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,6 +18,8 @@ use function strpos;
 
 class ShlinkAssetsHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     private ShlinkAssetsHandler $assetsHandler;
     private ObjectProphecy $filesystem;
     private ObjectProphecy $io;

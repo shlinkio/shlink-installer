@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionObject;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
@@ -21,6 +23,8 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 class InstallCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     private InstallCommand $command;
     private CommandTester $commandTester;
     private ObjectProphecy $configWriter;
@@ -66,7 +70,17 @@ class InstallCommandTest extends TestCase
     {
         $this->setIsUpdate($isUpdate);
 
-        $execPhpCommand = $this->commandsRunner->execPhpCommand(Argument::cetera())->willReturn(true);
+        $execPhpCommand = $this->commandsRunner->execPhpCommand(
+            Argument::that(function (string $command) use ($isUpdate) {
+                $expectedCommands = $isUpdate
+                    ? InstallCommand::POST_UPDATE_COMMANDS
+                    : InstallCommand::POST_INSTALL_COMMANDS;
+                Assert::assertContains($command, $expectedCommands);
+
+                return $command;
+            }),
+            Argument::cetera(),
+        )->willReturn(true);
         $resolvePreviousCommand = $this->assetsHandler->resolvePreviousConfig(Argument::cetera())->willReturn(
             ImportedConfig::notImported(),
         );
@@ -76,7 +90,7 @@ class InstallCommandTest extends TestCase
         $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);
 
-        $execPhpCommand->shouldHaveBeenCalledTimes($isUpdate ? 3 : 4);
+        $execPhpCommand->shouldHaveBeenCalledTimes(3);
         $resolvePreviousCommand->shouldHaveBeenCalledTimes($isUpdate ? 1 : 0);
         $importAssets->shouldHaveBeenCalledTimes($isUpdate ? 1 : 0);
         $persistConfig->shouldHaveBeenCalledOnce();
