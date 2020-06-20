@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 5.1.0 - 2020-06-20
+
+#### Added
+
+* [#87](https://github.com/shlinkio/shlink-installer/issues/87) Added config options for redirect customization.
+
+#### Changed
+
+* *Nothing*
+
+#### Deprecated
+
+* *Nothing*
+
+#### Removed
+
+* *Nothing*
+
+#### Fixed
+
+* *Nothing*
+
+
 ## 5.0.0 - 2020-05-09
 
 #### Added
