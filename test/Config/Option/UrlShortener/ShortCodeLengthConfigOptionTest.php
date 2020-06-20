@@ -11,7 +11,7 @@ use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortCodeLengthOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class ShortCodeLengthOptionTest extends TestCase
+class ShortCodeLengthConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
