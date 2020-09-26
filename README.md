@@ -3,10 +3,10 @@
 A PHP command line tool used to install [shlink](https://shlink.io/).
 
 [![Build Status](https://img.shields.io/travis/shlinkio/shlink-installer.svg?style=flat-square)](https://travis-ci.org/shlinkio/shlink-installer)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/shlinkio/shlink-installer.svg?style=flat-square)](https://scrutinizer-ci.com/g/shlinkio/shlink-installer/?branch=master)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/shlinkio/shlink-installer.svg?style=flat-square)](https://scrutinizer-ci.com/g/shlinkio/shlink-installer/?branch=master)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/shlinkio/shlink-installer.svg?style=flat-square)](https://scrutinizer-ci.com/g/shlinkio/shlink-installer/)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/shlinkio/shlink-installer.svg?style=flat-square)](https://scrutinizer-ci.com/g/shlinkio/shlink-installer/)
 [![Latest Stable Version](https://img.shields.io/github/release/shlinkio/shlink-installer.svg?style=flat-square)](https://packagist.org/packages/shlinkio/shlink-installer)
-[![License](https://img.shields.io/github/license/shlinkio/shlink-installer.svg?style=flat-square)](https://github.com/shlinkio/shlink-installer/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/shlinkio/shlink-installer.svg?style=flat-square)](https://github.com/shlinkio/shlink-installer/blob/main/LICENSE)
 [![Paypal donate](https://img.shields.io/badge/Donate-paypal-blue.svg?style=flat-square&logo=paypal&colorA=aaaaaa)](https://slnk.to/donate)
 
 ![Shlink installer](shlink-installer.gif)
