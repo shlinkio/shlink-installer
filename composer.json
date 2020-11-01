@@ -25,13 +25,13 @@
     },
     "require-dev": {
         "devster/ubench": "^2.0",
-        "infection/infection": "^0.16.1",
+        "infection/infection": "^0.20.0",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpstan/phpstan": "^0.12.18",
-        "phpunit/phpunit": "^9.1",
+        "phpstan/phpstan": "^0.12.52",
+        "phpunit/phpunit": "^9.4",
         "roave/security-advisories": "dev-master",
-        "shlinkio/php-coding-standard": "~2.1.0",
-        "symfony/var-dumper": "^5.0"
+        "shlinkio/php-coding-standard": "~2.1.1",
+        "symfony/var-dumper": "^5.1"
     },
     "autoload": {
         "psr-4": {
