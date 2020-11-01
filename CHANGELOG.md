@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* Added explicit support for PHP 8
 
 ### Changed
 * Updated to `infection` 0.20.
