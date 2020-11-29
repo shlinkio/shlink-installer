@@ -25,7 +25,7 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'redirect_status_code'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'redirect_status_code'], $this->configOption->getConfigPath());
     }
 
     /**
@@ -43,7 +43,7 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 

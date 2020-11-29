@@ -25,7 +25,7 @@ class DatabasePortConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['entity_manager', 'connection', 'port'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'port'], $this->configOption->getConfigPath());
     }
 
     /**
@@ -40,7 +40,7 @@ class DatabasePortConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), $currentOptions);
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 

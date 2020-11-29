@@ -58,7 +58,7 @@ class InstallationCommandsRunnerTest extends TestCase
     /** @test */
     public function doesNothingWhenRequestedCommandDoesNotExist(): void
     {
-        $this->assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io->reveal()));
+        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io->reveal()));
     }
 
     /**
@@ -83,7 +83,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $writErrorMsg = $this->io->error(Argument::containingString(sprintf('%s_error', $name)));
         $writSuccessMsg = $this->io->writeln(' <info>Success!</info>');
 
-        $this->assertTrue($this->commandsRunner->execPhpCommand($name, $this->io->reveal()));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io->reveal()));
         $run->shouldHaveBeenCalledOnce();
         $writInitMsg->shouldHaveBeenCalledOnce();
         $writRunningMsg->shouldHaveBeenCalledOnce();
@@ -116,7 +116,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $writErrorMsg = $this->io->error(Argument::containingString(sprintf('%s_error', $name)));
         $writSuccessMsg = $this->io->writeln(' <info>Success!</info>');
 
-        $this->assertFalse($this->commandsRunner->execPhpCommand($name, $this->io->reveal()));
+        self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io->reveal()));
         $run->shouldHaveBeenCalledOnce();
         $writInitMsg->shouldHaveBeenCalledOnce();
         $writRunningMsg->shouldHaveBeenCalledOnce();

@@ -24,7 +24,7 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'domain', 'schema'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'domain', 'schema'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $choice->shouldHaveBeenCalledOnce();
     }
 }

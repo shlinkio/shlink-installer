@@ -25,7 +25,7 @@ class ShortCodeLengthConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'default_short_codes_length'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'default_short_codes_length'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -42,7 +42,7 @@ class ShortCodeLengthConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 }

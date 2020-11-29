@@ -25,7 +25,7 @@ class ShortDomainHostConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'domain', 'hostname'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'domain', 'hostname'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -37,7 +37,7 @@ class ShortDomainHostConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 }

@@ -42,8 +42,8 @@ class ConfigGeneratorFactoryTest extends TestCase
         $enabledOptionsProp = $ref->getProperty('enabledOptions');
         $enabledOptionsProp->setAccessible(true);
 
-        $this->assertEquals($expectedGroups, $configOptionsGroupsProp->getValue($generator));
-        $this->assertEquals($expectedEnabled, $enabledOptionsProp->getValue($generator));
+        self::assertEquals($expectedGroups, $configOptionsGroupsProp->getValue($generator));
+        self::assertEquals($expectedEnabled, $enabledOptionsProp->getValue($generator));
         $getConfig->shouldHaveBeenCalledOnce();
     }
 
