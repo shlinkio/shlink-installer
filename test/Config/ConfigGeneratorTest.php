@@ -141,6 +141,6 @@ class ConfigGeneratorTest extends TestCase
         $generator->generateConfigInteractively($this->io->reveal(), []);
 
         $getPlugin->shouldHaveBeenCalledTimes(2);
-        $this->assertEquals(['a', 'depends_on_a'], $orderedAskedOptions);
+        self::assertEquals(['a', 'depends_on_a'], $orderedAskedOptions);
     }
 }

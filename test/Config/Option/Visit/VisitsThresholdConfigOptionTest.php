@@ -26,7 +26,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['delete_short_urls', 'visits_threshold'], $this->configOption->getConfigPath());
+        self::assertEquals(['delete_short_urls', 'visits_threshold'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -42,14 +42,14 @@ class VisitsThresholdConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 
     /** @test */
     public function dependsOnCheck(): void
     {
-        $this->assertEquals(CheckVisitsThresholdConfigOption::class, $this->configOption->getDependentOption());
+        self::assertEquals(CheckVisitsThresholdConfigOption::class, $this->configOption->getDependentOption());
     }
 
     /**
@@ -58,7 +58,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
      */
     public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(PathCollection $currentOptions, bool $expected): void
     {
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable

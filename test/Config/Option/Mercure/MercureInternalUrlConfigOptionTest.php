@@ -25,7 +25,7 @@ class MercureInternalUrlConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['mercure', 'internal_hub_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['mercure', 'internal_hub_url'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -39,14 +39,14 @@ class MercureInternalUrlConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 
     /** @test */
     public function dependsOnMercureEnabled(): void
     {
-        $this->assertEquals(EnableMercureConfigOption::class, $this->configOption->getDependentOption());
+        self::assertEquals(EnableMercureConfigOption::class, $this->configOption->getDependentOption());
     }
 
     /**
@@ -55,7 +55,7 @@ class MercureInternalUrlConfigOptionTest extends TestCase
      */
     public function shouldBeAskedOnlyIfMercureIsEnabled(PathCollection $currentOptions, bool $expected): void
     {
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable

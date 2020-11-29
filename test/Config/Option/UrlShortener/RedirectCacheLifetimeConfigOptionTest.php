@@ -26,7 +26,7 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'redirect_cache_lifetime'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'redirect_cache_lifetime'], $this->configOption->getConfigPath());
     }
 
     /**
@@ -35,7 +35,7 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
      */
     public function shouldBeCalledOnlyIfRedirectStatusIsPermanent(PathCollection $currentOptions, bool $expected): void
     {
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable
@@ -54,7 +54,7 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
     /** @test */
     public function dependsOnStatusCode(): void
     {
-        $this->assertEquals(RedirectStatusCodeConfigOption::class, $this->configOption->getDependentOption());
+        self::assertEquals(RedirectStatusCodeConfigOption::class, $this->configOption->getDependentOption());
     }
 
     /** @test */
@@ -70,7 +70,7 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 }

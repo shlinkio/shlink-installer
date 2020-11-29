@@ -27,7 +27,7 @@ class WebWorkerNumConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['web_worker_num'], $this->configOption->getConfigPath());
+        self::assertEquals(['web_worker_num'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class WebWorkerNumConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 }

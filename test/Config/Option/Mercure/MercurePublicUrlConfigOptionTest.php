@@ -25,7 +25,7 @@ class MercurePublicUrlConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['mercure', 'public_hub_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['mercure', 'public_hub_url'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -37,7 +37,7 @@ class MercurePublicUrlConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 }

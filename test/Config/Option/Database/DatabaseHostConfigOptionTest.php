@@ -25,26 +25,42 @@ class DatabaseHostConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['entity_manager', 'connection', 'host'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'host'], $this->configOption->getConfigPath());
     }
 
-    /** @test */
-    public function expectedQuestionIsAsked(): void
+    /**
+     * @test
+     * @dataProvider provideDrivers
+     */
+    public function expectedQuestionIsAsked(string $driver, string $expectedQuestionText): void
     {
         $expectedAnswer = 'the_answer';
+        $collection = new PathCollection();
+        $collection->setValueInPath($driver, DatabaseDriverConfigOption::CONFIG_PATH);
+
         $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask('Database host', 'localhost')->willReturn($expectedAnswer);
+        $ask = $io->ask($expectedQuestionText, 'localhost')->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), $collection);
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
+    }
+
+    public function provideDrivers(): iterable
+    {
+        yield 'mysql' => [DatabaseDriverConfigOption::MYSQL_DRIVER, 'Database host'];
+        yield 'mssql' => [DatabaseDriverConfigOption::MSSQL_DRIVER, 'Database host'];
+        yield 'postgres' => [
+            DatabaseDriverConfigOption::POSTGRES_DRIVER,
+            'Database host (or unix socket)',
+        ];
     }
 
     /** @test */
     public function dependsOnDriver(): void
     {
-        $this->assertEquals(DatabaseDriverConfigOption::class, $this->configOption->getDependentOption());
+        self::assertEquals(DatabaseDriverConfigOption::class, $this->configOption->getDependentOption());
     }
 
     /**
@@ -53,7 +69,7 @@ class DatabaseHostConfigOptionTest extends TestCase
      */
     public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(PathCollection $currentOptions, bool $expected): void
     {
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable

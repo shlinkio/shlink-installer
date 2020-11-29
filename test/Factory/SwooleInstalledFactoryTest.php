@@ -21,6 +21,6 @@ class SwooleInstalledFactoryTest extends TestCase
     {
         $func = ($this->factory)();
 
-        $this->assertFalse($func());
+        self::assertFalse($func());
     }
 }

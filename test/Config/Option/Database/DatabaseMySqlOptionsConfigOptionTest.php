@@ -25,14 +25,14 @@ class DatabaseMySqlOptionsConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['entity_manager', 'connection', 'driverOptions'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'driverOptions'], $this->configOption->getConfigPath());
     }
 
     /** @test */
     public function askReturnsStaticValue(): void
     {
         $io = $this->prophesize(StyleInterface::class)->reveal();
-        $this->assertEquals([
+        self::assertEquals([
             1002 => 'SET NAMES utf8',
             1000 => true,
         ], $this->configOption->ask($io, new PathCollection()));
@@ -44,7 +44,7 @@ class DatabaseMySqlOptionsConfigOptionTest extends TestCase
      */
     public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(PathCollection $currentOptions, bool $expected): void
     {
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable

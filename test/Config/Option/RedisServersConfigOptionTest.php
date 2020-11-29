@@ -24,7 +24,7 @@ class RedisServersConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['cache', 'redis'], $this->configOption->getConfigPath());
+        self::assertEquals(['cache', 'redis'], $this->configOption->getConfigPath());
     }
 
     /**
@@ -41,7 +41,7 @@ class RedisServersConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 

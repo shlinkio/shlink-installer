@@ -26,7 +26,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
     public function webhooksAreProperlySplitAndValidated(?string $webhooks, array $expectedResult): void
     {
         $result = $this->validators->splitAndValidateMultipleUrls($webhooks);
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function provideValidUrls(): iterable
@@ -95,7 +95,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
      */
     public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid($value, int $expected): void
     {
-        $this->assertEquals($expected, $this->validators->validatePositiveNumber($value));
+        self::assertEquals($expected, $this->validators->validatePositiveNumber($value));
     }
 
     public function provideValidValues(): iterable

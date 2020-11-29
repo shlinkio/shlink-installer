@@ -8,45 +8,42 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseUnixSocketConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class DatabaseDriverConfigOptionTest extends TestCase
+class DatabaseUnixSocketConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private DatabaseDriverConfigOption $configOption;
+    private DatabaseUnixSocketConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new DatabaseDriverConfigOption();
+        $this->configOption = new DatabaseUnixSocketConfigOption();
     }
 
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'driver'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'unix_socket'], $this->configOption->getConfigPath());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = DatabaseDriverConfigOption::SQLITE_DRIVER;
+        $expectedAnswer = '/var/run/mysqld/mysqld.sock';
         $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->choice(
-            'Select database type',
-            [
-                'MySQL',
-                'MariaDB',
-                'PostgreSQL',
-                'MicrosoftSQL',
-                'SQLite',
-            ],
-            'MySQL',
-        )->willReturn('SQLite');
+        $ask = $io->ask('Unix socket (leave empty to not use a socket)')->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
         self::assertEquals($expectedAnswer, $answer);
-        $choice->shouldHaveBeenCalledOnce();
+        $ask->shouldHaveBeenCalledOnce();
+    }
+
+    /** @test */
+    public function dependsOnDriver(): void
+    {
+        self::assertEquals(DatabaseDriverConfigOption::class, $this->configOption->getDependentOption());
     }
 }

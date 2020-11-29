@@ -25,7 +25,7 @@ class DatabasePasswordConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['entity_manager', 'connection', 'password'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'password'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -37,7 +37,7 @@ class DatabasePasswordConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 }

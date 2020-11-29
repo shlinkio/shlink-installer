@@ -24,7 +24,7 @@ class BasePathConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['router', 'base_path'], $this->configOption->getConfigPath());
+        self::assertEquals(['router', 'base_path'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -40,7 +40,7 @@ class BasePathConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 
@@ -50,7 +50,7 @@ class BasePathConfigOptionTest extends TestCase
      */
     public function shouldBeCalledOnlyIfItDoesNotYetExist(PathCollection $currentOptions, bool $expected): void
     {
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable
