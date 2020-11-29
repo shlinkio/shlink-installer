@@ -24,7 +24,7 @@ class EnableMercureConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['___', 'mercure_enabled'], $this->configOption->getConfigPath());
+        self::assertEquals(['___', 'mercure_enabled'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class EnableMercureConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $confirm->shouldHaveBeenCalledOnce();
     }
 }

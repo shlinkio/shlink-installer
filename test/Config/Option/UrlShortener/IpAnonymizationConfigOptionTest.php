@@ -24,7 +24,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
     }
 
     /**
@@ -50,7 +50,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
 
         $result = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
         $firstConfirm->shouldHaveBeenCalledOnce();
         $secondConfirm->shouldHaveBeenCalledTimes($shouldWarn ? 1 : 0);
         $warning->shouldHaveBeenCalledTimes($shouldWarn ? 1 : 0);

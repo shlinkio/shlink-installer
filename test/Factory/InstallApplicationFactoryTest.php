@@ -51,7 +51,7 @@ class InstallApplicationFactoryTest extends TestCase
             ARRAY_FILTER_USE_KEY,
         );
 
-        $this->assertCount(1, $commands);
-        $this->assertEquals('shlink:install', array_shift($commands)->getName());
+        self::assertCount(1, $commands);
+        self::assertEquals('shlink:install', array_shift($commands)->getName());
     }
 }

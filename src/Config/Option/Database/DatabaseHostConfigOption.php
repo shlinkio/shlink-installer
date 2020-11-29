@@ -16,6 +16,9 @@ class DatabaseHostConfigOption extends AbstractNonSqliteDependentConfigOption
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
-        return $io->ask('Database host', 'localhost');
+        $dbDriver = $currentOptions->getValueInPath(DatabaseDriverConfigOption::CONFIG_PATH);
+        $extra = $dbDriver === DatabaseDriverConfigOption::POSTGRES_DRIVER ? ' (or unix socket)' : '';
+
+        return $io->ask('Database host' . $extra, 'localhost');
     }
 }

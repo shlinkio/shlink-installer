@@ -24,7 +24,7 @@ class ValidateUrlConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['url_shortener', 'validate_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'validate_url'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class ValidateUrlConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $confirm->shouldHaveBeenCalledOnce();
     }
 }

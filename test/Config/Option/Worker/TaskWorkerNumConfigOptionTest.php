@@ -27,7 +27,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['task_worker_num'], $this->configOption->getConfigPath());
+        self::assertEquals(['task_worker_num'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 
@@ -58,7 +58,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         bool $expected
     ): void {
         $this->swooleInstalled = $swooleInstalled;
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable

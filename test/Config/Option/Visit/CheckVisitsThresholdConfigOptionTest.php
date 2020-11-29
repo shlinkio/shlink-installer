@@ -24,7 +24,7 @@ class CheckVisitsThresholdConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['delete_short_urls', 'check_visits_threshold'], $this->configOption->getConfigPath());
+        self::assertEquals(['delete_short_urls', 'check_visits_threshold'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class CheckVisitsThresholdConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $confirm->shouldHaveBeenCalledOnce();
     }
 }

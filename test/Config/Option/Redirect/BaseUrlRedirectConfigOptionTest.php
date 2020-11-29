@@ -25,7 +25,7 @@ class BaseUrlRedirectConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['not_found_redirects', 'base_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['not_found_redirects', 'base_url'], $this->configOption->getConfigPath());
     }
 
     /** @test */
@@ -42,7 +42,7 @@ class BaseUrlRedirectConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        $this->assertEquals($expectedAnswer, $answer);
+        self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
     }
 }

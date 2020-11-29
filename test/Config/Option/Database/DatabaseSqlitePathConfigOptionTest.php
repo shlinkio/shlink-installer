@@ -25,14 +25,14 @@ class DatabaseSqlitePathConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        $this->assertEquals(['entity_manager', 'connection', 'path'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'path'], $this->configOption->getConfigPath());
     }
 
     /** @test */
     public function askReturnsStaticValue(): void
     {
         $io = $this->prophesize(StyleInterface::class)->reveal();
-        $this->assertEquals('data/database.sqlite', $this->configOption->ask($io, new PathCollection()));
+        self::assertEquals('data/database.sqlite', $this->configOption->ask($io, new PathCollection()));
     }
 
     /**
@@ -41,7 +41,7 @@ class DatabaseSqlitePathConfigOptionTest extends TestCase
      */
     public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(PathCollection $currentOptions, bool $expected): void
     {
-        $this->assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable
