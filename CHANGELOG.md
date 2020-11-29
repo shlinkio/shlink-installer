@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * Added explicit support for PHP 8
+* Added support for unix sockets on MySQL, MariaDB and PostgreSQL databases
 
 ### Changed
 * Updated to `infection` 0.20.
