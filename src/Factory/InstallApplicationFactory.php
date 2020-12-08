@@ -29,11 +29,11 @@ class InstallApplicationFactory
     private function createInstallCommand(ContainerInterface $container, bool $isUpdate): InstallCommand
     {
         return new InstallCommand(
-            new PhpArrayConfigWriter(),
+            $container->get(PhpArrayConfigWriter::class),
             $container->get(ShlinkAssetsHandler::class),
             $container->get(ConfigGenerator::class),
             $container->get(InstallationCommandsRunner::class),
-            $isUpdate,
+            $isUpdate ? 'update' : 'install',
         );
     }
 }

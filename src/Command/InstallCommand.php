@@ -41,21 +41,20 @@ class InstallCommand extends Command
         ShlinkAssetsHandlerInterface $assetsHandler,
         ConfigGeneratorInterface $configGenerator,
         InstallationCommandsRunnerInterface $commandsRunner,
-        bool $isUpdate
+        string $name = 'install'
     ) {
         parent::__construct();
         $this->configWriter = $configWriter;
         $this->assetsHandler = $assetsHandler;
         $this->configGenerator = $configGenerator;
         $this->commandsRunner = $commandsRunner;
-        $this->isUpdate = $isUpdate;
+        $this->isUpdate = $name === 'update';
+        $this->setName($name);
     }
 
     protected function configure(): void
     {
-        $this
-            ->setName('shlink:install')
-            ->setDescription('Installs or updates Shlink');
+        $this->setDescription('Installs or updates Shlink');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

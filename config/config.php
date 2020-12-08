@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
+use Laminas\Config\Writer\PhpArray as PhpArrayConfigWriter;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Symfony\Component\Console;
@@ -17,6 +18,7 @@ return [
             Console\Application::class => Factory\InstallApplicationFactory::class,
             Filesystem::class => InvokableFactory::class,
             PhpExecutableFinder::class => InvokableFactory::class,
+            PhpArrayConfigWriter::class => InvokableFactory::class,
             Console\Helper\ProcessHelper::class => Factory\ProcessHelperFactory::class,
 
             Service\InstallationCommandsRunner::class => ConfigAbstractFactory::class,
