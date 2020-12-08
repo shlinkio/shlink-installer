@@ -15,7 +15,7 @@ return [
 
     'dependencies' => [
         'factories' => [
-            Console\Application::class => Factory\InstallApplicationFactory::class,
+            Console\Application::class => Factory\ApplicationFactory::class,
             Filesystem::class => InvokableFactory::class,
             PhpExecutableFinder::class => InvokableFactory::class,
             PhpArrayConfigWriter::class => InvokableFactory::class,
@@ -25,6 +25,9 @@ return [
             Service\ShlinkAssetsHandler::class => ConfigAbstractFactory::class,
             Config\ConfigGenerator::class => Config\ConfigGeneratorFactory::class,
             Factory\SwooleInstalledFactory::SWOOLE_INSTALLED => Factory\SwooleInstalledFactory::class,
+
+            Command\InstallCommand::class => ConfigAbstractFactory::class,
+            Command\UpdateCommand::class => ConfigAbstractFactory::class,
         ],
     ],
 
@@ -120,15 +123,35 @@ return [
             Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
         ],
         Config\Option\Mercure\MercureJwtSecretConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+
         Service\ShlinkAssetsHandler::class => [Filesystem::class],
         Service\InstallationCommandsRunner::class => [
             Console\Helper\ProcessHelper::class,
             PhpExecutableFinder::class,
             'config.installer.installation_commands',
         ],
+
+        Command\InstallCommand::class => [
+            PhpArrayConfigWriter::class,
+            Service\ShlinkAssetsHandler::class,
+            Config\ConfigGenerator::class,
+            Service\InstallationCommandsRunner::class,
+        ],
+        Command\UpdateCommand::class => [
+            PhpArrayConfigWriter::class,
+            Service\ShlinkAssetsHandler::class,
+            Config\ConfigGenerator::class,
+            Service\InstallationCommandsRunner::class,
+        ],
     ],
 
     'installer' => [
+        'commands' => [
+            Command\InstallCommand::NAME => Command\InstallCommand::class,
+            Command\UpdateCommand::NAME => Command\UpdateCommand::class,
+//            'set-option' => Command\SetOptionCommand::class,
+        ],
+
         'installation_commands' => [
             'db_create_schema' => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:schema-tool:create',

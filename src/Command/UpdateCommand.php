@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
-class InstallCommand extends AbstractInstallCommand
+class UpdateCommand extends AbstractInstallCommand
 {
-    public const NAME = 'install';
+    public const NAME = 'update';
 
     protected function configure(): void
     {
         $this
             ->setName(self::NAME)
-            ->setDescription('Guides you through the installation process, to get Shlink up and running.');
+            ->setDescription('Helps you import Shlink\'s config from an older version to a new one.');
     }
 
     protected function isUpdate(): bool
     {
-        return false;
+        return true;
     }
 }

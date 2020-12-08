@@ -82,6 +82,7 @@
     },
     "bin": [
         "bin/shlink-install",
-        "bin/shlink-update"
+        "bin/shlink-update",
+        "bin/shlink-installer"
     ]
 }
