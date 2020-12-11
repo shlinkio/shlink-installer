@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [5.3.0] - 2020-12-11
 ### Added
 * [#51](https://github.com/shlinkio/shlink-installer/issues/51) Created new command that allows updating the value of any configuration option.
 
