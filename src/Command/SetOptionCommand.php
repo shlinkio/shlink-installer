@@ -18,7 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 
+use function array_filter;
 use function array_keys;
+use function Functional\contains;
 use function getcwd;
 use function is_iterable;
 use function is_numeric;
@@ -40,15 +42,19 @@ class SetOptionCommand extends Command
         ShlinkAssetsHandlerInterface $assetsHandler,
         ConfigOptionsManagerInterface $optionsManager,
         Filesystem $filesystem,
-        array $groups
+        array $groups,
+        ?array $enabledOptions
     ) {
         parent::__construct();
         $this->configWriter = $configWriter;
         $this->assetsHandler = $assetsHandler;
         $this->optionsManager = $optionsManager;
-        $this->groups = iterator_to_array($this->flattenGroupsWithTitle($groups));
-        $this->generatedConfigPath = getcwd() . '/' . ShlinkAssetsHandler::GENERATED_CONFIG_PATH;
         $this->filesystem = $filesystem;
+        $this->groups = array_filter(
+            iterator_to_array($this->flattenGroupsWithTitle($groups)),
+            static fn (string $configOption) => $enabledOptions === null || contains($enabledOptions, $configOption),
+        );
+        $this->generatedConfigPath = getcwd() . '/' . ShlinkAssetsHandler::GENERATED_CONFIG_PATH;
     }
 
     private function flattenGroupsWithTitle(iterable $groups): Generator
@@ -90,6 +96,6 @@ class SetOptionCommand extends Command
 
         $io->success('Configuration properly updated');
 
-        return 0;
+        return self::SUCCESS;
     }
 }

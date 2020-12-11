@@ -158,6 +158,7 @@ return [
             Config\ConfigOptionsManager::class,
             Filesystem::class,
             'config.config_options.groups',
+            'config.installer.enabled_options',
         ],
     ],
 
