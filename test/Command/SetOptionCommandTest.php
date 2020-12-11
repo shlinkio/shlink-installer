@@ -35,6 +35,9 @@ class SetOptionCommandTest extends TestCase
 
     public function setUp(): void
     {
+        $this->initialCwd = getcwd();
+        chdir(__DIR__ . '/../../test-resources');
+
         $this->configWriter = $this->prophesize(WriterInterface::class);
         $this->assetsHandler = $this->prophesize(ShlinkAssetsHandlerInterface::class);
         $this->optionsManager = $this->prophesize(ConfigOptionsManagerInterface::class);
@@ -55,9 +58,6 @@ class SetOptionCommandTest extends TestCase
         );
         $app->add($command);
         $this->commandTester = new CommandTester($command);
-
-        $this->initialCwd = getcwd();
-        chdir(__DIR__ . '/../../test-resources');
     }
 
     protected function tearDown(): void
