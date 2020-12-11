@@ -41,7 +41,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
             $this->filesystem->remove(self::CACHED_CONFIG_PATH);
         } catch (IOException $e) {
             $io->error(sprintf(
-                'Could not delete cached config! You will have to manually delete the "%s".',
+                'Could not delete cached config! You will have to manually delete the "%s" file.',
                 self::CACHED_CONFIG_PATH,
             ));
             throw $e;

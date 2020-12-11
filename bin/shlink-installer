@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+namespace Shlinkio\Shlink\Installer;
+
+[,, $app] = require __DIR__ . '/run.php';
+$app();
