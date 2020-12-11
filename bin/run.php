@@ -14,5 +14,5 @@ $runApp = static fn (?string $command = null) => $container->build(Application::
 return [
     static fn () => $runApp(Command\InstallCommand::NAME),
     static fn () => $runApp(Command\UpdateCommand::NAME),
-    static fn () => $runApp(),
+    $runApp,
 ];

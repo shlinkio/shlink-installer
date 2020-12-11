@@ -18,7 +18,7 @@
         "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stdlib": "^3.2",
         "lstrojny/functional-php": "^1.9",
-        "shlinkio/shlink-config": "^1.0",
+        "shlinkio/shlink-config": "^1.1.1",
         "symfony/console": "^5.1",
         "symfony/filesystem": "^5.1",
         "symfony/process": "^5.1"

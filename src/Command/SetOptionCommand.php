@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Shlinkio\Shlink\Installer\Command;
+
+use Generator;
+use Laminas\Config\Writer\WriterInterface;
+use Shlinkio\Shlink\Config\Collection\PathCollection;
+use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
+use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Exception\InvalidShlinkPathException;
+use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
+use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
+
+use function array_keys;
+use function getcwd;
+use function is_iterable;
+use function is_numeric;
+use function iterator_to_array;
+
+class SetOptionCommand extends Command
+{
+    public const NAME = 'set-option';
+
+    private WriterInterface $configWriter;
+    private ShlinkAssetsHandlerInterface $assetsHandler;
+    private ConfigOptionsManagerInterface $optionsManager;
+    private Filesystem $filesystem;
+    private array $groups;
+    private string $generatedConfigPath;
+
+    public function __construct(
+        WriterInterface $configWriter,
+        ShlinkAssetsHandlerInterface $assetsHandler,
+        ConfigOptionsManagerInterface $optionsManager,
+        Filesystem $filesystem,
+        array $groups
+    ) {
+        parent::__construct();
+        $this->configWriter = $configWriter;
+        $this->assetsHandler = $assetsHandler;
+        $this->optionsManager = $optionsManager;
+        $this->groups = iterator_to_array($this->flattenGroupsWithTitle($groups));
+        $this->generatedConfigPath = getcwd() . '/' . ShlinkAssetsHandler::GENERATED_CONFIG_PATH;
+        $this->filesystem = $filesystem;
+    }
+
+    private function flattenGroupsWithTitle(iterable $groups): Generator
+    {
+        foreach ($groups as $key => $value) {
+            if (is_iterable($value)) {
+                yield from $this->flattenGroupsWithTitle($value);
+            } elseif (! is_numeric($key)) {
+                yield $key => $value;
+            }
+        }
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->setName(self::NAME)
+            ->setDescription('Allows you to set new values for any config option.');
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output): void
+    {
+        if (! $this->filesystem->exists($this->generatedConfigPath)) {
+            throw InvalidShlinkPathException::forCurrentPath();
+        }
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    {
+        $io = new SymfonyStyle($input, $output);
+        $optionTitle = $io->choice('What config option do you want to change', array_keys($this->groups));
+
+        /** @var ConfigOptionInterface $plugin */
+        $plugin = $this->optionsManager->get($this->groups[$optionTitle]);
+        $answers = new PathCollection(include $this->generatedConfigPath);
+        $answers->setValueInPath($plugin->ask($io, $answers), $plugin->getConfigPath());
+        $this->configWriter->toFile($this->generatedConfigPath, $answers->toArray(), false);
+        $this->assetsHandler->dropCachedConfigIfAny($io);
+
+        $io->success('Configuration properly updated');
+
+        return 0;
+    }
+}
