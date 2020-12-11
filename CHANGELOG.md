@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* [#51](https://github.com/shlinkio/shlink-installer/issues/51) Created new command that allows updating the value of any configuration option.
+
+### Changed
+* [#96](https://github.com/shlinkio/shlink-installer/issues/96) Updated required MSI to 85%.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [5.2.0] - 2020-11-29
 ### Added
 * Added explicit support for PHP 8
