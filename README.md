@@ -25,13 +25,38 @@ The tool expects the active directory to be a valid shlink instance.
 
 There are two main ways to run this tool:
 
-* Using the built-in CLI entry points.
+* Using the built-in CLI entry point.
 
-    Run either `vendor/bin/shlink-install` or `vendor/bin/shlink-update` in order to install or update a shlink instance.
+    Run `vendor/bin/shlink-installer` to print all available commands.
+
+    ```
+    Shlink installer
+
+    Usage:
+    command [options] [arguments]
+
+    Options:
+    -h, --help            Display help for the given command. When no command is given display help for the list command
+    -q, --quiet           Do not output any message
+    -V, --version         Display this application version
+    --ansi            Force ANSI output
+    --no-ansi         Disable ANSI output
+    -n, --no-interaction  Do not ask any interactive question
+    -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+    Available commands:
+    help        Displays help for a command
+    install     Guides you through the installation process, to get Shlink up and running.
+    list        Lists commands
+    set-option  Allows you to set new values for any config option.
+    update      Helps you import Shlink's config from an older version to a new one.
+    ```
+
+    > You can also run `vendor/bin/shlink-install` or `vendor/bin/shlink-update`, which alias the `install` and `update` commands respectively, but this is deprecated and will be removed in next major release.
 
 * Using the `bin/run.php` helper script.
 
-    This script returns two functions that can be used to either install or update a shlink instance.
+    This script returns three functions that can be used to run the install or update, or the whole shlink installer tool.
 
     Just require it and invoke the appropriate function:
 
@@ -40,9 +65,10 @@ There are two main ways to run this tool:
 
     declare(strict_types=1);
 
-    [$install, $update] = require 'vendor/shlinkio/shlink-installer/bin/run.php';
+    [$install, $update, $installer] = require 'vendor/shlinkio/shlink-installer/bin/run.php';
     $install(); // To install
     $update(); // To update
+    $installer(); // To run any supported commands
     ```
 
 ## Customize options

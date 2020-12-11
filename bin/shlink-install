@@ -4,5 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
+// Deprecated. Use "shlink-installer" to interact with this tool
+
 [$install] = require __DIR__ . '/run.php';
 $install();

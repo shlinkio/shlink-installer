@@ -18,7 +18,7 @@
         "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stdlib": "^3.2",
         "lstrojny/functional-php": "^1.9",
-        "shlinkio/shlink-config": "^1.0",
+        "shlinkio/shlink-config": "^1.1.1",
         "symfony/console": "^5.1",
         "symfony/filesystem": "^5.1",
         "symfony/process": "^5.1"
@@ -56,7 +56,7 @@
         "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random --testdox --colors=always",
         "test:ci": "@test --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/junit.xml",
         "test:pretty": "@test --coverage-html build/coverage-html",
-        "infect": "infection --threads=4 --min-msi=80 --log-verbosity=default --only-covered",
+        "infect": "infection --threads=4 --min-msi=85 --log-verbosity=default --only-covered",
         "infect:ci": "@infect --coverage=build --skip-initial-tests",
         "infect:show": "@infect --show-mutations",
         "infect:show:ci": "@infect --show-mutations --coverage=build",
@@ -82,6 +82,7 @@
     },
     "bin": [
         "bin/shlink-install",
-        "bin/shlink-update"
+        "bin/shlink-update",
+        "bin/shlink-installer"
     ]
 }

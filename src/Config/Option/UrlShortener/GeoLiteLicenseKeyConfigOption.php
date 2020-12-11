@@ -22,6 +22,6 @@ class GeoLiteLicenseKeyConfigOption extends BaseConfigOption
             'Provide a GeoLite2 license key. (Leave empty to use default one, but it is '
             . '<fg=green;options=bold>strongly recommended</> to get your own. '
             . 'Go to https://shlink.io/documentation/geolite-license-key to know how to get it)',
-        ) ?? 'G4Lm0C60yJsnkdPi';
+        ) ?? 'G4Lm0C60yJsnkdPi'; // Deprecated
     }
 }

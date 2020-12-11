@@ -58,7 +58,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         $appConfigExists = $this->filesystem->exists('data/cache/app_config.php')->willReturn(true);
         $appConfigRemove = $this->filesystem->remove('data/cache/app_config.php')->willThrow(IOException::class);
         $printError = $this->io->error(
-            'Could not delete cached config! You will have to manually delete the "data/cache/app_config.php".',
+            'Could not delete cached config! You will have to manually delete the "data/cache/app_config.php" file.',
         );
 
         $appConfigExists->shouldBeCalledOnce();
