@@ -2,9 +2,8 @@
 
 A PHP command line tool used to install [shlink](https://shlink.io/).
 
-[![Build Status](https://img.shields.io/travis/com/shlinkio/shlink-installer.svg?style=flat-square)](https://travis-ci.com/shlinkio/shlink-installer)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/shlinkio/shlink-installer.svg?style=flat-square)](https://scrutinizer-ci.com/g/shlinkio/shlink-installer/)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/shlinkio/shlink-installer.svg?style=flat-square)](https://scrutinizer-ci.com/g/shlinkio/shlink-installer/)
+[![Build Status](https://img.shields.io/github/workflow/status/shlinkio/shlink-installer/Continuous%20integration/main?logo=github&style=flat-square)](https://github.com/shlinkio/shlink-installer/actions?query=workflow%3A%22Continuous+integration%22)
+[![Code Coverage](https://img.shields.io/codecov/c/gh/shlinkio/shlink-installer/main?style=flat-square)](https://app.codecov.io/gh/shlinkio/shlink-installer)
 [![Latest Stable Version](https://img.shields.io/github/release/shlinkio/shlink-installer.svg?style=flat-square)](https://packagist.org/packages/shlinkio/shlink-installer)
 [![License](https://img.shields.io/github/license/shlinkio/shlink-installer.svg?style=flat-square)](https://github.com/shlinkio/shlink-installer/blob/main/LICENSE)
 [![Paypal donate](https://img.shields.io/badge/Donate-paypal-blue.svg?style=flat-square&logo=paypal&colorA=aaaaaa)](https://slnk.to/donate)
