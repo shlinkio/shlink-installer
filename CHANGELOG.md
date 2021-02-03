@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* [#101](https://github.com/shlinkio/shlink-installer/issues/101) Added new "auto generate titles" option.
 
 ### Changed
 * Migrated build to Github Actions.
