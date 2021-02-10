@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * [#101](https://github.com/shlinkio/shlink-installer/issues/101) Added new "auto generate titles" option.
+* [#103](https://github.com/shlinkio/shlink-installer/issues/103) Added "track orphan visits" option.
 
 ### Changed
 * Migrated build to Github Actions.
