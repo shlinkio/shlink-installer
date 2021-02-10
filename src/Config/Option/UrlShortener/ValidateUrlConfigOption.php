@@ -8,6 +8,7 @@ use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated */
 class ValidateUrlConfigOption extends BaseConfigOption
 {
     public function getConfigPath(): array
