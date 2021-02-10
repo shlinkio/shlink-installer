@@ -55,10 +55,11 @@ return [
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
+                'URL shortener > Orphan visits tracking'
+                    => Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class,
                 'Webhooks' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
                 'IP Anonymization' => Config\Option\UrlShortener\IpAnonymizationConfigOption::class,
-                'Orphan visits tracking' => Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class,
                 'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
             ],
