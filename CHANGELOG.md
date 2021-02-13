@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [5.4.0] - 2021-02-13
 ### Added
 * [#101](https://github.com/shlinkio/shlink-installer/issues/101) Added new "auto generate titles" option.
 * [#103](https://github.com/shlinkio/shlink-installer/issues/103) Added "track orphan visits" option.
