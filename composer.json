@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "devster/ubench": "^2.0",
-        "infection/infection": "^0.20.0",
+        "infection/infection": "^0.21.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^0.12.52",
         "phpunit/phpunit": "^9.4",
@@ -60,7 +60,7 @@
         "infect:ci": "@infect --coverage=build --skip-initial-tests",
         "infect:show": "@infect --show-mutations",
         "infect:show:ci": "@infect --show-mutations --coverage=build",
-        "test:infect": [
+        "infect:test": [
             "@test:ci",
             "@infect:show:ci"
         ]

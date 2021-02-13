@@ -8,16 +8,18 @@ use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-/** @deprecated */
-class ValidateUrlConfigOption extends BaseConfigOption
+class OrphanVisitsTrackingConfigOption extends BaseConfigOption
 {
     public function getConfigPath(): array
     {
-        return ['url_shortener', 'validate_url'];
+        return ['url_shortener', 'track_orphan_visits'];
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool
     {
-        return $io->confirm('Do you want to validate long urls by 200 HTTP status code on response?');
+        return $io->confirm(
+            'Do you want track orphan visits? (visits to the base URL, invalid short URLs or other "not found" URLs)',
+            true,
+        );
     }
 }

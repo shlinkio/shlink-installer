@@ -53,6 +53,10 @@ return [
                 'URL shortener > Schema' => Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class,
                 'URL shortener > Validate URLs' => Config\Option\UrlShortener\ValidateUrlConfigOption::class,
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
+                'URL shortener > Auto resolve titles'
+                    => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
+                'URL shortener > Orphan visits tracking'
+                    => Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class,
                 'Webhooks' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
                 'IP Anonymization' => Config\Option\UrlShortener\IpAnonymizationConfigOption::class,
@@ -101,6 +105,7 @@ return [
             Config\Option\UrlShortener\ShortDomainHostConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ValidateUrlConfigOption::class => InvokableFactory::class,
+            Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
             Config\Option\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
@@ -112,6 +117,7 @@ return [
             Config\Option\Mercure\MercureJwtSecretConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\IpAnonymizationConfigOption::class => InvokableFactory::class,
+            Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
         ],
