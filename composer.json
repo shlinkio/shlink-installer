@@ -17,21 +17,21 @@
         "laminas/laminas-config-aggregator": "^1.2",
         "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stdlib": "^3.2",
-        "lstrojny/functional-php": "^1.9",
+        "lstrojny/functional-php": "^1.17",
         "shlinkio/shlink-config": "^1.1.1",
-        "symfony/console": "^5.1",
-        "symfony/filesystem": "^5.1",
-        "symfony/process": "^5.1"
+        "symfony/console": "^5.2",
+        "symfony/filesystem": "^5.2",
+        "symfony/process": "^5.2"
     },
     "require-dev": {
         "devster/ubench": "^2.0",
         "infection/infection": "^0.21.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^0.12.52",
-        "phpunit/phpunit": "^9.4",
+        "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
         "shlinkio/php-coding-standard": "~2.1.1",
-        "symfony/var-dumper": "^5.1"
+        "symfony/var-dumper": "^5.2"
     },
     "autoload": {
         "psr-4": {
@@ -56,7 +56,7 @@
         "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random --testdox --colors=always",
         "test:ci": "@test --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/junit.xml",
         "test:pretty": "@test --coverage-html build/coverage-html",
-        "infect": "infection --threads=4 --min-msi=85 --log-verbosity=default --only-covered",
+        "infect": "infection --threads=4 --min-msi=90 --log-verbosity=default --only-covered",
         "infect:ci": "@infect --coverage=build --skip-initial-tests",
         "infect:show": "@infect --show-mutations",
         "infect:show:ci": "@infect --show-mutations --coverage=build",
