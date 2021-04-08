@@ -16,9 +16,12 @@ use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
+use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\PhpExecutableFinder;
+
+use function count;
 
 class UpdateCommandTest extends TestCase
 {
@@ -63,7 +66,7 @@ class UpdateCommandTest extends TestCase
     {
         $execPhpCommand = $this->commandsRunner->execPhpCommand(
             Argument::that(function (string $command) {
-                Assert::assertContains($command, UpdateCommand::POST_UPDATE_COMMANDS);
+                Assert::assertContains($command, InstallationCommand::POST_UPDATE_COMMANDS);
 
                 return $command;
             }),
@@ -78,7 +81,7 @@ class UpdateCommandTest extends TestCase
         $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);
 
-        $execPhpCommand->shouldHaveBeenCalledTimes(3);
+        $execPhpCommand->shouldHaveBeenCalledTimes(count(InstallationCommand::POST_UPDATE_COMMANDS));
         $resolvePreviousCommand->shouldHaveBeenCalledOnce();
         $importAssets->shouldHaveBeenCalledOnce();
         $persistConfig->shouldHaveBeenCalledOnce();

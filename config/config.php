@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer;
 use Laminas\Config\Writer\PhpArray as PhpArrayConfigWriter;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -178,28 +179,34 @@ return [
         'enabled_options' => null,
 
         'installation_commands' => [
-            'db_create_schema' => [
+            InstallationCommand::DB_CREATE_SCHEMA => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:schema-tool:create',
                 'initMessage' => 'Initializing database...',
                 'errorMessage' => 'Error generating database.',
                 'failOnError' => true,
             ],
-            'db_migrate' => [
+            InstallationCommand::DB_MIGRATE => [
                 'command' => 'vendor/doctrine/migrations/bin/doctrine-migrations.php migrations:migrate',
                 'initMessage' => 'Updating database...',
                 'errorMessage' => 'Error updating database.',
                 'failOnError' => true,
             ],
-            'orm_proxies' => [
+            InstallationCommand::ORM_PROXIES => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:generate-proxies',
                 'initMessage' => 'Generating proxies...',
                 'errorMessage' => 'Error generating proxies.',
                 'failOnError' => true,
             ],
-            'orm_clear_cache' => [
+            InstallationCommand::ORM_CLEAR_CACHE => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:clear-cache:metadata',
                 'initMessage' => 'Clearing entities cache...',
                 'errorMessage' => 'Error clearing entities cache.',
+                'failOnError' => false,
+            ],
+            InstallationCommand::GEOLITE_DOWNLOAD_DB => [
+                'command' => null, // Disabled by default, to avoid dependency on consumer (Shlink)
+                'initMessage' => 'Downloading GeoLite2 db file...',
+                'errorMessage' => 'Error downloading GeoLite2 db.',
                 'failOnError' => false,
             ],
         ],
