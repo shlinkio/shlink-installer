@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\IpAnonymizationConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Tracking\IpAnonymizationConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class IpAnonymizationConfigOptionTest extends TestCase
@@ -24,7 +24,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
     }
 
     /**

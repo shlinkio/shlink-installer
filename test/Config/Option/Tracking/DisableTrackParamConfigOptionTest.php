@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\DisableTrackParamConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackParamConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableTrackParamConfigOptionTest extends TestCase
@@ -24,7 +24,7 @@ class DisableTrackParamConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['app_options', 'disable_track_param'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'disable_track_param'], $this->configOption->getConfigPath());
     }
 
     /** @test */
