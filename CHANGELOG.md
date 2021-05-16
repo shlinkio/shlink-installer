@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * [#86](https://github.com/shlinkio/shlink-installer/issues/86) Added new optional installation command to download GeoLite2 db file.
+* [#109](https://github.com/shlinkio/shlink-installer/issues/109) Added ability to define deprecated config paths for options, that are transparently migrated to the new one during update.
 
 ### Changed
 * [#106](https://github.com/shlinkio/shlink-installer/issues/106) Increased required mutation score to 90%.

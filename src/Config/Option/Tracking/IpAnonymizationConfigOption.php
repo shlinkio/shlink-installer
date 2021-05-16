@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
+namespace Shlinkio\Shlink\Installer\Config\Option\Tracking;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\AbstractWithDeprecatedPathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class IpAnonymizationConfigOption extends BaseConfigOption
+class IpAnonymizationConfigOption extends AbstractWithDeprecatedPathConfigOption
 {
     public function getConfigPath(): array
+    {
+        return ['tracking', 'anonymize_remote_addr'];
+    }
+
+    protected function getDeprecatedPath(): array
     {
         return ['url_shortener', 'anonymize_remote_addr'];
     }

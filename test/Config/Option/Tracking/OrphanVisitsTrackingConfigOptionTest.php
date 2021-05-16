@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Tracking\OrphanVisitsTrackingConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class OrphanVisitsTrackingConfigOptionTest extends TestCase
@@ -24,7 +24,7 @@ class OrphanVisitsTrackingConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'track_orphan_visits'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'track_orphan_visits'], $this->configOption->getConfigPath());
     }
 
     /** @test */

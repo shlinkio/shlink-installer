@@ -56,13 +56,15 @@ return [
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
-                'URL shortener > Orphan visits tracking'
-                    => Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class,
                 'Webhooks' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
-                'IP Anonymization' => Config\Option\UrlShortener\IpAnonymizationConfigOption::class,
                 'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
+            ],
+            'TRACKING' => [
+                'Tracking > IP Anonymization' => Config\Option\Tracking\IpAnonymizationConfigOption::class,
+                'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
+                'Tracking > Param to disable tracking' => Config\Option\Tracking\DisableTrackParamConfigOption::class,
             ],
             'REDIRECTS' => [
                 'Redirects > Base URL' => Config\Option\Redirect\BaseUrlRedirectConfigOption::class,
@@ -70,7 +72,6 @@ return [
                 'Redirects > Regular 404' => Config\Option\Redirect\Regular404RedirectConfigOption::class,
             ],
             'APPLICATION' => [
-                'Param to disable tracking' => Config\Option\DisableTrackParamConfigOption::class,
                 'Delete short URLs > Check threshold' => Config\Option\Visit\CheckVisitsThresholdConfigOption::class,
                 'Delete short URLs > Visits threshold amount' => Config\Option\Visit\VisitsThresholdConfigOption::class,
                 'Base path' => Config\Option\BasePathConfigOption::class,
@@ -99,7 +100,7 @@ return [
             Config\Option\Database\DatabaseUnixSocketConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseSqlitePathConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseMySqlOptionsConfigOption::class => InvokableFactory::class,
-            Config\Option\DisableTrackParamConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableTrackParamConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\BaseUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\Regular404RedirectConfigOption::class => InvokableFactory::class,
@@ -117,8 +118,8 @@ return [
             Config\Option\Mercure\MercureInternalUrlConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Mercure\MercureJwtSecretConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\IpAnonymizationConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\IpAnonymizationConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
         ],
