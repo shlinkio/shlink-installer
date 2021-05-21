@@ -9,9 +9,11 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableIpTrackingConfigOption extends AbstractDisableTrackingDependentConfigOption
 {
+    public const CONFIG_PATH = ['tracking', 'disable_ip_tracking'];
+
     public function getConfigPath(): array
     {
-        return ['tracking', 'disable_ip_tracking'];
+        return self::CONFIG_PATH;
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

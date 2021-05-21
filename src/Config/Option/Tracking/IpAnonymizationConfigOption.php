@@ -6,9 +6,11 @@ namespace Shlinkio\Shlink\Installer\Config\Option\Tracking;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\AbstractWithDeprecatedPathConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class IpAnonymizationConfigOption extends AbstractWithDeprecatedPathConfigOption
+class IpAnonymizationConfigOption extends AbstractWithDeprecatedPathConfigOption implements
+    DependentConfigOptionInterface
 {
     public function getConfigPath(): array
     {
@@ -18,6 +20,15 @@ class IpAnonymizationConfigOption extends AbstractWithDeprecatedPathConfigOption
     protected function getDeprecatedPath(): array
     {
         return ['url_shortener', 'anonymize_remote_addr'];
+    }
+
+    public function shouldBeAsked(PathCollection $currentOptions): bool
+    {
+        $parentShouldBeAsked = parent::shouldBeAsked($currentOptions);
+        $disableTracking = $currentOptions->getValueInPath(DisableTrackingConfigOption::CONFIG_PATH);
+        $disableIpTracking = $currentOptions->getValueInPath(DisableIpTrackingConfigOption::CONFIG_PATH);
+
+        return $parentShouldBeAsked && ! $disableTracking && ! $disableIpTracking;
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool
@@ -34,5 +45,10 @@ class IpAnonymizationConfigOption extends AbstractWithDeprecatedPathConfigOption
             . 'other similar data protection regulations.',
         );
         return ! $io->confirm('Do you still want to disable anonymization?', false);
+    }
+
+    public function getDependentOption(): string
+    {
+        return DisableIpTrackingConfigOption::class;
     }
 }
