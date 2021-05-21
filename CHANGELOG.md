@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Changed
 * [#106](https://github.com/shlinkio/shlink-installer/issues/106) Increased required mutation score to 90%.
+* [#112](https://github.com/shlinkio/shlink-installer/issues/112) Ensured IP anonymization option is only asked if tracking or IP tracking have not been disabled.
 
 ### Deprecated
 * *Nothing*
