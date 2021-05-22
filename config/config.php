@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer;
 use Laminas\Config\Writer\PhpArray as PhpArrayConfigWriter;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -55,13 +56,20 @@ return [
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
-                'URL shortener > Orphan visits tracking'
-                    => Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class,
                 'Webhooks' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
-                'IP Anonymization' => Config\Option\UrlShortener\IpAnonymizationConfigOption::class,
                 'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
+            ],
+            'TRACKING' => [
+                'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
+                'Tracking > Param to disable tracking' => Config\Option\Tracking\DisableTrackParamConfigOption::class,
+                'Tracking > Disable tracking' => Config\Option\Tracking\DisableTrackingConfigOption::class,
+                'Tracking > Disable IP address tracking' => Config\Option\Tracking\DisableIpTrackingConfigOption::class,
+                'Tracking > IP Anonymization' => Config\Option\Tracking\IpAnonymizationConfigOption::class,
+                'Tracking > Disable user agent tracking' => Config\Option\Tracking\DisableUaTrackingConfigOption::class,
+                'Tracking > Disable referrer tracking'
+                    => Config\Option\Tracking\DisableReferrerTrackingConfigOption::class,
             ],
             'REDIRECTS' => [
                 'Redirects > Base URL' => Config\Option\Redirect\BaseUrlRedirectConfigOption::class,
@@ -69,7 +77,6 @@ return [
                 'Redirects > Regular 404' => Config\Option\Redirect\Regular404RedirectConfigOption::class,
             ],
             'APPLICATION' => [
-                'Param to disable tracking' => Config\Option\DisableTrackParamConfigOption::class,
                 'Delete short URLs > Check threshold' => Config\Option\Visit\CheckVisitsThresholdConfigOption::class,
                 'Delete short URLs > Visits threshold amount' => Config\Option\Visit\VisitsThresholdConfigOption::class,
                 'Base path' => Config\Option\BasePathConfigOption::class,
@@ -98,7 +105,6 @@ return [
             Config\Option\Database\DatabaseUnixSocketConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseSqlitePathConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseMySqlOptionsConfigOption::class => InvokableFactory::class,
-            Config\Option\DisableTrackParamConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\BaseUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\Regular404RedirectConfigOption::class => InvokableFactory::class,
@@ -116,8 +122,13 @@ return [
             Config\Option\Mercure\MercureInternalUrlConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Mercure\MercureJwtSecretConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\IpAnonymizationConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableTrackParamConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableTrackingConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableIpTrackingConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\IpAnonymizationConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableReferrerTrackingConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableUaTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
         ],
@@ -178,28 +189,34 @@ return [
         'enabled_options' => null,
 
         'installation_commands' => [
-            'db_create_schema' => [
+            InstallationCommand::DB_CREATE_SCHEMA => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:schema-tool:create',
                 'initMessage' => 'Initializing database...',
                 'errorMessage' => 'Error generating database.',
                 'failOnError' => true,
             ],
-            'db_migrate' => [
+            InstallationCommand::DB_MIGRATE => [
                 'command' => 'vendor/doctrine/migrations/bin/doctrine-migrations.php migrations:migrate',
                 'initMessage' => 'Updating database...',
                 'errorMessage' => 'Error updating database.',
                 'failOnError' => true,
             ],
-            'orm_proxies' => [
+            InstallationCommand::ORM_PROXIES => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:generate-proxies',
                 'initMessage' => 'Generating proxies...',
                 'errorMessage' => 'Error generating proxies.',
                 'failOnError' => true,
             ],
-            'orm_clear_cache' => [
+            InstallationCommand::ORM_CLEAR_CACHE => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:clear-cache:metadata',
                 'initMessage' => 'Clearing entities cache...',
                 'errorMessage' => 'Error clearing entities cache.',
+                'failOnError' => false,
+            ],
+            InstallationCommand::GEOLITE_DOWNLOAD_DB => [
+                'command' => null, // Disabled by default, to avoid dependency on consumer (Shlink)
+                'initMessage' => 'Downloading GeoLite2 db file...',
+                'errorMessage' => 'Error downloading GeoLite2 db.',
                 'failOnError' => false,
             ],
         ],

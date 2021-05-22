@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\IpAnonymizationConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableIpTrackingConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Tracking\IpAnonymizationConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class IpAnonymizationConfigOptionTest extends TestCase
@@ -24,7 +25,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
     }
 
     /**
@@ -62,5 +63,61 @@ class IpAnonymizationConfigOptionTest extends TestCase
         yield 'anonymizing 2' => [true, false, false, true];
         yield 'anonymizing after warning' => [false, false, true, true];
         yield 'not anonymizing' => [false, true, true, false];
+    }
+
+    /** @test */
+    public function getDependentOptionReturnsExpectedResult(): void
+    {
+        self::assertEquals(DisableIpTrackingConfigOption::class, $this->configOption->getDependentOption());
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCurrentConfig
+     */
+    public function shouldBeAskedIsTrueOnlyWhenAllConditionsAreMet(PathCollection $currentOptions, bool $expected): void
+    {
+        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+    }
+
+    public function provideCurrentConfig(): iterable
+    {
+        yield [new PathCollection(), true];
+        yield [new PathCollection([
+            'tracking' => [
+                'disable_tracking' => false,
+            ],
+        ]), true];
+        yield [new PathCollection([
+            'tracking' => [
+                'disable_ip_tracking' => false,
+            ],
+        ]), true];
+        yield [new PathCollection([
+            'tracking' => [
+                'disable_tracking' => false,
+                'disable_ip_tracking' => false,
+            ],
+        ]), true];
+        yield [new PathCollection([
+            'tracking' => [
+                'disable_tracking' => true,
+            ],
+        ]), false];
+        yield [new PathCollection([
+            'tracking' => [
+                'disable_ip_tracking' => true,
+            ],
+        ]), false];
+        yield [new PathCollection([
+            'tracking' => [
+                'anonymize_remote_addr' => true,
+            ],
+        ]), false];
+        yield [new PathCollection([
+            'tracking' => [
+                'anonymize_remote_addr' => false,
+            ],
+        ]), false];
     }
 }

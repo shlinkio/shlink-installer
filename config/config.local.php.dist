@@ -2,17 +2,22 @@
 
 declare(strict_types=1);
 
+use Shlinkio\Shlink\Installer\Util\InstallationCommand;
+
 return [
 
     'installer' => [
         'installation_commands' => [
-            'db_create_schema' => [
+            InstallationCommand::DB_CREATE_SCHEMA => [
                 'command' => '-v', // Just print PHP version
             ],
-            'db_migrate' => [
+            InstallationCommand::DB_MIGRATE => [
+                'command' => null, // Skip
+            ],
+            InstallationCommand::ORM_PROXIES => [
                 'command' => '-v', // Just print PHP version
             ],
-            'orm_proxies' => [
+            InstallationCommand::ORM_CLEAR_CACHE => [
                 'command' => '-v', // Just print PHP version
             ],
         ],

@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [6.0.0] - 2021-05-22
+### Added
+* [#86](https://github.com/shlinkio/shlink-installer/issues/86) Added new optional installation command to download GeoLite2 db file.
+* [#109](https://github.com/shlinkio/shlink-installer/issues/109) Added ability to define deprecated config paths for options, that are transparently migrated to the new one during update.
+* [#108](https://github.com/shlinkio/shlink-installer/issues/108) Added new tracking options.
+
+### Changed
+* [#106](https://github.com/shlinkio/shlink-installer/issues/106) Increased required mutation score to 90%.
+* [#112](https://github.com/shlinkio/shlink-installer/issues/112) Ensured IP anonymization option is only asked if tracking or IP tracking have not been disabled.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [5.4.0] - 2021-02-13
 ### Added
 * [#101](https://github.com/shlinkio/shlink-installer/issues/101) Added new "auto generate titles" option.

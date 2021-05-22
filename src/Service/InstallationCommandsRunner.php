@@ -41,6 +41,12 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         ] = $commandConfig;
         $io->write($initMessage);
 
+        // Skip the command if it's null, allowing it to be disabled
+        if ($command === null) {
+            $io->writeln(' <comment>Skipped</comment>');
+            return true;
+        }
+
         $command = [$this->phpBinary, ...explode(' ', $command)];
         $io->write(
             sprintf(' <options=bold>[Running "%s"]</> ', implode(' ', $command)),
