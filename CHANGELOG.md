@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* [#115](https://github.com/shlinkio/shlink-installer/issues/115) Added support for `append_extra_path` config option.
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [6.0.0] - 2021-05-22
 ### Added
 * [#86](https://github.com/shlinkio/shlink-installer/issues/86) Added new optional installation command to download GeoLite2 db file.
