@@ -108,7 +108,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 
         try {
             $this->filesystem->copy($fileToImport, self::GEO_LITE_DB_PATH);
-        } catch (IOException $e) {
+        } catch (IOException) {
             $io->note('It was not possible to import GeoLite db. Skipping and letting regular update take care of it.');
         }
     }
