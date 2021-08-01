@@ -19,18 +19,11 @@ use function get_class;
 
 class ConfigGenerator implements ConfigGeneratorInterface
 {
-    private ConfigOptionsManagerInterface $configOptionsManager;
-    private array $configOptionsGroups;
-    private ?array $enabledOptions;
-
     public function __construct(
-        ConfigOptionsManagerInterface $configOptionsManager,
-        array $configOptionsGroups,
-        ?array $enabledOptions
+        private ConfigOptionsManagerInterface $configOptionsManager,
+        private array $configOptionsGroups,
+        private ?array $enabledOptions
     ) {
-        $this->configOptionsManager = $configOptionsManager;
-        $this->configOptionsGroups = $configOptionsGroups;
-        $this->enabledOptions = $enabledOptions;
     }
 
     public function generateConfigInteractively(StyleInterface $io, array $previousConfig): PathCollection

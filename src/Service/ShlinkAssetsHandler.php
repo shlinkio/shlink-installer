@@ -21,11 +21,8 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
     private const SQLITE_DB_PATH = 'data/database.sqlite';
     private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
 
-    private Filesystem $filesystem;
-
-    public function __construct(Filesystem $filesystem)
+    public function __construct(private Filesystem $filesystem)
     {
-        $this->filesystem = $filesystem;
     }
 
     /**
