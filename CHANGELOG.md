@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Changed
 * [#117](https://github.com/shlinkio/shlink-installer/issues/117) Added experimental builds under PHP 8.1
+* [#120](https://github.com/shlinkio/shlink-installer/issues/120) Increased required PHPStan level to 8.
 
 ### Deprecated
 * *Nothing*
