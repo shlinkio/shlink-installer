@@ -6,13 +6,8 @@ namespace Shlinkio\Shlink\Installer\Model;
 
 final class ImportedConfig
 {
-    private string $importPath;
-    private array $importedConfig;
-
-    private function __construct(string $importPath, array $importedConfig)
+    private function __construct(private string $importPath, private array $importedConfig)
     {
-        $this->importPath = $importPath;
-        $this->importedConfig = $importedConfig;
     }
 
     public static function notImported(): self

@@ -15,14 +15,13 @@ use function sprintf;
 
 class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
 {
-    private ProcessHelper $processHelper;
-    private array $commandsMapping;
     private string $phpBinary;
 
-    public function __construct(ProcessHelper $processHelper, PhpExecutableFinder $phpFinder, array $commandsMapping)
-    {
-        $this->processHelper = $processHelper;
-        $this->commandsMapping = $commandsMapping;
+    public function __construct(
+        private ProcessHelper $processHelper,
+        PhpExecutableFinder $phpFinder,
+        private array $commandsMapping
+    ) {
         $this->phpBinary = $phpFinder->find(false) ?: 'php';
     }
 

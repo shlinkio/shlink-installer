@@ -21,11 +21,8 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
     private const SQLITE_DB_PATH = 'data/database.sqlite';
     private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
 
-    private Filesystem $filesystem;
-
-    public function __construct(Filesystem $filesystem)
+    public function __construct(private Filesystem $filesystem)
     {
-        $this->filesystem = $filesystem;
     }
 
     /**
@@ -111,7 +108,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 
         try {
             $this->filesystem->copy($fileToImport, self::GEO_LITE_DB_PATH);
-        } catch (IOException $e) {
+        } catch (IOException) {
             $io->note('It was not possible to import GeoLite db. Skipping and letting regular update take care of it.');
         }
     }

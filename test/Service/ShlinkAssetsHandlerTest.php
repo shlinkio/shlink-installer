@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 use function Functional\each;
-use function strpos;
+use function str_starts_with;
 
 class ShlinkAssetsHandlerTest extends TestCase
 {
@@ -96,7 +96,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         $confirm = $this->io->confirm(Argument::any())->will(function (array $args) use (&$count) {
             [$argument] = $args;
 
-            if (strpos($argument, 'Do you want to import configuration from previous installation?') === 0) {
+            if (str_starts_with($argument, 'Do you want to import configuration from previous installation?')) {
                 return true;
             }
 

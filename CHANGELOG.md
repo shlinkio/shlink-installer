@@ -9,13 +9,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * [#115](https://github.com/shlinkio/shlink-installer/issues/115) Added support for `append_extra_path` config option.
 
 ### Changed
-* *Nothing*
+* [#117](https://github.com/shlinkio/shlink-installer/issues/117) Added experimental builds under PHP 8.1
+* [#120](https://github.com/shlinkio/shlink-installer/issues/120) Increased required PHPStan level to 8.
 
 ### Deprecated
 * *Nothing*
 
 ### Removed
-* *Nothing*
+* [#118](https://github.com/shlinkio/shlink-installer/issues/118) Dropped support for PHP 7.4
 
 ### Fixed
 * *Nothing*

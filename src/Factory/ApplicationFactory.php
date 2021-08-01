@@ -15,7 +15,10 @@ class ApplicationFactory
     {
         $defaultCommand = $options['command'] ?? null;
         $commandMap = $container->get('config')['installer']['commands'] ?? [];
-        $app = new Application('Shlink installer', InstalledVersions::getVersion('shlinkio/shlink-installer'));
+        $app = new Application(
+            'Shlink installer',
+            InstalledVersions::getPrettyVersion('shlinkio/shlink-installer') ?? '',
+        );
 
         $app->setCommandLoader(new ContainerCommandLoader($container, $commandMap));
         if ($defaultCommand !== null) {
