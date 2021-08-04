@@ -30,26 +30,18 @@ class SetOptionCommand extends Command
 {
     public const NAME = 'set-option';
 
-    private WriterInterface $configWriter;
-    private ShlinkAssetsHandlerInterface $assetsHandler;
-    private ConfigOptionsManagerInterface $optionsManager;
-    private Filesystem $filesystem;
     private array $groups;
     private string $generatedConfigPath;
 
     public function __construct(
-        WriterInterface $configWriter,
-        ShlinkAssetsHandlerInterface $assetsHandler,
-        ConfigOptionsManagerInterface $optionsManager,
-        Filesystem $filesystem,
+        private WriterInterface $configWriter,
+        private ShlinkAssetsHandlerInterface $assetsHandler,
+        private ConfigOptionsManagerInterface $optionsManager,
+        private Filesystem $filesystem,
         array $groups,
         ?array $enabledOptions
     ) {
         parent::__construct();
-        $this->configWriter = $configWriter;
-        $this->assetsHandler = $assetsHandler;
-        $this->optionsManager = $optionsManager;
-        $this->filesystem = $filesystem;
         $this->groups = array_filter(
             iterator_to_array($this->flattenGroupsWithTitle($groups)),
             static fn (string $configOption) => $enabledOptions === null || contains($enabledOptions, $configOption),

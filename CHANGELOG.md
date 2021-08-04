@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [6.1.0] - 2021-08-04
+### Added
+* [#115](https://github.com/shlinkio/shlink-installer/issues/115) Added support for `append_extra_path` config option.
+
+### Changed
+* [#117](https://github.com/shlinkio/shlink-installer/issues/117) Added experimental builds under PHP 8.1
+* [#120](https://github.com/shlinkio/shlink-installer/issues/120) Increased required PHPStan level to 8.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* [#118](https://github.com/shlinkio/shlink-installer/issues/118) Dropped support for PHP 7.4
+
+### Fixed
+* *Nothing*
+
+
 ## [6.0.0] - 2021-05-22
 ### Added
 * [#86](https://github.com/shlinkio/shlink-installer/issues/86) Added new optional installation command to download GeoLite2 db file.

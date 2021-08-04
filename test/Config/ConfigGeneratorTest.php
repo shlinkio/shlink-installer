@@ -91,14 +91,11 @@ class ConfigGeneratorTest extends TestCase
             ConfigOptionInterface,
             DependentConfigOptionInterface
         {
-            /** @var array */
             private array $orderedAskedOptions;
-            private string $regularPluginClass;
 
-            public function __construct(array &$orderedAskedOptions, string $regularPluginClass)
+            public function __construct(array &$orderedAskedOptions, private string $regularPluginClass)
             {
                 $this->orderedAskedOptions = &$orderedAskedOptions;
-                $this->regularPluginClass = $regularPluginClass;
             }
 
             public function getConfigPath(): array

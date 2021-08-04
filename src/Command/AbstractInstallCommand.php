@@ -20,22 +20,13 @@ use function Functional\every;
 
 abstract class AbstractInstallCommand extends Command
 {
-    private WriterInterface $configWriter;
-    private ShlinkAssetsHandlerInterface $assetsHandler;
-    private ConfigGeneratorInterface $configGenerator;
-    private InstallationCommandsRunnerInterface $commandsRunner;
-
     public function __construct(
-        WriterInterface $configWriter,
-        ShlinkAssetsHandlerInterface $assetsHandler,
-        ConfigGeneratorInterface $configGenerator,
-        InstallationCommandsRunnerInterface $commandsRunner
+        private WriterInterface $configWriter,
+        private ShlinkAssetsHandlerInterface $assetsHandler,
+        private ConfigGeneratorInterface $configGenerator,
+        private InstallationCommandsRunnerInterface $commandsRunner
     ) {
         parent::__construct();
-        $this->configWriter = $configWriter;
-        $this->assetsHandler = $assetsHandler;
-        $this->configGenerator = $configGenerator;
-        $this->commandsRunner = $commandsRunner;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -12,26 +12,26 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
-        "laminas/laminas-config": "^3.2",
-        "laminas/laminas-config-aggregator": "^1.2",
-        "laminas/laminas-servicemanager": "^3.4",
-        "laminas/laminas-stdlib": "^3.2",
+        "php": "^8.0",
+        "laminas/laminas-config": "^3.5",
+        "laminas/laminas-config-aggregator": "^1.5",
+        "laminas/laminas-servicemanager": "^3.7",
+        "laminas/laminas-stdlib": "^3.4",
         "lstrojny/functional-php": "^1.17",
         "shlinkio/shlink-config": "^1.2",
-        "symfony/console": "^5.2",
-        "symfony/filesystem": "^5.2",
-        "symfony/process": "^5.2"
+        "symfony/console": "^5.3",
+        "symfony/filesystem": "^5.3",
+        "symfony/process": "^5.3"
     },
     "require-dev": {
         "devster/ubench": "^2.0",
-        "infection/infection": "^0.23.0",
+        "infection/infection": "^0.24.0",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpstan/phpstan": "^0.12.52",
+        "phpstan/phpstan": "^0.12.92",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
         "shlinkio/php-coding-standard": "~2.1.1",
-        "symfony/var-dumper": "^5.2"
+        "symfony/var-dumper": "^5.3"
     },
     "autoload": {
         "psr-4": {
@@ -52,11 +52,11 @@
         ],
         "cs": "phpcs",
         "cs:fix": "phpcbf",
-        "stan": "phpstan analyse src --level=7",
+        "stan": "phpstan analyse src --level=8",
         "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random --testdox --colors=always",
         "test:ci": "@test --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/junit.xml",
         "test:pretty": "@test --coverage-html build/coverage-html",
-        "infect": "infection --threads=4 --min-msi=90 --log-verbosity=default --only-covered",
+        "infect": "infection --threads=4 --min-msi=90 --log-verbosity=default --only-covered --only-covering-test-cases",
         "infect:ci": "@infect --coverage=build --skip-initial-tests",
         "infect:show": "@infect --show-mutations",
         "infect:show:ci": "@infect --show-mutations --coverage=build",
