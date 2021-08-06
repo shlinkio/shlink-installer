@@ -55,7 +55,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
     public function shouldBeAskedWhenNotPresentAndSwooleIsInstalled(
         bool $swooleInstalled,
         PathCollection $currentOptions,
-        bool $expected
+        bool $expected,
     ): void {
         $this->swooleInstalled = $swooleInstalled;
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));

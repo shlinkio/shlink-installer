@@ -20,7 +20,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
     public function __construct(
         private ProcessHelper $processHelper,
         PhpExecutableFinder $phpFinder,
-        private array $commandsMapping
+        private array $commandsMapping,
     ) {
         $this->phpBinary = $phpFinder->find(false) ?: 'php';
     }

@@ -44,7 +44,7 @@ class ConfigGeneratorTest extends TestCase
     public function configuresExpectedPlugins(
         array $configOptionsGroups,
         ?array $enabledOptions,
-        int $expectedPrintTitleCalls
+        int $expectedPrintTitleCalls,
     ): void {
         $totalPlugins = count(flatten($configOptionsGroups));
         $expectedQuestions = $enabledOptions === null ? $totalPlugins : count($enabledOptions);

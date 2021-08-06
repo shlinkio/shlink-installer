@@ -91,9 +91,8 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
     /**
      * @test
      * @dataProvider provideValidValues
-     * @param mixed $value
      */
-    public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid($value, int $expected): void
+    public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, int $expected): void
     {
         self::assertEquals($expected, $this->validators->validatePositiveNumber($value));
     }

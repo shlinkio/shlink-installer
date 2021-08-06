@@ -24,7 +24,7 @@ abstract class AbstractInstallCommand extends Command
         private WriterInterface $configWriter,
         private ShlinkAssetsHandlerInterface $assetsHandler,
         private ConfigGeneratorInterface $configGenerator,
-        private InstallationCommandsRunnerInterface $commandsRunner
+        private InstallationCommandsRunnerInterface $commandsRunner,
     ) {
         parent::__construct();
     }

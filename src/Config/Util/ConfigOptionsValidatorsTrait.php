@@ -30,10 +30,7 @@ trait ConfigOptionsValidatorsTrait
         return $value;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function validatePositiveNumber($value, int $min = 1): int
+    public function validatePositiveNumber(mixed $value, int $min = 1): int
     {
         if (! is_numeric($value) || $min > (int) $value) {
             throw new InvalidConfigOptionException(
