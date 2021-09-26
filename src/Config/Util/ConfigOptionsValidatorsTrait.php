@@ -40,12 +40,17 @@ trait ConfigOptionsValidatorsTrait
         return map($splitUrls, [$this, 'validateUrl']);
     }
 
-    public function validatePositiveNumber(mixed $value, int $min = 1): int
+    public function validatePositiveNumber(mixed $value): int
+    {
+        return $this->validateNumberGreaterThan($value, 1);
+    }
+
+    public function validateNumberGreaterThan(mixed $value, int $min): int
     {
         $intValue = (int) $value;
         if (! is_numeric($value) || $intValue < $min) {
             throw new InvalidConfigOptionException(
-                sprintf('Provided value "%s" is invalid. Expected a number greater than %s', $value, $min),
+                sprintf('Provided value "%s" is invalid. Expected a number greater or equal than %s', $value, $min),
             );
         }
 

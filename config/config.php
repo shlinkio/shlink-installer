@@ -77,6 +77,12 @@ return [
                 'Redirects > Invalid short URL' => Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class,
                 'Redirects > Regular 404' => Config\Option\Redirect\Regular404RedirectConfigOption::class,
             ],
+            'QR CODES' => [
+                'QR codes > Default size' => Config\Option\QrCode\DefaultSizeConfigOption::class,
+                'QR codes > Default margin' => Config\Option\QrCode\DefaultMarginConfigOption::class,
+                'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,
+                'QR codes > Default error correction' => Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class,
+            ],
             'APPLICATION' => [
                 'Delete short URLs > Check threshold' => Config\Option\Visit\CheckVisitsThresholdConfigOption::class,
                 'Delete short URLs > Visits threshold amount' => Config\Option\Visit\VisitsThresholdConfigOption::class,
@@ -133,6 +139,10 @@ return [
             Config\Option\Tracking\DisableUaTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultSizeConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class => InvokableFactory::class,
         ],
     ],
 

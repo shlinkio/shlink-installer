@@ -70,21 +70,21 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
      * @test
      * @dataProvider provideInvalidValues
      */
-    public function validatePositiveNumberThrowsExceptionWhenProvidedValueIsInvalid(array $args): void
+    public function validateNumberGreaterThanThrowsExceptionWhenProvidedValueIsInvalid(array $args): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validators->validatePositiveNumber(...$args);
+        $this->validators->validateNumberGreaterThan(...$args);
     }
 
     public function provideInvalidValues(): iterable
     {
-        yield 'string' => [['foo']];
-        yield 'empty string' => [['']];
-        yield 'negative number' => [[-5]];
-        yield 'negative number as string' => [['-5']];
-        yield 'zero' => [[0]];
-        yield 'zero as string' => [['0']];
-        yield 'null' => [[null]];
+        yield 'string' => [['foo', 1]];
+        yield 'empty string' => [['', 1]];
+        yield 'negative number' => [[-5, 1]];
+        yield 'negative number as string' => [['-5', 1]];
+        yield 'zero' => [[0, 1]];
+        yield 'zero as string' => [['0', 1]];
+        yield 'null' => [[null, 1]];
         yield 'positive with min' => [[5, 6]];
     }
 
