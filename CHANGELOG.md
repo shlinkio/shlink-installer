@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * [#122](https://github.com/shlinkio/shlink-installer/issues/122) Added support for QR code config options.
+* [#124](https://github.com/shlinkio/shlink-installer/issues/124) Added support for redis sentinels in redis config.
 
 ### Changed
 * *Nothing*
