@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Shlinkio\Shlink\Installer\Factory\SwooleInstalledFactory;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 
 return [
@@ -20,6 +21,12 @@ return [
             InstallationCommand::ORM_CLEAR_CACHE => [
                 'command' => '-v', // Just print PHP version
             ],
+        ],
+    ],
+
+    'dependencies' => [
+        'services' => [
+            SwooleInstalledFactory::SWOOLE_INSTALLED => static fn () => true,
         ],
     ],
 
