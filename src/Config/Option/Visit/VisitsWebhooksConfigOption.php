@@ -13,6 +13,8 @@ class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
+    public const CONFIG_PATH = ['url_shortener', 'visits_webhooks'];
+
     public function ask(StyleInterface $io, PathCollection $currentOptions): array
     {
         return $io->ask(
@@ -25,6 +27,6 @@ class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
 
     public function getConfigPath(): array
     {
-        return ['url_shortener', 'visits_webhooks'];
+        return self::CONFIG_PATH;
     }
 }

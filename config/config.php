@@ -57,7 +57,8 @@ return [
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
                 'URL shortener > Append extra path' => Config\Option\UrlShortener\AppendExtraPathConfigOption::class,
-                'Webhooks' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
+                'Webhooks > List' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
+                'Webhooks > Orphan visits' => Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
                 'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
@@ -122,6 +123,7 @@ return [
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
             Config\Option\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\WebWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\UrlShortener\ShortCodeLengthOption::class => InvokableFactory::class,
@@ -148,6 +150,9 @@ return [
 
     ConfigAbstractFactory::class => [
         Config\Option\Visit\VisitsWebhooksConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => [
+            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
+        ],
         Config\Option\Worker\TaskWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\Worker\WebWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\Mercure\EnableMercureConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
