@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Util;
 
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
+use Shlinkio\Shlink\Installer\Util\Utils;
 
-use function explode;
 use function Functional\map;
 use function is_numeric;
 use function preg_match;
@@ -30,24 +30,42 @@ trait ConfigOptionsValidatorsTrait
         return $value;
     }
 
-    public function validatePositiveNumber(mixed $value, int $min = 1): int
-    {
-        if (! is_numeric($value) || $min > (int) $value) {
-            throw new InvalidConfigOptionException(
-                sprintf('Provided value "%s" is invalid. Expected a number greater than %s', $value, $min),
-            );
-        }
-
-        return (int) $value;
-    }
-
     public function splitAndValidateMultipleUrls(?string $urls): array
     {
         if ($urls === null) {
             return [];
         }
 
-        $splitUrls = explode(',', $urls);
+        $splitUrls = Utils::commaSeparatedToList($urls);
         return map($splitUrls, [$this, 'validateUrl']);
+    }
+
+    public function validatePositiveNumber(mixed $value): int
+    {
+        return $this->validateNumberGreaterThan($value, 1);
+    }
+
+    public function validateNumberGreaterThan(mixed $value, int $min): int
+    {
+        $intValue = (int) $value;
+        if (! is_numeric($value) || $intValue < $min) {
+            throw new InvalidConfigOptionException(
+                sprintf('Provided value "%s" is invalid. Expected a number greater or equal than %s', $value, $min),
+            );
+        }
+
+        return $intValue;
+    }
+
+    public function validateNumberBetween(mixed $value, int $min, int $max): int
+    {
+        $intValue = (int) $value;
+        if (! is_numeric($value) || $intValue < $min || $intValue > $max) {
+            throw new InvalidConfigOptionException(
+                sprintf('Provided value "%s" is invalid. Expected a number between %s and %s', $value, $min, $max),
+            );
+        }
+
+        return $intValue;
     }
 }

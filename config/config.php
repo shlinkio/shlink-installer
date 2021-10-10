@@ -57,7 +57,8 @@ return [
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
                 'URL shortener > Append extra path' => Config\Option\UrlShortener\AppendExtraPathConfigOption::class,
-                'Webhooks' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
+                'Webhooks > List' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
+                'Webhooks > Orphan visits' => Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
                 'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
@@ -65,6 +66,7 @@ return [
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
                 'Tracking > Param to disable tracking' => Config\Option\Tracking\DisableTrackParamConfigOption::class,
+                'Tracking > Disabled IP addresses' => Config\Option\Tracking\DisableTrackingFromConfigOption::class,
                 'Tracking > Disable tracking' => Config\Option\Tracking\DisableTrackingConfigOption::class,
                 'Tracking > Disable IP address tracking' => Config\Option\Tracking\DisableIpTrackingConfigOption::class,
                 'Tracking > IP Anonymization' => Config\Option\Tracking\IpAnonymizationConfigOption::class,
@@ -76,6 +78,12 @@ return [
                 'Redirects > Base URL' => Config\Option\Redirect\BaseUrlRedirectConfigOption::class,
                 'Redirects > Invalid short URL' => Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class,
                 'Redirects > Regular 404' => Config\Option\Redirect\Regular404RedirectConfigOption::class,
+            ],
+            'QR CODES' => [
+                'QR codes > Default size' => Config\Option\QrCode\DefaultSizeConfigOption::class,
+                'QR codes > Default margin' => Config\Option\QrCode\DefaultMarginConfigOption::class,
+                'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,
+                'QR codes > Default error correction' => Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class,
             ],
             'APPLICATION' => [
                 'Delete short URLs > Check threshold' => Config\Option\Visit\CheckVisitsThresholdConfigOption::class,
@@ -116,6 +124,7 @@ return [
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
             Config\Option\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\WebWorkerNumConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\UrlShortener\ShortCodeLengthOption::class => InvokableFactory::class,
@@ -126,6 +135,7 @@ return [
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableTrackParamConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableTrackingFromConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableIpTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\IpAnonymizationConfigOption::class => InvokableFactory::class,
@@ -133,11 +143,18 @@ return [
             Config\Option\Tracking\DisableUaTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultSizeConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class => InvokableFactory::class,
         ],
     ],
 
     ConfigAbstractFactory::class => [
         Config\Option\Visit\VisitsWebhooksConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => [
+            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
+        ],
         Config\Option\Worker\TaskWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\Worker\WebWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
         Config\Option\Mercure\EnableMercureConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],

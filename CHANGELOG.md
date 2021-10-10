@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [6.2.0] - 2021-10-10
+### Added
+* [#122](https://github.com/shlinkio/shlink-installer/issues/122) Added support for QR code config options.
+* [#124](https://github.com/shlinkio/shlink-installer/issues/124) Added support for redis sentinels in redis config.
+* [#126](https://github.com/shlinkio/shlink-installer/issues/126) Added support to send orphan visits to webhooks, if any.
+* [#128](https://github.com/shlinkio/shlink-installer/issues/128) Added support for IP-based tracking.
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [6.1.0] - 2021-08-04
 ### Added
 * [#115](https://github.com/shlinkio/shlink-installer/issues/115) Added support for `append_extra_path` config option.
