@@ -6,12 +6,10 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
+use Shlinkio\Shlink\Installer\Util\Utils;
 use Symfony\Component\Console\Style\StyleInterface;
 
-use function explode;
-use function Functional\map;
 use function sprintf;
-use function trim;
 
 // TODO Deprecated. Rename to RedisConfigOption
 class RedisServersConfigOption extends BaseConfigOption
@@ -45,7 +43,7 @@ class RedisServersConfigOption extends BaseConfigOption
         ));
 
         return [
-            'servers' => map(explode(',', $serves), static fn (string $value) => trim($value)),
+            'servers' => Utils::commaSeparatedToList($serves),
             'sentinel_service' => $sentinelService,
         ];
     }
