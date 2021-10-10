@@ -140,7 +140,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         mixed $value,
         int $min,
         int $max,
-        int $expected
+        int $expected,
     ): void {
         self::assertEquals($expected, $this->validators->validateNumberBetween($value, $min, $max));
     }
