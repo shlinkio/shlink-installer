@@ -6,6 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Util;
 
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 
+use Shlinkio\Shlink\Installer\Util\Utils;
 use function explode;
 use function Functional\map;
 use function is_numeric;
@@ -36,7 +37,7 @@ trait ConfigOptionsValidatorsTrait
             return [];
         }
 
-        $splitUrls = explode(',', $urls);
+        $splitUrls = Utils::commaSeparatedToList($urls);
         return map($splitUrls, [$this, 'validateUrl']);
     }
 

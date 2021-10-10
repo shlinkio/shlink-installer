@@ -66,6 +66,7 @@ return [
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
                 'Tracking > Param to disable tracking' => Config\Option\Tracking\DisableTrackParamConfigOption::class,
+                'Tracking > Disabled IP addresses' => Config\Option\Tracking\DisableTrackingFromConfigOption::class,
                 'Tracking > Disable tracking' => Config\Option\Tracking\DisableTrackingConfigOption::class,
                 'Tracking > Disable IP address tracking' => Config\Option\Tracking\DisableIpTrackingConfigOption::class,
                 'Tracking > IP Anonymization' => Config\Option\Tracking\IpAnonymizationConfigOption::class,
@@ -134,6 +135,7 @@ return [
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableTrackParamConfigOption::class => InvokableFactory::class,
+            Config\Option\Tracking\DisableTrackingFromConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableIpTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\IpAnonymizationConfigOption::class => InvokableFactory::class,
