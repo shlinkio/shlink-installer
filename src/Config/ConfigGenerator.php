@@ -22,7 +22,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
     public function __construct(
         private ConfigOptionsManagerInterface $configOptionsManager,
         private array $configOptionsGroups,
-        private ?array $enabledOptions
+        private ?array $enabledOptions,
     ) {
     }
 

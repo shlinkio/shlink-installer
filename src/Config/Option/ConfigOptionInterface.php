@@ -13,8 +13,5 @@ interface ConfigOptionInterface
 
     public function shouldBeAsked(PathCollection $currentOptions): bool;
 
-    /**
-     * @return mixed
-     */
-    public function ask(StyleInterface $io, PathCollection $currentOptions);
+    public function ask(StyleInterface $io, PathCollection $currentOptions): mixed;
 }

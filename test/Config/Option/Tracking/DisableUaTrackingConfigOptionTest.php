@@ -55,7 +55,7 @@ class DisableUaTrackingConfigOptionTest extends TestCase
      */
     public function shouldBeAskedReturnsExpectedResultBasedOnCurrentOptions(
         PathCollection $currentOptions,
-        bool $expected
+        bool $expected,
     ): void {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }

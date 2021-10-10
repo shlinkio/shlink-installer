@@ -36,7 +36,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
         bool $firstAnswer,
         bool $secondAnswer,
         bool $shouldWarn,
-        bool $expectedResult
+        bool $expectedResult,
     ): void {
         $io = $this->prophesize(StyleInterface::class);
 
