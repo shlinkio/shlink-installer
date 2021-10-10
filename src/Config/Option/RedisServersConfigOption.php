@@ -9,10 +9,7 @@ use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Shlinkio\Shlink\Installer\Util\Utils;
 use Symfony\Component\Console\Style\StyleInterface;
 
-use function explode;
-use function Functional\map;
 use function sprintf;
-use function trim;
 
 // TODO Deprecated. Rename to RedisConfigOption
 class RedisServersConfigOption extends BaseConfigOption
