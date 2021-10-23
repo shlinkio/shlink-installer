@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [6.2.1] - 2021-10-23
 ### Added
 * *Nothing*
 
@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#132](https://github.com/shlinkio/shlink-installer/issues/132) Ensured a minimum amount of task workers.
 
 
 ## [6.2.0] - 2021-10-10
