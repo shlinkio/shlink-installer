@@ -18,7 +18,16 @@ abstract class AbstractWorkerNumConfigOption extends AbstractSwooleDependentConf
     public function ask(StyleInterface $io, PathCollection $currentOptions): int
     {
         $question = sprintf('%s (Ignore this if you are not serving shlink with swoole)', $this->getQuestionToAsk());
-        return $io->ask($question, '16', [$this, 'validatePositiveNumber']);
+        return $io->ask(
+            $question,
+            '16',
+            fn ($value) => $this->validateNumberGreaterThan($value, $this->getMinimumValue()),
+        );
+    }
+
+    protected function getMinimumValue(): int
+    {
+        return 1;
     }
 
     abstract protected function getQuestionToAsk(): string;
