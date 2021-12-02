@@ -61,7 +61,8 @@ class ApplicationFactoryTest extends TestCase
         /** @var Command[] $commands */
         $commands = array_filter(
             $app->all(),
-            static fn (string $key) => ! contains(['list', 'help'], $key), // Remove list and help commands
+            // Remove standard symfony commands
+            static fn (string $key) => ! contains(['list', 'help', 'completion', '_complete'], $key),
             ARRAY_FILTER_USE_KEY,
         );
 

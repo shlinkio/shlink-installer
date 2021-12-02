@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* Added support for PHP 8.1.
+* Added support for Symfony 6.0.
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [6.1.0] - 2021-08-04
 ### Added
 * [#115](https://github.com/shlinkio/shlink-installer/issues/115) Added support for `append_extra_path` config option.
