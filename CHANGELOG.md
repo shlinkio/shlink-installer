@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
+* Added support for PHP 8.1.
+* Added support for Symfony 6.0.
+
+### Changed
 * *Nothing*
 
 ### Changed
