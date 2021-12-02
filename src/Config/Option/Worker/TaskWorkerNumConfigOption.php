@@ -15,4 +15,9 @@ class TaskWorkerNumConfigOption extends AbstractWorkerNumConfigOption
     {
         return 'How many concurrent background tasks do you want Shlink to be able to execute?';
     }
+
+    protected function getMinimumValue(): int
+    {
+        return 4;
+    }
 }

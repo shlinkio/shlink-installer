@@ -22,6 +22,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 
+## [6.2.1] - 2021-10-23
+### Added
+* *Nothing*
+
+### Changed
+* Moved ci workflow to external repo and reused
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* [#132](https://github.com/shlinkio/shlink-installer/issues/132) Ensured a minimum amount of task workers.
+
+
+## [6.2.0] - 2021-10-10
+### Added
+* [#122](https://github.com/shlinkio/shlink-installer/issues/122) Added support for QR code config options.
+* [#124](https://github.com/shlinkio/shlink-installer/issues/124) Added support for redis sentinels in redis config.
+* [#126](https://github.com/shlinkio/shlink-installer/issues/126) Added support to send orphan visits to webhooks, if any.
+* [#128](https://github.com/shlinkio/shlink-installer/issues/128) Added support for IP-based tracking.
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [6.1.0] - 2021-08-04
 ### Added
 * [#115](https://github.com/shlinkio/shlink-installer/issues/115) Added support for `append_extra_path` config option.

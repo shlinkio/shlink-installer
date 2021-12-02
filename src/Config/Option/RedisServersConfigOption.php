@@ -6,10 +6,12 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
+use Shlinkio\Shlink\Installer\Util\Utils;
 use Symfony\Component\Console\Style\StyleInterface;
 
-use function explode;
+use function sprintf;
 
+// TODO Deprecated. Rename to RedisConfigOption
 class RedisServersConfigOption extends BaseConfigOption
 {
     use ConfigOptionsValidatorsTrait;
@@ -21,13 +23,28 @@ class RedisServersConfigOption extends BaseConfigOption
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?array
     {
-        $serves = $io->ask(
-            'Provide a comma-separated list of redis server URIs which will be used for shared caching purposes under '
-            . 'shlink multi-instance contexts (Leave empty if you don\'t want to use redis cache)',
+        $useRedis = $io->confirm(
+            'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
+            . '(recommended if you run a cluster of Shlink instances)',
+            false,
         );
+        if (! $useRedis) {
+            return null;
+        }
 
-        return empty($serves) ? null : [
-            'servers' => explode(',', $serves),
+        $sentinelService = $io->ask(
+            'Provide the name of the sentinel service (leave empty if not using redis sentinel)',
+        );
+        $serves = $io->ask(sprintf(
+            'Provide a comma-separated list of %s',
+            $sentinelService === null
+                ? 'redis server URIs. If more than one is provided, it will be considered a redis cluster'
+                : 'sentinel instance URIs',
+        ));
+
+        return [
+            'servers' => Utils::commaSeparatedToList($serves),
+            'sentinel_service' => $sentinelService,
         ];
     }
 }
