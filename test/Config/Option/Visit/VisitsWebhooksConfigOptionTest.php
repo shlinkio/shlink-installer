@@ -37,7 +37,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
-            . 'receive visits (Ignore this if you are not serving shlink with swoole)',
+            . 'receive visits (Ignore this if you are not serving shlink with swoole or openswoole)',
             null,
             Argument::any(),
         )->willReturn($expectedAnswer);
