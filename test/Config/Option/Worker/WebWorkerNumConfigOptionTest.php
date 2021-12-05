@@ -37,7 +37,7 @@ class WebWorkerNumConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'How many concurrent requests do you want Shlink to be able to serve? (Ignore this if you are '
-            . 'not serving shlink with swoole)',
+            . 'not serving shlink with swoole or openswoole)',
             '16',
             Argument::any(),
         )->willReturn($expectedAnswer);

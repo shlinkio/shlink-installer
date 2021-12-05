@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer;
 use Laminas\Config\Writer\PhpArray as PhpArrayConfigWriter;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Shlinkio\Shlink\Config\Factory\SwooleInstalledFactory;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem\Filesystem;
@@ -26,7 +27,6 @@ return [
             Service\ShlinkAssetsHandler::class => ConfigAbstractFactory::class,
             Config\ConfigGenerator::class => ConfigAbstractFactory::class,
             Config\ConfigOptionsManager::class => Config\ConfigOptionsManagerFactory::class,
-            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED => Factory\SwooleInstalledFactory::class,
 
             Command\InstallCommand::class => ConfigAbstractFactory::class,
             Command\UpdateCommand::class => ConfigAbstractFactory::class,
@@ -151,18 +151,14 @@ return [
     ],
 
     ConfigAbstractFactory::class => [
-        Config\Option\Visit\VisitsWebhooksConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => [
-            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
-        ],
-        Config\Option\Worker\TaskWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Worker\WebWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\EnableMercureConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\MercurePublicUrlConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\MercureInternalUrlConfigOption::class => [
-            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
-        ],
-        Config\Option\Mercure\MercureJwtSecretConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Visit\VisitsWebhooksConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Worker\TaskWorkerNumConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Worker\WebWorkerNumConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\EnableMercureConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercurePublicUrlConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercureInternalUrlConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercureJwtSecretConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
 
         Config\ConfigGenerator::class => [
             Config\ConfigOptionsManager::class,
