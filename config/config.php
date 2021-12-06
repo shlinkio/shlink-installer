@@ -84,6 +84,7 @@ return [
                 'QR codes > Default margin' => Config\Option\QrCode\DefaultMarginConfigOption::class,
                 'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,
                 'QR codes > Default error correction' => Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class,
+                'QR codes > Default round block size' => Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class,
             ],
             'APPLICATION' => [
                 'Delete short URLs > Check threshold' => Config\Option\Visit\CheckVisitsThresholdConfigOption::class,
@@ -147,6 +148,7 @@ return [
             Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class => InvokableFactory::class,
         ],
     ],
 
