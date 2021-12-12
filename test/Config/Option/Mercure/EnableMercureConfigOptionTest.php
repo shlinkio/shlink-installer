@@ -33,7 +33,7 @@ class EnableMercureConfigOptionTest extends TestCase
         $expectedAnswer = true;
         $io = $this->prophesize(StyleInterface::class);
         $confirm = $io->confirm(
-            'Do you want to configure the integration with a Mercure hub server?',
+            'Do you want Shlink to publish real-time updates in a Mercure hub server?',
             false,
         )->willReturn($expectedAnswer);
 
