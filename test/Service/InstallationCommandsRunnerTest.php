@@ -41,6 +41,7 @@ class InstallationCommandsRunnerTest extends TestCase
         );
 
         $this->io = $this->prophesize(SymfonyStyle::class);
+        $this->io->isVerbose()->willReturn(false);
     }
 
     private function buildCommands(array $names): array

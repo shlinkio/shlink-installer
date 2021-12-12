@@ -17,7 +17,10 @@ abstract class AbstractWorkerNumConfigOption extends AbstractSwooleDependentConf
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int
     {
-        $question = sprintf('%s (Ignore this if you are not serving shlink with swoole)', $this->getQuestionToAsk());
+        $question = sprintf(
+            '%s (Ignore this if you are not serving shlink with swoole or openswoole)',
+            $this->getQuestionToAsk(),
+        );
         return $io->ask(
             $question,
             '16',

@@ -40,7 +40,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'How many concurrent background tasks do you want Shlink to be able to execute? (Ignore this if you are '
-            . 'not serving shlink with swoole)',
+            . 'not serving shlink with swoole or openswoole)',
             '16',
             Argument::that(fn (callable $arg) => $arg($expectedAnswer)),
         )->willReturn($expectedAnswer);
@@ -69,7 +69,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'How many concurrent background tasks do you want Shlink to be able to execute? (Ignore this if you are '
-            . 'not serving shlink with swoole)',
+            . 'not serving shlink with swoole or openswoole)',
             '16',
             Argument::that(fn (callable $arg) => $arg($expectedAnswer)),
         )->willReturn($expectedAnswer);

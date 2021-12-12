@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Shlinkio\Shlink\Installer\Factory\SwooleInstalledFactory;
+use Shlinkio\Shlink\Config\Factory\SwooleInstalledFactory;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 
 return [

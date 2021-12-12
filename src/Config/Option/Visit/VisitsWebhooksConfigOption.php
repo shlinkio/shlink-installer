@@ -19,7 +19,7 @@ class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
     {
         return $io->ask(
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
-            . 'receive visits (Ignore this if you are not serving shlink with swoole)',
+            . 'receive visits (Ignore this if you are not serving shlink with swoole or openswoole)',
             null,
             [$this, 'splitAndValidateMultipleUrls'],
         );

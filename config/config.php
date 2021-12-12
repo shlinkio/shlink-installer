@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer;
 use Laminas\Config\Writer\PhpArray as PhpArrayConfigWriter;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Shlinkio\Shlink\Config\Factory\SwooleInstalledFactory;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem\Filesystem;
@@ -26,7 +27,6 @@ return [
             Service\ShlinkAssetsHandler::class => ConfigAbstractFactory::class,
             Config\ConfigGenerator::class => ConfigAbstractFactory::class,
             Config\ConfigOptionsManager::class => Config\ConfigOptionsManagerFactory::class,
-            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED => Factory\SwooleInstalledFactory::class,
 
             Command\InstallCommand::class => ConfigAbstractFactory::class,
             Command\UpdateCommand::class => ConfigAbstractFactory::class,
@@ -84,6 +84,7 @@ return [
                 'QR codes > Default margin' => Config\Option\QrCode\DefaultMarginConfigOption::class,
                 'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,
                 'QR codes > Default error correction' => Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class,
+                'QR codes > Default round block size' => Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class,
             ],
             'APPLICATION' => [
                 'Delete short URLs > Check threshold' => Config\Option\Visit\CheckVisitsThresholdConfigOption::class,
@@ -98,6 +99,12 @@ return [
                 'Mercure > Public URL' => Config\Option\Mercure\MercurePublicUrlConfigOption::class,
                 'Mercure > Internal URL' => Config\Option\Mercure\MercureInternalUrlConfigOption::class,
                 'Mercure > JWT Secret' => Config\Option\Mercure\MercureJwtSecretConfigOption::class,
+                'RabbitMQ > Enable' => Config\Option\RabbitMq\RabbitMqEnabledConfigOption::class,
+                'RabbitMQ > Host' => Config\Option\RabbitMq\RabbitMqHostConfigOption::class,
+                'RabbitMQ > Port' => Config\Option\RabbitMq\RabbitMqPortConfigOption::class,
+                'RabbitMQ > User' => Config\Option\RabbitMq\RabbitMqUserConfigOption::class,
+                'RabbitMQ > Password' => Config\Option\RabbitMq\RabbitMqPasswordConfigOption::class,
+                'RabbitMQ > VHost' => Config\Option\RabbitMq\RabbitMqVhostConfigOption::class,
             ],
         ],
 
@@ -132,6 +139,12 @@ return [
             Config\Option\Mercure\MercurePublicUrlConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Mercure\MercureInternalUrlConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Mercure\MercureJwtSecretConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\RabbitMq\RabbitMqEnabledConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\RabbitMq\RabbitMqHostConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\RabbitMq\RabbitMqPortConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\RabbitMq\RabbitMqUserConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\RabbitMq\RabbitMqPasswordConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\RabbitMq\RabbitMqVhostConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableTrackParamConfigOption::class => InvokableFactory::class,
@@ -147,22 +160,25 @@ return [
             Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class => InvokableFactory::class,
         ],
     ],
 
     ConfigAbstractFactory::class => [
-        Config\Option\Visit\VisitsWebhooksConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => [
-            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
-        ],
-        Config\Option\Worker\TaskWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Worker\WebWorkerNumConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\EnableMercureConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\MercurePublicUrlConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\MercureInternalUrlConfigOption::class => [
-            Factory\SwooleInstalledFactory::SWOOLE_INSTALLED,
-        ],
-        Config\Option\Mercure\MercureJwtSecretConfigOption::class => [Factory\SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Visit\VisitsWebhooksConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Worker\TaskWorkerNumConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Worker\WebWorkerNumConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\EnableMercureConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercurePublicUrlConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercureInternalUrlConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\Mercure\MercureJwtSecretConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\RabbitMq\RabbitMqEnabledConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\RabbitMq\RabbitMqHostConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\RabbitMq\RabbitMqPortConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\RabbitMq\RabbitMqUserConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\RabbitMq\RabbitMqPasswordConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
+        Config\Option\RabbitMq\RabbitMqVhostConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
 
         Config\ConfigGenerator::class => [
             Config\ConfigOptionsManager::class,

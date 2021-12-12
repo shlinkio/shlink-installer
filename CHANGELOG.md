@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [6.3.0] - 2021-12-12
+### Added
+* [#140](https://github.com/shlinkio/shlink-installer/issues/140) Added support for RabbitMQ options.
+* Added support for PHP 8.1.
+* Added support for Symfony 6.0.
+* Added support for openswoole.
+* Added "round block size" config option for QR codes.
+
+### Changed
+* *Nothing*
+
+### Changed
+* Updated to phpstan 1.0
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [6.2.1] - 2021-10-23
 ### Added
 * *Nothing*
