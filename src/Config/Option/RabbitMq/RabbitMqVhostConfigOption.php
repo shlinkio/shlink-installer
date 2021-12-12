@@ -14,8 +14,8 @@ class RabbitMqVhostConfigOption extends AbstractRabbitMqEnabledConfigOption
         return ['rabbitmq', 'vhost'];
     }
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): int
+    public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
-        return (int) $io->ask('RabbitMQ VHost', '/');
+        return $io->ask('RabbitMQ VHost', '/');
     }
 }
