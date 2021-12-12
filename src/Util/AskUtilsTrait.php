@@ -9,11 +9,11 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 trait AskUtilsTrait
 {
-    private function askRequired(StyleInterface $io, string $optionName, string $question): string
+    private function askRequired(StyleInterface $io, string $optionNameOrQuestion, ?string $question = null): string
     {
-        return $io->ask($question, null, static function ($value) use ($optionName) {
+        return $io->ask($question ?? $optionNameOrQuestion, null, static function ($value) use ($optionNameOrQuestion) {
             if (empty($value)) {
-                throw MissingRequiredOptionException::fromOption($optionName);
+                throw MissingRequiredOptionException::fromOption($optionNameOrQuestion);
             }
 
             return $value;

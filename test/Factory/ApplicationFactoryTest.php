@@ -10,6 +10,7 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Factory\ApplicationFactory;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputDefinition;
 
 use function array_filter;
 use function Functional\contains;
@@ -39,8 +40,7 @@ class ApplicationFactoryTest extends TestCase
             $command->getName()->willReturn($name);
             $command->setApplication(Argument::any())->will(function (): void {
             });
-            $command->getDefinition()->will(function (): void {
-            });
+            $command->getDefinition()->willReturn(new InputDefinition());
 
             return $command->reveal();
         };

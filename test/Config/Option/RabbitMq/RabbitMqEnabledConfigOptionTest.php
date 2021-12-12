@@ -2,44 +2,43 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\RabbitMq;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\Mercure\EnableMercureConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqEnabledConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class EnableMercureConfigOptionTest extends TestCase
+class RabbitMqEnabledConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private EnableMercureConfigOption $configOption;
+    private RabbitMqEnabledConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new EnableMercureConfigOption(fn () => false);
+        $this->configOption = new RabbitMqEnabledConfigOption(fn () => true);
     }
 
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['___', 'mercure_enabled'], $this->configOption->getConfigPath());
+        self::assertEquals(['rabbitmq', 'enabled'], $this->configOption->getConfigPath());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = true;
         $io = $this->prophesize(StyleInterface::class);
         $confirm = $io->confirm(
-            'Do you want Shlink to publish real-time updates in a Mercure hub server?',
+            'Do you want Shlink to publish real-time updates in a RabbitMQ instance?',
             false,
-        )->willReturn($expectedAnswer);
+        )->willReturn(true);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        self::assertEquals($expectedAnswer, $answer);
+        self::assertEquals(true, $answer);
         $confirm->shouldHaveBeenCalledOnce();
     }
 }
