@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Removed everything that was deprecated
+
+### Fixed
+* *Nothing*
+
+
 ## [6.3.0] - 2021-12-12
 ### Added
 * [#140](https://github.com/shlinkio/shlink-installer/issues/140) Added support for RabbitMQ options.

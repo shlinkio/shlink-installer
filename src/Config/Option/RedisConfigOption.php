@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 use function sprintf;
 
-// TODO Deprecated. Rename to RedisConfigOption
-class RedisServersConfigOption extends BaseConfigOption
+class RedisConfigOption extends BaseConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 

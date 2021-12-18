@@ -13,7 +13,6 @@ class ApplicationFactory
 {
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Application
     {
-        $defaultCommand = $options['command'] ?? null;
         $commandMap = $container->get('config')['installer']['commands'] ?? [];
         $app = new Application(
             'Shlink installer',
@@ -21,9 +20,6 @@ class ApplicationFactory
         );
 
         $app->setCommandLoader(new ContainerCommandLoader($container, $commandMap));
-        if ($defaultCommand !== null) {
-            $app->setDefaultCommand($defaultCommand);
-        }
 
         return $app;
     }

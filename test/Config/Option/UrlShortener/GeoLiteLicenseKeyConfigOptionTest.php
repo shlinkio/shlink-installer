@@ -31,13 +31,12 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideAnswers
      */
-    public function expectedQuestionIsAsked(?string $answer, string $expectedResult): void
+    public function expectedQuestionIsAsked(?string $answer, ?string $expectedResult): void
     {
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'Provide a GeoLite2 license key. (Leave empty to use default one, but it is '
-            . '<fg=green;options=bold>strongly recommended</> to get your own. '
-            . 'Go to https://shlink.io/documentation/geolite-license-key to know how to get it)',
+            'Provide a GeoLite2 license key. Leave empty to disable geolocation. '
+            . '(Go to https://shlink.io/documentation/geolite-license-key to know how to generate it)',
         )->willReturn($answer);
 
         $result = $this->configOption->ask($io->reveal(), new PathCollection());
@@ -48,7 +47,7 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
 
     public function provideAnswers(): iterable
     {
-        yield 'no answer' => [null, 'G4Lm0C60yJsnkdPi'];
+        yield 'no answer' => [null, null];
         yield 'answer' => ['foo', 'foo'];
     }
 }
