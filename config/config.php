@@ -52,7 +52,6 @@ return [
             'URL SHORTENER' => [
                 'URL shortener > Short domain' => Config\Option\UrlShortener\ShortDomainHostConfigOption::class,
                 'URL shortener > Schema' => Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class,
-                'URL shortener > Validate URLs' => Config\Option\UrlShortener\ValidateUrlConfigOption::class,
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
@@ -94,7 +93,7 @@ return [
                 'Swoole > Amount of web workers' => Config\Option\Worker\WebWorkerNumConfigOption::class,
             ],
             'INTEGRATIONS' => [
-                'Redis servers' => Config\Option\RedisServersConfigOption::class,
+                'Redis servers' => Config\Option\RedisConfigOption::class,
                 Config\Option\Mercure\EnableMercureConfigOption::class,
                 'Mercure > Public URL' => Config\Option\Mercure\MercurePublicUrlConfigOption::class,
                 'Mercure > Internal URL' => Config\Option\Mercure\MercureInternalUrlConfigOption::class,
@@ -126,10 +125,9 @@ return [
             Config\Option\Redirect\Regular404RedirectConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortDomainHostConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\ValidateUrlConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
-            Config\Option\RedisServersConfigOption::class => InvokableFactory::class,
+            Config\Option\RedisConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,

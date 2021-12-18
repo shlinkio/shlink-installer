@@ -9,19 +9,19 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\RedisServersConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\RedisConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class RedisServersConfigOptionTest extends TestCase
+class RedisConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private RedisServersConfigOption $configOption;
+    private RedisConfigOption $configOption;
     private ObjectProphecy $io;
 
     public function setUp(): void
     {
-        $this->configOption = new RedisServersConfigOption();
+        $this->configOption = new RedisConfigOption();
         $this->io = $this->prophesize(StyleInterface::class);
     }
 

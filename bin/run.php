@@ -9,10 +9,4 @@ use Symfony\Component\Console\Application;
 
 /** @var ServiceLocatorInterface $container */
 $container = include __DIR__ . '/../config/container.php';
-$runApp = static fn (?string $command = null) => $container->build(Application::class, ['command' => $command])->run();
-
-return [
-    static fn () => $runApp(Command\InstallCommand::NAME),
-    static fn () => $runApp(Command\UpdateCommand::NAME),
-    $runApp,
-];
+return static fn (?string $command = null) => $container->build(Application::class, ['command' => $command])->run();
