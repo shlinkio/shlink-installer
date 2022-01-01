@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 ### Changed
-* *Nothing*
+* Dropped support for Symfony 5.
 
 ### Deprecated
 * *Nothing*
