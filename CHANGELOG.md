@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Changed
 * Dropped support for Symfony 5.
+* Updated to infection 0.26, enabling HTML reports.
+* Added explicitly enabled composer plugins to composer.json.
 
 ### Deprecated
 * *Nothing*
