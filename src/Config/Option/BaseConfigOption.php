@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 
-abstract class BaseConfigOption implements ConfigOptionInterface
+abstract class BaseConfigOption implements ConfigOptionInterface, WithDeprecatedConfigOption
 {
     public function shouldBeAsked(PathCollection $currentOptions): bool
     {

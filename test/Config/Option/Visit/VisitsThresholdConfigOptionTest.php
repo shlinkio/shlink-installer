@@ -29,22 +29,31 @@ class VisitsThresholdConfigOptionTest extends TestCase
         self::assertEquals('DELETE_SHORT_URL_THRESHOLD', $this->configOption->getEnvVar());
     }
 
-    /** @test */
-    public function expectedQuestionIsAsked(): void
+    /**
+     * @test
+     * @dataProvider provideValidAnswers
+     */
+    public function expectedQuestionIsAsked(string|int|null $answer, ?int $expectedAnswer): void
     {
-        $expectedAnswer = 15;
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'What is the amount of visits from which the system will not allow short URLs to be deleted? Leave empty '
-            . 'to always allow deleting short URLs, no matter what.',
+            . 'to always allow deleting short URLs, no matter what',
             null,
             Argument::any(),
-        )->willReturn($expectedAnswer);
+        )->willReturn($answer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
+    }
+
+    public function provideValidAnswers(): iterable
+    {
+        yield [null, null];
+        yield [10, 10];
+        yield ['15', 15];
     }
 
     /**

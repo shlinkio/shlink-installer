@@ -28,21 +28,28 @@ class BasePathConfigOptionTest extends TestCase
         self::assertEquals('BASE_PATH', $this->configOption->getEnvVar());
     }
 
-    /** @test */
-    public function expectedQuestionIsAsked(): void
+    /**
+     * @test
+     * @dataProvider provideValidAnswers
+     */
+    public function expectedQuestionIsAsked(?string $answer, string $expectedAnswer): void
     {
-        $expectedAnswer = 'the_answer';
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '
             . 'shlink from the root of the domain)',
-            '',
-        )->willReturn($expectedAnswer);
+        )->willReturn($answer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
+    }
+
+    public function provideValidAnswers(): iterable
+    {
+        yield ['the_answer', 'the_answer'];
+        yield [null, ''];
     }
 
     /**

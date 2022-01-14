@@ -6,7 +6,6 @@ namespace Shlinkio\Shlink\Installer\Config\Option\Redis;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
-use Shlinkio\Shlink\Installer\Util\Utils;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RedisServersConfigOption extends BaseConfigOption
@@ -23,7 +22,7 @@ class RedisServersConfigOption extends BaseConfigOption
         return self::ENV_VAR;
     }
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): ?array
+    public function ask(StyleInterface $io, PathCollection $currentOptions): ?string
     {
         $useRedis = $io->confirm(
             'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
@@ -34,8 +33,6 @@ class RedisServersConfigOption extends BaseConfigOption
             return null;
         }
 
-        $serves = $io->ask('Provide a comma-separated list of URIs (redis servers/sentinel instances)');
-
-        return $serves === null ? null : Utils::commaSeparatedToList($serves);
+        return $io->ask('Provide a comma-separated list of URIs (redis servers/sentinel instances)');
     }
 }

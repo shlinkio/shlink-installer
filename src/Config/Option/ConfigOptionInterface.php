@@ -9,11 +9,6 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 interface ConfigOptionInterface
 {
-    /**
-     * @deprecated
-     */
-    public function getDeprecatedPath(): array;
-
     public function getEnvVar(): string;
 
     public function shouldBeAsked(PathCollection $currentOptions): bool;

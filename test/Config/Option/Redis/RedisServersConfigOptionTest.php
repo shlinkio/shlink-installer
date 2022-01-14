@@ -53,10 +53,8 @@ class RedisServersConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideAnswers
      */
-    public function serversAreRequestedWhenRedisConfigIsProvided(
-        ?string $serversAnswer,
-        array $expectedServers,
-    ): void {
+    public function serversAreRequestedWhenRedisConfigIsProvided(?string $serversAnswer): void
+    {
         $confirm = $this->io->confirm(
             'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
             . '(recommended if you run a cluster of Shlink instances)',
@@ -68,16 +66,14 @@ class RedisServersConfigOptionTest extends TestCase
 
         $result = $this->configOption->ask($this->io->reveal(), new PathCollection());
 
-        self::assertEquals($expectedServers, $result);
+        self::assertEquals($serversAnswer, $result);
         $confirm->shouldHaveBeenCalledOnce();
         $askServers->shouldHaveBeenCalledOnce();
     }
 
     public function provideAnswers(): iterable
     {
-        yield 'one server' => ['foo', ['foo']];
-        yield 'one server with spaces' => [' foo  ', ['foo']];
-        yield 'multiple servers' => ['foo,bar,baz', ['foo', 'bar', 'baz']];
-        yield 'multiple servers with spaces' => ['foo  ,bar   , baz  ', ['foo', 'bar', 'baz']];
+        yield 'one server' => ['foo'];
+        yield 'multiple servers' => ['foo,bar,baz'];
     }
 }
