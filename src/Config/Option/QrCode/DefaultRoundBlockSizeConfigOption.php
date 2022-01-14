@@ -13,9 +13,14 @@ class DefaultRoundBlockSizeConfigOption extends BaseConfigOption
     private const YES = 'yes';
     private const NO = 'no';
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['qr_codes', 'round_block_size'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_QR_CODE_ROUND_BLOCK_SIZE';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

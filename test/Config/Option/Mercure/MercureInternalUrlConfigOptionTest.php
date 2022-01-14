@@ -25,7 +25,8 @@ class MercureInternalUrlConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['mercure', 'internal_hub_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['mercure', 'internal_hub_url'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('MERCURE_INTERNAL_HUB_URL', $this->configOption->getEnvVar());
     }
 
     /** @test */

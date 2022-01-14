@@ -10,11 +10,17 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class RabbitMqEnabledConfigOption extends AbstractSwooleDependentConfigOption
 {
-    public const CONFIG_PATH = ['rabbitmq', 'enabled'];
+    public const ENV_VAR = 'RABBITMQ_ENABLED';
+    public const CONFIG_PATH = [self::ENV_VAR];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
-        return self::CONFIG_PATH;
+        return ['rabbitmq', 'enabled'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return self::ENV_VAR;
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

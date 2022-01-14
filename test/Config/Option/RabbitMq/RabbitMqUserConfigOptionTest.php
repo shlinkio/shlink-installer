@@ -25,7 +25,8 @@ class RabbitMqUserConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['rabbitmq', 'user'], $this->configOption->getConfigPath());
+        self::assertEquals(['rabbitmq', 'user'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('RABBITMQ_USER', $this->configOption->getEnvVar());
     }
 
     /** @test */

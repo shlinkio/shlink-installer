@@ -13,7 +13,18 @@ class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public const CONFIG_PATH = ['url_shortener', 'visits_webhooks'];
+    public const ENV_VAR = 'VISITS_WEBHOOKS';
+    public const CONFIG_PATH = [self::ENV_VAR];
+
+    public function getDeprecatedPath(): array
+    {
+        return ['url_shortener', 'visits_webhooks'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return self::ENV_VAR;
+    }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): array
     {
@@ -23,10 +34,5 @@ class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
             null,
             [$this, 'splitAndValidateMultipleUrls'],
         );
-    }
-
-    public function getConfigPath(): array
-    {
-        return self::CONFIG_PATH;
     }
 }

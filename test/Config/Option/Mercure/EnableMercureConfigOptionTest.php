@@ -24,7 +24,8 @@ class EnableMercureConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['___', 'mercure_enabled'], $this->configOption->getConfigPath());
+        self::assertEquals(['___', 'mercure_enabled'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('MERCURE_ENABLED', $this->configOption->getEnvVar());
     }
 
     /** @test */

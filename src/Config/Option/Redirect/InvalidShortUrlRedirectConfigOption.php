@@ -13,9 +13,14 @@ class InvalidShortUrlRedirectConfigOption extends BaseConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['not_found_redirects', 'invalid_short_url'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_INVALID_SHORT_URL_REDIRECT';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?string

@@ -12,9 +12,14 @@ class MercureJwtSecretConfigOption extends AbstractMercureEnabledConfigOption
 {
     use AskUtilsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['mercure', 'jwt_secret'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'MERCURE_JWT_SECRET';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

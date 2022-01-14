@@ -74,14 +74,14 @@ class SetOptionCommandTest extends TestCase
 
         $plugin = $this->prophesize(ConfigOptionInterface::class);
         $ask = $plugin->ask(Argument::cetera())->willReturn('');
-        $getConfigPath = $plugin->getConfigPath()->willReturn(['foo']);
+        $getEnvVar = $plugin->getEnvVar()->willReturn('foo');
         $getPlugin = $this->optionsManager->get(Argument::type('string'))->willReturn($plugin->reveal());
 
         $exists->shouldBeCalledOnce();
         $toFile->shouldNotBeCalled();
         $dropCachedConfig->shouldNotBeCalled();
         $ask->shouldNotBeCalled();
-        $getConfigPath->shouldNotBeCalled();
+        $getEnvVar->shouldNotBeCalled();
         $getPlugin->shouldNotBeCalled();
         $this->expectException(InvalidShlinkPathException::class);
 
@@ -97,7 +97,7 @@ class SetOptionCommandTest extends TestCase
 
         $plugin = $this->prophesize(ConfigOptionInterface::class);
         $ask = $plugin->ask(Argument::cetera())->willReturn('');
-        $getConfigPath = $plugin->getConfigPath()->willReturn(['foo']);
+        $getEnvVar = $plugin->getEnvVar()->willReturn('foo');
         $getPlugin = $this->optionsManager->get(Argument::type('string'))->willReturn($plugin->reveal());
 
         $this->commandTester->setInputs([1]);
@@ -112,7 +112,7 @@ class SetOptionCommandTest extends TestCase
         $toFile->shouldHaveBeenCalledOnce();
         $dropCachedConfig->shouldHaveBeenCalledOnce();
         $ask->shouldHaveBeenCalledOnce();
-        $getConfigPath->shouldHaveBeenCalledOnce();
+        $getEnvVar->shouldHaveBeenCalledOnce();
         $getPlugin->shouldHaveBeenCalledOnce();
     }
 }

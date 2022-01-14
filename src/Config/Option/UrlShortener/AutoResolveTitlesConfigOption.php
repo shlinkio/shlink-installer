@@ -10,9 +10,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class AutoResolveTitlesConfigOption extends BaseConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'auto_resolve_titles'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'AUTO_RESOLVE_TITLES';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

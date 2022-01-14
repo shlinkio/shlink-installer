@@ -24,7 +24,8 @@ class RabbitMqEnabledConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['rabbitmq', 'enabled'], $this->configOption->getConfigPath());
+        self::assertEquals(['rabbitmq', 'enabled'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('RABBITMQ_ENABLED', $this->configOption->getEnvVar());
     }
 
     /** @test */

@@ -46,8 +46,6 @@ return [
                 'Database > Password' => Config\Option\Database\DatabasePasswordConfigOption::class,
                 'Database > Unix socket (Mysql/MariaDB)'
                     => Config\Option\Database\DatabaseUnixSocketConfigOption::class,
-                'Database > Path (SQLite)' => Config\Option\Database\DatabaseSqlitePathConfigOption::class,
-                Config\Option\Database\DatabaseMySqlOptionsConfigOption::class,
             ],
             'URL SHORTENER' => [
                 'URL shortener > Short domain' => Config\Option\UrlShortener\ShortDomainHostConfigOption::class,
@@ -86,14 +84,14 @@ return [
                 'QR codes > Default round block size' => Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class,
             ],
             'APPLICATION' => [
-                'Delete short URLs > Check threshold' => Config\Option\Visit\CheckVisitsThresholdConfigOption::class,
-                'Delete short URLs > Visits threshold amount' => Config\Option\Visit\VisitsThresholdConfigOption::class,
+                'Delete short URLs > Visits threshold' => Config\Option\Visit\VisitsThresholdConfigOption::class,
                 'Base path' => Config\Option\BasePathConfigOption::class,
                 'Swoole > Amount of task workers' => Config\Option\Worker\TaskWorkerNumConfigOption::class,
                 'Swoole > Amount of web workers' => Config\Option\Worker\WebWorkerNumConfigOption::class,
             ],
             'INTEGRATIONS' => [
-                'Redis servers' => Config\Option\RedisConfigOption::class,
+                'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
+                'Redis > sentinels service' => Config\Option\Redis\RedisSentinelServiceConfigOption::class,
                 Config\Option\Mercure\EnableMercureConfigOption::class,
                 'Mercure > Public URL' => Config\Option\Mercure\MercurePublicUrlConfigOption::class,
                 'Mercure > Internal URL' => Config\Option\Mercure\MercureInternalUrlConfigOption::class,
@@ -109,7 +107,6 @@ return [
 
         'factories' => [
             Config\Option\BasePathConfigOption::class => InvokableFactory::class,
-            Config\Option\Visit\CheckVisitsThresholdConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsThresholdConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseDriverConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseNameConfigOption::class => InvokableFactory::class,
@@ -118,8 +115,6 @@ return [
             Config\Option\Database\DatabaseUserConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabasePasswordConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseUnixSocketConfigOption::class => InvokableFactory::class,
-            Config\Option\Database\DatabaseSqlitePathConfigOption::class => InvokableFactory::class,
-            Config\Option\Database\DatabaseMySqlOptionsConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\BaseUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\Regular404RedirectConfigOption::class => InvokableFactory::class,
@@ -127,7 +122,8 @@ return [
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
-            Config\Option\RedisConfigOption::class => InvokableFactory::class,
+            Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
+            Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,

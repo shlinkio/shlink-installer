@@ -9,9 +9,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseUnixSocketConfigOption extends AbstractDriverDependentConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['entity_manager', 'connection', 'unix_socket'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DB_UNIX_SOCKET';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?string

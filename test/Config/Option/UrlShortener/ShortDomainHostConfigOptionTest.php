@@ -25,7 +25,8 @@ class ShortDomainHostConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'domain', 'hostname'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'domain', 'hostname'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_DOMAIN', $this->configOption->getEnvVar());
     }
 
     /** @test */

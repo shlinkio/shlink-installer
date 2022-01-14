@@ -24,7 +24,8 @@ class DisableTrackingFromConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['tracking', 'disable_tracking_from'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'disable_tracking_from'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DISABLE_TRACKING_FROM', $this->configOption->getEnvVar());
     }
 
     /**

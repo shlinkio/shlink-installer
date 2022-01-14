@@ -7,7 +7,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option;
 use Closure;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 
-abstract class AbstractSwooleDependentConfigOption implements ConfigOptionInterface
+abstract class AbstractSwooleDependentConfigOption extends BaseConfigOption
 {
     private Closure $swooleInstalled;
 
@@ -18,6 +18,6 @@ abstract class AbstractSwooleDependentConfigOption implements ConfigOptionInterf
 
     public function shouldBeAsked(PathCollection $currentOptions): bool
     {
-        return ($this->swooleInstalled)() && ! $currentOptions->pathExists($this->getConfigPath());
+        return ($this->swooleInstalled)() && parent::shouldBeAsked($currentOptions);
     }
 }

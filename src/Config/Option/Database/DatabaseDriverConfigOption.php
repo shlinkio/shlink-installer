@@ -25,9 +25,14 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         'SQLite' => self::SQLITE_DRIVER,
     ];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return self::CONFIG_PATH;
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DB_DRIVER';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

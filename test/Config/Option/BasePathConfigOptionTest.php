@@ -24,7 +24,8 @@ class BasePathConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['router', 'base_path'], $this->configOption->getConfigPath());
+        self::assertEquals(['router', 'base_path'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('BASE_PATH', $this->configOption->getEnvVar());
     }
 
     /** @test */

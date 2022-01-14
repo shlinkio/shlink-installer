@@ -27,7 +27,8 @@ class VisitsWebhooksConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'visits_webhooks'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'visits_webhooks'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('VISITS_WEBHOOKS', $this->configOption->getEnvVar());
     }
 
     /** @test */
@@ -66,9 +67,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
         yield 'without swoole' => [false, new PathCollection(), false];
         yield 'with swoole and no config' => [true, new PathCollection(), true];
         yield 'with swoole and config' => [true, new PathCollection([
-            'url_shortener' => [
-                'visits_webhooks' => [],
-            ],
+            'VISITS_WEBHOOKS' => [],
         ]), false];
     }
 }

@@ -24,7 +24,8 @@ class DatabaseDriverConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'driver'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'driver'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DB_DRIVER', $this->configOption->getEnvVar());
     }
 
     /** @test */

@@ -24,17 +24,16 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'domain', 'schema'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'domain', 'schema'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('IS_HTTPS_ENABLED', $this->configOption->getEnvVar());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = 'https';
+        $expectedAnswer = true;
         $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->choice('Select schema for generated short URLs', ['http', 'https'], 'http')->willReturn(
-            $expectedAnswer,
-        );
+        $choice = $io->confirm('Is HTTPS enabled on this server?')->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 

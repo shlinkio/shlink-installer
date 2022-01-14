@@ -13,9 +13,14 @@ class Regular404RedirectConfigOption extends BaseConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['not_found_redirects', 'regular_404'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_REGULAR_404_REDIRECT';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?string

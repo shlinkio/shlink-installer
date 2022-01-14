@@ -25,7 +25,8 @@ class DefaultSizeConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['qr_codes', 'size'], $this->configOption->getConfigPath());
+        self::assertEquals(['qr_codes', 'size'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_QR_CODE_SIZE', $this->configOption->getEnvVar());
     }
 
     /** @test */

@@ -15,9 +15,14 @@ class DatabasePortConfigOption extends AbstractNonSqliteDependentConfigOption
         DatabaseDriverConfigOption::MSSQL_DRIVER => '1433',
     ];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['entity_manager', 'connection', 'port'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DB_PORT';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

@@ -24,7 +24,8 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['geolite2', 'license_key'], $this->configOption->getConfigPath());
+        self::assertEquals(['geolite2', 'license_key'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('GEOLITE_LICENSE_KEY', $this->configOption->getEnvVar());
     }
 
     /**

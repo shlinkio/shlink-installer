@@ -12,9 +12,14 @@ class RabbitMqPortConfigOption extends AbstractRabbitMqEnabledConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['rabbitmq', 'port'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'RABBITMQ_PORT';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int

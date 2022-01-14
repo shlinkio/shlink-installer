@@ -25,7 +25,11 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'notify_orphan_visits_to_webhooks'], $this->configOption->getConfigPath());
+        self::assertEquals(
+            ['url_shortener', 'notify_orphan_visits_to_webhooks'],
+            $this->configOption->getDeprecatedPath(),
+        );
+        self::assertEquals('NOTIFY_ORPHAN_VISITS_TO_WEBHOOKS', $this->configOption->getEnvVar());
     }
 
     /** @test */
@@ -65,14 +69,10 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
     {
         yield 'without config' => [new PathCollection(), false];
         yield 'without webhooks' => [new PathCollection([
-            'url_shortener' => [
-                'visits_webhooks' => [],
-            ],
+            VisitsWebhooksConfigOption::ENV_VAR => [],
         ]), false];
         yield 'with webhooks' => [new PathCollection([
-            'url_shortener' => [
-                'visits_webhooks' => ['foo', 'bar'],
-            ],
+            VisitsWebhooksConfigOption::ENV_VAR => ['foo', 'bar'],
         ]), true];
     }
 }

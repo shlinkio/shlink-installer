@@ -25,7 +25,8 @@ class MercureJwtSecretConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['mercure', 'jwt_secret'], $this->configOption->getConfigPath());
+        self::assertEquals(['mercure', 'jwt_secret'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('MERCURE_JWT_SECRET', $this->configOption->getEnvVar());
     }
 
     /** @test */

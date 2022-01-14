@@ -10,13 +10,18 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainSchemaConfigOption extends BaseConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'domain', 'schema'];
     }
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): string
+    public function getEnvVar(): string
     {
-        return $io->choice('Select schema for generated short URLs', ['http', 'https'], 'http');
+        return 'IS_HTTPS_ENABLED';
+    }
+
+    public function ask(StyleInterface $io, PathCollection $currentOptions): bool
+    {
+        return $io->confirm('Is HTTPS enabled on this server?');
     }
 }

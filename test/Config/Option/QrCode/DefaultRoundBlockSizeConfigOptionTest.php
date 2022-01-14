@@ -24,7 +24,8 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['qr_codes', 'round_block_size'], $this->configOption->getConfigPath());
+        self::assertEquals(['qr_codes', 'round_block_size'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_QR_CODE_ROUND_BLOCK_SIZE', $this->configOption->getEnvVar());
     }
 
     /**
