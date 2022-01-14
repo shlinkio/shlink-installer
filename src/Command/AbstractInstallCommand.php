@@ -11,6 +11,7 @@ use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
+use Shlinkio\Shlink\Installer\Util\Utils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,9 +47,10 @@ abstract class AbstractInstallCommand extends Command
             $this->assetsHandler->importShlinkAssetsFromPath($io, $importedConfig->importPath());
         }
         $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
+        $configArray = Utils::keepEnvVarKeys($config->toArray());
 
         // Generate config params files
-        $this->configWriter->toFile(ShlinkAssetsHandler::GENERATED_CONFIG_PATH, $config->toArray(), false);
+        $this->configWriter->toFile(ShlinkAssetsHandler::GENERATED_CONFIG_PATH, $configArray, false);
         $io->text('<info>Custom configuration properly generated!</info>');
         $io->newLine();
 
