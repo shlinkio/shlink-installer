@@ -10,6 +10,8 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainSchemaConfigOption extends BaseConfigOption
 {
+    public const ENV_VAR = 'IS_HTTPS_ENABLED';
+
     public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'domain', 'schema'];
@@ -17,7 +19,7 @@ class ShortDomainSchemaConfigOption extends BaseConfigOption
 
     public function getEnvVar(): string
     {
-        return 'IS_HTTPS_ENABLED';
+        return self::ENV_VAR;
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

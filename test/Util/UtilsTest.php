@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Util;
 
 use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
 use Shlinkio\Shlink\Installer\Util\Utils;
 
 class UtilsTest extends TestCase
@@ -17,6 +18,7 @@ class UtilsTest extends TestCase
             'JARL' => '123',
             'AS_ARRAY' => 'foo,bar,baz',
             'REGULAR_404_REDIRECT' => 'this is kept',
+            ShortDomainSchemaConfigOption::ENV_VAR => true,
         ], Utils::normalizeAndKeepEnvVarKeys([
             'foo' => [
                 'bar',
@@ -31,6 +33,7 @@ class UtilsTest extends TestCase
             ],
             'AS_ARRAY' => ['foo', 'bar', 'baz'],
             'REGULAR_404_REDIRECT' => 'this is kept',
+            ShortDomainSchemaConfigOption::ENV_VAR => 'https',
         ]));
     }
 
