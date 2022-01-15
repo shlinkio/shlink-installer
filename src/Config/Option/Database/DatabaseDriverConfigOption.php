@@ -14,10 +14,10 @@ class DatabaseDriverConfigOption extends BaseConfigOption
 {
     public const ENV_VAR = 'DB_DRIVER';
     public const CONFIG_PATH = [self::ENV_VAR];
-    public const MYSQL_DRIVER = 'pdo_mysql';
-    public const POSTGRES_DRIVER = 'pdo_pgsql';
-    public const SQLITE_DRIVER = 'pdo_sqlite';
-    public const MSSQL_DRIVER = 'pdo_sqlsrv';
+    public const MYSQL_DRIVER = 'mysql';
+    public const POSTGRES_DRIVER = 'postgres';
+    public const SQLITE_DRIVER = 'sqlite';
+    public const MSSQL_DRIVER = 'mssql';
     private const DATABASE_DRIVERS = [
         'MySQL' => self::MYSQL_DRIVER,
         'MariaDB' => self::MYSQL_DRIVER,
