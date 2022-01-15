@@ -24,7 +24,8 @@ class DefaultFormatConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['qr_codes', 'format'], $this->configOption->getConfigPath());
+        self::assertEquals(['qr_codes', 'format'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_QR_CODE_FORMAT', $this->configOption->getEnvVar());
     }
 
     /** @test */

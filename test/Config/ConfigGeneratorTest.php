@@ -32,7 +32,7 @@ class ConfigGeneratorTest extends TestCase
         $this->configOptionsManager = $this->prophesize(ConfigOptionsManagerInterface::class);
         $this->plugin = $this->prophesize(ConfigOptionInterface::class);
         $this->plugin->shouldBeAsked(Argument::cetera())->willReturn(true);
-        $this->plugin->getConfigPath()->willReturn(['path']);
+        $this->plugin->getEnvVar()->willReturn('ENV_VAR');
         $this->plugin->ask(Argument::cetera())->willReturn('value');
         $this->io = $this->prophesize(StyleInterface::class);
     }
@@ -50,7 +50,7 @@ class ConfigGeneratorTest extends TestCase
         $expectedQuestions = $enabledOptions === null ? $totalPlugins : count($enabledOptions);
 
         $pluginShouldBeAsked = $this->plugin->shouldBeAsked(Argument::cetera())->willReturn(true);
-        $getPath = $this->plugin->getConfigPath()->willReturn(['path']);
+        $getPath = $this->plugin->getEnvVar()->willReturn('ENV_VAR');
         $ask = $this->plugin->ask(Argument::cetera())->willReturn('value');
         $getPlugin = $this->configOptionsManager->get(Argument::any())->willReturn($this->plugin->reveal());
         $printTitle = $this->io->title(Argument::any());
@@ -98,9 +98,14 @@ class ConfigGeneratorTest extends TestCase
                 $this->orderedAskedOptions = &$orderedAskedOptions;
             }
 
-            public function getConfigPath(): array
+            public function getDeprecatedPath(): array
             {
                 return [];
+            }
+
+            public function getEnvVar(): string
+            {
+                return '';
             }
 
             public function shouldBeAsked(PathCollection $currentOptions): bool

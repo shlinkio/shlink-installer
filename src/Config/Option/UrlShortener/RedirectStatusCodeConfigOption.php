@@ -12,15 +12,21 @@ use function array_flip;
 
 class RedirectStatusCodeConfigOption extends BaseConfigOption
 {
-    public const CONFIG_PATH = ['url_shortener', 'redirect_status_code'];
+    public const ENV_VAR = 'REDIRECT_STATUS_CODE';
+    public const CONFIG_PATH = [self::ENV_VAR];
     private const REDIRECT_STATUSES = [
         'All visits will always be tracked. Not that good for SEO.' => 302,
         'Best option for SEO. Redirect will be cached for a short period of time, making some visits not to be tracked.' => 301, // phpcs:ignore
     ];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
-        return self::CONFIG_PATH;
+        return ['url_shortener', 'redirect_status_code'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return self::ENV_VAR;
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int

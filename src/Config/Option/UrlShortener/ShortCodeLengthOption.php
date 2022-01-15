@@ -13,9 +13,14 @@ class ShortCodeLengthOption extends BaseConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'default_short_codes_length'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_SHORT_CODES_LENGTH';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int

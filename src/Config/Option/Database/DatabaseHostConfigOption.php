@@ -9,9 +9,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseHostConfigOption extends AbstractNonSqliteDependentConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['entity_manager', 'connection', 'host'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DB_HOST';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

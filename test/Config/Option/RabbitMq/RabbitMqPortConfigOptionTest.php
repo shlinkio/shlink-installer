@@ -25,7 +25,8 @@ class RabbitMqPortConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['rabbitmq', 'port'], $this->configOption->getConfigPath());
+        self::assertEquals(['rabbitmq', 'port'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('RABBITMQ_PORT', $this->configOption->getEnvVar());
     }
 
     /** @test */

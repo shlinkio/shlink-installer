@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option\Tracking;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\AbstractWithDeprecatedPathConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class IpAnonymizationConfigOption extends AbstractWithDeprecatedPathConfigOption implements
-    DependentConfigOptionInterface
+class IpAnonymizationConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
-    public function getConfigPath(): array
+    public function getEnvVar(): string
     {
-        return ['tracking', 'anonymize_remote_addr'];
+        return 'ANONYMIZE_REMOTE_ADDR';
     }
 
-    protected function getDeprecatedPath(): array
+    public function getDeprecatedPath(): array
     {
-        return ['url_shortener', 'anonymize_remote_addr'];
+        return ['tracking', 'anonymize_remote_addr'];
     }
 
     public function shouldBeAsked(PathCollection $currentOptions): bool

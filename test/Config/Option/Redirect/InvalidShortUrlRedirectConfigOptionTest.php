@@ -25,7 +25,8 @@ class InvalidShortUrlRedirectConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['not_found_redirects', 'invalid_short_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['not_found_redirects', 'invalid_short_url'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_INVALID_SHORT_URL_REDIRECT', $this->configOption->getEnvVar());
     }
 
     /** @test */

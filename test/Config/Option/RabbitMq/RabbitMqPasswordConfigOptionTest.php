@@ -25,7 +25,8 @@ class RabbitMqPasswordConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['rabbitmq', 'password'], $this->configOption->getConfigPath());
+        self::assertEquals(['rabbitmq', 'password'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('RABBITMQ_PASSWORD', $this->configOption->getEnvVar());
     }
 
     /** @test */

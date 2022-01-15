@@ -9,9 +9,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class BasePathConfigOption extends BaseConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['router', 'base_path'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'BASE_PATH';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string
@@ -19,7 +24,6 @@ class BasePathConfigOption extends BaseConfigOption
         return $io->ask(
             'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '
             . 'shlink from the root of the domain)',
-            '',
-        );
+        ) ?? '';
     }
 }

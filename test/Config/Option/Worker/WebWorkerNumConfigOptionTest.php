@@ -27,7 +27,8 @@ class WebWorkerNumConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['web_worker_num'], $this->configOption->getConfigPath());
+        self::assertEquals(['web_worker_num'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('WEB_WORKER_NUM', $this->configOption->getEnvVar());
     }
 
     /** @test */

@@ -24,7 +24,8 @@ class AppendExtraPathConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'append_extra_path'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'append_extra_path'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('REDIRECT_APPEND_EXTRA_PATH', $this->configOption->getEnvVar());
     }
 
     /** @test */

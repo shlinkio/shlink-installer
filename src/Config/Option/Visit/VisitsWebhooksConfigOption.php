@@ -9,24 +9,32 @@ use Shlinkio\Shlink\Installer\Config\Option\AbstractSwooleDependentConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Symfony\Component\Console\Style\StyleInterface;
 
+use function implode;
+
 class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public const CONFIG_PATH = ['url_shortener', 'visits_webhooks'];
+    public const ENV_VAR = 'VISITS_WEBHOOKS';
+    public const CONFIG_PATH = [self::ENV_VAR];
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): array
+    public function getDeprecatedPath(): array
     {
-        return $io->ask(
+        return ['url_shortener', 'visits_webhooks'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return self::ENV_VAR;
+    }
+
+    public function ask(StyleInterface $io, PathCollection $currentOptions): string
+    {
+        return implode(',', $io->ask(
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
             . 'receive visits (Ignore this if you are not serving shlink with swoole or openswoole)',
             null,
             [$this, 'splitAndValidateMultipleUrls'],
-        );
-    }
-
-    public function getConfigPath(): array
-    {
-        return self::CONFIG_PATH;
+        ));
     }
 }

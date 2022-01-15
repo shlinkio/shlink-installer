@@ -24,7 +24,8 @@ class DisableReferrerTrackingConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['tracking', 'disable_referrer_tracking'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'disable_referrer_tracking'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DISABLE_REFERRER_TRACKING', $this->configOption->getEnvVar());
     }
 
     /** @test */

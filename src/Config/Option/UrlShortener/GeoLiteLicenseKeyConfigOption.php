@@ -10,9 +10,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class GeoLiteLicenseKeyConfigOption extends BaseConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['geolite2', 'license_key'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'GEOLITE_LICENSE_KEY';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?string

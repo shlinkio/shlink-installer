@@ -25,7 +25,8 @@ class BaseUrlRedirectConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['not_found_redirects', 'base_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['not_found_redirects', 'base_url'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_BASE_URL_REDIRECT', $this->configOption->getEnvVar());
     }
 
     /** @test */

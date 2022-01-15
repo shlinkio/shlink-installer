@@ -25,7 +25,8 @@ class MercurePublicUrlConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['mercure', 'public_hub_url'], $this->configOption->getConfigPath());
+        self::assertEquals(['mercure', 'public_hub_url'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('MERCURE_PUBLIC_HUB_URL', $this->configOption->getEnvVar());
     }
 
     /** @test */

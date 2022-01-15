@@ -5,24 +5,29 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class RedirectCacheLifeTimeConfigOption implements ConfigOptionInterface, DependentConfigOptionInterface
+class RedirectCacheLifeTimeConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'redirect_cache_lifetime'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'REDIRECT_CACHE_LIFETIME';
     }
 
     public function shouldBeAsked(PathCollection $currentOptions): bool
     {
         $redirectStatus = $currentOptions->getValueInPath(RedirectStatusCodeConfigOption::CONFIG_PATH);
-        return $redirectStatus === 301 && ! $currentOptions->pathExists($this->getConfigPath());
+        return $redirectStatus === 301 && parent::shouldBeAsked($currentOptions);
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int

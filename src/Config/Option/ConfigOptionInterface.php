@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 interface ConfigOptionInterface
 {
-    public function getConfigPath(): array;
+    public function getEnvVar(): string;
 
     public function shouldBeAsked(PathCollection $currentOptions): bool;
 

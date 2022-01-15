@@ -12,9 +12,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 class OrphanVisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption implements
     DependentConfigOptionInterface
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'notify_orphan_visits_to_webhooks'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'NOTIFY_ORPHAN_VISITS_TO_WEBHOOKS';
     }
 
     public function shouldBeAsked(PathCollection $currentOptions): bool

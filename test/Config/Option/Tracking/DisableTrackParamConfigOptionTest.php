@@ -24,7 +24,8 @@ class DisableTrackParamConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['tracking', 'disable_track_param'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'disable_track_param'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DISABLE_TRACK_PARAM', $this->configOption->getEnvVar());
     }
 
     /** @test */
@@ -52,21 +53,19 @@ class DisableTrackParamConfigOptionTest extends TestCase
         $result = $this->configOption->shouldBeAsked($config);
 
         self::assertEquals($expected, $result);
-        self::assertFalse($config->pathExists(['app_options', 'disable_track_param']));
-        self::assertEquals(!$result, $config->pathExists(['tracking', 'disable_track_param']));
+        self::assertFalse($config->pathExists(['tracking', 'disable_track_param']));
+        self::assertEquals(!$result, $config->pathExists(['DISABLE_TRACK_PARAM']));
     }
 
     public function provideConfigWithDeprecations(): iterable
     {
         yield 'deprecated is set, new is not' => [new PathCollection([
-            'app_options' => [
+            'tracking' => [
                 'disable_track_param' => 'something',
             ],
         ]), false];
         yield 'deprecated is not set, new is' => [new PathCollection([
-            'tracking' => [
-                'disable_track_param' => 'something',
-            ],
+            'DISABLE_TRACK_PARAM' => 'something',
         ]), false];
         yield 'neither deprecated nor new are set' => [new PathCollection(), true];
     }

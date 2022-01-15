@@ -25,7 +25,8 @@ class DatabaseHostConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'host'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'host'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DB_HOST', $this->configOption->getEnvVar());
     }
 
     /**
@@ -78,7 +79,7 @@ class DatabaseHostConfigOptionTest extends TestCase
             $collection = new PathCollection();
             $collection->setValueInPath($driver, DatabaseDriverConfigOption::CONFIG_PATH);
             if ($withHost) {
-                $collection->setValueInPath('the_host', ['entity_manager', 'connection', 'host']);
+                $collection->setValueInPath('the_host', ['DB_HOST']);
             }
 
             return $collection;

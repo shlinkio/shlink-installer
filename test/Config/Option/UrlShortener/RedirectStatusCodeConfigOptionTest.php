@@ -25,7 +25,8 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'redirect_status_code'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'redirect_status_code'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('REDIRECT_STATUS_CODE', $this->configOption->getEnvVar());
     }
 
     /**

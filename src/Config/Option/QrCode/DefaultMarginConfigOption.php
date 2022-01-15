@@ -13,9 +13,14 @@ class DefaultMarginConfigOption extends BaseConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['qr_codes', 'margin'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_QR_CODE_MARGIN';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int

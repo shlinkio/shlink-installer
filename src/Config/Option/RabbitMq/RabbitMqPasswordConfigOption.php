@@ -12,9 +12,14 @@ class RabbitMqPasswordConfigOption extends AbstractRabbitMqEnabledConfigOption
 {
     use AskUtilsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['rabbitmq', 'password'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'RABBITMQ_PASSWORD';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

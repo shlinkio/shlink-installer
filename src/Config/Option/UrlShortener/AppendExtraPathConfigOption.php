@@ -10,9 +10,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class AppendExtraPathConfigOption extends BaseConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'append_extra_path'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'REDIRECT_APPEND_EXTRA_PATH';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

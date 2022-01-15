@@ -13,9 +13,14 @@ class ShortDomainHostConfigOption extends BaseConfigOption
 {
     use AskUtilsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['url_shortener', 'domain', 'hostname'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_DOMAIN';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

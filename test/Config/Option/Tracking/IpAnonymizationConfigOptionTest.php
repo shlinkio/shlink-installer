@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableIpTrackingConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\IpAnonymizationConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -25,7 +26,8 @@ class IpAnonymizationConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['tracking', 'anonymize_remote_addr'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'anonymize_remote_addr'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('ANONYMIZE_REMOTE_ADDR', $this->configOption->getEnvVar());
     }
 
     /**
@@ -84,40 +86,26 @@ class IpAnonymizationConfigOptionTest extends TestCase
     {
         yield [new PathCollection(), true];
         yield [new PathCollection([
-            'tracking' => [
-                'disable_tracking' => false,
-            ],
+            DisableTrackingConfigOption::ENV_VAR => false,
         ]), true];
         yield [new PathCollection([
-            'tracking' => [
-                'disable_ip_tracking' => false,
-            ],
+            DisableIpTrackingConfigOption::ENV_VAR => false,
         ]), true];
         yield [new PathCollection([
-            'tracking' => [
-                'disable_tracking' => false,
-                'disable_ip_tracking' => false,
-            ],
+            DisableTrackingConfigOption::ENV_VAR => false,
+            DisableIpTrackingConfigOption::ENV_VAR => false,
         ]), true];
         yield [new PathCollection([
-            'tracking' => [
-                'disable_tracking' => true,
-            ],
+            DisableTrackingConfigOption::ENV_VAR => true,
         ]), false];
         yield [new PathCollection([
-            'tracking' => [
-                'disable_ip_tracking' => true,
-            ],
+            DisableIpTrackingConfigOption::ENV_VAR => true,
         ]), false];
         yield [new PathCollection([
-            'tracking' => [
-                'anonymize_remote_addr' => true,
-            ],
+            'ANONYMIZE_REMOTE_ADDR' => true,
         ]), false];
         yield [new PathCollection([
-            'tracking' => [
-                'anonymize_remote_addr' => false,
-            ],
+            'ANONYMIZE_REMOTE_ADDR' => false,
         ]), false];
     }
 }

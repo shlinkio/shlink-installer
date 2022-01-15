@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option\Tracking;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\AbstractWithDeprecatedPathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class DisableTrackParamConfigOption extends AbstractWithDeprecatedPathConfigOption
+class DisableTrackParamConfigOption extends AbstractDisableTrackingDependentConfigOption
 {
-    public function getConfigPath(): array
+    public function getEnvVar(): string
     {
-        return ['tracking', 'disable_track_param'];
+        return 'DISABLE_TRACK_PARAM';
     }
 
-    protected function getDeprecatedPath(): array
+    public function getDeprecatedPath(): array
     {
-        return ['app_options', 'disable_track_param'];
+        return ['tracking', 'disable_track_param'];
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?string

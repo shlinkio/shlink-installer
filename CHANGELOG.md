@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* [#143](https://github.com/shlinkio/shlink-installer/issues/143) Reworked how config options are "persisted", switching from regular config to an env var map.
 
 ### Changed
 * *Nothing*
