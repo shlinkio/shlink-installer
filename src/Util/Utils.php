@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Util;
 
+use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
 
 use function array_filter;
@@ -39,6 +40,10 @@ class Utils
             static fn (mixed $value, string $key) => match (true) {
                 is_array($value) => implode(',', $value),
                 $key === ShortDomainSchemaConfigOption::ENV_VAR && ! is_bool($value) => $value === 'https',
+                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_pgsql' => 'postgres',
+                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_sqlite' => 'sqlite',
+                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_sqlsrv' => 'mssql',
+                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_mysql' => 'mysql',
                 default => $value,
             },
         );
