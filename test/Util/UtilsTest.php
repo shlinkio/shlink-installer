@@ -16,6 +16,7 @@ class UtilsTest extends TestCase
             'ENV_VAR' => 0,
             'JARL' => '123',
             'AS_ARRAY' => 'foo,bar,baz',
+            'REGULAR_404_REDIRECT' => 'this is kept',
         ], Utils::normalizeAndKeepEnvVarKeys([
             'foo' => [
                 'bar',
@@ -29,6 +30,7 @@ class UtilsTest extends TestCase
                 ],
             ],
             'AS_ARRAY' => ['foo', 'bar', 'baz'],
+            'REGULAR_404_REDIRECT' => 'this is kept',
         ]));
     }
 }
