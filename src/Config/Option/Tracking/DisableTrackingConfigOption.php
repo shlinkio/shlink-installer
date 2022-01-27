@@ -10,11 +10,17 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableTrackingConfigOption extends BaseConfigOption
 {
-    public const CONFIG_PATH = ['tracking', 'disable_tracking'];
+    public const ENV_VAR = 'DISABLE_TRACKING';
+    public const CONFIG_PATH = [self::ENV_VAR];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
-        return self::CONFIG_PATH;
+        return ['tracking', 'disable_tracking'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return self::ENV_VAR;
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

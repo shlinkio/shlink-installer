@@ -12,9 +12,14 @@ class MercurePublicUrlConfigOption extends AbstractMercureEnabledConfigOption
 {
     use AskUtilsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['mercure', 'public_hub_url'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'MERCURE_PUBLIC_HUB_URL';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

@@ -24,7 +24,8 @@ class OrphanVisitsTrackingConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['tracking', 'track_orphan_visits'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'track_orphan_visits'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('TRACK_ORPHAN_VISITS', $this->configOption->getEnvVar());
     }
 
     /** @test */

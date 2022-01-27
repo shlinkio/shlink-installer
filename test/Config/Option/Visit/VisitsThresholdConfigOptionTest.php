@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\Visit\CheckVisitsThresholdConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsThresholdConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -26,19 +25,23 @@ class VisitsThresholdConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['delete_short_urls', 'visits_threshold'], $this->configOption->getConfigPath());
+        self::assertEquals(['delete_short_urls', 'visits_threshold'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DELETE_SHORT_URL_THRESHOLD', $this->configOption->getEnvVar());
     }
 
-    /** @test */
-    public function expectedQuestionIsAsked(): void
+    /**
+     * @test
+     * @dataProvider provideValidAnswers
+     */
+    public function expectedQuestionIsAsked(string|int|null $answer, ?int $expectedAnswer): void
     {
-        $expectedAnswer = 15;
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'What is the amount of visits from which the system will not allow short URLs to be deleted?',
-            '15',
+            'What is the amount of visits from which the system will not allow short URLs to be deleted? Leave empty '
+            . 'to always allow deleting short URLs, no matter what',
+            null,
             Argument::any(),
-        )->willReturn($expectedAnswer);
+        )->willReturn($answer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
@@ -46,10 +49,11 @@ class VisitsThresholdConfigOptionTest extends TestCase
         $ask->shouldHaveBeenCalledOnce();
     }
 
-    /** @test */
-    public function dependsOnCheck(): void
+    public function provideValidAnswers(): iterable
     {
-        self::assertEquals(CheckVisitsThresholdConfigOption::class, $this->configOption->getDependentOption());
+        yield [null, null];
+        yield [10, 10];
+        yield ['15', 15];
     }
 
     /**
@@ -63,18 +67,16 @@ class VisitsThresholdConfigOptionTest extends TestCase
 
     public function provideCurrentOptions(): iterable
     {
-        $buildCollection = static function (bool $check, bool $withThreshold = false): PathCollection {
+        $buildCollection = static function (bool $withThreshold): PathCollection {
             $collection = new PathCollection();
-            $collection->setValueInPath($check, CheckVisitsThresholdConfigOption::CONFIG_PATH);
             if ($withThreshold) {
-                $collection->setValueInPath(15, ['delete_short_urls', 'visits_threshold']);
+                $collection->setValueInPath(15, ['DELETE_SHORT_URL_THRESHOLD']);
             }
 
             return $collection;
         };
 
-        yield 'none' => [$buildCollection(false), false];
-        yield 'with check' => [$buildCollection(true), true];
-        yield 'with check and threshold' => [$buildCollection(true, true), false];
+        yield 'without threshold' => [$buildCollection(false), true];
+        yield 'with threshold' => [$buildCollection(true), false];
     }
 }

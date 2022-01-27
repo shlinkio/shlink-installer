@@ -9,9 +9,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableUaTrackingConfigOption extends AbstractDisableTrackingDependentConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['tracking', 'disable_ua_tracking'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DISABLE_UA_TRACKING';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

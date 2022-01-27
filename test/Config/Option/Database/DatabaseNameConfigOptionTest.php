@@ -24,7 +24,8 @@ class DatabaseNameConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'dbname'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'dbname'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DB_NAME', $this->configOption->getEnvVar());
     }
 
     /** @test */

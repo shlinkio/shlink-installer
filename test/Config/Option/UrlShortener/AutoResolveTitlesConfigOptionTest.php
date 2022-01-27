@@ -24,7 +24,8 @@ class AutoResolveTitlesConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'auto_resolve_titles'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'auto_resolve_titles'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('AUTO_RESOLVE_TITLES', $this->configOption->getEnvVar());
     }
 
     /** @test */

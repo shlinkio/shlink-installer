@@ -28,7 +28,8 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['task_worker_num'], $this->configOption->getConfigPath());
+        self::assertEquals(['task_worker_num'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('TASK_WORKER_NUM', $this->configOption->getEnvVar());
     }
 
     /**
@@ -109,6 +110,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     {
         yield 'without swoole' => [false, new PathCollection(), false];
         yield 'with swoole and no config' => [true, new PathCollection(), true];
-        yield 'with swoole and config' => [true, new PathCollection(['task_worker_num' => 16]), false];
+        yield 'with swoole and deprecated config' => [true, new PathCollection(['task_worker_num' => 16]), false];
+        yield 'with swoole and config' => [true, new PathCollection(['TASK_WORKER_NUM' => 16]), false];
     }
 }

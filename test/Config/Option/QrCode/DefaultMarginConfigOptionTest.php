@@ -25,7 +25,8 @@ class DefaultMarginConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['qr_codes', 'margin'], $this->configOption->getConfigPath());
+        self::assertEquals(['qr_codes', 'margin'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_QR_CODE_MARGIN', $this->configOption->getEnvVar());
     }
 
     /** @test */

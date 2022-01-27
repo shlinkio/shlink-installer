@@ -17,9 +17,14 @@ class DefaultErrorCorrectionConfigOption extends BaseConfigOption
         'h' => 'High',
     ];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['qr_codes', 'error_correction'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_QR_CODE_ERROR_CORRECTION';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

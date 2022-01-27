@@ -12,9 +12,14 @@ class DefaultFormatConfigOption extends BaseConfigOption
 {
     private const SUPPORTED_FORMATS = ['png', 'svg'];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['qr_codes', 'format'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_QR_CODE_FORMAT';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

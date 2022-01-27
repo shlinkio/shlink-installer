@@ -24,7 +24,8 @@ class RabbitMqVhostConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['rabbitmq', 'vhost'], $this->configOption->getConfigPath());
+        self::assertEquals(['rabbitmq', 'vhost'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('RABBITMQ_VHOST', $this->configOption->getEnvVar());
     }
 
     /** @test */

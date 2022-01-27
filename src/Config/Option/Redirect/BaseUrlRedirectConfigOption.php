@@ -13,9 +13,14 @@ class BaseUrlRedirectConfigOption extends BaseConfigOption
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['not_found_redirects', 'base_url'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_BASE_URL_REDIRECT';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?string

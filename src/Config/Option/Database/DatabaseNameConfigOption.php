@@ -9,9 +9,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseNameConfigOption extends AbstractNonSqliteDependentConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['entity_manager', 'connection', 'dbname'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DB_NAME';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

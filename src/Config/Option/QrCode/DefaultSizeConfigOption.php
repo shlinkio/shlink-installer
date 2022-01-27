@@ -16,9 +16,14 @@ class DefaultSizeConfigOption extends BaseConfigOption
     private const MIN_SIZE = 50;
     private const MAX_SIZE = 1000;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['qr_codes', 'size'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DEFAULT_QR_CODE_SIZE';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): int

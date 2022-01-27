@@ -9,9 +9,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class RabbitMqVhostConfigOption extends AbstractRabbitMqEnabledConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['rabbitmq', 'vhost'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'RABBITMQ_VHOST';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

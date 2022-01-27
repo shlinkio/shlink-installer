@@ -25,7 +25,8 @@ class DatabaseUserConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'user'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'user'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DB_USER', $this->configOption->getEnvVar());
     }
 
     /** @test */

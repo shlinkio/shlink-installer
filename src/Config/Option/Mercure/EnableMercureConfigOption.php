@@ -10,11 +10,17 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class EnableMercureConfigOption extends AbstractSwooleDependentConfigOption
 {
-    public const CONFIG_PATH = ['___', 'mercure_enabled'];
+    public const ENV_VAR = 'MERCURE_ENABLED';
+    public const CONFIG_PATH = [self::ENV_VAR];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
-        return self::CONFIG_PATH;
+        return ['___', 'mercure_enabled'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return self::ENV_VAR;
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): bool

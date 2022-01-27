@@ -34,7 +34,6 @@ class ConfigGenerator implements ConfigGeneratorInterface
 
         // FIXME Improve code quality on these nested loops
         foreach ($pluginsGroups as $title => $configOptions) {
-            /** @var ConfigOptionInterface $plugin */
             foreach ($configOptions as $configOption => $plugin) {
                 $optionIsEnabled = $this->enabledOptions === null || contains($this->enabledOptions, $configOption);
                 $shouldAsk = $optionIsEnabled && $plugin->shouldBeAsked($answers);
@@ -48,7 +47,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
                     $io->title($title);
                 }
 
-                $answers->setValueInPath($plugin->ask($io, $answers), $plugin->getConfigPath());
+                $answers->setValueInPath($plugin->ask($io, $answers), [$plugin->getEnvVar()]);
             }
         }
 
@@ -60,13 +59,8 @@ class ConfigGenerator implements ConfigGeneratorInterface
      */
     private function resolveAndSortOptions(): array
     {
-        $dependentPluginSorter = static function (ConfigOptionInterface $left, ConfigOptionInterface $right): int {
-            if ($left instanceof DependentConfigOptionInterface) {
-                return $left->getDependentOption() === get_class($right) ? 1 : 0;
-            }
-
-            return 0;
-        };
+        $dependentPluginSorter = static fn (ConfigOptionInterface $a, ConfigOptionInterface $b): int =>
+            $a instanceof DependentConfigOptionInterface && $a->getDependentOption() === get_class($b) ? 1 : 0;
         $sortAndResolvePlugins = fn (array $configOptions) => array_combine(
             $configOptions,
             // Resolve all plugins for every config option, and then sort them

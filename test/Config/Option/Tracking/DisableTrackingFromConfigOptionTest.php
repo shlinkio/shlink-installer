@@ -24,14 +24,15 @@ class DisableTrackingFromConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['tracking', 'disable_tracking_from'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'disable_tracking_from'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DISABLE_TRACKING_FROM', $this->configOption->getEnvVar());
     }
 
     /**
      * @test
      * @dataProvider provideAnswers
      */
-    public function expectedQuestionIsAsked(?string $answer, array $expectedList): void
+    public function expectedQuestionIsAsked(?string $answer): void
     {
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
@@ -41,14 +42,13 @@ class DisableTrackingFromConfigOptionTest extends TestCase
 
         $result = $this->configOption->ask($io->reveal(), new PathCollection());
 
-        self::assertEquals($expectedList, $result);
+        self::assertEquals($answer, $result);
         $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideAnswers(): iterable
     {
-        yield 'no addresses' => [null, []];
-        yield 'some addresses' => ['192.168.1.1,192.168.0.0/24', ['192.168.1.1', '192.168.0.0/24']];
-        yield 'addresses to be trimmed' => ['  192.168.1.1 ,  192.168.0.0/24  ', ['192.168.1.1', '192.168.0.0/24']];
+        yield 'no addresses' => [null];
+        yield 'some addresses' => ['192.168.1.1,192.168.0.0/24'];
     }
 }

@@ -25,7 +25,8 @@ class DatabasePasswordConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'password'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'password'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DB_PASSWORD', $this->configOption->getEnvVar());
     }
 
     /** @test */

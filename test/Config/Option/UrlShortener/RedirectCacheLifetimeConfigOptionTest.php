@@ -26,7 +26,8 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'redirect_cache_lifetime'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'redirect_cache_lifetime'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('REDIRECT_CACHE_LIFETIME', $this->configOption->getEnvVar());
     }
 
     /**

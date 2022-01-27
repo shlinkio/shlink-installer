@@ -12,9 +12,14 @@ class RabbitMqUserConfigOption extends AbstractRabbitMqEnabledConfigOption
 {
     use AskUtilsTrait;
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['rabbitmq', 'user'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'RABBITMQ_USER';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

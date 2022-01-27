@@ -25,7 +25,8 @@ class Regular404RedirectConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['not_found_redirects', 'regular_404'], $this->configOption->getConfigPath());
+        self::assertEquals(['not_found_redirects', 'regular_404'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_REGULAR_404_REDIRECT', $this->configOption->getEnvVar());
     }
 
     /** @test */

@@ -1,8 +1,13 @@
 #!/usr/bin/env php
 <?php
+
 declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
-[,, $app] = require __DIR__ . '/run.php';
-$app();
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Symfony\Component\Console\Application;
+
+/** @var ServiceLocatorInterface $container */
+$container = include __DIR__ . '/../config/container.php';
+$container->get(Application::class)->run();

@@ -82,7 +82,7 @@ class SetOptionCommand extends Command
         /** @var ConfigOptionInterface $plugin */
         $plugin = $this->optionsManager->get($this->groups[$optionTitle]);
         $answers = new PathCollection(include $this->generatedConfigPath);
-        $answers->setValueInPath($plugin->ask($io, $answers), $plugin->getConfigPath());
+        $answers->setValueInPath($plugin->ask($io, $answers), [$plugin->getEnvVar()]);
         $this->configWriter->toFile($this->generatedConfigPath, $answers->toArray(), false);
         $this->assetsHandler->dropCachedConfigIfAny($io);
 

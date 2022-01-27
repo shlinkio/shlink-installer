@@ -18,14 +18,14 @@
         "laminas/laminas-servicemanager": "^3.7",
         "laminas/laminas-stdlib": "^3.4",
         "lstrojny/functional-php": "^1.17",
-        "shlinkio/shlink-config": "^1.4",
-        "symfony/console": "^6.0 || ^5.4",
-        "symfony/filesystem": "^6.0 || ^5.4",
-        "symfony/process": "^6.0 || ^5.4"
+        "shlinkio/shlink-config": "^1.5",
+        "symfony/console": "^6.0",
+        "symfony/filesystem": "^6.0",
+        "symfony/process": "^6.0"
     },
     "require-dev": {
         "devster/ubench": "^2.0",
-        "infection/infection": "^0.25.3",
+        "infection/infection": "^0.26",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.5",
@@ -78,11 +78,13 @@
         "infect:show": "<fg=blue;options=bold>Checks unit tests quality applying mutation testing and shows applied mutators</>"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true
+        }
     },
     "bin": [
-        "bin/shlink-install",
-        "bin/shlink-update",
         "bin/shlink-installer"
     ]
 }

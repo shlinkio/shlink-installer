@@ -12,11 +12,12 @@ use function array_keys;
 
 class DatabaseDriverConfigOption extends BaseConfigOption
 {
-    public const CONFIG_PATH = ['entity_manager', 'connection', 'driver'];
-    public const MYSQL_DRIVER = 'pdo_mysql';
-    public const POSTGRES_DRIVER = 'pdo_pgsql';
-    public const SQLITE_DRIVER = 'pdo_sqlite';
-    public const MSSQL_DRIVER = 'pdo_sqlsrv';
+    public const ENV_VAR = 'DB_DRIVER';
+    public const CONFIG_PATH = [self::ENV_VAR];
+    public const MYSQL_DRIVER = 'mysql';
+    public const POSTGRES_DRIVER = 'postgres';
+    public const SQLITE_DRIVER = 'sqlite';
+    public const MSSQL_DRIVER = 'mssql';
     private const DATABASE_DRIVERS = [
         'MySQL' => self::MYSQL_DRIVER,
         'MariaDB' => self::MYSQL_DRIVER,
@@ -25,9 +26,14 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         'SQLite' => self::SQLITE_DRIVER,
     ];
 
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
-        return self::CONFIG_PATH;
+        return ['entity_manager', 'connection', 'driver'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'DB_DRIVER';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): string

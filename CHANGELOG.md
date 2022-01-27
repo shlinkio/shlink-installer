@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [7.0.0] - 2022-01-27
+### Added
+* [#143](https://github.com/shlinkio/shlink-installer/issues/143) Reworked how config options are "persisted", switching from regular config to an env var map.
+
+### Changed
+* *Nothing*
+
+### Changed
+* Dropped support for Symfony 5.
+* Updated to infection 0.26, enabling HTML reports.
+* Added explicitly enabled composer plugins to composer.json.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Removed everything that was deprecated
+
+### Fixed
+* *Nothing*
+
+
 ## [6.3.0] - 2021-12-12
 ### Added
 * [#140](https://github.com/shlinkio/shlink-installer/issues/140) Added support for RabbitMQ options.

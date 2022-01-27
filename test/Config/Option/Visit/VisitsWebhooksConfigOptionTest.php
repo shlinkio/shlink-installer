@@ -27,20 +27,22 @@ class VisitsWebhooksConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'visits_webhooks'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'visits_webhooks'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('VISITS_WEBHOOKS', $this->configOption->getEnvVar());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = [];
+        $urls = ['foo', 'bar'];
+        $expectedAnswer = 'foo,bar';
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
             . 'receive visits (Ignore this if you are not serving shlink with swoole or openswoole)',
             null,
             Argument::any(),
-        )->willReturn($expectedAnswer);
+        )->willReturn($urls);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
 
@@ -66,9 +68,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
         yield 'without swoole' => [false, new PathCollection(), false];
         yield 'with swoole and no config' => [true, new PathCollection(), true];
         yield 'with swoole and config' => [true, new PathCollection([
-            'url_shortener' => [
-                'visits_webhooks' => [],
-            ],
+            'VISITS_WEBHOOKS' => [],
         ]), false];
     }
 }

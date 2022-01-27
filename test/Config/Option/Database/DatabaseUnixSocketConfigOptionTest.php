@@ -25,7 +25,8 @@ class DatabaseUnixSocketConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'unix_socket'], $this->configOption->getConfigPath());
+        self::assertEquals(['entity_manager', 'connection', 'unix_socket'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DB_UNIX_SOCKET', $this->configOption->getEnvVar());
     }
 
     /** @test */

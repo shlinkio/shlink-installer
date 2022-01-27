@@ -25,7 +25,8 @@ class ShortCodeLengthConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['url_shortener', 'default_short_codes_length'], $this->configOption->getConfigPath());
+        self::assertEquals(['url_shortener', 'default_short_codes_length'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_SHORT_CODES_LENGTH', $this->configOption->getEnvVar());
     }
 
     /** @test */

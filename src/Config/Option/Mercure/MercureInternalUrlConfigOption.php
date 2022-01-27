@@ -9,9 +9,14 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class MercureInternalUrlConfigOption extends AbstractMercureEnabledConfigOption
 {
-    public function getConfigPath(): array
+    public function getDeprecatedPath(): array
     {
         return ['mercure', 'internal_hub_url'];
+    }
+
+    public function getEnvVar(): string
+    {
+        return 'MERCURE_INTERNAL_HUB_URL';
     }
 
     public function ask(StyleInterface $io, PathCollection $currentOptions): ?string

@@ -24,7 +24,8 @@ class DefaultErrorCorrectionConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['qr_codes', 'error_correction'], $this->configOption->getConfigPath());
+        self::assertEquals(['qr_codes', 'error_correction'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DEFAULT_QR_CODE_ERROR_CORRECTION', $this->configOption->getEnvVar());
     }
 
     /** @test */

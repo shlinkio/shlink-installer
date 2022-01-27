@@ -25,7 +25,8 @@ class DisableUaTrackingConfigOptionTest extends TestCase
     /** @test */
     public function returnsExpectedConfig(): void
     {
-        self::assertEquals(['tracking', 'disable_ua_tracking'], $this->configOption->getConfigPath());
+        self::assertEquals(['tracking', 'disable_ua_tracking'], $this->configOption->getDeprecatedPath());
+        self::assertEquals('DISABLE_UA_TRACKING', $this->configOption->getEnvVar());
     }
 
     /** @test */
@@ -64,19 +65,17 @@ class DisableUaTrackingConfigOptionTest extends TestCase
     {
         yield 'empty options' => [new PathCollection(), true];
         yield 'tracking not disabled' => [new PathCollection([
-            'tracking' => ['disable_tracking' => false],
+            DisableTrackingConfigOption::ENV_VAR => false,
         ]), true];
         yield 'tracking disabled' => [new PathCollection([
-            'tracking' => ['disable_tracking' => true],
+            DisableTrackingConfigOption::ENV_VAR => true,
         ]), false];
         yield 'option already set' => [new PathCollection([
-            'tracking' => ['disable_ua_tracking' => false],
+            'DISABLE_UA_TRACKING' => false,
         ]), false];
         yield 'tracking not disabled with option already set' => [new PathCollection([
-            'tracking' => [
-                'disable_tracking' => false,
-                'disable_ua_tracking' => false,
-            ],
+            DisableTrackingConfigOption::ENV_VAR => false,
+            'DISABLE_UA_TRACKING' => false,
         ]), false];
     }
 }
