@@ -9,6 +9,7 @@ use Shlinkio\Shlink\Installer\Config\Option\AbstractSwooleDependentConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated */
 class OrphanVisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption implements
     DependentConfigOptionInterface
 {
