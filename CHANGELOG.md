@@ -24,6 +24,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 
+## [7.0.1] - 2022-02-09
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* Fixed non-sqlite questions being asked when importing a pre-7.0 config using SQLite.
+
+
 ## [7.0.0] - 2022-01-27
 ### Added
 * [#143](https://github.com/shlinkio/shlink-installer/issues/143) Reworked how config options are "persisted", switching from regular config to an env var map.
