@@ -86,6 +86,7 @@ class DatabaseHostConfigOptionTest extends TestCase
         };
 
         yield 'sqlite' => [$buildCollection(DatabaseDriverConfigOption::SQLITE_DRIVER), false];
+        yield 'old sqlite' => [$buildCollection('pdo_sqlite'), false];
         yield 'mysql' => [$buildCollection(DatabaseDriverConfigOption::MYSQL_DRIVER), true];
         yield 'postgres' => [$buildCollection(DatabaseDriverConfigOption::POSTGRES_DRIVER), true];
         yield 'mysql with value' => [$buildCollection(DatabaseDriverConfigOption::MYSQL_DRIVER, true), false];
