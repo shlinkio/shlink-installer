@@ -40,6 +40,11 @@ trait ConfigOptionsValidatorsTrait
         return map($splitUrls, [$this, 'validateUrl']);
     }
 
+    public function validateOptionalPositiveNumber(mixed $value): ?int
+    {
+        return $value === null ? $value : $this->validatePositiveNumber($value);
+    }
+
     public function validatePositiveNumber(mixed $value): int
     {
         return $this->validateNumberGreaterThan($value, 1);
