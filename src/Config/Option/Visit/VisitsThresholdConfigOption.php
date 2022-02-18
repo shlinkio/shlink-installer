@@ -29,7 +29,7 @@ class VisitsThresholdConfigOption extends BaseConfigOption
             'What is the amount of visits from which the system will not allow short URLs to be deleted? Leave empty '
             . 'to always allow deleting short URLs, no matter what',
             null,
-            fn (mixed $value) => $value === null || $this->validatePositiveNumber($value),
+            [$this, 'validateOptionalPositiveNumber'],
         );
 
         return $result === null ? null : (int) $result;
