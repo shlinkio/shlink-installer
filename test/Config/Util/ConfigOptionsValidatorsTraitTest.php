@@ -90,19 +90,34 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideValidValues
+     * @dataProvider providePositiveNumbers
      */
     public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, int $expected): void
     {
         self::assertEquals($expected, $this->validators->validatePositiveNumber($value));
     }
 
-    public function provideValidValues(): iterable
+    public function providePositiveNumbers(): iterable
     {
         yield 'positive as string' => ['20', 20];
         yield 'positive as integer' => [5, 5];
         yield 'one as string' => ['1', 1];
         yield 'one as integer' => [1, 1];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideOptionalPositiveNumbers
+     */
+    public function validateOptionalPositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, ?int $expected): void
+    {
+        self::assertEquals($expected, $this->validators->validateOptionalPositiveNumber($value));
+    }
+
+    public function provideOptionalPositiveNumbers(): iterable
+    {
+        yield 'null' => [null, null];
+        yield from $this->providePositiveNumbers();
     }
 
     /**
