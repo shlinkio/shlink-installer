@@ -36,8 +36,8 @@ class BasePathConfigOptionTest extends TestCase
     {
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '
-            . 'shlink from the root of the domain)',
+            'What is the path from which shlink is going to be served? (It must include a leading bar, like "/shlink". '
+            . 'Leave empty if you plan to serve shlink from the root of the domain)',
         )->willReturn($answer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
