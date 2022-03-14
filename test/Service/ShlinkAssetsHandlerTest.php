@@ -35,21 +35,27 @@ class ShlinkAssetsHandlerTest extends TestCase
      * @test
      * @dataProvider provideConfigExists
      */
-    public function cachedConfigIsDeletedIfExists(bool $exists, int $expectedRemoveCalls): void
+    public function cachedConfigIsDeletedIfExists(bool $appExists, bool $routesExist, int $expectedRemoveCalls): void
     {
-        $appConfigExists = $this->filesystem->exists('data/cache/app_config.php')->willReturn($exists);
-        $appConfigRemove = $this->filesystem->remove('data/cache/app_config.php')->willReturn(null);
+        $appConfigExists = $this->filesystem->exists('data/cache/app_config.php')->willReturn($appExists);
+        $routesConfigExists = $this->filesystem->exists('data/cache/fastroute_cached_routes.php')->willReturn(
+            $routesExist,
+        );
+        $configRemove = $this->filesystem->remove(Argument::containingString('data/cache'))->willReturn(null);
 
         $this->assetsHandler->dropCachedConfigIfAny($this->io->reveal());
 
         $appConfigExists->shouldHaveBeenCalledOnce();
-        $appConfigRemove->shouldHaveBeenCalledTimes($expectedRemoveCalls);
+        $routesConfigExists->shouldHaveBeenCalledOnce();
+        $configRemove->shouldHaveBeenCalledTimes($expectedRemoveCalls);
     }
 
     public function provideConfigExists(): iterable
     {
-        yield 'no cached config' => [false, 0];
-        yield 'cached config' => [true, 1];
+        yield 'no cached app or route config' => [false, false, 0];
+        yield 'cached app config' => [true, false, 1];
+        yield 'cached route config' => [false, true, 1];
+        yield 'both configs cached' => [true, true, 2];
     }
 
     /** @test */
