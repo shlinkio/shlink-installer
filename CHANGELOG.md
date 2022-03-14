@@ -21,7 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 ### Fixed
-* *Nothing*
+* [#155](https://github.com/shlinkio/shlink-installer/issues/155) Fixed router config cache not getting deleted when editing config options.
 
 
 ## [7.0.2] - 2022-02-19
