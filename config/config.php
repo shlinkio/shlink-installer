@@ -86,6 +86,7 @@ return [
             'APPLICATION' => [
                 'Delete short URLs > Visits threshold' => Config\Option\Visit\VisitsThresholdConfigOption::class,
                 'Base path' => Config\Option\BasePathConfigOption::class,
+                'Timezone' => Config\Option\TimezoneConfigOption::class,
                 'Swoole > Amount of task workers' => Config\Option\Worker\TaskWorkerNumConfigOption::class,
                 'Swoole > Amount of web workers' => Config\Option\Worker\WebWorkerNumConfigOption::class,
             ],
@@ -107,6 +108,7 @@ return [
 
         'factories' => [
             Config\Option\BasePathConfigOption::class => InvokableFactory::class,
+            Config\Option\TimezoneConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsThresholdConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseDriverConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseNameConfigOption::class => InvokableFactory::class,
