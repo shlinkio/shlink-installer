@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* [#157](https://github.com/shlinkio/shlink-installer/issues/157) Added support for the timezone config option.
 
 ### Changed
 * *Nothing*
