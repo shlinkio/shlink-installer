@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [7.1.0] - 2022-04-23
+### Added
+* [#157](https://github.com/shlinkio/shlink-installer/issues/157) Added support for the timezone config option.
+
+### Changed
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* Deprecated webhook-related config options.
+
+### Removed
+* *Nothing*
+
+### Fixed
+* [#155](https://github.com/shlinkio/shlink-installer/issues/155) Fixed router config cache not getting deleted when editing config options.
+
+
 ## [7.0.2] - 2022-02-19
 ### Added
 * *Nothing*

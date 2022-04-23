@@ -22,8 +22,8 @@ class BasePathConfigOption extends BaseConfigOption
     public function ask(StyleInterface $io, PathCollection $currentOptions): string
     {
         return $io->ask(
-            'What is the path from which shlink is going to be served? (Leave empty if you plan to serve '
-            . 'shlink from the root of the domain)',
+            'What is the path from which shlink is going to be served? (It must include a leading bar, like "/shlink". '
+            . 'Leave empty if you plan to serve shlink from the root of the domain)',
         ) ?? '';
     }
 }

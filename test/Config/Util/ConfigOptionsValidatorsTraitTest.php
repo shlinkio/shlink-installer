@@ -23,17 +23,17 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
      * @test
      * @dataProvider provideValidUrls
      */
-    public function webhooksAreProperlySplitAndValidated(?string $webhooks, array $expectedResult): void
+    public function urlsAreProperlySplitAndValidated(?string $urls, array $expectedResult): void
     {
-        $result = $this->validators->splitAndValidateMultipleUrls($webhooks);
+        $result = $this->validators->splitAndValidateMultipleUrls($urls);
         self::assertEquals($expectedResult, $result);
     }
 
     public function provideValidUrls(): iterable
     {
-        yield 'no webhooks' => [null, []];
-        yield 'single webhook' => ['https://foo.com/bar', ['https://foo.com/bar']];
-        yield 'multiple webhook' => ['https://foo.com/bar,http://bar.io/foo/bar', [
+        yield 'no urls' => [null, []];
+        yield 'single url' => ['https://foo.com/bar', ['https://foo.com/bar']];
+        yield 'multiple urls' => ['https://foo.com/bar,http://bar.io/foo/bar', [
             'https://foo.com/bar',
             'http://bar.io/foo/bar',
         ]];
@@ -43,18 +43,18 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
      * @test
      * @dataProvider provideInvalidUrls
      */
-    public function webhooksFailWhenProvidedValueIsNotValidUrl(string $webhooks): void
+    public function splitUrlsFailWhenProvidedValueIsNotValidUrl(string $urls): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validators->splitAndValidateMultipleUrls($webhooks);
+        $this->validators->splitAndValidateMultipleUrls($urls);
     }
 
     public function provideInvalidUrls(): iterable
     {
-        yield 'single invalid webhook' => ['invalid'];
-        yield 'first invalid webhook' => ['invalid,http://bar.io/foo/bar'];
-        yield 'last invalid webhook' => ['http://bar.io/foo/bar,invalid'];
-        yield 'middle invalid webhook' => ['http://bar.io/foo/bar,invalid,https://foo.com/bar'];
+        yield 'single invalid url' => ['invalid'];
+        yield 'first invalid url' => ['invalid,http://bar.io/foo/bar'];
+        yield 'last invalid url' => ['http://bar.io/foo/bar,invalid'];
+        yield 'middle invalid url' => ['http://bar.io/foo/bar,invalid,https://foo.com/bar'];
     }
 
     /** @test */

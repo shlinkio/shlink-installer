@@ -11,6 +11,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 use function implode;
 
+/** @deprecated */
 class VisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption
 {
     use ConfigOptionsValidatorsTrait;

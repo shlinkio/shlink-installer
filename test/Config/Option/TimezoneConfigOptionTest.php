@@ -7,25 +7,24 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
-use Shlinkio\Shlink\Installer\Config\Option\BasePathConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\TimezoneConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class BasePathConfigOptionTest extends TestCase
+class TimezoneConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private BasePathConfigOption $configOption;
+    private TimezoneConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new BasePathConfigOption();
+        $this->configOption = new TimezoneConfigOption();
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['router', 'base_path'], $this->configOption->getDeprecatedPath());
-        self::assertEquals('BASE_PATH', $this->configOption->getEnvVar());
+        self::assertEquals('TIMEZONE', $this->configOption->getEnvVar());
     }
 
     /**
@@ -36,8 +35,7 @@ class BasePathConfigOptionTest extends TestCase
     {
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask(
-            'What is the path from which shlink is going to be served? (It must include a leading bar, like "/shlink". '
-            . 'Leave empty if you plan to serve shlink from the root of the domain)',
+            'Set the timezone in which your Shlink instance is running (leave empty to use the one set in PHP config)',
         )->willReturn($answer);
 
         $answer = $this->configOption->ask($io->reveal(), new PathCollection());
@@ -64,10 +62,6 @@ class BasePathConfigOptionTest extends TestCase
     public function provideCurrentOptions(): iterable
     {
         yield 'not exists in config' => [new PathCollection(), true];
-        yield 'exists in config' => [new PathCollection([
-            'router' => [
-                'base_path' => '/foo',
-            ],
-        ]), false];
+        yield 'exists in config' => [new PathCollection(['TIMEZONE' => 'America/Los_Angeles']), false];
     }
 }

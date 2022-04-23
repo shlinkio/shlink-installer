@@ -17,7 +17,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
     use AskUtilsTrait;
 
     public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
-    private const CACHED_CONFIG_PATH = 'data/cache/app_config.php';
+    private const CACHED_CONFIGS_PATHS = ['data/cache/app_config.php', 'data/cache/fastroute_cached_routes.php'];
     private const SQLITE_DB_PATH = 'data/database.sqlite';
     private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
 
@@ -30,17 +30,23 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
      */
     public function dropCachedConfigIfAny(StyleInterface $io): void
     {
-        if (! $this->filesystem->exists(self::CACHED_CONFIG_PATH)) {
+        foreach (self::CACHED_CONFIGS_PATHS as $file) {
+            $this->dropCachedConfigFile($file, $io);
+        }
+    }
+
+    private function dropCachedConfigFile(string $file, StyleInterface $io): void
+    {
+        if (! $this->filesystem->exists($file)) {
             return;
         }
 
         try {
-            $this->filesystem->remove(self::CACHED_CONFIG_PATH);
+            $this->filesystem->remove($file);
         } catch (IOException $e) {
-            $io->error(sprintf(
-                'Could not delete cached config! You will have to manually delete the "%s" file.',
-                self::CACHED_CONFIG_PATH,
-            ));
+            $io->error(
+                sprintf('Could not delete cached config! You will have to manually delete the "%s" file.', $file),
+            );
             throw $e;
         }
     }
