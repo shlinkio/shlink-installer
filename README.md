@@ -15,7 +15,7 @@ A PHP command line tool used to install [shlink](https://shlink.io/).
 
 Install this tool using [composer](https://getcomposer.org/).
 
-    composer install shlinkio/shlink-installer
+    composer require shlinkio/shlink-installer
 
 ## Usage
 
