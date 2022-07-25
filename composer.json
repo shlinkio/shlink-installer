@@ -30,7 +30,7 @@
         "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
-        "shlinkio/php-coding-standard": "~2.2.0",
+        "shlinkio/php-coding-standard": "~2.3.0",
         "symfony/var-dumper": "^6.0"
     },
     "autoload": {
