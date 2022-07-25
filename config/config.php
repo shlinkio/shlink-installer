@@ -93,6 +93,7 @@ return [
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
                 'Redis > sentinels service' => Config\Option\Redis\RedisSentinelServiceConfigOption::class,
+                'Redis > Pub/sub enabled' => Config\Option\Redis\RedisPubSubConfigOption::class,
                 Config\Option\Mercure\EnableMercureConfigOption::class,
                 'Mercure > Public URL' => Config\Option\Mercure\MercurePublicUrlConfigOption::class,
                 'Mercure > Internal URL' => Config\Option\Mercure\MercureInternalUrlConfigOption::class,
@@ -126,6 +127,7 @@ return [
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
+            Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,

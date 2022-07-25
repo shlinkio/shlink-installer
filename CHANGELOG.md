@@ -4,12 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [7.1.0] - 2022-04-23
+## [Unreleased]
 ### Added
-* [#157](https://github.com/shlinkio/shlink-installer/issues/157) Added support for the timezone config option.
+* [#162](https://github.com/shlinkio/shlink-installer/issues/162) Added support for the redis pub/sub config option.
 
 ### Changed
 * *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
+## [7.1.0] - 2022-04-23
+### Added
+* [#157](https://github.com/shlinkio/shlink-installer/issues/157) Added support for the timezone config option.
 
 ### Changed
 * *Nothing*
@@ -26,9 +40,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [7.0.2] - 2022-02-19
 ### Added
-* *Nothing*
-
-### Changed
 * *Nothing*
 
 ### Changed
@@ -51,9 +62,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Changed
 * *Nothing*
 
-### Changed
-* *Nothing*
-
 ### Deprecated
 * *Nothing*
 
@@ -67,9 +75,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [7.0.0] - 2022-01-27
 ### Added
 * [#143](https://github.com/shlinkio/shlink-installer/issues/143) Reworked how config options are "persisted", switching from regular config to an env var map.
-
-### Changed
-* *Nothing*
 
 ### Changed
 * Dropped support for Symfony 5.
@@ -93,9 +98,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Added support for Symfony 6.0.
 * Added support for openswoole.
 * Added "round block size" config option for QR codes.
-
-### Changed
-* *Nothing*
 
 ### Changed
 * Updated to phpstan 1.0
