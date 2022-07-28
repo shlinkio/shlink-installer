@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Database;
 
+use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
+
 use function str_contains;
 
 abstract class AbstractNonSqliteDependentConfigOption extends AbstractDriverDependentConfigOption
@@ -11,8 +13,8 @@ abstract class AbstractNonSqliteDependentConfigOption extends AbstractDriverDepe
     protected function shouldBeAskedForDbDriver(string $dbDriver): bool
     {
         // DEPRECATED.
-        // Should just compare with strict equality ($dbDriver === DatabaseDriverConfigOption::SQLITE_DRIVER)
+        // Should just compare with strict equality (DatabaseDriver::tryFrom($dbDriver) === DatabaseDriver::SQLITE)
         // Using str_contains instead for backwards compatibility when importing the pdo_sqlite value
-        return ! str_contains($dbDriver, DatabaseDriverConfigOption::SQLITE_DRIVER);
+        return ! str_contains($dbDriver, DatabaseDriver::SQLITE->value);
     }
 }

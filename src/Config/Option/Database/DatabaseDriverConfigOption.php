@@ -6,6 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option\Database;
 
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
+use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 use Symfony\Component\Console\Style\StyleInterface;
 
 use function array_keys;
@@ -14,16 +15,12 @@ class DatabaseDriverConfigOption extends BaseConfigOption
 {
     public const ENV_VAR = 'DB_DRIVER';
     public const CONFIG_PATH = [self::ENV_VAR];
-    public const MYSQL_DRIVER = 'mysql';
-    public const POSTGRES_DRIVER = 'postgres';
-    public const SQLITE_DRIVER = 'sqlite';
-    public const MSSQL_DRIVER = 'mssql';
     private const DATABASE_DRIVERS = [
-        'MySQL' => self::MYSQL_DRIVER,
-        'MariaDB' => self::MYSQL_DRIVER,
-        'PostgreSQL' => self::POSTGRES_DRIVER,
-        'MicrosoftSQL' => self::MSSQL_DRIVER,
-        'SQLite' => self::SQLITE_DRIVER,
+        'MySQL' => DatabaseDriver::MYSQL,
+        'MariaDB' => DatabaseDriver::MYSQL,
+        'PostgreSQL' => DatabaseDriver::POSTGRES,
+        'MicrosoftSQL' => DatabaseDriver::MSSQL,
+        'SQLite' => DatabaseDriver::SQLITE,
     ];
 
     public function getDeprecatedPath(): array
@@ -40,6 +37,6 @@ class DatabaseDriverConfigOption extends BaseConfigOption
     {
         $databases = array_keys(self::DATABASE_DRIVERS);
         $dbType = $io->choice('Select database type', $databases, $databases[0]);
-        return self::DATABASE_DRIVERS[$dbType];
+        return self::DATABASE_DRIVERS[$dbType]->value;
     }
 }
