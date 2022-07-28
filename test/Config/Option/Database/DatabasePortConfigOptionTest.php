@@ -9,6 +9,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabasePortConfigOption;
+use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabasePortConfigOptionTest extends TestCase
@@ -54,10 +55,10 @@ class DatabasePortConfigOptionTest extends TestCase
             return $collection;
         };
 
-        yield 'mysql' => [$buildCollection(DatabaseDriverConfigOption::MYSQL_DRIVER), '3306'];
-        yield 'postgres' => [$buildCollection(DatabaseDriverConfigOption::POSTGRES_DRIVER), '5432'];
-        yield 'mssql' => [$buildCollection(DatabaseDriverConfigOption::MSSQL_DRIVER), '1433'];
-        yield 'sqlite' => [$buildCollection(DatabaseDriverConfigOption::SQLITE_DRIVER), ''];
+        yield 'mysql' => [$buildCollection(DatabaseDriver::MYSQL->value), '3306'];
+        yield 'postgres' => [$buildCollection(DatabaseDriver::POSTGRES->value), '5432'];
+        yield 'mssql' => [$buildCollection(DatabaseDriver::MSSQL->value), '1433'];
+        yield 'sqlite' => [$buildCollection(DatabaseDriver::SQLITE->value), ''];
         yield 'unsupported' => [$buildCollection('unsupported'), ''];
     }
 }

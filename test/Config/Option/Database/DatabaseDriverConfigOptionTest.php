@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
+use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseDriverConfigOptionTest extends TestCase
@@ -31,7 +32,7 @@ class DatabaseDriverConfigOptionTest extends TestCase
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = DatabaseDriverConfigOption::SQLITE_DRIVER;
+        $expectedAnswer = DatabaseDriver::SQLITE->value;
         $io = $this->prophesize(StyleInterface::class);
         $choice = $io->choice(
             'Select database type',
