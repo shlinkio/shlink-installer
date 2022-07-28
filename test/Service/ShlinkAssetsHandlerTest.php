@@ -114,7 +114,7 @@ class ShlinkAssetsHandlerTest extends TestCase
 
         $result = $this->assetsHandler->resolvePreviousConfig($this->io->reveal());
 
-        self::assertEquals($exists ? $importPath : '', $result->importPath());
+        self::assertEquals($exists ? $importPath : '', $result->importPath);
         $confirm->shouldHaveBeenCalledTimes($exists ? 1 : 4);
         $ask->shouldHaveBeenCalledTimes($exists ? 1 : 3);
         $configExists->shouldHaveBeenCalledTimes($exists ? 1 : 3);

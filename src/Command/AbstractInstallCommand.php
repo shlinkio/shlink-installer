@@ -44,9 +44,9 @@ abstract class AbstractInstallCommand extends Command
 
         $importedConfig = $this->resolvePreviousConfig($io);
         if ($this->isUpdate()) {
-            $this->assetsHandler->importShlinkAssetsFromPath($io, $importedConfig->importPath());
+            $this->assetsHandler->importShlinkAssetsFromPath($io, $importedConfig->importPath);
         }
-        $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
+        $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig);
         $configArray = Utils::normalizeAndKeepEnvVarKeys($config->toArray());
 
         // Generate config params files
