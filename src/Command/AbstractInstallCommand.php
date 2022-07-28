@@ -77,7 +77,10 @@ abstract class AbstractInstallCommand extends Command
             ? InstallationCommand::POST_UPDATE_COMMANDS
             : InstallationCommand::POST_INSTALL_COMMANDS;
 
-        return every($commands, fn (string $commandName) => $this->commandsRunner->execPhpCommand($commandName, $io));
+        return every(
+            $commands,
+            fn (InstallationCommand $command) => $this->commandsRunner->execPhpCommand($command->value, $io),
+        );
     }
 
     abstract protected function isUpdate(): bool;

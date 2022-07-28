@@ -22,6 +22,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 use function count;
+use function Functional\map;
 
 class UpdateCommandTest extends TestCase
 {
@@ -65,10 +66,12 @@ class UpdateCommandTest extends TestCase
     public function commandIsExecutedAsExpected(): void
     {
         $execPhpCommand = $this->commandsRunner->execPhpCommand(
-            Argument::that(function (string $command) {
-                Assert::assertContains($command, InstallationCommand::POST_UPDATE_COMMANDS);
-
-                return $command;
+            Argument::that(function (string $commandName) {
+                Assert::assertContains($commandName, map(
+                    InstallationCommand::POST_UPDATE_COMMANDS,
+                    fn (InstallationCommand $command) => $command->value,
+                ));
+                return true;
             }),
             Argument::cetera(),
         )->willReturn(true);

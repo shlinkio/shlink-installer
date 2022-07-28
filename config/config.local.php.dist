@@ -9,16 +9,16 @@ return [
 
     'installer' => [
         'installation_commands' => [
-            InstallationCommand::DB_CREATE_SCHEMA => [
+            InstallationCommand::DB_CREATE_SCHEMA->value => [
                 'command' => '-v', // Just print PHP version
             ],
-            InstallationCommand::DB_MIGRATE => [
+            InstallationCommand::DB_MIGRATE->value => [
                 'command' => null, // Skip
             ],
-            InstallationCommand::ORM_PROXIES => [
+            InstallationCommand::ORM_PROXIES->value => [
                 'command' => '-v', // Just print PHP version
             ],
-            InstallationCommand::ORM_CLEAR_CACHE => [
+            InstallationCommand::ORM_CLEAR_CACHE->value => [
                 'command' => '-v', // Just print PHP version
             ],
         ],
