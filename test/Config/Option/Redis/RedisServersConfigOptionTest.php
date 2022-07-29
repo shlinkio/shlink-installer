@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -26,9 +25,8 @@ class RedisServersConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['cache', 'redis', 'servers'], $this->configOption->getDeprecatedPath());
         self::assertEquals('REDIS_SERVERS', $this->configOption->getEnvVar());
     }
 
@@ -42,7 +40,7 @@ class RedisServersConfigOptionTest extends TestCase
         )->willReturn(false);
         $ask = $this->io->ask(Argument::cetera());
 
-        $answer = $this->configOption->ask($this->io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($this->io->reveal(), []);
 
         self::assertNull($answer);
         $confirm->shouldHaveBeenCalledOnce();
@@ -64,7 +62,7 @@ class RedisServersConfigOptionTest extends TestCase
             'Provide a comma-separated list of URIs (redis servers/sentinel instances)',
         )->willReturn($serversAnswer);
 
-        $result = $this->configOption->ask($this->io->reveal(), new PathCollection());
+        $result = $this->configOption->ask($this->io->reveal(), []);
 
         self::assertEquals($serversAnswer, $result);
         $confirm->shouldHaveBeenCalledOnce();

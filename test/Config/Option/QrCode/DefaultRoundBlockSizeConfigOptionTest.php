@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultRoundBlockSizeConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['qr_codes', 'round_block_size'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DEFAULT_QR_CODE_ROUND_BLOCK_SIZE', $this->configOption->getEnvVar());
     }
 
@@ -45,7 +43,7 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
             'yes',
         )->willReturn($providedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expected, $answer);
         $choice->shouldHaveBeenCalledOnce();

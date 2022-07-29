@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\OrphanVisitsWebhooksConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -23,12 +22,8 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(
-            ['url_shortener', 'notify_orphan_visits_to_webhooks'],
-            $this->configOption->getDeprecatedPath(),
-        );
         self::assertEquals('NOTIFY_ORPHAN_VISITS_TO_WEBHOOKS', $this->configOption->getEnvVar());
     }
 
@@ -48,7 +43,7 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
             false,
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $confirm->shouldHaveBeenCalledOnce();
@@ -59,7 +54,7 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
      * @dataProvider provideCurrentOptions
      */
     public function shouldBeAskedOnlyWhenTheListOfWebhooksIsNotEmpty(
-        PathCollection $currentOptions,
+        array $currentOptions,
         bool $expected,
     ): void {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
@@ -67,12 +62,8 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
 
     public function provideCurrentOptions(): iterable
     {
-        yield 'without config' => [new PathCollection(), false];
-        yield 'without webhooks' => [new PathCollection([
-            VisitsWebhooksConfigOption::ENV_VAR => [],
-        ]), false];
-        yield 'with webhooks' => [new PathCollection([
-            VisitsWebhooksConfigOption::ENV_VAR => ['foo', 'bar'],
-        ]), true];
+        yield 'without config' => [[], false];
+        yield 'without webhooks' => [[VisitsWebhooksConfigOption::ENV_VAR => []], false];
+        yield 'with webhooks' => [[VisitsWebhooksConfigOption::ENV_VAR => ['foo', 'bar']], true];
     }
 }

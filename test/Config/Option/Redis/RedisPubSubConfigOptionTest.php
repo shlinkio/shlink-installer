@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisPubSubConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -37,7 +36,7 @@ class RedisPubSubConfigOptionTest extends TestCase
             false,
         )->willReturn(true);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals(true, $answer);
         $confirm->shouldHaveBeenCalledOnce();
@@ -47,20 +46,16 @@ class RedisPubSubConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideCurrentOptions
      */
-    public function shouldBeCalledOnlyIfItDoesNotYetExist(PathCollection $currentOptions, bool $expected): void
+    public function shouldBeCalledOnlyIfItDoesNotYetExist(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable
     {
-        yield 'not exists in config' => [new PathCollection(), false];
-        yield 'redis enabled in config' => [new PathCollection([
-            RedisServersConfigOption::ENV_VAR => 'bar',
-        ]), true];
-        yield 'exists in config' => [new PathCollection([
-            'REDIS_PUB_SUB_ENABLED' => true,
-        ]), false];
+        yield 'not exists in config' => [[], false];
+        yield 'redis enabled in config' => [[RedisServersConfigOption::ENV_VAR => 'bar'], true];
+        yield 'exists in config' => [['REDIS_PUB_SUB_ENABLED' => true], false];
     }
 
     /** @test */

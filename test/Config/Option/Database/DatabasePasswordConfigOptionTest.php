@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabasePasswordConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -23,9 +22,8 @@ class DatabasePasswordConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['entity_manager', 'connection', 'password'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DB_PASSWORD', $this->configOption->getEnvVar());
     }
 
@@ -36,7 +34,7 @@ class DatabasePasswordConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask('Database password', null, Argument::cetera())->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();

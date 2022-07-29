@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\RabbitMq;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqVhostConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class RabbitMqVhostConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['rabbitmq', 'vhost'], $this->configOption->getDeprecatedPath());
         self::assertEquals('RABBITMQ_VHOST', $this->configOption->getEnvVar());
     }
 
@@ -35,7 +33,7 @@ class RabbitMqVhostConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask('RabbitMQ VHost', '/')->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();

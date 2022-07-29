@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\BasePathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class BasePathConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['router', 'base_path'], $this->configOption->getDeprecatedPath());
         self::assertEquals('BASE_PATH', $this->configOption->getEnvVar());
     }
 
@@ -40,7 +38,7 @@ class BasePathConfigOptionTest extends TestCase
             . 'Leave empty if you plan to serve shlink from the root of the domain)',
         )->willReturn($answer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
@@ -56,18 +54,14 @@ class BasePathConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideCurrentOptions
      */
-    public function shouldBeCalledOnlyIfItDoesNotYetExist(PathCollection $currentOptions, bool $expected): void
+    public function shouldBeCalledOnlyIfItDoesNotYetExist(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable
     {
-        yield 'not exists in config' => [new PathCollection(), true];
-        yield 'exists in config' => [new PathCollection([
-            'router' => [
-                'base_path' => '/foo',
-            ],
-        ]), false];
+        yield 'not exists in config' => [[], true];
+        yield 'exists in config' => [['BASE_PATH' => '/foo'], false];
     }
 }

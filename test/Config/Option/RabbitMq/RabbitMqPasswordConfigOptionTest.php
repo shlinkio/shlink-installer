@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\RabbitMq;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqPasswordConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -23,9 +22,8 @@ class RabbitMqPasswordConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['rabbitmq', 'password'], $this->configOption->getDeprecatedPath());
         self::assertEquals('RABBITMQ_PASSWORD', $this->configOption->getEnvVar());
     }
 
@@ -36,7 +34,7 @@ class RabbitMqPasswordConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask('RabbitMQ password', Argument::cetera())->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();

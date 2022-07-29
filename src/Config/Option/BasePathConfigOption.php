@@ -4,22 +4,16 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class BasePathConfigOption extends BaseConfigOption
 {
-    public function getDeprecatedPath(): array
-    {
-        return ['router', 'base_path'];
-    }
-
     public function getEnvVar(): string
     {
         return 'BASE_PATH';
     }
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): string
+    public function ask(StyleInterface $io, array $currentOptions): string
     {
         return $io->ask(
             'What is the path from which shlink is going to be served? (It must include a leading bar, like "/shlink". '

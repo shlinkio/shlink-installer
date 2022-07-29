@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackParamConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class DisableTrackParamConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['tracking', 'disable_track_param'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DISABLE_TRACK_PARAM', $this->configOption->getEnvVar());
     }
 
@@ -38,7 +36,7 @@ class DisableTrackParamConfigOptionTest extends TestCase
             . 'short URLs (leave empty and this feature won\'t be enabled)',
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
@@ -46,27 +44,17 @@ class DisableTrackParamConfigOptionTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideConfigWithDeprecations
+     * @dataProvider provideConfig
      */
-    public function shouldBeAskedTransparentlyMigratesFromDeprecatedPath(PathCollection $config, bool $expected): void
+    public function shouldBeAskedReturnsExpectedValue(array $config, bool $expected): void
     {
         $result = $this->configOption->shouldBeAsked($config);
-
         self::assertEquals($expected, $result);
-        self::assertFalse($config->pathExists(['tracking', 'disable_track_param']));
-        self::assertEquals(!$result, $config->pathExists(['DISABLE_TRACK_PARAM']));
     }
 
-    public function provideConfigWithDeprecations(): iterable
+    public function provideConfig(): iterable
     {
-        yield 'deprecated is set, new is not' => [new PathCollection([
-            'tracking' => [
-                'disable_track_param' => 'something',
-            ],
-        ]), false];
-        yield 'deprecated is not set, new is' => [new PathCollection([
-            'DISABLE_TRACK_PARAM' => 'something',
-        ]), false];
-        yield 'neither deprecated nor new are set' => [new PathCollection(), true];
+        yield 'config is set' => [['DISABLE_TRACK_PARAM' => 'something'], false];
+        yield 'config is not set' => [[], true];
     }
 }
