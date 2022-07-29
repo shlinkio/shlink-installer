@@ -6,8 +6,8 @@ namespace Shlinkio\Shlink\Installer\Util;
 
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
-
 use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
+
 use function array_filter;
 use function ctype_upper;
 use function explode;
