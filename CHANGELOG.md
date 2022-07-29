@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Removed
 * [#161](https://github.com/shlinkio/shlink-installer/issues/161) Dropped support for PHP 8.0
+* [#151](https://github.com/shlinkio/shlink-installer/issues/151) Removed compatibility with config path approach. Only env vars are supported now.
 
 ### Fixed
 * *Nothing*

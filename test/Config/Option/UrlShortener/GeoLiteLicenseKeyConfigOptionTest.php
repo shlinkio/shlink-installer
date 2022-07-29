@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['geolite2', 'license_key'], $this->configOption->getDeprecatedPath());
         self::assertEquals('GEOLITE_LICENSE_KEY', $this->configOption->getEnvVar());
     }
 
@@ -40,7 +38,7 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
             . '(Go to https://shlink.io/documentation/geolite-license-key to know how to generate it)',
         )->willReturn($answer);
 
-        $result = $this->configOption->ask($io->reveal(), new PathCollection());
+        $result = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedResult, $result);
         $ask->shouldHaveBeenCalledOnce();

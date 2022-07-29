@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\RabbitMq;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqPortConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -23,9 +22,8 @@ class RabbitMqPortConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['rabbitmq', 'port'], $this->configOption->getDeprecatedPath());
         self::assertEquals('RABBITMQ_PORT', $this->configOption->getEnvVar());
     }
 
@@ -35,7 +33,7 @@ class RabbitMqPortConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask('RabbitMQ port', '5672', Argument::any())->willReturn('5672');
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals(5672, $answer);
         $ask->shouldHaveBeenCalledOnce();

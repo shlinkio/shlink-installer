@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Worker;
 
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\AbstractSwooleDependentConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -15,7 +14,7 @@ abstract class AbstractWorkerNumConfigOption extends AbstractSwooleDependentConf
 {
     use ConfigOptionsValidatorsTrait;
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): int
+    public function ask(StyleInterface $io, array $currentOptions): int
     {
         $question = sprintf(
             '%s (Ignore this if you are not serving shlink with swoole or openswoole)',

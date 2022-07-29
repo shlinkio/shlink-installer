@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\TimezoneConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -38,7 +37,7 @@ class TimezoneConfigOptionTest extends TestCase
             'Set the timezone in which your Shlink instance is running (leave empty to use the one set in PHP config)',
         )->willReturn($answer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
@@ -54,14 +53,14 @@ class TimezoneConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideCurrentOptions
      */
-    public function shouldBeCalledOnlyIfItDoesNotYetExist(PathCollection $currentOptions, bool $expected): void
+    public function shouldBeCalledOnlyIfItDoesNotYetExist(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable
     {
-        yield 'not exists in config' => [new PathCollection(), true];
-        yield 'exists in config' => [new PathCollection(['TIMEZONE' => 'America/Los_Angeles']), false];
+        yield 'not exists in config' => [[], true];
+        yield 'exists in config' => [['TIMEZONE' => 'America/Los_Angeles'], false];
     }
 }

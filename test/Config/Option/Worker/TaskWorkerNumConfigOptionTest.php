@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Worker\TaskWorkerNumConfigOption;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -26,9 +25,8 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['task_worker_num'], $this->configOption->getDeprecatedPath());
         self::assertEquals('TASK_WORKER_NUM', $this->configOption->getEnvVar());
     }
 
@@ -46,7 +44,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
             Argument::that(fn (callable $arg) => $arg($expectedAnswer)),
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
@@ -78,7 +76,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         $this->expectException(InvalidConfigOptionException::class);
         $this->expectExceptionMessage($expectedMessage);
 
-        $this->configOption->ask($io->reveal(), new PathCollection());
+        $this->configOption->ask($io->reveal(), []);
     }
 
     public function provideInvalidValues(): iterable
@@ -99,7 +97,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
      */
     public function shouldBeAskedWhenNotPresentAndSwooleIsInstalled(
         bool $swooleInstalled,
-        PathCollection $currentOptions,
+        array $currentOptions,
         bool $expected,
     ): void {
         $this->swooleInstalled = $swooleInstalled;
@@ -108,9 +106,8 @@ class TaskWorkerNumConfigOptionTest extends TestCase
 
     public function provideCurrentOptions(): iterable
     {
-        yield 'without swoole' => [false, new PathCollection(), false];
-        yield 'with swoole and no config' => [true, new PathCollection(), true];
-        yield 'with swoole and deprecated config' => [true, new PathCollection(['task_worker_num' => 16]), false];
-        yield 'with swoole and config' => [true, new PathCollection(['TASK_WORKER_NUM' => 16]), false];
+        yield 'without swoole' => [false, [], false];
+        yield 'with swoole and no config' => [true, [], true];
+        yield 'with swoole and config' => [true, ['TASK_WORKER_NUM' => 16], false];
     }
 }

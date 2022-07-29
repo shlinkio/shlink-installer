@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -25,9 +24,8 @@ class VisitsWebhooksConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['url_shortener', 'visits_webhooks'], $this->configOption->getDeprecatedPath());
         self::assertEquals('VISITS_WEBHOOKS', $this->configOption->getEnvVar());
     }
 
@@ -44,7 +42,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
             Argument::any(),
         )->willReturn($urls);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
@@ -56,7 +54,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
      */
     public function shouldBeAskedWhenNotPresentAndSwooleIsInstalled(
         bool $swooleInstalled,
-        PathCollection $currentOptions,
+        array $currentOptions,
         bool $expected,
     ): void {
         $this->swooleInstalled = $swooleInstalled;
@@ -65,10 +63,8 @@ class VisitsWebhooksConfigOptionTest extends TestCase
 
     public function provideCurrentOptions(): iterable
     {
-        yield 'without swoole' => [false, new PathCollection(), false];
-        yield 'with swoole and no config' => [true, new PathCollection(), true];
-        yield 'with swoole and config' => [true, new PathCollection([
-            'VISITS_WEBHOOKS' => [],
-        ]), false];
+        yield 'without swoole' => [false, [], false];
+        yield 'with swoole and no config' => [true, [], true];
+        yield 'with swoole and config' => [true, ['VISITS_WEBHOOKS' => []], false];
     }
 }

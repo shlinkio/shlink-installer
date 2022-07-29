@@ -6,6 +6,7 @@ namespace Shlinkio\Shlink\Installer\Util;
 
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
+use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 
 use function array_filter;
 use function ctype_upper;
@@ -29,6 +30,8 @@ class Utils
 
     public static function normalizeAndKeepEnvVarKeys(array $array): array
     {
+        $dbEnvVar = DatabaseDriverConfigOption::ENV_VAR;
+
         return map(
             array_filter(
                 $array,
@@ -36,14 +39,14 @@ class Utils
                     ctype_upper($part) || is_numeric($part)),
                 ARRAY_FILTER_USE_KEY,
             ),
-            // [Deprecated] This maps old values that have been imported, to the new expected values
-            static fn (mixed $value, string $key) => match (true) {
+            // This maps old values that have been imported, to the new expected values
+            static fn (mixed $value, string $envVar) => match (true) {
                 is_array($value) => implode(',', $value),
-                $key === ShortDomainSchemaConfigOption::ENV_VAR && ! is_bool($value) => $value === 'https',
-                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_pgsql' => 'postgres',
-                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_sqlite' => 'sqlite',
-                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_sqlsrv' => 'mssql',
-                $key === DatabaseDriverConfigOption::ENV_VAR && $value === 'pdo_mysql' => 'mysql',
+                $envVar === ShortDomainSchemaConfigOption::ENV_VAR && ! is_bool($value) => $value === 'https',
+                $envVar === $dbEnvVar && $value === 'pdo_pgsql' => DatabaseDriver::POSTGRES->value,
+                $envVar === $dbEnvVar && $value === 'pdo_sqlite' => DatabaseDriver::SQLITE->value,
+                $envVar === $dbEnvVar && $value === 'pdo_sqlsrv' => DatabaseDriver::MSSQL->value,
+                $envVar === $dbEnvVar && $value === 'pdo_mysql' => DatabaseDriver::MYSQL->value,
                 default => $value,
             },
         );

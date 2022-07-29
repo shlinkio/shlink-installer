@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultMarginConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -23,9 +22,8 @@ class DefaultMarginConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['qr_codes', 'margin'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DEFAULT_QR_CODE_MARGIN', $this->configOption->getEnvVar());
     }
 
@@ -40,7 +38,7 @@ class DefaultMarginConfigOptionTest extends TestCase
             Argument::any(),
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
