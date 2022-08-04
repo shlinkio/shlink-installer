@@ -32,7 +32,7 @@ class AutoResolveTitlesConfigOptionTest extends TestCase
         $expectedAnswer = true;
         $io = $this->prophesize(StyleInterface::class);
         $confirm = $io->confirm(
-            'Do you want Shlink to resolve the short URL title based on the long URL \'s title tag (if any)? '
+            'Do you want Shlink to resolve the short URL title based on the long URL\'s title tag (if any)? '
                 . 'Otherwise, it will be kept empty unless explicitly provided.',
             false,
         )->willReturn(

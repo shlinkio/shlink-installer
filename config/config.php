@@ -54,6 +54,8 @@ return [
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
                 'URL shortener > Append extra path' => Config\Option\UrlShortener\AppendExtraPathConfigOption::class,
+                'URL shortener > Multi-segment slugs'
+                    => Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
                 'Webhooks > List' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
                 'Webhooks > Orphan visits' => Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
@@ -125,6 +127,7 @@ return [
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
+            Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
