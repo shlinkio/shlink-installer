@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * [#162](https://github.com/shlinkio/shlink-installer/issues/162) Added support for the redis pub/sub config option.
+* [#166](https://github.com/shlinkio/shlink-installer/issues/166) Added support for the multi-segment slugs config option.
 
 ### Changed
 * *Nothing*
