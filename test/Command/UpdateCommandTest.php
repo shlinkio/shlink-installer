@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Command\UpdateCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
@@ -22,6 +21,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 use function count;
+use function Functional\map;
 
 class UpdateCommandTest extends TestCase
 {
@@ -42,9 +42,8 @@ class UpdateCommandTest extends TestCase
         $this->commandsRunner = $this->prophesize(InstallationCommandsRunnerInterface::class);
         $this->commandsRunner->execPhpCommand(Argument::cetera())->willReturn(true);
 
-        $config = new PathCollection();
         $configGenerator = $this->prophesize(ConfigGeneratorInterface::class);
-        $configGenerator->generateConfigInteractively(Argument::cetera())->willReturn($config);
+        $configGenerator->generateConfigInteractively(Argument::cetera())->willReturn([]);
 
         $finder = $this->prophesize(PhpExecutableFinder::class);
         $finder->find(false)->willReturn('php');
@@ -65,10 +64,12 @@ class UpdateCommandTest extends TestCase
     public function commandIsExecutedAsExpected(): void
     {
         $execPhpCommand = $this->commandsRunner->execPhpCommand(
-            Argument::that(function (string $command) {
-                Assert::assertContains($command, InstallationCommand::POST_UPDATE_COMMANDS);
-
-                return $command;
+            Argument::that(function (string $commandName) {
+                Assert::assertContains($commandName, map(
+                    InstallationCommand::POST_UPDATE_COMMANDS,
+                    fn (InstallationCommand $command) => $command->value,
+                ));
+                return true;
             }),
             Argument::cetera(),
         )->willReturn(true);

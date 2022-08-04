@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
@@ -98,22 +97,17 @@ class ConfigGeneratorTest extends TestCase
                 $this->orderedAskedOptions = &$orderedAskedOptions;
             }
 
-            public function getDeprecatedPath(): array
-            {
-                return [];
-            }
-
             public function getEnvVar(): string
             {
                 return '';
             }
 
-            public function shouldBeAsked(PathCollection $currentOptions): bool
+            public function shouldBeAsked(array $currentOptions): bool
             {
                 return true;
             }
 
-            public function ask(StyleInterface $io, PathCollection $currentOptions): string
+            public function ask(StyleInterface $io, array $currentOptions): string
             {
                 $this->orderedAskedOptions[] = 'depends_on_a';
                 return '';

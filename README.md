@@ -99,17 +99,19 @@ It is possible to overwrite those commands via configuration too, using a syntax
 
 declare(strict_types=1);
 
+use Shlinkio\Shlink\Installer\Util\InstallationCommand;
+
 return [
 
     'installer' => [
         'installation_commands' => [
-            'db_create_schema' => [
+            InstallationCommand::DB_CREATE_SCHEMA->value => [
                 'command' => 'bin/shlink shlink:db:create',
             ],
-            'db_migrate' => [
+            InstallationCommand::DB_MIGRATE->value => [
                 'command' => 'bin/some-script some:command',
             ],
-            'orm_proxies' => [
+            InstallationCommand::ORM_PROXIES->value => [
                 'command' => '-v', // Just print PHP version
             ],
         ],

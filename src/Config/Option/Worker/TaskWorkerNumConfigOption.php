@@ -6,11 +6,6 @@ namespace Shlinkio\Shlink\Installer\Config\Option\Worker;
 
 class TaskWorkerNumConfigOption extends AbstractWorkerNumConfigOption
 {
-    public function getDeprecatedPath(): array
-    {
-        return ['task_worker_num'];
-    }
-
     public function getEnvVar(): string
     {
         return 'TASK_WORKER_NUM';

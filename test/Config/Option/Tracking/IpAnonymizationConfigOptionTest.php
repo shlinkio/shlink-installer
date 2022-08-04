@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableIpTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\IpAnonymizationConfigOption;
@@ -24,9 +23,8 @@ class IpAnonymizationConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['tracking', 'anonymize_remote_addr'], $this->configOption->getDeprecatedPath());
         self::assertEquals('ANONYMIZE_REMOTE_ADDR', $this->configOption->getEnvVar());
     }
 
@@ -51,7 +49,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
             . 'other similar data protection regulations.',
         );
 
-        $result = $this->configOption->ask($io->reveal(), new PathCollection());
+        $result = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedResult, $result);
         $firstConfirm->shouldHaveBeenCalledOnce();
@@ -77,35 +75,23 @@ class IpAnonymizationConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideCurrentConfig
      */
-    public function shouldBeAskedIsTrueOnlyWhenAllConditionsAreMet(PathCollection $currentOptions, bool $expected): void
+    public function shouldBeAskedIsTrueOnlyWhenAllConditionsAreMet(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentConfig(): iterable
     {
-        yield [new PathCollection(), true];
-        yield [new PathCollection([
-            DisableTrackingConfigOption::ENV_VAR => false,
-        ]), true];
-        yield [new PathCollection([
-            DisableIpTrackingConfigOption::ENV_VAR => false,
-        ]), true];
-        yield [new PathCollection([
+        yield [[], true];
+        yield [[DisableTrackingConfigOption::ENV_VAR => false], true];
+        yield [[DisableIpTrackingConfigOption::ENV_VAR => false], true];
+        yield [[
             DisableTrackingConfigOption::ENV_VAR => false,
             DisableIpTrackingConfigOption::ENV_VAR => false,
-        ]), true];
-        yield [new PathCollection([
-            DisableTrackingConfigOption::ENV_VAR => true,
-        ]), false];
-        yield [new PathCollection([
-            DisableIpTrackingConfigOption::ENV_VAR => true,
-        ]), false];
-        yield [new PathCollection([
-            'ANONYMIZE_REMOTE_ADDR' => true,
-        ]), false];
-        yield [new PathCollection([
-            'ANONYMIZE_REMOTE_ADDR' => false,
-        ]), false];
+        ], true];
+        yield [[DisableTrackingConfigOption::ENV_VAR => true], false];
+        yield [[DisableIpTrackingConfigOption::ENV_VAR => true], false];
+        yield [['ANONYMIZE_REMOTE_ADDR' => true], false];
+        yield [['ANONYMIZE_REMOTE_ADDR' => false], false];
     }
 }

@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableUaTrackingConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -23,9 +22,8 @@ class DisableUaTrackingConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['tracking', 'disable_ua_tracking'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DISABLE_UA_TRACKING', $this->configOption->getEnvVar());
     }
 
@@ -38,7 +36,7 @@ class DisableUaTrackingConfigOptionTest extends TestCase
             $expectedAnswer,
         );
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $confirm->shouldHaveBeenCalledOnce();
@@ -55,7 +53,7 @@ class DisableUaTrackingConfigOptionTest extends TestCase
      * @dataProvider provideCurrentOptions
      */
     public function shouldBeAskedReturnsExpectedResultBasedOnCurrentOptions(
-        PathCollection $currentOptions,
+        array $currentOptions,
         bool $expected,
     ): void {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
@@ -63,19 +61,13 @@ class DisableUaTrackingConfigOptionTest extends TestCase
 
     public function provideCurrentOptions(): iterable
     {
-        yield 'empty options' => [new PathCollection(), true];
-        yield 'tracking not disabled' => [new PathCollection([
-            DisableTrackingConfigOption::ENV_VAR => false,
-        ]), true];
-        yield 'tracking disabled' => [new PathCollection([
-            DisableTrackingConfigOption::ENV_VAR => true,
-        ]), false];
-        yield 'option already set' => [new PathCollection([
-            'DISABLE_UA_TRACKING' => false,
-        ]), false];
-        yield 'tracking not disabled with option already set' => [new PathCollection([
+        yield 'empty options' => [[], true];
+        yield 'tracking not disabled' => [[DisableTrackingConfigOption::ENV_VAR => false], true];
+        yield 'tracking disabled' => [[DisableTrackingConfigOption::ENV_VAR => true], false];
+        yield 'option already set' => [['DISABLE_UA_TRACKING' => false], false];
+        yield 'tracking not disabled with option already set' => [[
             DisableTrackingConfigOption::ENV_VAR => false,
             'DISABLE_UA_TRACKING' => false,
-        ]), false];
+        ], false];
     }
 }

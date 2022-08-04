@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\AppendExtraPathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,16 +21,14 @@ class AppendExtraPathConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['url_shortener', 'append_extra_path'], $this->configOption->getDeprecatedPath());
         self::assertEquals('REDIRECT_APPEND_EXTRA_PATH', $this->configOption->getEnvVar());
     }
 
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = true;
         $io = $this->prophesize(StyleInterface::class);
         $confirm = $io->confirm(
         //@codingStandardsIgnoreStart
@@ -44,13 +41,11 @@ class AppendExtraPathConfigOptionTest extends TestCase
             FOO,
             //@codingStandardsIgnoreEnd
             false,
-        )->willReturn(
-            $expectedAnswer,
-        );
+        )->willReturn(true);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
-        self::assertEquals($expectedAnswer, $answer);
+        self::assertTrue($answer);
         $confirm->shouldHaveBeenCalledOnce();
     }
 }

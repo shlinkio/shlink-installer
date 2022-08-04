@@ -44,13 +44,13 @@ abstract class AbstractInstallCommand extends Command
 
         $importedConfig = $this->resolvePreviousConfig($io);
         if ($this->isUpdate()) {
-            $this->assetsHandler->importShlinkAssetsFromPath($io, $importedConfig->importPath());
+            $this->assetsHandler->importShlinkAssetsFromPath($io, $importedConfig->importPath);
         }
-        $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig());
-        $configArray = Utils::normalizeAndKeepEnvVarKeys($config->toArray());
+        $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig);
+        $normalizedConfig = Utils::normalizeAndKeepEnvVarKeys($config);
 
         // Generate config params files
-        $this->configWriter->toFile(ShlinkAssetsHandler::GENERATED_CONFIG_PATH, $configArray, false);
+        $this->configWriter->toFile(ShlinkAssetsHandler::GENERATED_CONFIG_PATH, $normalizedConfig, false);
         $io->text('<info>Custom configuration properly generated!</info>');
         $io->newLine();
 
@@ -77,7 +77,10 @@ abstract class AbstractInstallCommand extends Command
             ? InstallationCommand::POST_UPDATE_COMMANDS
             : InstallationCommand::POST_INSTALL_COMMANDS;
 
-        return every($commands, fn (string $commandName) => $this->commandsRunner->execPhpCommand($commandName, $io));
+        return every(
+            $commands,
+            fn (InstallationCommand $command) => $this->commandsRunner->execPhpCommand($command->value, $io),
+        );
     }
 
     abstract protected function isUpdate(): bool;

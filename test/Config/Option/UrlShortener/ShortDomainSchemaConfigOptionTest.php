@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['url_shortener', 'domain', 'schema'], $this->configOption->getDeprecatedPath());
         self::assertEquals('IS_HTTPS_ENABLED', $this->configOption->getEnvVar());
     }
 
@@ -35,7 +33,7 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $choice = $io->confirm('Is HTTPS enabled on this server?')->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $choice->shouldHaveBeenCalledOnce();

@@ -6,11 +6,6 @@ namespace Shlinkio\Shlink\Installer\Config\Option\Worker;
 
 class WebWorkerNumConfigOption extends AbstractWorkerNumConfigOption
 {
-    public function getDeprecatedPath(): array
-    {
-        return ['web_worker_num'];
-    }
-
     public function getEnvVar(): string
     {
         return 'WEB_WORKER_NUM';

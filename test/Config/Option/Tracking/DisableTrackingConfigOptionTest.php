@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class DisableTrackingConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['tracking', 'disable_tracking'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DISABLE_TRACKING', $this->configOption->getEnvVar());
     }
 
@@ -37,7 +35,7 @@ class DisableTrackingConfigOptionTest extends TestCase
             $expectedAnswer,
         );
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $confirm->shouldHaveBeenCalledOnce();

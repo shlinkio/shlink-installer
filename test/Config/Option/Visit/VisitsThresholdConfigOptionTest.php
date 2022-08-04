@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsThresholdConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -23,9 +22,8 @@ class VisitsThresholdConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['delete_short_urls', 'visits_threshold'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DELETE_SHORT_URL_THRESHOLD', $this->configOption->getEnvVar());
     }
 
@@ -43,7 +41,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
             Argument::any(),
         )->willReturn($answer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();
@@ -60,21 +58,15 @@ class VisitsThresholdConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideCurrentOptions
      */
-    public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(PathCollection $currentOptions, bool $expected): void
+    public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public function provideCurrentOptions(): iterable
     {
-        $buildCollection = static function (bool $withThreshold): PathCollection {
-            $collection = new PathCollection();
-            if ($withThreshold) {
-                $collection->setValueInPath(15, ['DELETE_SHORT_URL_THRESHOLD']);
-            }
-
-            return $collection;
-        };
+        $buildCollection = static fn (bool $withThreshold): array =>
+            $withThreshold ? ['DELETE_SHORT_URL_THRESHOLD' => 15] : [];
 
         yield 'without threshold' => [$buildCollection(false), true];
         yield 'with threshold' => [$buildCollection(true), false];

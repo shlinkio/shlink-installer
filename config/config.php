@@ -54,6 +54,8 @@ return [
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
                 'URL shortener > Append extra path' => Config\Option\UrlShortener\AppendExtraPathConfigOption::class,
+                'URL shortener > Multi-segment slugs'
+                    => Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
                 'Webhooks > List' => Config\Option\Visit\VisitsWebhooksConfigOption::class,
                 'Webhooks > Orphan visits' => Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
@@ -93,6 +95,7 @@ return [
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
                 'Redis > sentinels service' => Config\Option\Redis\RedisSentinelServiceConfigOption::class,
+                'Redis > Pub/sub enabled' => Config\Option\Redis\RedisPubSubConfigOption::class,
                 Config\Option\Mercure\EnableMercureConfigOption::class,
                 'Mercure > Public URL' => Config\Option\Mercure\MercurePublicUrlConfigOption::class,
                 'Mercure > Internal URL' => Config\Option\Mercure\MercureInternalUrlConfigOption::class,
@@ -124,8 +127,10 @@ return [
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
+            Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
+            Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
             Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
@@ -220,31 +225,31 @@ return [
         'enabled_options' => null,
 
         'installation_commands' => [
-            InstallationCommand::DB_CREATE_SCHEMA => [
+            InstallationCommand::DB_CREATE_SCHEMA->value => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:schema-tool:create',
                 'initMessage' => 'Initializing database...',
                 'errorMessage' => 'Error generating database.',
                 'failOnError' => true,
             ],
-            InstallationCommand::DB_MIGRATE => [
+            InstallationCommand::DB_MIGRATE->value => [
                 'command' => 'vendor/doctrine/migrations/bin/doctrine-migrations.php migrations:migrate',
                 'initMessage' => 'Updating database...',
                 'errorMessage' => 'Error updating database.',
                 'failOnError' => true,
             ],
-            InstallationCommand::ORM_PROXIES => [
+            InstallationCommand::ORM_PROXIES->value => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:generate-proxies',
                 'initMessage' => 'Generating proxies...',
                 'errorMessage' => 'Error generating proxies.',
                 'failOnError' => true,
             ],
-            InstallationCommand::ORM_CLEAR_CACHE => [
+            InstallationCommand::ORM_CLEAR_CACHE->value => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:clear-cache:metadata',
                 'initMessage' => 'Clearing entities cache...',
                 'errorMessage' => 'Error clearing entities cache.',
                 'failOnError' => false,
             ],
-            InstallationCommand::GEOLITE_DOWNLOAD_DB => [
+            InstallationCommand::GEOLITE_DOWNLOAD_DB->value => [
                 'command' => null, // Disabled by default, to avoid dependency on consumer (Shlink)
                 'initMessage' => 'Downloading GeoLite2 db file...',
                 'errorMessage' => 'Error downloading GeoLite2 db.',

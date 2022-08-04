@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Tracking;
 
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -16,21 +15,16 @@ class IpAnonymizationConfigOption extends BaseConfigOption implements DependentC
         return 'ANONYMIZE_REMOTE_ADDR';
     }
 
-    public function getDeprecatedPath(): array
-    {
-        return ['tracking', 'anonymize_remote_addr'];
-    }
-
-    public function shouldBeAsked(PathCollection $currentOptions): bool
+    public function shouldBeAsked(array $currentOptions): bool
     {
         $parentShouldBeAsked = parent::shouldBeAsked($currentOptions);
-        $disableTracking = $currentOptions->getValueInPath(DisableTrackingConfigOption::CONFIG_PATH);
-        $disableIpTracking = $currentOptions->getValueInPath(DisableIpTrackingConfigOption::CONFIG_PATH);
+        $disableTracking = $currentOptions[DisableTrackingConfigOption::ENV_VAR] ?? false;
+        $disableIpTracking = $currentOptions[DisableIpTrackingConfigOption::ENV_VAR] ?? false;
 
         return $parentShouldBeAsked && ! $disableTracking && ! $disableIpTracking;
     }
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): bool
+    public function ask(StyleInterface $io, array $currentOptions): bool
     {
         $anonymize = $io->confirm(
             'Do you want visitors\' remote IP addresses to be anonymized before persisting them to the database?',

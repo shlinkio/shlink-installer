@@ -4,36 +4,25 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Database;
 
-use Shlinkio\Shlink\Config\Collection\PathCollection;
+use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabasePortConfigOption extends AbstractNonSqliteDependentConfigOption
 {
-    private const DRIVER_PORT_MAPPING = [
-        DatabaseDriverConfigOption::MYSQL_DRIVER => '3306',
-        DatabaseDriverConfigOption::POSTGRES_DRIVER => '5432',
-        DatabaseDriverConfigOption::MSSQL_DRIVER => '1433',
-    ];
-
-    public function getDeprecatedPath(): array
-    {
-        return ['entity_manager', 'connection', 'port'];
-    }
-
     public function getEnvVar(): string
     {
         return 'DB_PORT';
     }
 
-    public function ask(StyleInterface $io, PathCollection $currentOptions): string
+    public function ask(StyleInterface $io, array $currentOptions): string
     {
-        return $io->ask('Database port', $this->getDefaultDbPortForDriver($currentOptions->getValueInPath(
-            DatabaseDriverConfigOption::CONFIG_PATH,
-        )));
+        return $io->ask('Database port', $this->getDefaultDbPortForDriver(
+            $currentOptions[DatabaseDriverConfigOption::ENV_VAR],
+        ));
     }
 
     private function getDefaultDbPortForDriver(string $driver): string
     {
-        return self::DRIVER_PORT_MAPPING[$driver] ?? '';
+        return DatabaseDriver::tryFrom($driver)?->defaultPort() ?? '';
     }
 }

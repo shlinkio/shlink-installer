@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\RabbitMq;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqEnabledConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class RabbitMqEnabledConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['rabbitmq', 'enabled'], $this->configOption->getDeprecatedPath());
         self::assertEquals('RABBITMQ_ENABLED', $this->configOption->getEnvVar());
     }
 
@@ -37,7 +35,7 @@ class RabbitMqEnabledConfigOptionTest extends TestCase
             false,
         )->willReturn(true);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals(true, $answer);
         $confirm->shouldHaveBeenCalledOnce();

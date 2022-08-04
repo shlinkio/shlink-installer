@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Worker\WebWorkerNumConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -25,9 +24,8 @@ class WebWorkerNumConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['web_worker_num'], $this->configOption->getDeprecatedPath());
         self::assertEquals('WEB_WORKER_NUM', $this->configOption->getEnvVar());
     }
 
@@ -43,7 +41,7 @@ class WebWorkerNumConfigOptionTest extends TestCase
             Argument::any(),
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();

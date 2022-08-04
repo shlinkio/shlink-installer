@@ -7,7 +7,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\MercurePublicUrlConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -23,9 +22,8 @@ class MercurePublicUrlConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['mercure', 'public_hub_url'], $this->configOption->getDeprecatedPath());
         self::assertEquals('MERCURE_PUBLIC_HUB_URL', $this->configOption->getEnvVar());
     }
 
@@ -36,7 +34,7 @@ class MercurePublicUrlConfigOptionTest extends TestCase
         $io = $this->prophesize(StyleInterface::class);
         $ask = $io->ask('Public URL of the mercure hub server', Argument::cetera())->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $ask->shouldHaveBeenCalledOnce();

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config;
 
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -20,16 +19,16 @@ use function get_class;
 class ConfigGenerator implements ConfigGeneratorInterface
 {
     public function __construct(
-        private ConfigOptionsManagerInterface $configOptionsManager,
-        private array $configOptionsGroups,
-        private ?array $enabledOptions,
+        private readonly ConfigOptionsManagerInterface $configOptionsManager,
+        private readonly array $configOptionsGroups,
+        private readonly ?array $enabledOptions,
     ) {
     }
 
-    public function generateConfigInteractively(StyleInterface $io, array $previousConfig): PathCollection
+    public function generateConfigInteractively(StyleInterface $io, array $previousConfig): array
     {
         $pluginsGroups = $this->resolveAndSortOptions();
-        $answers = new PathCollection($previousConfig);
+        $answers = $previousConfig;
         $alreadyRenderedTitles = [];
 
         // FIXME Improve code quality on these nested loops
@@ -47,7 +46,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
                     $io->title($title);
                 }
 
-                $answers->setValueInPath($plugin->ask($io, $answers), [$plugin->getEnvVar()]);
+                $answers[$plugin->getEnvVar()] = $plugin->ask($io, $answers);
             }
         }
 

@@ -6,7 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultErrorCorrectionConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -22,9 +21,8 @@ class DefaultErrorCorrectionConfigOptionTest extends TestCase
     }
 
     /** @test */
-    public function returnsExpectedConfig(): void
+    public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals(['qr_codes', 'error_correction'], $this->configOption->getDeprecatedPath());
         self::assertEquals('DEFAULT_QR_CODE_ERROR_CORRECTION', $this->configOption->getEnvVar());
     }
 
@@ -44,7 +42,7 @@ class DefaultErrorCorrectionConfigOptionTest extends TestCase
             'l',
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), new PathCollection());
+        $answer = $this->configOption->ask($io->reveal(), []);
 
         self::assertEquals($expectedAnswer, $answer);
         $choice->shouldHaveBeenCalledOnce();

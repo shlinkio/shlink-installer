@@ -6,7 +6,6 @@ namespace Shlinkio\Shlink\Installer\Command;
 
 use Generator;
 use Laminas\Config\Writer\WriterInterface;
-use Shlinkio\Shlink\Config\Collection\PathCollection;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Exception\InvalidShlinkPathException;
@@ -81,9 +80,9 @@ class SetOptionCommand extends Command
 
         /** @var ConfigOptionInterface $plugin */
         $plugin = $this->optionsManager->get($this->groups[$optionTitle]);
-        $answers = new PathCollection(include $this->generatedConfigPath);
-        $answers->setValueInPath($plugin->ask($io, $answers), [$plugin->getEnvVar()]);
-        $this->configWriter->toFile($this->generatedConfigPath, $answers->toArray(), false);
+        $answers = include $this->generatedConfigPath;
+        $answers[$plugin->getEnvVar()] = $plugin->ask($io, $answers);
+        $this->configWriter->toFile($this->generatedConfigPath, $answers, false);
         $this->assetsHandler->dropCachedConfigIfAny($io);
 
         $io->success('Configuration properly updated');
