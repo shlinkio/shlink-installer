@@ -6,24 +6,24 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\AutoResolveTitlesConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\EnableTrailingSlashConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class AutoResolveTitlesConfigOptionTest extends TestCase
+class EnableTrailingSlashConfigOptionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private AutoResolveTitlesConfigOption $configOption;
+    private EnableTrailingSlashConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new AutoResolveTitlesConfigOption();
+        $this->configOption = new EnableTrailingSlashConfigOption();
     }
 
     /** @test */
     public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals('AUTO_RESOLVE_TITLES', $this->configOption->getEnvVar());
+        self::assertEquals('SHORT_URL_TRAILING_SLASH', $this->configOption->getEnvVar());
     }
 
     /** @test */
@@ -31,8 +31,8 @@ class AutoResolveTitlesConfigOptionTest extends TestCase
     {
         $io = $this->prophesize(StyleInterface::class);
         $confirm = $io->confirm(
-            'Do you want Shlink to resolve the short URL title based on the long URL\'s title tag (if any)? '
-                . 'Otherwise, it will be kept empty unless explicitly provided.',
+            'Do you want to support trailing slashes in short URLs? (https://doma.in/foo and https://doma.in/foo/ '
+            . 'will be considered the same)',
             false,
         )->willReturn(true);
 
