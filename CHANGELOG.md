@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * Added config option to enable/disable trailing slashes support.
+* Added new script to make sure first API key is generated after successfully installing Shlink.
 
 ### Changed
 * *Nothing*
