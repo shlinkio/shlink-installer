@@ -232,36 +232,42 @@ return [
                 'initMessage' => 'Initializing database...',
                 'errorMessage' => 'Error generating database.',
                 'failOnError' => true,
+                'printOutput' => false,
             ],
             InstallationCommand::DB_MIGRATE->value => [
                 'command' => 'vendor/doctrine/migrations/bin/doctrine-migrations.php migrations:migrate',
                 'initMessage' => 'Updating database...',
                 'errorMessage' => 'Error updating database.',
                 'failOnError' => true,
+                'printOutput' => false,
             ],
             InstallationCommand::ORM_PROXIES->value => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:generate-proxies',
                 'initMessage' => 'Generating proxies...',
                 'errorMessage' => 'Error generating proxies.',
                 'failOnError' => true,
+                'printOutput' => false,
             ],
             InstallationCommand::ORM_CLEAR_CACHE->value => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:clear-cache:metadata',
                 'initMessage' => 'Clearing entities cache...',
                 'errorMessage' => 'Error clearing entities cache.',
                 'failOnError' => false,
+                'printOutput' => false,
             ],
             InstallationCommand::GEOLITE_DOWNLOAD_DB->value => [
                 'command' => null, // Disabled by default, to avoid dependency on consumer (Shlink)
                 'initMessage' => 'Downloading GeoLite2 db file...',
                 'errorMessage' => 'Error downloading GeoLite2 db.',
                 'failOnError' => false,
+                'printOutput' => false,
             ],
             InstallationCommand::API_KEY_GENERATE->value => [
                 'command' => null, // Disabled by default, to avoid dependency on consumer (Shlink)
                 'initMessage' => 'Generating first API key...',
                 'errorMessage' => 'Error generating first API key.',
                 'failOnError' => false,
+                'printOutput' => true,
             ],
         ],
     ],

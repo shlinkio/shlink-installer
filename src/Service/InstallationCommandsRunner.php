@@ -37,6 +37,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             'initMessage' => $initMessage,
             'errorMessage' => $errorMessage,
             'failOnError' => $failOnError,
+            'printOutput' => $printOutput,
         ] = $commandConfig;
         $io->write($initMessage);
 
@@ -54,15 +55,18 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         );
 
         $process = $this->processHelper->run($io, $command);
-        if (! $failOnError || $process->isSuccessful()) {
-            $io->writeln(' <info>Success!</info>');
-            return true;
-        }
+        $isSuccessful = ! $failOnError || $process->isSuccessful();
 
-        if (! $io->isVerbose()) {
+        if ($isSuccessful) {
+            $io->writeln(' <info>Success!</info>');
+        } elseif (! $io->isVerbose()) {
             $io->error(sprintf('%s. Run this command with -vvv to see specific error info.', $errorMessage));
         }
 
-        return false;
+        if ($printOutput) {
+            $io->text($process->getOutput());
+        }
+
+        return $isSuccessful;
     }
 }
