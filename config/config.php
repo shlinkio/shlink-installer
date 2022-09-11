@@ -257,6 +257,12 @@ return [
                 'errorMessage' => 'Error downloading GeoLite2 db.',
                 'failOnError' => false,
             ],
+            InstallationCommand::API_KEY_GENERATE->value => [
+                'command' => null, // Disabled by default, to avoid dependency on consumer (Shlink)
+                'initMessage' => 'Generating first API key...',
+                'errorMessage' => 'Error generating first API key.',
+                'failOnError' => false,
+            ],
         ],
     ],
 

@@ -11,12 +11,14 @@ enum InstallationCommand: string
     case ORM_PROXIES = 'orm_proxies';
     case ORM_CLEAR_CACHE = 'orm_clear_cache';
     case GEOLITE_DOWNLOAD_DB = 'geolite_download_db';
+    case API_KEY_GENERATE = 'api_key_generate';
 
     public const POST_INSTALL_COMMANDS = [
         self::DB_CREATE_SCHEMA,
         self::DB_MIGRATE,
         self::ORM_PROXIES,
         self::GEOLITE_DOWNLOAD_DB,
+        self::API_KEY_GENERATE,
     ];
     public const POST_UPDATE_COMMANDS = [
         self::DB_MIGRATE,
