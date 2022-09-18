@@ -51,6 +51,7 @@ class InstallationCommandsRunnerTest extends TestCase
             'initMessage' => sprintf('%s_init', $name),
             'errorMessage' => sprintf('%s_error', $name),
             'failOnError' => $name === 'foo',
+            'printOutput' => false,
         ]));
     }
 
