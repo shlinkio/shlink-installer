@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "devster/ubench": "^2.0",
-        "infection/infection": "^0.26",
+        "infection/infection": "^0.26.15",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5",
