@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortCodeLengthOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortCodeLengthConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private ShortCodeLengthOption $configOption;
 
     public function setUp(): void

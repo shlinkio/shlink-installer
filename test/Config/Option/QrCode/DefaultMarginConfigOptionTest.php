@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultMarginConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DefaultMarginConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DefaultMarginConfigOption $configOption;
 
     public function setUp(): void

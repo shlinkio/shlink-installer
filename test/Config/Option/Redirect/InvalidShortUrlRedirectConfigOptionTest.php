@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redirect;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Redirect\InvalidShortUrlRedirectConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class InvalidShortUrlRedirectConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private InvalidShortUrlRedirectConfigOption $configOption;
 
     public function setUp(): void

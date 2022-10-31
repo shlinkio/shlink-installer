@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Worker\TaskWorkerNumConfigOption;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Symfony\Component\Console\Style\StyleInterface;
+use Throwable;
 
 class TaskWorkerNumConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private TaskWorkerNumConfigOption $configOption;
     private bool $swooleInstalled;
 
@@ -59,30 +57,33 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         yield [16];
     }
 
-//    /**
-//     * @test
-//     * @dataProvider provideInvalidValues
-//     */
-//    public function throwsAnErrorWhenProvidedValueDoesNotMeetTheMinimum(
-//        mixed $expectedAnswer,
-//        string $expectedMessage,
-//    ): void {
-//        $io = $this->createMock(StyleInterface::class);
-//        $io->expects($this->once())->method('ask')->with(
-//            'How many concurrent background tasks do you want Shlink to be able to execute? (Ignore this if you are '
-//            . 'not serving shlink with swoole or openswoole)',
-//            '16',
-//            $this->callback(function (callable $arg) use ($expectedAnswer) {
-//                $arg($expectedAnswer);
-//                return true;
-//            }),
-//        )->willReturn($expectedAnswer);
-//
-//        $this->expectException(InvalidConfigOptionException::class);
-//        $this->expectExceptionMessage($expectedMessage);
-//
-//        $this->configOption->ask($io, []);
-//    }
+    /**
+     * @test
+     * @dataProvider provideInvalidValues
+     */
+    public function throwsAnErrorWhenProvidedValueDoesNotMeetTheMinimum(
+        mixed $expectedAnswer,
+        string $expectedMessage,
+    ): void {
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
+            'How many concurrent background tasks do you want Shlink to be able to execute? (Ignore this if you are '
+            . 'not serving shlink with swoole or openswoole)',
+            '16',
+            $this->callback(function (callable $arg) use ($expectedAnswer, $expectedMessage) {
+                try {
+                    $arg($expectedAnswer);
+                } catch (Throwable $e) {
+                    Assert::assertInstanceOf(InvalidConfigOptionException::class, $e);
+                    Assert::assertEquals($expectedMessage, $e->getMessage());
+                }
+
+                return true;
+            }),
+        )->willReturn(1);
+
+        $this->configOption->ask($io, []);
+    }
 
     public function provideInvalidValues(): iterable
     {

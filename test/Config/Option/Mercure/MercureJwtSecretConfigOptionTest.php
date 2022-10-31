@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureJwtSecretConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class MercureJwtSecretConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private MercureJwtSecretConfigOption $configOption;
 
     public function setUp(): void

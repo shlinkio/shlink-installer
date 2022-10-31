@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseNameConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseNameConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DatabaseNameConfigOption $configOption;
 
     public function setUp(): void

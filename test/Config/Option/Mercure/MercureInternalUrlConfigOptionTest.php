@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\EnableMercureConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureInternalUrlConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class MercureInternalUrlConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private MercureInternalUrlConfigOption $configOption;
 
     public function setUp(): void

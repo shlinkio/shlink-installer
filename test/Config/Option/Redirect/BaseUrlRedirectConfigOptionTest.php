@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redirect;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Redirect\BaseUrlRedirectConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class BaseUrlRedirectConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private BaseUrlRedirectConfigOption $configOption;
 
     public function setUp(): void

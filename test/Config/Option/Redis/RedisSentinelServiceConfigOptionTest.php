@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisSentinelServiceConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RedisSentinelServiceConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private RedisSentinelServiceConfigOption $configOption;
 
     public function setUp(): void

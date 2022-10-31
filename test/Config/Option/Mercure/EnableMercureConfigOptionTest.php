@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\EnableMercureConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class EnableMercureConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private EnableMercureConfigOption $configOption;
 
     public function setUp(): void

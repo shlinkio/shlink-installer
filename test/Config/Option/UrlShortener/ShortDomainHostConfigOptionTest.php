@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainHostConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainHostConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private ShortDomainHostConfigOption $configOption;
 
     public function setUp(): void

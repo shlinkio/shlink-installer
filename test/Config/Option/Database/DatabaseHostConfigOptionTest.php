@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseHostConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
@@ -13,8 +12,6 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseHostConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DatabaseHostConfigOption $configOption;
 
     public function setUp(): void

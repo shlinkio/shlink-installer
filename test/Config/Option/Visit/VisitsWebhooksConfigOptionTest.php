@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class VisitsWebhooksConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private VisitsWebhooksConfigOption $configOption;
     private bool $swooleInstalled;
 

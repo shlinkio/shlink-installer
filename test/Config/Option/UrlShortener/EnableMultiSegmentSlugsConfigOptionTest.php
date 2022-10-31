@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class EnableMultiSegmentSlugsConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private EnableMultiSegmentSlugsConfigOption $configOption;
 
     public function setUp(): void

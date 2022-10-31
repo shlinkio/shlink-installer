@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultErrorCorrectionConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DefaultErrorCorrectionConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DefaultErrorCorrectionConfigOption $configOption;
 
     public function setUp(): void

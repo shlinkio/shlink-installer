@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultSizeConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DefaultSizeConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DefaultSizeConfigOption $configOption;
 
     public function setUp(): void

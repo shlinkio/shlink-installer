@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableIpTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\IpAnonymizationConfigOption;
@@ -13,8 +12,6 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class IpAnonymizationConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private IpAnonymizationConfigOption $configOption;
 
     public function setUp(): void
