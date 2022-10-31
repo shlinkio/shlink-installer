@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabasePortConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
@@ -13,8 +12,6 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabasePortConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DatabasePortConfigOption $configOption;
 
     public function setUp(): void
@@ -35,13 +32,12 @@ class DatabasePortConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(array $currentOptions, string $expectedPort): void
     {
         $expectedAnswer = 'the_answer';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask('Database port', $expectedPort)->willReturn($expectedAnswer);
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with('Database port', $expectedPort)->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), $currentOptions);
+        $answer = $this->configOption->ask($io, $currentOptions);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideCurrentOptions(): iterable

@@ -22,6 +22,7 @@ class ProcessHelperFactoryTest extends TestCase
         $processHelper = ($this->factory)();
         $helperSet = $processHelper->getHelperSet();
 
+        self::assertNotNull($helperSet);
         self::assertCount(2, $helperSet);
         self::assertTrue($helperSet->has('formatter'));
         self::assertTrue($helperSet->has('debug_formatter'));

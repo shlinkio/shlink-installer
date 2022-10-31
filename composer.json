@@ -26,8 +26,8 @@
     "require-dev": {
         "devster/ubench": "^2.0",
         "infection/infection": "^0.26.15",
-        "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.8",
+        "phpstan/phpstan-phpunit": "^1.2",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
         "shlinkio/php-coding-standard": "~2.3.0",
@@ -52,7 +52,7 @@
         ],
         "cs": "phpcs",
         "cs:fix": "phpcbf",
-        "stan": "phpstan analyse src --level=8",
+        "stan": "phpstan analyse src test test-resources config --level=8",
         "test": "phpdbg -qrr vendor/bin/phpunit --order-by=random --testdox --colors=always",
         "test:ci": "@test --coverage-clover=build/clover.xml --coverage-xml=build/coverage-xml --log-junit=build/junit.xml",
         "test:pretty": "@test --coverage-html build/coverage-html",

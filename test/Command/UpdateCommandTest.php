@@ -6,10 +6,8 @@ namespace ShlinkioTest\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Command\UpdateCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
@@ -18,43 +16,30 @@ use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Process\PhpExecutableFinder;
 
 use function count;
 use function Functional\map;
 
 class UpdateCommandTest extends TestCase
 {
-    use ProphecyTrait;
-
     private CommandTester $commandTester;
-    private ObjectProphecy $configWriter;
-    private ObjectProphecy $assetsHandler;
-    private ObjectProphecy $commandsRunner;
+    private MockObject & WriterInterface $configWriter;
+    private MockObject & ShlinkAssetsHandlerInterface $assetsHandler;
+    private MockObject & InstallationCommandsRunnerInterface $commandsRunner;
 
     public function setUp(): void
     {
-        $this->assetsHandler = $this->prophesize(ShlinkAssetsHandlerInterface::class);
-        $this->assetsHandler->dropCachedConfigIfAny(Argument::any())->shouldBeCalledOnce();
+        $this->assetsHandler = $this->createMock(ShlinkAssetsHandlerInterface::class);
+        $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny');
 
-        $this->configWriter = $this->prophesize(WriterInterface::class);
+        $this->configWriter = $this->createMock(WriterInterface::class);
+        $this->commandsRunner = $this->createMock(InstallationCommandsRunnerInterface::class);
 
-        $this->commandsRunner = $this->prophesize(InstallationCommandsRunnerInterface::class);
-        $this->commandsRunner->execPhpCommand(Argument::cetera())->willReturn(true);
-
-        $configGenerator = $this->prophesize(ConfigGeneratorInterface::class);
-        $configGenerator->generateConfigInteractively(Argument::cetera())->willReturn([]);
-
-        $finder = $this->prophesize(PhpExecutableFinder::class);
-        $finder->find(false)->willReturn('php');
+        $generator = $this->createMock(ConfigGeneratorInterface::class);
+        $generator->method('generateConfigInteractively')->willReturn([]);
 
         $app = new Application();
-        $command = new UpdateCommand(
-            $this->configWriter->reveal(),
-            $this->assetsHandler->reveal(),
-            $configGenerator->reveal(),
-            $this->commandsRunner->reveal(),
-        );
+        $command = new UpdateCommand($this->configWriter, $this->assetsHandler, $generator, $this->commandsRunner);
         $app->add($command);
 
         $this->commandTester = new CommandTester($command);
@@ -63,28 +48,29 @@ class UpdateCommandTest extends TestCase
     /** @test */
     public function commandIsExecutedAsExpected(): void
     {
-        $execPhpCommand = $this->commandsRunner->execPhpCommand(
-            Argument::that(function (string $commandName) {
+        $this->commandsRunner->expects(
+            $this->exactly(count(InstallationCommand::POST_UPDATE_COMMANDS)),
+        )->method('execPhpCommand')->with(
+            $this->callback(function (string $commandName) {
                 Assert::assertContains($commandName, map(
                     InstallationCommand::POST_UPDATE_COMMANDS,
                     fn (InstallationCommand $command) => $command->value,
                 ));
                 return true;
             }),
-            Argument::cetera(),
+            $this->anything(),
         )->willReturn(true);
-        $resolvePreviousCommand = $this->assetsHandler->resolvePreviousConfig(Argument::cetera())->willReturn(
+        $this->assetsHandler->expects($this->once())->method('resolvePreviousConfig')->willReturn(
             ImportedConfig::notImported(),
         );
-        $importAssets = $this->assetsHandler->importShlinkAssetsFromPath(Argument::cetera());
-        $persistConfig = $this->configWriter->toFile(Argument::any(), Argument::type('array'), false);
+        $this->assetsHandler->expects($this->once())->method('importShlinkAssetsFromPath');
+        $this->configWriter->expects($this->once())->method('toFile')->with(
+            $this->anything(),
+            $this->isType('array'),
+            false,
+        );
 
         $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);
-
-        $execPhpCommand->shouldHaveBeenCalledTimes(count(InstallationCommand::POST_UPDATE_COMMANDS));
-        $resolvePreviousCommand->shouldHaveBeenCalledOnce();
-        $importAssets->shouldHaveBeenCalledOnce();
-        $persistConfig->shouldHaveBeenCalledOnce();
     }
 }

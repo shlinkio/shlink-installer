@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Worker\WebWorkerNumConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class WebWorkerNumConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private WebWorkerNumConfigOption $configOption;
     private bool $swooleInstalled;
 
@@ -33,17 +29,16 @@ class WebWorkerNumConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 16;
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'How many concurrent requests do you want Shlink to be able to serve? (Ignore this if you are '
             . 'not serving shlink with swoole or openswoole)',
             '16',
-            Argument::any(),
+            $this->anything(),
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 }

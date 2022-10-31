@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseUserConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseUserConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DatabaseUserConfigOption $configOption;
 
     public function setUp(): void
@@ -31,12 +27,13 @@ class DatabaseUserConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'the_answer';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask('Database username', null, Argument::any())->willReturn($expectedAnswer);
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with('Database username', null, $this->anything())->willReturn(
+            $expectedAnswer,
+        );
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 }

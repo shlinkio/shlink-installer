@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use ReflectionObject;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerFactory;
@@ -14,14 +13,12 @@ use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 
 class ConfigOptionsManagerFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     private ConfigOptionsManagerFactory $factory;
-    private ObjectProphecy $container;
+    private MockObject & ContainerInterface $container;
 
     public function setUp(): void
     {
-        $this->container = $this->prophesize(ContainerInterface::class);
+        $this->container = $this->createMock(ContainerInterface::class);
         $this->factory = new ConfigOptionsManagerFactory();
     }
 
@@ -31,15 +28,14 @@ class ConfigOptionsManagerFactoryTest extends TestCase
      */
     public function createsServiceWithExpectedPlugins(array $config, int $expectedSize): void
     {
-        $getConfig = $this->container->get('config')->willReturn($config);
+        $this->container->expects($this->once())->method('get')->with('config')->willReturn($config);
 
-        $service = ($this->factory)($this->container->reveal());
+        $service = ($this->factory)($this->container);
         $ref = new ReflectionObject($service);
         $servicesProp = $ref->getProperty('services');
         $servicesProp->setAccessible(true);
 
         self::assertCount($expectedSize, $servicesProp->getValue($service));
-        $getConfig->shouldHaveBeenCalledOnce();
     }
 
     public function provideConfigs(): iterable
@@ -50,9 +46,9 @@ class ConfigOptionsManagerFactoryTest extends TestCase
             [
                 'config_options' => [
                     'services' => [
-                        'a' => $this->prophesize(ConfigOptionInterface::class)->reveal(),
-                        'b' => $this->prophesize(ConfigOptionInterface::class)->reveal(),
-                        'c' => $this->prophesize(ConfigOptionInterface::class)->reveal(),
+                        'a' => $this->createMock(ConfigOptionInterface::class),
+                        'b' => $this->createMock(ConfigOptionInterface::class),
+                        'c' => $this->createMock(ConfigOptionInterface::class),
                     ],
                 ],
             ],

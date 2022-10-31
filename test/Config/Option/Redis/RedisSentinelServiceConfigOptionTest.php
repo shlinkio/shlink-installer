@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisSentinelServiceConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RedisSentinelServiceConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private RedisSentinelServiceConfigOption $configOption;
 
     public function setUp(): void
@@ -33,15 +30,14 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(?string $answer): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'Provide the name of the sentinel service (leave empty if not using redis sentinel)',
         )->willReturn($answer);
 
-        $results = $this->configOption->ask($io->reveal(), []);
+        $results = $this->configOption->ask($io, []);
 
         self::assertEquals($answer, $results);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideValidAnswers(): iterable

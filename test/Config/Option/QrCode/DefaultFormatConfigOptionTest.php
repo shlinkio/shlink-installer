@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultFormatConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DefaultFormatConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DefaultFormatConfigOption $configOption;
 
     public function setUp(): void
@@ -30,14 +27,15 @@ class DefaultFormatConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'svg';
-        $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->choice('What\'s the default format for generated QR codes', ['png', 'svg'], 'png')->willReturn(
-            $expectedAnswer,
-        );
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('choice')->with(
+            'What\'s the default format for generated QR codes',
+            ['png', 'svg'],
+            'png',
+        )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $choice->shouldHaveBeenCalledOnce();
     }
 }

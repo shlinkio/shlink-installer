@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingFromConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableTrackingFromConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DisableTrackingFromConfigOption $configOption;
 
     public function setUp(): void
@@ -32,16 +29,15 @@ class DisableTrackingFromConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(?string $answer): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'Provide a comma-separated list of IP addresses, CIDR blocks or wildcard addresses (1.2.*.*) from '
             . 'which you want tracking to be disabled',
         )->willReturn($answer);
 
-        $result = $this->configOption->ask($io->reveal(), []);
+        $result = $this->configOption->ask($io, []);
 
         self::assertEquals($answer, $result);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideAnswers(): iterable

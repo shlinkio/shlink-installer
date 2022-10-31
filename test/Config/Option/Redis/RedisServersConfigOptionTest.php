@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RedisServersConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private RedisServersConfigOption $configOption;
-    private ObjectProphecy $io;
+    private MockObject & StyleInterface $io;
 
     public function setUp(): void
     {
         $this->configOption = new RedisServersConfigOption();
-        $this->io = $this->prophesize(StyleInterface::class);
+        $this->io = $this->createMock(StyleInterface::class);
     }
 
     /** @test */
@@ -33,18 +29,16 @@ class RedisServersConfigOptionTest extends TestCase
     /** @test */
     public function serversAreNotRequestedWhenNoRedisConfigIsProvided(): void
     {
-        $confirm = $this->io->confirm(
+        $this->io->expects($this->once())->method('confirm')->with(
             'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
             . '(recommended if you run a cluster of Shlink instances)',
             false,
         )->willReturn(false);
-        $ask = $this->io->ask(Argument::cetera());
+        $this->io->expects($this->never())->method('ask');
 
-        $answer = $this->configOption->ask($this->io->reveal(), []);
+        $answer = $this->configOption->ask($this->io, []);
 
         self::assertNull($answer);
-        $confirm->shouldHaveBeenCalledOnce();
-        $ask->shouldNotHaveBeenCalled();
     }
 
     /**
@@ -53,20 +47,18 @@ class RedisServersConfigOptionTest extends TestCase
      */
     public function serversAreRequestedWhenRedisConfigIsProvided(?string $serversAnswer): void
     {
-        $confirm = $this->io->confirm(
+        $this->io->expects($this->once())->method('confirm')->with(
             'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
             . '(recommended if you run a cluster of Shlink instances)',
             false,
         )->willReturn(true);
-        $askServers = $this->io->ask(
+        $this->io->expects($this->once())->method('ask')->with(
             'Provide a comma-separated list of URIs (redis servers/sentinel instances)',
         )->willReturn($serversAnswer);
 
-        $result = $this->configOption->ask($this->io->reveal(), []);
+        $result = $this->configOption->ask($this->io, []);
 
         self::assertEquals($serversAnswer, $result);
-        $confirm->shouldHaveBeenCalledOnce();
-        $askServers->shouldHaveBeenCalledOnce();
     }
 
     public function provideAnswers(): iterable

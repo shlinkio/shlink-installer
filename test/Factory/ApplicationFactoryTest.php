@@ -6,8 +6,6 @@ namespace ShlinkioTest\Shlink\Installer\Factory;
 
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Factory\ApplicationFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -19,8 +17,6 @@ use const ARRAY_FILTER_USE_KEY;
 
 class ApplicationFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     private ApplicationFactory $factory;
 
     public function setUp(): void
@@ -34,15 +30,13 @@ class ApplicationFactoryTest extends TestCase
     public function serviceIsCreated(): void
     {
         $createEnabledCommandWithName = function (string $name) {
-            $command = $this->prophesize(Command::class);
-            $command->isEnabled()->willReturn(true);
-            $command->getAliases()->willReturn([]);
-            $command->getName()->willReturn($name);
-            $command->setApplication(Argument::any())->will(function (): void {
-            });
-            $command->getDefinition()->willReturn(new InputDefinition());
+            $command = $this->createMock(Command::class);
+            $command->method('isEnabled')->willReturn(true);
+            $command->method('getAliases')->willReturn([]);
+            $command->method('getName')->willReturn($name);
+            $command->method('getDefinition')->willReturn(new InputDefinition());
 
-            return $command->reveal();
+            return $command;
         };
 
         $app = ($this->factory)(new ServiceManager(['services' => [

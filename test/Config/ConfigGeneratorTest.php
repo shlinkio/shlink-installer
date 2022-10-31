@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
@@ -20,20 +18,15 @@ use function get_class;
 
 class ConfigGeneratorTest extends TestCase
 {
-    use ProphecyTrait;
-
-    private ObjectProphecy $configOptionsManager;
-    private ObjectProphecy $plugin;
-    private ObjectProphecy $io;
+    private MockObject & ConfigOptionsManagerInterface $configOptionsManager;
+    private MockObject & ConfigOptionInterface $plugin;
+    private MockObject & StyleInterface $io;
 
     public function setUp(): void
     {
-        $this->configOptionsManager = $this->prophesize(ConfigOptionsManagerInterface::class);
-        $this->plugin = $this->prophesize(ConfigOptionInterface::class);
-        $this->plugin->shouldBeAsked(Argument::cetera())->willReturn(true);
-        $this->plugin->getEnvVar()->willReturn('ENV_VAR');
-        $this->plugin->ask(Argument::cetera())->willReturn('value');
-        $this->io = $this->prophesize(StyleInterface::class);
+        $this->configOptionsManager = $this->createMock(ConfigOptionsManagerInterface::class);
+        $this->plugin = $this->createMock(ConfigOptionInterface::class);
+        $this->io = $this->createMock(StyleInterface::class);
     }
 
     /**
@@ -48,20 +41,16 @@ class ConfigGeneratorTest extends TestCase
         $totalPlugins = count(flatten($configOptionsGroups));
         $expectedQuestions = $enabledOptions === null ? $totalPlugins : count($enabledOptions);
 
-        $pluginShouldBeAsked = $this->plugin->shouldBeAsked(Argument::cetera())->willReturn(true);
-        $getPath = $this->plugin->getEnvVar()->willReturn('ENV_VAR');
-        $ask = $this->plugin->ask(Argument::cetera())->willReturn('value');
-        $getPlugin = $this->configOptionsManager->get(Argument::any())->willReturn($this->plugin->reveal());
-        $printTitle = $this->io->title(Argument::any());
+        $this->plugin->expects($this->exactly($expectedQuestions))->method('shouldBeAsked')->willReturn(true);
+        $this->plugin->expects($this->exactly($expectedQuestions))->method('getEnvVar')->willReturn('ENV_VAR');
+        $this->plugin->expects($this->exactly($expectedQuestions))->method('ask')->willReturn('value');
+        $this->configOptionsManager->expects($this->exactly($expectedQuestions))->method('get')->willReturn(
+            $this->plugin,
+        );
+        $this->io->expects($this->exactly($expectedPrintTitleCalls))->method('title');
 
-        $generator = new ConfigGenerator($this->configOptionsManager->reveal(), $configOptionsGroups, $enabledOptions);
-        $generator->generateConfigInteractively($this->io->reveal(), []);
-
-        $pluginShouldBeAsked->shouldHaveBeenCalledTimes($expectedQuestions);
-        $ask->shouldHaveBeenCalledTimes($expectedQuestions);
-        $getPath->shouldHaveBeenCalledTimes($expectedQuestions);
-        $getPlugin->shouldHaveBeenCalledTimes($expectedQuestions);
-        $printTitle->shouldHaveBeenCalledTimes($expectedPrintTitleCalls);
+        $generator = new ConfigGenerator($this->configOptionsManager, $configOptionsGroups, $enabledOptions);
+        $generator->generateConfigInteractively($this->io, []);
     }
 
     public function provideConfigOptions(): iterable
@@ -84,13 +73,35 @@ class ConfigGeneratorTest extends TestCase
     public function pluginsAreAskedInProperOrder(): void
     {
         $orderedAskedOptions = [];
-        $regularPlugin = $this->plugin->reveal();
-        $regularPluginClass = get_class($regularPlugin);
-        $dependentPlugin = new class ($orderedAskedOptions, $regularPluginClass) implements
+        $regularPlugin = new class ($orderedAskedOptions) implements ConfigOptionInterface {
+            private array $orderedAskedOptions; // @phpstan-ignore-line
+
+            public function __construct(array &$orderedAskedOptions)
+            {
+                $this->orderedAskedOptions = &$orderedAskedOptions;
+            }
+
+            public function getEnvVar(): string
+            {
+                return '';
+            }
+
+            public function shouldBeAsked(array $currentOptions): bool
+            {
+                return true;
+            }
+
+            public function ask(StyleInterface $io, array $currentOptions): string
+            {
+                $this->orderedAskedOptions[] = 'a';
+                return 'value';
+            }
+        };
+        $dependentPlugin = new class ($orderedAskedOptions, get_class($regularPlugin)) implements
             ConfigOptionInterface,
             DependentConfigOptionInterface
         {
-            private array $orderedAskedOptions;
+            private array $orderedAskedOptions; // @phpstan-ignore-line
 
             public function __construct(array &$orderedAskedOptions, private string $regularPluginClass)
             {
@@ -118,25 +129,17 @@ class ConfigGeneratorTest extends TestCase
                 return $this->regularPluginClass;
             }
         };
-        $this->plugin->ask(Argument::cetera())->will(function () use (&$orderedAskedOptions) {
-            $orderedAskedOptions[] = 'a';
-            return 'value';
-        });
 
-        $getPlugin = $this->configOptionsManager->get(Argument::any())->will(
-            function (array $args) use ($regularPlugin, $dependentPlugin) {
-                [$configOption] = $args;
-                return $configOption === 'a' ? $regularPlugin : $dependentPlugin;
-            },
+        $this->configOptionsManager->expects($this->exactly(2))->method('get')->willReturnCallback(
+            fn (string $configOption) => $configOption === 'a' ? $regularPlugin : $dependentPlugin,
         );
 
         $optionsGroups = [
             'group_a' => ['depends_on_a', 'a'],
         ];
-        $generator = new ConfigGenerator($this->configOptionsManager->reveal(), $optionsGroups, null);
-        $generator->generateConfigInteractively($this->io->reveal(), []);
+        $generator = new ConfigGenerator($this->configOptionsManager, $optionsGroups, null);
+        $generator->generateConfigInteractively($this->io, []);
 
-        $getPlugin->shouldHaveBeenCalledTimes(2);
         self::assertEquals(['a', 'depends_on_a'], $orderedAskedOptions);
     }
 }

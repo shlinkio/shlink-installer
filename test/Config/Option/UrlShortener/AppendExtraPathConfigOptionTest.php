@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\AppendExtraPathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class AppendExtraPathConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private AppendExtraPathConfigOption $configOption;
 
     public function setUp(): void
@@ -29,8 +26,8 @@ class AppendExtraPathConfigOptionTest extends TestCase
     /** @test */
     public function expectedQuestionIsAsked(): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $confirm = $io->confirm(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('confirm')->with(
         //@codingStandardsIgnoreStart
             <<<FOO
             Do you want Shlink to redirect short URLs as soon as the first segment of the path matches a short code, appending the rest to the long URL?
@@ -43,9 +40,8 @@ class AppendExtraPathConfigOptionTest extends TestCase
             false,
         )->willReturn(true);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertTrue($answer);
-        $confirm->shouldHaveBeenCalledOnce();
     }
 }

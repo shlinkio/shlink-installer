@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseHostConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
@@ -13,8 +12,6 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseHostConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DatabaseHostConfigOption $configOption;
 
     public function setUp(): void
@@ -37,13 +34,14 @@ class DatabaseHostConfigOptionTest extends TestCase
         $expectedAnswer = 'the_answer';
         $collection = [DatabaseDriverConfigOption::ENV_VAR => $driver];
 
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask($expectedQuestionText, 'localhost')->willReturn($expectedAnswer);
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with($expectedQuestionText, 'localhost')->willReturn(
+            $expectedAnswer,
+        );
 
-        $answer = $this->configOption->ask($io->reveal(), $collection);
+        $answer = $this->configOption->ask($io, $collection);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideDrivers(): iterable
