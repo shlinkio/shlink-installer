@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Command\SetOptionCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
@@ -24,13 +22,11 @@ use function getcwd;
 
 class SetOptionCommandTest extends TestCase
 {
-    use ProphecyTrait;
-
     private CommandTester $commandTester;
-    private ObjectProphecy $configWriter;
-    private ObjectProphecy $assetsHandler;
-    private ObjectProphecy $optionsManager;
-    private ObjectProphecy $filesystem;
+    private MockObject & WriterInterface $configWriter;
+    private MockObject & ShlinkAssetsHandlerInterface $assetsHandler;
+    private MockObject & ConfigOptionsManagerInterface $optionsManager;
+    private MockObject & Filesystem $filesystem;
     private string $initialCwd;
 
     public function setUp(): void
@@ -38,17 +34,17 @@ class SetOptionCommandTest extends TestCase
         $this->initialCwd = getcwd();
         chdir(__DIR__ . '/../../test-resources');
 
-        $this->configWriter = $this->prophesize(WriterInterface::class);
-        $this->assetsHandler = $this->prophesize(ShlinkAssetsHandlerInterface::class);
-        $this->optionsManager = $this->prophesize(ConfigOptionsManagerInterface::class);
-        $this->filesystem = $this->prophesize(Filesystem::class);
+        $this->configWriter = $this->createMock(WriterInterface::class);
+        $this->assetsHandler = $this->createMock(ShlinkAssetsHandlerInterface::class);
+        $this->optionsManager = $this->createMock(ConfigOptionsManagerInterface::class);
+        $this->filesystem = $this->createMock(Filesystem::class);
 
         $app = new Application();
         $command = new SetOptionCommand(
-            $this->configWriter->reveal(),
-            $this->assetsHandler->reveal(),
-            $this->optionsManager->reveal(),
-            $this->filesystem->reveal(),
+            $this->configWriter,
+            $this->assetsHandler,
+            $this->optionsManager,
+            $this->filesystem,
             ['foo' => [
                 'Set option 1' => 'option_1',
                 'Set option 2' => 'option_2',
@@ -68,21 +64,10 @@ class SetOptionCommandTest extends TestCase
     /** @test */
     public function exceptionIsThrownWhenGeneratedConfigFileDoesNotExist(): void
     {
-        $exists = $this->filesystem->exists(Argument::type('string'))->willReturn(false);
-        $toFile = $this->configWriter->toFile(Argument::cetera());
-        $dropCachedConfig = $this->assetsHandler->dropCachedConfigIfAny(Argument::type(SymfonyStyle::class));
-
-        $plugin = $this->prophesize(ConfigOptionInterface::class);
-        $ask = $plugin->ask(Argument::cetera())->willReturn('');
-        $getEnvVar = $plugin->getEnvVar()->willReturn('foo');
-        $getPlugin = $this->optionsManager->get(Argument::type('string'))->willReturn($plugin->reveal());
-
-        $exists->shouldBeCalledOnce();
-        $toFile->shouldNotBeCalled();
-        $dropCachedConfig->shouldNotBeCalled();
-        $ask->shouldNotBeCalled();
-        $getEnvVar->shouldNotBeCalled();
-        $getPlugin->shouldNotBeCalled();
+        $this->filesystem->expects($this->once())->method('exists')->with($this->isType('string'))->willReturn(false);
+        $this->configWriter->expects($this->never())->method('toFile');
+        $this->assetsHandler->expects($this->never())->method('dropCachedConfigIfAny');
+        $this->optionsManager->expects($this->never())->method('get');
         $this->expectException(InvalidShlinkPathException::class);
 
         $this->commandTester->execute([]);
@@ -91,14 +76,18 @@ class SetOptionCommandTest extends TestCase
     /** @test */
     public function expectedOptionsAreOfferedBasedOnConfig(): void
     {
-        $exists = $this->filesystem->exists(Argument::type('string'))->willReturn(true);
-        $toFile = $this->configWriter->toFile(Argument::cetera());
-        $dropCachedConfig = $this->assetsHandler->dropCachedConfigIfAny(Argument::type(SymfonyStyle::class));
+        $this->filesystem->expects($this->once())->method('exists')->with($this->isType('string'))->willReturn(true);
+        $this->configWriter->expects($this->once())->method('toFile');
+        $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny')->with(
+            $this->isInstanceOf(SymfonyStyle::class),
+        );
 
-        $plugin = $this->prophesize(ConfigOptionInterface::class);
-        $ask = $plugin->ask(Argument::cetera())->willReturn('');
-        $getEnvVar = $plugin->getEnvVar()->willReturn('foo');
-        $getPlugin = $this->optionsManager->get(Argument::type('string'))->willReturn($plugin->reveal());
+        $plugin = $this->createMock(ConfigOptionInterface::class);
+        $plugin->expects($this->once())->method('ask')->willReturn('');
+        $plugin->expects($this->once())->method('getEnvVar')->willReturn('foo');
+        $this->optionsManager->expects($this->once())->method('get')->with($this->isType('string'))->willReturn(
+            $plugin,
+        );
 
         $this->commandTester->setInputs([1]);
         $this->commandTester->execute([]);
@@ -108,11 +97,5 @@ class SetOptionCommandTest extends TestCase
         self::assertStringContainsString('Set option 1', $output);
         self::assertStringContainsString('Set option 3', $output);
         self::assertStringNotContainsString('Set option 2', $output);
-        $exists->shouldHaveBeenCalledOnce();
-        $toFile->shouldHaveBeenCalledOnce();
-        $dropCachedConfig->shouldHaveBeenCalledOnce();
-        $ask->shouldHaveBeenCalledOnce();
-        $getEnvVar->shouldHaveBeenCalledOnce();
-        $getPlugin->shouldHaveBeenCalledOnce();
     }
 }
