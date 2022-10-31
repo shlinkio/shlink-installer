@@ -35,13 +35,12 @@ class DatabasePortConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(array $currentOptions, string $expectedPort): void
     {
         $expectedAnswer = 'the_answer';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask('Database port', $expectedPort)->willReturn($expectedAnswer);
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with('Database port', $expectedPort)->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), $currentOptions);
+        $answer = $this->configOption->ask($io, $currentOptions);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideCurrentOptions(): iterable

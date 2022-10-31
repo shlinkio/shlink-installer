@@ -32,8 +32,8 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(string $providedAnswer, bool $expected): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->choice(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('choice')->with(
             'Do you want the QR codes block size to be rounded by default? QR codes could end up having some extra '
             . 'margin, but it will improve readability',
             [
@@ -43,10 +43,9 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
             'yes',
         )->willReturn($providedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expected, $answer);
-        $choice->shouldHaveBeenCalledOnce();
     }
 
     public function provideAnswers(): iterable

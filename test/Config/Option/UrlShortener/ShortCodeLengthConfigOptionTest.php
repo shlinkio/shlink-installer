@@ -31,17 +31,16 @@ class ShortCodeLengthConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 5;
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'What is the default length you want generated short codes to have? (You will still be able to override '
             . 'this on every created short URL)',
             '5',
-            Argument::any(),
+            $this->anything(),
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 }

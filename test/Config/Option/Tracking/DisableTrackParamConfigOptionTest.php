@@ -30,16 +30,15 @@ class DisableTrackParamConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'the_answer';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'Provide a parameter name that you will be able to use to disable tracking on specific request to '
             . 'short URLs (leave empty and this feature won\'t be enabled)',
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     /**

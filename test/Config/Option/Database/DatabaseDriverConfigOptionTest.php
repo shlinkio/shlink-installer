@@ -31,8 +31,8 @@ class DatabaseDriverConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = DatabaseDriver::SQLITE->value;
-        $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->choice(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('choice')->with(
             'Select database type',
             [
                 'MySQL',
@@ -44,9 +44,8 @@ class DatabaseDriverConfigOptionTest extends TestCase
             'MySQL',
         )->willReturn('SQLite');
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $choice->shouldHaveBeenCalledOnce();
     }
 }

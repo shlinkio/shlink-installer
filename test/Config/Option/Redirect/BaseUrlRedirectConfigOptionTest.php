@@ -31,17 +31,16 @@ class BaseUrlRedirectConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'the_answer';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'Custom URL to redirect to when a user hits Shlink\'s base URL (If no value is provided, the '
             . 'user will see a default "404 not found" page)',
             null,
-            Argument::any(),
+            $this->anything(),
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 }

@@ -31,13 +31,14 @@ class DatabaseUnixSocketConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = '/var/run/mysqld/mysqld.sock';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask('Unix socket (leave empty to not use a socket)')->willReturn($expectedAnswer);
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with('Unix socket (leave empty to not use a socket)')->willReturn(
+            $expectedAnswer,
+        );
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     /** @test */

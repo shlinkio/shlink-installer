@@ -38,23 +38,24 @@ class IpAnonymizationConfigOptionTest extends TestCase
         bool $shouldWarn,
         bool $expectedResult,
     ): void {
-        $io = $this->prophesize(StyleInterface::class);
+        $io = $this->createMock(StyleInterface::class);
 
-        $firstConfirm = $io->confirm(
-            'Do you want visitors\' remote IP addresses to be anonymized before persisting them to the database?',
-        )->willReturn($firstAnswer);
-        $secondConfirm = $io->confirm('Do you still want to disable anonymization?', false)->willReturn($secondAnswer);
-        $warning = $io->warning(
+        $io->expects($this->exactly($shouldWarn ? 2 : 1))->method('confirm')->willReturnMap([
+            [
+                'Do you want visitors\' remote IP addresses to be anonymized before persisting them to the database?',
+                true,
+                $firstAnswer,
+            ],
+            ['Do you still want to disable anonymization?', false, $secondAnswer],
+        ]);
+        $io->expects($this->exactly($shouldWarn ? 1 : 0))->method('warning')->with(
             'Careful! If you disable IP address anonymization, you will no longer be in compliance with the GDPR and '
             . 'other similar data protection regulations.',
         );
 
-        $result = $this->configOption->ask($io->reveal(), []);
+        $result = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedResult, $result);
-        $firstConfirm->shouldHaveBeenCalledOnce();
-        $secondConfirm->shouldHaveBeenCalledTimes($shouldWarn ? 1 : 0);
-        $warning->shouldHaveBeenCalledTimes($shouldWarn ? 1 : 0);
     }
 
     public function provideConfirmAnswers(): iterable

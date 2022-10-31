@@ -30,14 +30,14 @@ class DisableReferrerTrackingConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = true;
-        $io = $this->prophesize(StyleInterface::class);
-        $confirm = $io->confirm('Do you want to disable tracking of visitors\' "Referrers"?', false)->willReturn(
-            $expectedAnswer,
-        );
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('confirm')->with(
+            'Do you want to disable tracking of visitors\' "Referrers"?',
+            false,
+        )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $confirm->shouldHaveBeenCalledOnce();
     }
 }

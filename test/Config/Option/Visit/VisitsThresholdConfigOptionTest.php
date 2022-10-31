@@ -33,18 +33,17 @@ class VisitsThresholdConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(string|int|null $answer, ?int $expectedAnswer): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'What is the amount of visits from which the system will not allow short URLs to be deleted? Leave empty '
             . 'to always allow deleting short URLs, no matter what',
             null,
-            Argument::any(),
+            $this->anything(),
         )->willReturn($answer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideValidAnswers(): iterable

@@ -30,12 +30,13 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = true;
-        $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->confirm('Is HTTPS enabled on this server?')->willReturn($expectedAnswer);
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('confirm')->with('Is HTTPS enabled on this server?')->willReturn(
+            $expectedAnswer,
+        );
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $choice->shouldHaveBeenCalledOnce();
     }
 }

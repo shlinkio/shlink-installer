@@ -30,8 +30,8 @@ class DefaultErrorCorrectionConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'q';
-        $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->choice(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('choice')->with(
             'What\'s the default error correction for generated QR codes',
             [
                 'l' => 'Low',
@@ -42,9 +42,8 @@ class DefaultErrorCorrectionConfigOptionTest extends TestCase
             'l',
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $choice->shouldHaveBeenCalledOnce();
     }
 }

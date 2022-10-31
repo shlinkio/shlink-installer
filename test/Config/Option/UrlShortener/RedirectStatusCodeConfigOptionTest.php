@@ -33,17 +33,16 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(string $choice, int $expectedAnswer): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->choice(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('choice')->with(
             'What kind of redirect do you want your short URLs to have?',
-            Argument::type('array'),
-            Argument::any(),
+            $this->isType('array'),
+            $this->anything(),
         )->willReturn($choice);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideChoices(): iterable
