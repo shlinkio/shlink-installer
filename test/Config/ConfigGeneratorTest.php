@@ -74,7 +74,7 @@ class ConfigGeneratorTest extends TestCase
     {
         $orderedAskedOptions = [];
         $regularPlugin = new class ($orderedAskedOptions) implements ConfigOptionInterface {
-            private array $orderedAskedOptions;
+            private array $orderedAskedOptions; // @phpstan-ignore-line
 
             public function __construct(array &$orderedAskedOptions)
             {
@@ -101,7 +101,7 @@ class ConfigGeneratorTest extends TestCase
             ConfigOptionInterface,
             DependentConfigOptionInterface
         {
-            private array $orderedAskedOptions;
+            private array $orderedAskedOptions; // @phpstan-ignore-line
 
             public function __construct(array &$orderedAskedOptions, private string $regularPluginClass)
             {

@@ -31,7 +31,7 @@ class SetOptionCommandTest extends TestCase
 
     public function setUp(): void
     {
-        $this->initialCwd = getcwd();
+        $this->initialCwd = getcwd() ?: '';
         chdir(__DIR__ . '/../../test-resources');
 
         $this->configWriter = $this->createMock(WriterInterface::class);
