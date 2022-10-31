@@ -9,7 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 ### Changed
-* Migrated infection config to json5
+* Migrated infection config to json5.
+* Migrated test doubles from prophecy to PHPUnit mocks.
 
 ### Deprecated
 * *Nothing*
