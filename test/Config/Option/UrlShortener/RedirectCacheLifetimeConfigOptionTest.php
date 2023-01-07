@@ -39,6 +39,8 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
 
         yield 'status 301' => [$buildCollection(301), true];
         yield 'status 302' => [$buildCollection(302), false];
+        yield 'status 307' => [$buildCollection(307), false];
+        yield 'status 308' => [$buildCollection(308), true];
     }
 
     /** @test */
