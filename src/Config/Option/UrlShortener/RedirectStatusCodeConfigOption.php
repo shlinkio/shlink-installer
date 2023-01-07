@@ -13,8 +13,11 @@ class RedirectStatusCodeConfigOption extends BaseConfigOption
 {
     public const ENV_VAR = 'REDIRECT_STATUS_CODE';
     private const REDIRECT_STATUSES = [
-        'All visits will always be tracked. Not that good for SEO.' => 302,
-        'Best option for SEO. Redirect will be cached for a short period of time, making some visits not to be tracked.' => 301, // phpcs:ignore
+        302 => 'All visits will always be tracked. Not that good for SEO. Only GET requests will be redirected.',
+        301 => 'Best option for SEO. Redirect will be cached for a short period of time, making some visits not to be '
+            . 'tracked. Only GET requests will be redirected.',
+        307 => 'Same as 302, but Shlink will also redirect on non-GET requests.',
+        308 => 'Same as 301, but Shlink will also redirect on non-GET requests.',
     ];
 
     public function getEnvVar(): string
@@ -24,8 +27,9 @@ class RedirectStatusCodeConfigOption extends BaseConfigOption
 
     public function ask(StyleInterface $io, array $currentOptions): int
     {
-        $options = array_flip(self::REDIRECT_STATUSES);
+        $options = self::REDIRECT_STATUSES;
         $answer = $io->choice('What kind of redirect do you want your short URLs to have?', $options, $options[302]);
-        return self::REDIRECT_STATUSES[$answer];
+
+        return array_flip(self::REDIRECT_STATUSES)[$answer];
     }
 }

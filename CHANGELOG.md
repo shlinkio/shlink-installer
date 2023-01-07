@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* [#174](https://github.com/shlinkio/shlink-installer/issues/174) Added support for redirect status codes 308 and 307.
 
 ### Changed
 * Migrated infection config to json5.

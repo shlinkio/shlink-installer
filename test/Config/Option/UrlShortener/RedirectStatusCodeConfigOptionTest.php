@@ -43,11 +43,16 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
 
     public function provideChoices(): iterable
     {
-        yield '302 redirect' => ['All visits will always be tracked. Not that good for SEO.', 302];
+        yield '302 redirect' => [
+            'All visits will always be tracked. Not that good for SEO. Only GET requests will be redirected.',
+            302,
+        ];
         yield '301 redirect' => [
             'Best option for SEO. Redirect will be cached for a short period of time, making some visits not to be '
-            . 'tracked.',
+            . 'tracked. Only GET requests will be redirected.',
             301,
         ];
+        yield '307 redirect' => ['Same as 302, but Shlink will also redirect on non-GET requests.', 307];
+        yield '308 redirect' => ['Same as 301, but Shlink will also redirect on non-GET requests.', 308];
     }
 }
