@@ -17,7 +17,7 @@ class EnableTrailingSlashConfigOption extends BaseConfigOption
     public function ask(StyleInterface $io, array $currentOptions): bool
     {
         return $io->confirm(
-            'Do you want to support trailing slashes in short URLs? (https://doma.in/foo and https://doma.in/foo/ '
+            'Do you want to support trailing slashes in short URLs? (https://s.test/foo and https://s.test/foo/ '
             . 'will be considered the same)',
             false,
         );
