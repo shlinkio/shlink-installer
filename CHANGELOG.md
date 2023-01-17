@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Changed
 * Migrated infection config to json5.
 * Migrated test doubles from prophecy to PHPUnit mocks.
+* Replaced references to `doma.in` by `s.test`.
 
 ### Deprecated
 * *Nothing*

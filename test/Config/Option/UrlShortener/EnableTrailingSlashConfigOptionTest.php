@@ -28,7 +28,7 @@ class EnableTrailingSlashConfigOptionTest extends TestCase
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('confirm')->with(
-            'Do you want to support trailing slashes in short URLs? (https://doma.in/foo and https://doma.in/foo/ '
+            'Do you want to support trailing slashes in short URLs? (https://s.test/foo and https://s.test/foo/ '
             . 'will be considered the same)',
             false,
         )->willReturn(true);
