@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [8.3.0] - 2023-01-28
 ### Added
 * [#174](https://github.com/shlinkio/shlink-installer/issues/174) Added support for redirect status codes 308 and 307.
+* Added support for short URL mode option.
 
 ### Changed
 * Migrated infection config to json5.
