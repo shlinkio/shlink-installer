@@ -2,7 +2,7 @@
 
 A PHP command line tool used to install [shlink](https://shlink.io/).
 
-[![Build Status](https://img.shields.io/github/workflow/status/shlinkio/shlink-installer/Continuous%20integration?logo=github&style=flat-square)](https://github.com/shlinkio/shlink-installer/actions?query=workflow%3A%22Continuous+integration%22)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/shlinkio/shlink-installer/ci.yml?branch=develop&logo=github&style=flat-square)](https://github.com/shlinkio/shlink-installer/actions/workflows/ci.yml?query=workflow%3A%22Continuous+integration%22)
 [![Code Coverage](https://img.shields.io/codecov/c/gh/shlinkio/shlink-installer/develop?style=flat-square)](https://app.codecov.io/gh/shlinkio/shlink-installer)
 [![Infection MSI](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fshlinkio%2Fshlink-installer%2Fdevelop)](https://dashboard.stryker-mutator.io/reports/github.com/shlinkio/shlink-installer/develop)
 [![Latest Stable Version](https://img.shields.io/github/release/shlinkio/shlink-installer.svg?style=flat-square)](https://packagist.org/packages/shlinkio/shlink-installer)

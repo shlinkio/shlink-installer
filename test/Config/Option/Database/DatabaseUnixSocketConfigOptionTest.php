@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseUnixSocketConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DatabaseUnixSocketConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DatabaseUnixSocketConfigOption $configOption;
 
     public function setUp(): void
@@ -31,13 +28,14 @@ class DatabaseUnixSocketConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = '/var/run/mysqld/mysqld.sock';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask('Unix socket (leave empty to not use a socket)')->willReturn($expectedAnswer);
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with('Unix socket (leave empty to not use a socket)')->willReturn(
+            $expectedAnswer,
+        );
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     /** @test */

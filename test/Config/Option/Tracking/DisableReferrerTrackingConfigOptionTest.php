@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableReferrerTrackingConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableReferrerTrackingConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private DisableReferrerTrackingConfigOption $configOption;
 
     public function setUp(): void
@@ -30,14 +27,14 @@ class DisableReferrerTrackingConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = true;
-        $io = $this->prophesize(StyleInterface::class);
-        $confirm = $io->confirm('Do you want to disable tracking of visitors\' "Referrers"?', false)->willReturn(
-            $expectedAnswer,
-        );
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('confirm')->with(
+            'Do you want to disable tracking of visitors\' "Referrers"?',
+            false,
+        )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $confirm->shouldHaveBeenCalledOnce();
     }
 }

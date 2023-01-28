@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\RedirectStatusCodeConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RedirectCacheLifetimeConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private RedirectCacheLifeTimeConfigOption $configOption;
 
     public function setUp(): void
@@ -43,6 +39,8 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
 
         yield 'status 301' => [$buildCollection(301), true];
         yield 'status 302' => [$buildCollection(302), false];
+        yield 'status 307' => [$buildCollection(307), false];
+        yield 'status 308' => [$buildCollection(308), true];
     }
 
     /** @test */
@@ -55,16 +53,15 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 60;
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'How long (in seconds) do you want your redirects to be cached by visitors?',
             '30',
-            Argument::any(),
+            $this->anything(),
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 }

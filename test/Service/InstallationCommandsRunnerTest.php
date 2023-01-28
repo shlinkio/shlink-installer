@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,26 +20,22 @@ use function sprintf;
 
 class InstallationCommandsRunnerTest extends TestCase
 {
-    use ProphecyTrait;
-
     private InstallationCommandsRunner $commandsRunner;
-    private ObjectProphecy $processHelper;
-    private ObjectProphecy $io;
+    private MockObject & ProcessHelper $processHelper;
+    private MockObject & SymfonyStyle $io;
 
     public function setUp(): void
     {
-        $phpFinder = $this->prophesize(PhpExecutableFinder::class);
-        $phpFinder->find(false)->willReturn('php');
+        $phpFinder = $this->createMock(PhpExecutableFinder::class);
+        $phpFinder->method('find')->with(false)->willReturn('php');
 
-        $this->processHelper = $this->prophesize(ProcessHelper::class);
-        $this->commandsRunner = new InstallationCommandsRunner(
-            $this->processHelper->reveal(),
-            $phpFinder->reveal(),
-            $this->buildCommands(['foo', 'bar', 'null_command']),
-        );
+        $this->processHelper = $this->createMock(ProcessHelper::class);
+        $this->commandsRunner = new InstallationCommandsRunner($this->processHelper, $phpFinder, $this->buildCommands(
+            ['foo', 'bar', 'null_command'],
+        ));
 
-        $this->io = $this->prophesize(SymfonyStyle::class);
-        $this->io->isVerbose()->willReturn(false);
+        $this->io = $this->createMock(SymfonyStyle::class);
+        $this->io->method('isVerbose')->willReturn(false);
     }
 
     private function buildCommands(array $names): array
@@ -58,7 +52,7 @@ class InstallationCommandsRunnerTest extends TestCase
     /** @test */
     public function doesNothingWhenRequestedCommandDoesNotExist(): void
     {
-        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io->reveal()));
+        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io));
     }
 
     /**
@@ -70,27 +64,20 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock($name === 'foo');
-        $run = $this->processHelper->run($this->io->reveal(), $command)->willReturn(
-            $process->reveal(),
-        );
+        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
 
-        $writeInitMsg = $this->io->write(sprintf('%s_init', $name));
-        $writeRunningMsg = $this->io->write(
-            Argument::containingString(sprintf('Running "%s"', implode(' ', $command))),
-            false,
-            OutputInterface::VERBOSITY_VERBOSE,
+        $this->io->expects($this->exactly(2))->method('write')->withConsecutive(
+            [sprintf('%s_init', $name), $this->anything(), $this->anything()],
+            [
+                $this->stringContains(sprintf('Running "%s"', implode(' ', $command))),
+                false,
+                OutputInterface::VERBOSITY_VERBOSE,
+            ],
         );
-        $writeErrorMsg = $this->io->error(Argument::containingString(sprintf('%s_error', $name)));
-        $writeSuccessMsg = $this->io->writeln(' <info>Success!</info>');
-        $writeSkipMsg = $this->io->writeln(' <comment>Skipped</comment>');
+        $this->io->expects($this->once())->method('writeln')->with(' <info>Success!</info>', $this->anything());
+        $this->io->expects($this->never())->method('error');
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io->reveal()));
-        $run->shouldHaveBeenCalledOnce();
-        $writeInitMsg->shouldHaveBeenCalledOnce();
-        $writeRunningMsg->shouldHaveBeenCalledOnce();
-        $writeErrorMsg->shouldNotHaveBeenCalled();
-        $writeSuccessMsg->shouldHaveBeenCalledOnce();
-        $writeSkipMsg->shouldNotHaveBeenCalled();
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
     }
 
     public function provideCommandNames(): array
@@ -105,59 +92,39 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
-        $run = $this->processHelper->run($this->io->reveal(), $command)->willReturn(
-            $process->reveal(),
-        );
+        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
 
-        $writeInitMsg = $this->io->write(sprintf('%s_init', $name));
-        $writeRunningMsg = $this->io->write(
-            Argument::containingString(sprintf('Running "%s"', implode(' ', $command))),
-            false,
-            OutputInterface::VERBOSITY_VERBOSE,
+        $this->io->expects($this->exactly(2))->method('write')->withConsecutive(
+            [sprintf('%s_init', $name), $this->anything(), $this->anything()],
+            [
+                $this->stringContains(sprintf('Running "%s"', implode(' ', $command))),
+                false,
+                OutputInterface::VERBOSITY_VERBOSE,
+            ],
         );
-        $writeErrorMsg = $this->io->error(Argument::containingString(sprintf('%s_error', $name)));
-        $writeSuccessMsg = $this->io->writeln(' <info>Success!</info>');
-        $writeSkipMsg = $this->io->writeln(' <comment>Skipped</comment>');
+        $this->io->expects($this->once())->method('error')->with($this->stringContains(sprintf('%s_error', $name)));
+        $this->io->expects($this->never())->method('writeln');
 
-        self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io->reveal()));
-        $run->shouldHaveBeenCalledOnce();
-        $writeInitMsg->shouldHaveBeenCalledOnce();
-        $writeRunningMsg->shouldHaveBeenCalledOnce();
-        $writeErrorMsg->shouldHaveBeenCalledOnce();
-        $writeSuccessMsg->shouldNotHaveBeenCalled();
-        $writeSkipMsg->shouldNotHaveBeenCalled();
+        self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io));
     }
 
     /** @test */
     public function skipsNullCommands(): void
     {
         $name = 'null_command';
-        $command = ['php', $name, 'something'];
 
-        $run = $this->processHelper->run(Argument::cetera());
-        $writeInitMsg = $this->io->write(sprintf('%s_init', $name));
-        $writeRunningMsg = $this->io->write(
-            Argument::containingString(sprintf('Running "%s"', implode(' ', $command))),
-            false,
-            OutputInterface::VERBOSITY_VERBOSE,
-        );
-        $writeErrorMsg = $this->io->error(Argument::containingString(sprintf('%s_error', $name)));
-        $writeSuccessMsg = $this->io->writeln(' <info>Success!</info>');
-        $writeSkipMsg = $this->io->writeln(' <comment>Skipped</comment>');
+        $this->processHelper->expects($this->never())->method('run');
+        $this->io->expects($this->once())->method('write')->with(sprintf('%s_init', $name), $this->anything());
+        $this->io->expects($this->never())->method('error');
+        $this->io->expects($this->once())->method('writeln')->with(' <comment>Skipped</comment>', $this->anything());
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io->reveal()));
-        $run->shouldNotHaveBeenCalled();
-        $writeInitMsg->shouldHaveBeenCalledOnce();
-        $writeRunningMsg->shouldNotHaveBeenCalled();
-        $writeErrorMsg->shouldNotHaveBeenCalled();
-        $writeSuccessMsg->shouldNotHaveBeenCalled();
-        $writeSkipMsg->shouldHaveBeenCalledOnce();
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
     }
 
-    private function createProcessMock(bool $isSuccessful): ObjectProphecy
+    private function createProcessMock(bool $isSuccessful): MockObject & Process
     {
-        $process = $this->prophesize(Process::class);
-        $process->isSuccessful()->willReturn($isSuccessful);
+        $process = $this->createMock(Process::class);
+        $process->method('isSuccessful')->willReturn($isSuccessful);
 
         return $process;
     }

@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class GeoLiteLicenseKeyConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private GeoLiteLicenseKeyConfigOption $configOption;
 
     public function setUp(): void
@@ -32,16 +29,15 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(?string $answer, ?string $expectedResult): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'Provide a GeoLite2 license key. Leave empty to disable geolocation. '
             . '(Go to https://shlink.io/documentation/geolite-license-key to know how to generate it)',
         )->willReturn($answer);
 
-        $result = $this->configOption->ask($io->reveal(), []);
+        $result = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedResult, $result);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideAnswers(): iterable

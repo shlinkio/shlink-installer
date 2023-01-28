@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class VisitsWebhooksConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private VisitsWebhooksConfigOption $configOption;
     private bool $swooleInstalled;
 
@@ -34,18 +30,17 @@ class VisitsWebhooksConfigOptionTest extends TestCase
     {
         $urls = ['foo', 'bar'];
         $expectedAnswer = 'foo,bar';
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'Provide a comma-separated list of webhook URLs which will receive POST notifications when short URLs '
             . 'receive visits (Ignore this if you are not serving shlink with swoole or openswoole)',
             null,
-            Argument::any(),
+            $this->anything(),
         )->willReturn($urls);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     /**

@@ -9,6 +9,8 @@ use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Symfony\Component\Console\Style\StyleInterface;
 
+use function Functional\contains;
+
 class RedirectCacheLifeTimeConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
     use ConfigOptionsValidatorsTrait;
@@ -21,7 +23,12 @@ class RedirectCacheLifeTimeConfigOption extends BaseConfigOption implements Depe
     public function shouldBeAsked(array $currentOptions): bool
     {
         $redirectStatus = $currentOptions[RedirectStatusCodeConfigOption::ENV_VAR] ?? null;
-        return $redirectStatus === 301 && parent::shouldBeAsked($currentOptions);
+        return $this->isPermanentRedirectStatus($redirectStatus) && parent::shouldBeAsked($currentOptions);
+    }
+
+    private function isPermanentRedirectStatus(int $redirectStatus): bool
+    {
+        return contains([301, 308], $redirectStatus);
     }
 
     public function ask(StyleInterface $io, array $currentOptions): int

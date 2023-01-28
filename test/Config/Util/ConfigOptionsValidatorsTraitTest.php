@@ -10,14 +10,7 @@ use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 
 class ConfigOptionsValidatorsTraitTest extends TestCase
 {
-    private object $validators;
-
-    protected function setUp(): void
-    {
-        $this->validators = new class {
-            use ConfigOptionsValidatorsTrait;
-        };
-    }
+    use ConfigOptionsValidatorsTrait;
 
     /**
      * @test
@@ -25,7 +18,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
      */
     public function urlsAreProperlySplitAndValidated(?string $urls, array $expectedResult): void
     {
-        $result = $this->validators->splitAndValidateMultipleUrls($urls);
+        $result = $this->splitAndValidateMultipleUrls($urls);
         self::assertEquals($expectedResult, $result);
     }
 
@@ -46,7 +39,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
     public function splitUrlsFailWhenProvidedValueIsNotValidUrl(string $urls): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validators->splitAndValidateMultipleUrls($urls);
+        $this->splitAndValidateMultipleUrls($urls);
     }
 
     public function provideInvalidUrls(): iterable
@@ -63,7 +56,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         $this->expectException(InvalidConfigOptionException::class);
         $this->expectExceptionMessage('Provided value "something" is not a valid URL');
 
-        $this->validators->validateUrl('something');
+        $this->validateUrl('something');
     }
 
     /**
@@ -73,7 +66,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
     public function validateNumberGreaterThanThrowsExceptionWhenProvidedValueIsInvalid(array $args): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validators->validateNumberGreaterThan(...$args);
+        $this->validateNumberGreaterThan(...$args);
     }
 
     public function provideInvalidValues(): iterable
@@ -94,7 +87,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
      */
     public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, int $expected): void
     {
-        self::assertEquals($expected, $this->validators->validatePositiveNumber($value));
+        self::assertEquals($expected, $this->validatePositiveNumber($value));
     }
 
     public function providePositiveNumbers(): iterable
@@ -111,7 +104,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
      */
     public function validateOptionalPositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, ?int $expected): void
     {
-        self::assertEquals($expected, $this->validators->validateOptionalPositiveNumber($value));
+        self::assertEquals($expected, $this->validateOptionalPositiveNumber($value));
     }
 
     public function provideOptionalPositiveNumbers(): iterable
@@ -130,7 +123,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         int $max,
     ): void {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validators->validateNumberBetween($value, $min, $max);
+        $this->validateNumberBetween($value, $min, $max);
     }
 
     public function provideInvalidNumbersBetween(): iterable
@@ -157,7 +150,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         int $max,
         int $expected,
     ): void {
-        self::assertEquals($expected, $this->validators->validateNumberBetween($value, $min, $max));
+        self::assertEquals($expected, $this->validateNumberBetween($value, $min, $max));
     }
 
     public function provideValidNumbersBetween(): iterable

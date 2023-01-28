@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\TimezoneConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class TimezoneConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private TimezoneConfigOption $configOption;
 
     public function setUp(): void
@@ -32,15 +29,14 @@ class TimezoneConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(?string $answer, string $expectedAnswer): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $ask = $io->ask(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('ask')->with(
             'Set the timezone in which your Shlink instance is running (leave empty to use the one set in PHP config)',
         )->willReturn($answer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $ask->shouldHaveBeenCalledOnce();
     }
 
     public function provideValidAnswers(): iterable

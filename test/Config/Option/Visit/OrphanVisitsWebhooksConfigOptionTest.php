@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\OrphanVisitsWebhooksConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class OrphanVisitsWebhooksConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private OrphanVisitsWebhooksConfigOption $configOption;
 
     public function setUp(): void
@@ -37,16 +34,15 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = true;
-        $io = $this->prophesize(StyleInterface::class);
-        $confirm = $io->confirm(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('confirm')->with(
             'Do you want to also notify the webhooks when an orphan visit occurs?',
             false,
         )->willReturn($expectedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expectedAnswer, $answer);
-        $confirm->shouldHaveBeenCalledOnce();
     }
 
     /**

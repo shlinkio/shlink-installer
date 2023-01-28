@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [8.3.0] - 2023-01-28
+### Added
+* [#174](https://github.com/shlinkio/shlink-installer/issues/174) Added support for redirect status codes 308 and 307.
+* Added support for short URL mode option.
+
+### Changed
+* Migrated infection config to json5.
+* Migrated test doubles from prophecy to PHPUnit mocks.
+* Replaced references to `doma.in` by `s.test`.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [8.2.0] - 2022-09-18
 ### Added
 * Added config option to enable/disable trailing slashes support.

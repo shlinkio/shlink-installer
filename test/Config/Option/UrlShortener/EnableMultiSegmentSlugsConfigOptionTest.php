@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class EnableMultiSegmentSlugsConfigOptionTest extends TestCase
 {
-    use ProphecyTrait;
-
     private EnableMultiSegmentSlugsConfigOption $configOption;
 
     public function setUp(): void
@@ -32,8 +29,8 @@ class EnableMultiSegmentSlugsConfigOptionTest extends TestCase
      */
     public function expectedQuestionIsAsked(string $providedAnswer, bool $expected): void
     {
-        $io = $this->prophesize(StyleInterface::class);
-        $choice = $io->choice(
+        $io = $this->createMock(StyleInterface::class);
+        $io->expects($this->once())->method('choice')->with(
             'Do you want to support short URLs with multi-segment custom slugs? '
             . '(for example, https://example.com/foo/bar)',
             [
@@ -45,10 +42,9 @@ class EnableMultiSegmentSlugsConfigOptionTest extends TestCase
             'no',
         )->willReturn($providedAnswer);
 
-        $answer = $this->configOption->ask($io->reveal(), []);
+        $answer = $this->configOption->ask($io, []);
 
         self::assertEquals($expected, $answer);
-        $choice->shouldHaveBeenCalledOnce();
     }
 
     public function provideAnswers(): iterable
