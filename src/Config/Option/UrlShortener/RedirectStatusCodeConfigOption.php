@@ -28,8 +28,8 @@ class RedirectStatusCodeConfigOption extends BaseConfigOption
     public function ask(StyleInterface $io, array $currentOptions): int
     {
         $options = self::REDIRECT_STATUSES;
-        $answer = $io->choice('What kind of redirect do you want your short URLs to have?', $options, $options[302]);
+        $answer = $io->choice('What kind of redirect do you want your short URLs to have?', $options, 302);
 
-        return array_flip(self::REDIRECT_STATUSES)[$answer];
+        return array_flip($options)[$answer];
     }
 }
