@@ -7,8 +7,6 @@ namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-use function array_flip;
-
 use const PHP_EOL;
 
 class ShortUrlModeConfigOption extends BaseConfigOption
@@ -28,7 +26,7 @@ class ShortUrlModeConfigOption extends BaseConfigOption
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         $options = self::MODES;
-        $result = $io->choice(
+        return $io->choice(
             'How do you want short URLs to be matched?'
             . PHP_EOL
             . '<options=bold;fg=yellow> Warning!</> <comment>This feature is experimental. It only applies to public '
@@ -37,7 +35,5 @@ class ShortUrlModeConfigOption extends BaseConfigOption
             $options,
             'strict',
         );
-
-        return array_flip($options)[$result];
     }
 }

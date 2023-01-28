@@ -29,7 +29,7 @@ class ShortUrlModeConfigOptionTest extends TestCase
      * @test
      * @dataProvider provideChoices
      */
-    public function expectedQuestionIsAsked(string $choice, string $expectedAnswer): void
+    public function expectedQuestionIsAsked(string $choice): void
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('choice')->with(
@@ -44,20 +44,12 @@ class ShortUrlModeConfigOptionTest extends TestCase
 
         $answer = $this->configOption->ask($io, []);
 
-        self::assertEquals($expectedAnswer, $answer);
+        self::assertEquals($choice, $answer);
     }
 
     public function provideChoices(): iterable
     {
-        yield 'strict' => [
-            'Short codes and custom slugs will be matched in a case-sensitive way ("foo" !== "FOO"). '
-            . 'Generated short codes will include lowercase letters, uppercase letters and numbers.',
-            'strict',
-        ];
-        yield 'loosely' => [
-            'Short codes and custom slugs will be matched in a case-insensitive way ("foo" === "FOO"). '
-            . 'Generated short codes will include only lowercase letters and numbers.',
-            'loosely',
-        ];
+        yield 'strict' => ['strict'];
+        yield 'loosely' => ['loosely'];
     }
 }
