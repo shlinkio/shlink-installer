@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionMigratorInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -141,5 +142,51 @@ class ConfigGeneratorTest extends TestCase
         $generator->generateConfigInteractively($this->io, []);
 
         self::assertEquals(['a', 'depends_on_a'], $orderedAskedOptions);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideMigratorValues
+     */
+    public function migratorPluginsAreProcessedWhenTheValuesShouldNotBeAsked(
+        array $oldConfig,
+        array $expectedResult,
+    ): void {
+        $regularPlugin = new class implements ConfigOptionInterface, ConfigOptionMigratorInterface {
+            public function getEnvVar(): string
+            {
+                return 'env_var';
+            }
+
+            public function shouldBeAsked(array $currentOptions): bool
+            {
+                return false;
+            }
+
+            public function ask(StyleInterface $io, array $currentOptions): string
+            {
+                return 'value';
+            }
+
+            public function tryToMigrateValue(mixed $currentValue): mixed
+            {
+                return $currentValue === 'foo' ? 'migrated_value' : $currentValue;
+            }
+        };
+
+        $this->configOptionsManager->expects($this->once())->method('get')->willReturn($regularPlugin);
+
+        $optionsGroups = ['group_a' => ['a']];
+        $generator = new ConfigGenerator($this->configOptionsManager, $optionsGroups, null);
+        $result = $generator->generateConfigInteractively($this->io, $oldConfig);
+
+        self::assertEquals($expectedResult, $result);
+    }
+
+    public function provideMigratorValues(): iterable
+    {
+        yield [['env_var' => 'old_value'], ['env_var' => 'old_value']];
+        yield [['env_var' => 'foo'], ['env_var' => 'migrated_value']];
+        yield [[], []];
     }
 }

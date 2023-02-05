@@ -52,4 +52,20 @@ class ShortUrlModeConfigOptionTest extends TestCase
         yield 'strict' => ['strict'];
         yield 'loose' => ['loose'];
     }
+
+    /**
+     * @test
+     * @dataProvider provideMigrationValues
+     */
+    public function deprecatedValueIsProperlyMigrated(string $existingValue, string $expectedResult): void
+    {
+        self::assertEquals($expectedResult, $this->configOption->tryToMigrateValue($existingValue));
+    }
+
+    public function provideMigrationValues(): iterable
+    {
+        yield 'strict' => ['strict', 'strict'];
+        yield 'loose' => ['loose', 'loose'];
+        yield 'loosely' => ['loosely', 'loose'];
+    }
 }
