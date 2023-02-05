@@ -50,6 +50,6 @@ class ShortUrlModeConfigOptionTest extends TestCase
     public function provideChoices(): iterable
     {
         yield 'strict' => ['strict'];
-        yield 'loosely' => ['loosely'];
+        yield 'loose' => ['loose'];
     }
 }

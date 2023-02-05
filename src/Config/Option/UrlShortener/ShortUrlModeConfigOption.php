@@ -14,7 +14,7 @@ class ShortUrlModeConfigOption extends BaseConfigOption
     private const MODES = [
         'strict' => 'Short codes and custom slugs will be matched in a case-sensitive way ("foo" !== "FOO"). '
             . 'Generated short codes will include lowercase letters, uppercase letters and numbers.',
-        'loosely' => 'Short codes and custom slugs will be matched in a case-insensitive way ("foo" === "FOO"). '
+        'loose' => 'Short codes and custom slugs will be matched in a case-insensitive way ("foo" === "FOO"). '
             . 'Generated short codes will include only lowercase letters and numbers.',
     ];
 
