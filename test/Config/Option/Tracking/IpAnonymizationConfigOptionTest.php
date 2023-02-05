@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableIpTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingConfigOption;
@@ -19,16 +21,13 @@ class IpAnonymizationConfigOptionTest extends TestCase
         $this->configOption = new IpAnonymizationConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('ANONYMIZE_REMOTE_ADDR', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfirmAnswers
-     */
+    #[Test, DataProvider('provideConfirmAnswers')]
     public function expectedQuestionIsAsked(
         bool $firstAnswer,
         bool $secondAnswer,
@@ -63,16 +62,13 @@ class IpAnonymizationConfigOptionTest extends TestCase
         yield 'not anonymizing' => [false, true, true, false];
     }
 
-    /** @test */
+    #[Test]
     public function getDependentOptionReturnsExpectedResult(): void
     {
         self::assertEquals(DisableIpTrackingConfigOption::class, $this->configOption->getDependentOption());
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentConfig
-     */
+    #[Test, DataProvider('provideCurrentConfig')]
     public function shouldBeAskedIsTrueOnlyWhenAllConditionsAreMet(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));

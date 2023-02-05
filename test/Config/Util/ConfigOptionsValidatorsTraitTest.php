@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Util;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
@@ -12,10 +14,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
 {
     use ConfigOptionsValidatorsTrait;
 
-    /**
-     * @test
-     * @dataProvider provideValidUrls
-     */
+    #[Test, DataProvider('provideValidUrls')]
     public function urlsAreProperlySplitAndValidated(?string $urls, array $expectedResult): void
     {
         $result = $this->splitAndValidateMultipleUrls($urls);
@@ -32,10 +31,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         ]];
     }
 
-    /**
-     * @test
-     * @dataProvider provideInvalidUrls
-     */
+    #[Test, DataProvider('provideInvalidUrls')]
     public function splitUrlsFailWhenProvidedValueIsNotValidUrl(string $urls): void
     {
         $this->expectException(InvalidConfigOptionException::class);
@@ -50,7 +46,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         yield 'middle invalid url' => ['http://bar.io/foo/bar,invalid,https://foo.com/bar'];
     }
 
-    /** @test */
+    #[Test]
     public function throwsAnExceptionIfInvalidUrlIsProvided(): void
     {
         $this->expectException(InvalidConfigOptionException::class);
@@ -59,10 +55,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         $this->validateUrl('something');
     }
 
-    /**
-     * @test
-     * @dataProvider provideInvalidValues
-     */
+    #[Test, DataProvider('provideInvalidValues')]
     public function validateNumberGreaterThanThrowsExceptionWhenProvidedValueIsInvalid(array $args): void
     {
         $this->expectException(InvalidConfigOptionException::class);
@@ -81,10 +74,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         yield 'positive with min' => [[5, 6]];
     }
 
-    /**
-     * @test
-     * @dataProvider providePositiveNumbers
-     */
+    #[Test, DataProvider('providePositiveNumbers')]
     public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, int $expected): void
     {
         self::assertEquals($expected, $this->validatePositiveNumber($value));
@@ -98,10 +88,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         yield 'one as integer' => [1, 1];
     }
 
-    /**
-     * @test
-     * @dataProvider provideOptionalPositiveNumbers
-     */
+    #[Test, DataProvider('provideOptionalPositiveNumbers')]
     public function validateOptionalPositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, ?int $expected): void
     {
         self::assertEquals($expected, $this->validateOptionalPositiveNumber($value));
@@ -113,10 +100,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         yield from self::providePositiveNumbers();
     }
 
-    /**
-     * @test
-     * @dataProvider provideInvalidNumbersBetween
-     */
+    #[Test, DataProvider('provideInvalidNumbersBetween')]
     public function validateNumberBetweenThrowsExceptionWhenProvidedValueIsInvalid(
         mixed $value,
         int $min,
@@ -140,10 +124,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         yield 'impossible range' => [15, 30, 20];
     }
 
-    /**
-     * @test
-     * @dataProvider provideValidNumbersBetween
-     */
+    #[Test, DataProvider('provideValidNumbersBetween')]
     public function validateNumberBetweenCastsToIntWhenProvidedValueIsValid(
         mixed $value,
         int $min,

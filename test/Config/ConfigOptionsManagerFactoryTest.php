@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -22,10 +24,7 @@ class ConfigOptionsManagerFactoryTest extends TestCase
         $this->factory = new ConfigOptionsManagerFactory();
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfigs
-     */
+    #[Test, DataProvider('provideConfigs')]
     public function createsServiceWithExpectedPlugins(callable $configCreator, int $expectedSize): void
     {
         $config = $configCreator($this);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Worker\WebWorkerNumConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -19,13 +20,13 @@ class WebWorkerNumConfigOptionTest extends TestCase
         $this->configOption = new WebWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('WEB_WORKER_NUM', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 16;

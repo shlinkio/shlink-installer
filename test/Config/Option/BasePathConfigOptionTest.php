@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\BasePathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,16 +19,13 @@ class BasePathConfigOptionTest extends TestCase
         $this->configOption = new BasePathConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('BASE_PATH', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideValidAnswers
-     */
+    #[Test, DataProvider('provideValidAnswers')]
     public function expectedQuestionIsAsked(?string $answer, string $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -46,10 +45,7 @@ class BasePathConfigOptionTest extends TestCase
         yield [null, ''];
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeCalledOnlyIfItDoesNotYetExist(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));

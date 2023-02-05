@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Exception;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Exception\InvalidShlinkPathException;
 
 class InvalidShlinkPathExceptionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function exceptionIsCreatedAsExpected(): void
     {
         $e = InvalidShlinkPathException::forCurrentPath();

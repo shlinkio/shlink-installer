@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsThresholdConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,16 +19,13 @@ class VisitsThresholdConfigOptionTest extends TestCase
         $this->configOption = new VisitsThresholdConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DELETE_SHORT_URL_THRESHOLD', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideValidAnswers
-     */
+    #[Test, DataProvider('provideValidAnswers')]
     public function expectedQuestionIsAsked(string|int|null $answer, ?int $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -49,10 +48,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
         yield ['15', 15];
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));

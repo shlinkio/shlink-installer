@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabasePortConfigOption;
@@ -19,16 +21,13 @@ class DatabasePortConfigOptionTest extends TestCase
         $this->configOption = new DatabasePortConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DB_PORT', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function expectedQuestionIsAsked(array $currentOptions, string $expectedPort): void
     {
         $expectedAnswer = 'the_answer';

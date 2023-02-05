@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount;
@@ -29,10 +31,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         $this->assetsHandler = new ShlinkAssetsHandler($this->filesystem);
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfigExists
-     */
+    #[Test, DataProvider('provideConfigExists')]
     public function cachedConfigIsDeletedIfExists(bool $appExists, bool $routesExist, int $expectedRemoveCalls): void
     {
         $this->filesystem->expects($this->exactly(2))->method('exists')->willReturnMap([
@@ -54,7 +53,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         yield 'both configs cached' => [true, true, 2];
     }
 
-    /** @test */
+    #[Test]
     public function errorWhileDeletingCachedConfigIsPropagated(): void
     {
         $this->filesystem->expects($this->once())->method('exists')->with('data/cache/app_config.php')->willReturn(
@@ -71,7 +70,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         $this->assetsHandler->dropCachedConfigIfAny($this->io);
     }
 
-    /** @test */
+    #[Test]
     public function resolvePreviousConfigDoesNotImportIfUserCancels(): void
     {
         $this->io->expects($this->once())->method('confirm')->with(
@@ -83,10 +82,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         $this->assetsHandler->resolvePreviousConfig($this->io);
     }
 
-    /**
-     * @test
-     * @dataProvider provideExists
-     */
+    #[Test, DataProvider('provideExists')]
     public function configIsImportedOnlyIfExistingPathIsProvided(bool $exists): void
     {
         $count = 0;
@@ -112,10 +108,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         self::assertEquals($exists ? $importPath : '', $result->importPath);
     }
 
-    /**
-     * @test
-     * @dataProvider provideExists
-     */
+    #[Test, DataProvider('provideExists')]
     public function assetsAreProperlyImportedIfTheyExist(bool $assetsExist, InvocationOrder $expectedCopies): void
     {
         $path = '/foo/bar';
@@ -135,7 +128,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         yield [false, new InvokedCount(0)];
     }
 
-    /** @test */
+    #[Test]
     public function errorIsThrownIfSqliteImportFails(): void
     {
         $path = '/foo/bar';
@@ -152,7 +145,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         $this->assetsHandler->importShlinkAssetsFromPath($this->io, $path);
     }
 
-    /** @test */
+    #[Test]
     public function warningIsPrintedIfGeoliteImportFails(): void
     {
         $path = '/foo/bar';

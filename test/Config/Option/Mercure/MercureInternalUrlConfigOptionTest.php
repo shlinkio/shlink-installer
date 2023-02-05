@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\EnableMercureConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureInternalUrlConfigOption;
@@ -18,13 +20,13 @@ class MercureInternalUrlConfigOptionTest extends TestCase
         $this->configOption = new MercureInternalUrlConfigOption(fn() => true);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('MERCURE_INTERNAL_HUB_URL', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'foobar.com';
@@ -38,16 +40,13 @@ class MercureInternalUrlConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    /** @test */
+    #[Test]
     public function dependsOnMercureEnabled(): void
     {
         self::assertEquals(EnableMercureConfigOption::class, $this->configOption->getDependentOption());
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeAskedOnlyIfMercureIsEnabled(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));

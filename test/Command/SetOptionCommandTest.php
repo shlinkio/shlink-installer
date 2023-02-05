@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Command\SetOptionCommand;
@@ -61,7 +62,7 @@ class SetOptionCommandTest extends TestCase
         chdir($this->initialCwd);
     }
 
-    /** @test */
+    #[Test]
     public function exceptionIsThrownWhenGeneratedConfigFileDoesNotExist(): void
     {
         $this->filesystem->expects($this->once())->method('exists')->with($this->isType('string'))->willReturn(false);
@@ -73,7 +74,7 @@ class SetOptionCommandTest extends TestCase
         $this->commandTester->execute([]);
     }
 
-    /** @test */
+    #[Test]
     public function expectedOptionsAreOfferedBasedOnConfig(): void
     {
         $this->filesystem->expects($this->once())->method('exists')->with($this->isType('string'))->willReturn(true);

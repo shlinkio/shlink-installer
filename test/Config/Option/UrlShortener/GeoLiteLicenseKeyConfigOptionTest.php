@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,16 +19,13 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
         $this->configOption = new GeoLiteLicenseKeyConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('GEOLITE_LICENSE_KEY', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideAnswers
-     */
+    #[Test, DataProvider('provideAnswers')]
     public function expectedQuestionIsAsked(?string $answer, ?string $expectedResult): void
     {
         $io = $this->createMock(StyleInterface::class);

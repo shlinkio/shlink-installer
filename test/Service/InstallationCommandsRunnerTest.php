@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Service;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
@@ -50,16 +52,13 @@ class InstallationCommandsRunnerTest extends TestCase
         ]));
     }
 
-    /** @test */
+    #[Test]
     public function doesNothingWhenRequestedCommandDoesNotExist(): void
     {
         self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io));
     }
 
-    /**
-     * @test
-     * @dataProvider provideCommandNames
-     */
+    #[Test, DataProvider('provideCommandNames')]
     public function returnsSuccessWhenProcessIsProperlyRunOrDoesNotFailOnError(string $name): void
     {
         $command = ['php', $name, 'something'];
@@ -91,7 +90,7 @@ class InstallationCommandsRunnerTest extends TestCase
         return [['foo'], ['bar']];
     }
 
-    /** @test */
+    #[Test]
     public function returnsErrorWhenProcessIsNotProperlyRun(): void
     {
         $name = 'foo';
@@ -119,7 +118,7 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io));
     }
 
-    /** @test */
+    #[Test]
     public function skipsNullCommands(): void
     {
         $name = 'null_command';

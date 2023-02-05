@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisPubSubConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
@@ -18,13 +20,13 @@ class RedisPubSubConfigOptionTest extends TestCase
         $this->configOption = new RedisPubSubConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedConfig(): void
     {
         self::assertEquals('REDIS_PUB_SUB_ENABLED', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -38,10 +40,7 @@ class RedisPubSubConfigOptionTest extends TestCase
         self::assertEquals(true, $answer);
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeCalledOnlyIfItDoesNotYetExist(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
@@ -54,7 +53,7 @@ class RedisPubSubConfigOptionTest extends TestCase
         yield 'exists in config' => [['REDIS_PUB_SUB_ENABLED' => true], false];
     }
 
-    /** @test */
+    #[Test]
     public function dependsOnRedisServer(): void
     {
         self::assertEquals(RedisServersConfigOption::class, $this->configOption->getDependentOption());

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisSentinelServiceConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
@@ -18,16 +20,13 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
         $this->configOption = new RedisSentinelServiceConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('REDIS_SENTINEL_SERVICE', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideValidAnswers
-     */
+    #[Test, DataProvider('provideValidAnswers')]
     public function expectedQuestionIsAsked(?string $answer): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -46,10 +45,7 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
         yield [null];
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeCalledOnlyIfItDoesNotYetExist(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
@@ -62,7 +58,7 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
         yield 'exists in config' => [['REDIS_SENTINEL_SERVICE' => 'foo'], false];
     }
 
-    /** @test */
+    #[Test]
     public function dependsOnRedisServer(): void
     {
         self::assertEquals(RedisServersConfigOption::class, $this->configOption->getDependentOption());

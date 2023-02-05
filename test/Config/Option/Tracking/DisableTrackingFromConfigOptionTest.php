@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingFromConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,16 +19,13 @@ class DisableTrackingFromConfigOptionTest extends TestCase
         $this->configOption = new DisableTrackingFromConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DISABLE_TRACKING_FROM', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideAnswers
-     */
+    #[Test, DataProvider('provideAnswers')]
     public function expectedQuestionIsAsked(?string $answer): void
     {
         $io = $this->createMock(StyleInterface::class);

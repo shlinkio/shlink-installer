@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\OrphanVisitsWebhooksConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
@@ -18,19 +20,19 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
         $this->configOption = new OrphanVisitsWebhooksConfigOption(static fn () => true);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('NOTIFY_ORPHAN_VISITS_TO_WEBHOOKS', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedDependantOption(): void
     {
         self::assertEquals(VisitsWebhooksConfigOption::class, $this->configOption->getDependentOption());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = true;
@@ -45,10 +47,7 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeAskedOnlyWhenTheListOfWebhooksIsNotEmpty(
         array $currentOptions,
         bool $expected,

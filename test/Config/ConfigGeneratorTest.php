@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
@@ -30,10 +32,7 @@ class ConfigGeneratorTest extends TestCase
         $this->io = $this->createMock(StyleInterface::class);
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfigOptions
-     */
+    #[Test, DataProvider('provideConfigOptions')]
     public function configuresExpectedPlugins(
         array $configOptionsGroups,
         ?array $enabledOptions,
@@ -70,7 +69,7 @@ class ConfigGeneratorTest extends TestCase
         yield '1 enabled' => [$optionsGroups, ['foo'], 1];
     }
 
-    /** @test */
+    #[Test]
     public function pluginsAreAskedInProperOrder(): void
     {
         $orderedAskedOptions = [];
@@ -144,10 +143,7 @@ class ConfigGeneratorTest extends TestCase
         self::assertEquals(['a', 'depends_on_a'], $orderedAskedOptions);
     }
 
-    /**
-     * @test
-     * @dataProvider provideMigratorValues
-     */
+    #[Test, DataProvider('provideMigratorValues')]
     public function migratorPluginsAreProcessedWhenTheValuesShouldNotBeAsked(
         array $oldConfig,
         array $expectedResult,
