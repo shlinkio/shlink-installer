@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config;
 
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionMigratorInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -37,6 +38,10 @@ class ConfigGenerator implements ConfigGeneratorInterface
                 $optionIsEnabled = $this->enabledOptions === null || contains($this->enabledOptions, $configOption);
                 $shouldAsk = $optionIsEnabled && $plugin->shouldBeAsked($answers);
                 if (! $shouldAsk) {
+                    if ($plugin instanceof ConfigOptionMigratorInterface && isset($answers[$plugin->getEnvVar()])) {
+                        $answers[$plugin->getEnvVar()] = $plugin->tryToMigrateValue($answers[$plugin->getEnvVar()]);
+                    }
+
                     continue;
                 }
 

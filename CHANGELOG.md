@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* *Nothing*
+
+### Changed
+* Changed `loosely` by `loose` for the short URL mode, ensuring a migration for those who previously set `loosely`.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [8.3.0] - 2023-01-28
 ### Added
 * [#174](https://github.com/shlinkio/shlink-installer/issues/174) Added support for redirect status codes 308 and 307.
