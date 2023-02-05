@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
@@ -66,13 +67,18 @@ class InstallationCommandsRunnerTest extends TestCase
         $process = $this->createProcessMock($name === 'foo');
         $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
 
-        $this->io->expects($this->exactly(2))->method('write')->withConsecutive(
-            [sprintf('%s_init', $name), $this->anything(), $this->anything()],
-            [
-                $this->stringContains(sprintf('Running "%s"', implode(' ', $command))),
-                false,
-                OutputInterface::VERBOSITY_VERBOSE,
-            ],
+        $callCount = 0;
+        $this->io->expects($this->exactly(2))->method('write')->willReturnCallback(
+            function (string $messages, bool $newline, int $type) use (&$callCount, $name, $command): void {
+                if ($callCount === 0) {
+                    Assert::assertEquals(sprintf('%s_init', $name), $messages);
+                } elseif ($callCount === 1) {
+                    Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $messages);
+                    Assert::assertFalse($newline);
+                    Assert::assertEquals(OutputInterface::VERBOSITY_VERBOSE, $type);
+                }
+                $callCount++;
+            },
         );
         $this->io->expects($this->once())->method('writeln')->with(' <info>Success!</info>', $this->anything());
         $this->io->expects($this->never())->method('error');
@@ -80,7 +86,7 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
     }
 
-    public function provideCommandNames(): array
+    public static function provideCommandNames(): array
     {
         return [['foo'], ['bar']];
     }
@@ -94,13 +100,18 @@ class InstallationCommandsRunnerTest extends TestCase
         $process = $this->createProcessMock(false);
         $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
 
-        $this->io->expects($this->exactly(2))->method('write')->withConsecutive(
-            [sprintf('%s_init', $name), $this->anything(), $this->anything()],
-            [
-                $this->stringContains(sprintf('Running "%s"', implode(' ', $command))),
-                false,
-                OutputInterface::VERBOSITY_VERBOSE,
-            ],
+        $callCount = 0;
+        $this->io->expects($this->exactly(2))->method('write')->willReturnCallback(
+            function (string $messages, bool $newline, int $type) use (&$callCount, $name, $command): void {
+                if ($callCount === 0) {
+                    Assert::assertEquals(sprintf('%s_init', $name), $messages);
+                } elseif ($callCount === 1) {
+                    Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $messages);
+                    Assert::assertFalse($newline);
+                    Assert::assertEquals(OutputInterface::VERBOSITY_VERBOSE, $type);
+                }
+                $callCount++;
+            },
         );
         $this->io->expects($this->once())->method('error')->with($this->stringContains(sprintf('%s_error', $name)));
         $this->io->expects($this->never())->method('writeln');

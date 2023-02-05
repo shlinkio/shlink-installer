@@ -53,7 +53,7 @@ class MercureInternalUrlConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'mercure enabled' => [[EnableMercureConfigOption::ENV_VAR => true], true];
         yield 'mercure not enabled' => [[], false];

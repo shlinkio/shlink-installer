@@ -40,7 +40,7 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
         self::assertEquals($expectedResult, $result);
     }
 
-    public function provideAnswers(): iterable
+    public static function provideAnswers(): iterable
     {
         yield 'no answer' => [null, null];
         yield 'answer' => ['foo', 'foo'];

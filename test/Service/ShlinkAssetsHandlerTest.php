@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Service;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
+use PHPUnit\Framework\MockObject\Rule\InvokedCount;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -45,7 +46,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         $this->assetsHandler->dropCachedConfigIfAny($this->io);
     }
 
-    public function provideConfigExists(): iterable
+    public static function provideConfigExists(): iterable
     {
         yield 'no cached app or route config' => [false, false, 0];
         yield 'cached app config' => [true, false, 1];
@@ -128,10 +129,10 @@ class ShlinkAssetsHandlerTest extends TestCase
         $this->assetsHandler->importShlinkAssetsFromPath($this->io, $path);
     }
 
-    public function provideExists(): iterable
+    public static function provideExists(): iterable
     {
-        yield [true, $this->exactly(2)];
-        yield [false, $this->never()];
+        yield [true, new InvokedCount(2)];
+        yield [false, new InvokedCount(0)];
     }
 
     /** @test */

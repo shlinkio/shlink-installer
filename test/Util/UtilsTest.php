@@ -20,7 +20,7 @@ class UtilsTest extends TestCase
         self::assertEquals($expected, Utils::normalizeAndKeepEnvVarKeys($input));
     }
 
-    public function provideEnvVars(): iterable
+    public static function provideEnvVars(): iterable
     {
         yield [[
             'foo' => [
@@ -72,7 +72,7 @@ class UtilsTest extends TestCase
         self::assertEquals($expectedResult, Utils::commaSeparatedToList($list));
     }
 
-    public function provideCommaSeparatedLists(): iterable
+    public static function provideCommaSeparatedLists(): iterable
     {
         yield 'single item' => ['foo', ['foo']];
         yield 'multiple items' => ['foo,bar bar,baz', ['foo', 'bar bar', 'baz']];

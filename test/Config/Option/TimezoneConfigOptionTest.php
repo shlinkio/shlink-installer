@@ -39,7 +39,7 @@ class TimezoneConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideValidAnswers(): iterable
+    public static function provideValidAnswers(): iterable
     {
         yield ['the_answer', 'the_answer'];
         yield [null, ''];
@@ -54,7 +54,7 @@ class TimezoneConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'not exists in config' => [[], true];
         yield 'exists in config' => [['TIMEZONE' => 'America/Los_Angeles'], false];

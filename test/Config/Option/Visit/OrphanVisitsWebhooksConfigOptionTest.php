@@ -56,7 +56,7 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'without config' => [[], false];
         yield 'without webhooks' => [[VisitsWebhooksConfigOption::ENV_VAR => []], false];

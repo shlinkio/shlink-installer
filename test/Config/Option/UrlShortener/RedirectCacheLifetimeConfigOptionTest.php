@@ -33,7 +33,7 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         $buildCollection = static fn (int $status): array => [RedirectStatusCodeConfigOption::ENV_VAR => $status];
 

@@ -45,7 +45,7 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
         self::assertEquals($expected, $answer);
     }
 
-    public function provideAnswers(): iterable
+    public static function provideAnswers(): iterable
     {
         yield 'yes' => ['yes', true];
         yield 'no' => ['no', false];

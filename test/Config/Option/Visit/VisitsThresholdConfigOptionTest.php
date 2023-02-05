@@ -42,7 +42,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideValidAnswers(): iterable
+    public static function provideValidAnswers(): iterable
     {
         yield [null, null];
         yield [10, 10];
@@ -58,7 +58,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         $buildCollection = static fn (bool $withThreshold): array =>
             $withThreshold ? ['DELETE_SHORT_URL_THRESHOLD' => 15] : [];

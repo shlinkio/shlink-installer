@@ -61,7 +61,7 @@ class RedisServersConfigOptionTest extends TestCase
         self::assertEquals($serversAnswer, $result);
     }
 
-    public function provideAnswers(): iterable
+    public static function provideAnswers(): iterable
     {
         yield 'one server' => ['foo'];
         yield 'multiple servers' => ['foo,bar,baz'];

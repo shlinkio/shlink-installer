@@ -54,7 +54,7 @@ class ConfigGeneratorTest extends TestCase
         $generator->generateConfigInteractively($this->io, []);
     }
 
-    public function provideConfigOptions(): iterable
+    public static function provideConfigOptions(): iterable
     {
         $optionsGroups = [
             'group_a' => ['some', 'thing'],
@@ -183,7 +183,7 @@ class ConfigGeneratorTest extends TestCase
         self::assertEquals($expectedResult, $result);
     }
 
-    public function provideMigratorValues(): iterable
+    public static function provideMigratorValues(): iterable
     {
         yield [['env_var' => 'old_value'], ['env_var' => 'old_value']];
         yield [['env_var' => 'foo'], ['env_var' => 'migrated_value']];

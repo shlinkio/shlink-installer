@@ -26,8 +26,9 @@ class ConfigOptionsManagerFactoryTest extends TestCase
      * @test
      * @dataProvider provideConfigs
      */
-    public function createsServiceWithExpectedPlugins(array $config, int $expectedSize): void
+    public function createsServiceWithExpectedPlugins(callable $configCreator, int $expectedSize): void
     {
+        $config = $configCreator($this);
         $this->container->expects($this->once())->method('get')->with('config')->willReturn($config);
 
         $service = ($this->factory)($this->container);
@@ -38,17 +39,17 @@ class ConfigOptionsManagerFactoryTest extends TestCase
         self::assertCount($expectedSize, $servicesProp->getValue($service));
     }
 
-    public function provideConfigs(): iterable
+    public static function provideConfigs(): iterable
     {
-        yield 'config_options not defined' => [[], 0];
-        yield 'config_options empty' => [['config_options' => []], 0];
+        yield 'config_options not defined' => [static fn (TestCase $test) => [], 0];
+        yield 'config_options empty' => [static fn (TestCase $test) => ['config_options' => []], 0];
         yield 'config_options with values' => [
-            [
+            static fn (TestCase $test) => [
                 'config_options' => [
                     'services' => [
-                        'a' => $this->createMock(ConfigOptionInterface::class),
-                        'b' => $this->createMock(ConfigOptionInterface::class),
-                        'c' => $this->createMock(ConfigOptionInterface::class),
+                        'a' => $test->createMock(ConfigOptionInterface::class),
+                        'b' => $test->createMock(ConfigOptionInterface::class),
+                        'c' => $test->createMock(ConfigOptionInterface::class),
                     ],
                 ],
             ],

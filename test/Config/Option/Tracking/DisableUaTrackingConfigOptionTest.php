@@ -56,7 +56,7 @@ class DisableUaTrackingConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'empty options' => [[], true];
         yield 'tracking not disabled' => [[DisableTrackingConfigOption::ENV_VAR => false], true];

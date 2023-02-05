@@ -48,7 +48,7 @@ class DisableTrackParamConfigOptionTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function provideConfig(): iterable
+    public static function provideConfig(): iterable
     {
         yield 'config is set' => [['DISABLE_TRACK_PARAM' => 'something'], false];
         yield 'config is not set' => [[], true];

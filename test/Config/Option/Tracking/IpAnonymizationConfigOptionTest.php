@@ -55,7 +55,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
         self::assertEquals($expectedResult, $result);
     }
 
-    public function provideConfirmAnswers(): iterable
+    public static function provideConfirmAnswers(): iterable
     {
         yield 'anonymizing' => [true, true, false, true];
         yield 'anonymizing 2' => [true, false, false, true];
@@ -78,7 +78,7 @@ class IpAnonymizationConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentConfig(): iterable
+    public static function provideCurrentConfig(): iterable
     {
         yield [[], true];
         yield [[DisableTrackingConfigOption::ENV_VAR => false], true];

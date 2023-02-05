@@ -44,7 +44,7 @@ class DatabaseHostConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideDrivers(): iterable
+    public static function provideDrivers(): iterable
     {
         yield 'mysql' => [DatabaseDriver::MYSQL->value, 'Database host'];
         yield 'mssql' => [DatabaseDriver::MSSQL->value, 'Database host'];
@@ -66,7 +66,7 @@ class DatabaseHostConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         $buildCollection = static function (string $driver, bool $withHost = false): array {
             $collection = [DatabaseDriverConfigOption::ENV_VAR => $driver];

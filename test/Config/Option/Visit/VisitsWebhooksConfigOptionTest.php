@@ -56,7 +56,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'without swoole' => [false, [], false];
         yield 'with swoole and no config' => [true, [], true];

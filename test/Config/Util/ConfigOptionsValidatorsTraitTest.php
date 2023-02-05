@@ -22,7 +22,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         self::assertEquals($expectedResult, $result);
     }
 
-    public function provideValidUrls(): iterable
+    public static function provideValidUrls(): iterable
     {
         yield 'no urls' => [null, []];
         yield 'single url' => ['https://foo.com/bar', ['https://foo.com/bar']];
@@ -42,7 +42,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         $this->splitAndValidateMultipleUrls($urls);
     }
 
-    public function provideInvalidUrls(): iterable
+    public static function provideInvalidUrls(): iterable
     {
         yield 'single invalid url' => ['invalid'];
         yield 'first invalid url' => ['invalid,http://bar.io/foo/bar'];
@@ -69,7 +69,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         $this->validateNumberGreaterThan(...$args);
     }
 
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'string' => [['foo', 1]];
         yield 'empty string' => [['', 1]];
@@ -90,7 +90,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         self::assertEquals($expected, $this->validatePositiveNumber($value));
     }
 
-    public function providePositiveNumbers(): iterable
+    public static function providePositiveNumbers(): iterable
     {
         yield 'positive as string' => ['20', 20];
         yield 'positive as integer' => [5, 5];
@@ -107,10 +107,10 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         self::assertEquals($expected, $this->validateOptionalPositiveNumber($value));
     }
 
-    public function provideOptionalPositiveNumbers(): iterable
+    public static function provideOptionalPositiveNumbers(): iterable
     {
         yield 'null' => [null, null];
-        yield from $this->providePositiveNumbers();
+        yield from self::providePositiveNumbers();
     }
 
     /**
@@ -126,7 +126,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         $this->validateNumberBetween($value, $min, $max);
     }
 
-    public function provideInvalidNumbersBetween(): iterable
+    public static function provideInvalidNumbersBetween(): iterable
     {
         yield 'string' => ['foo', 1, 2];
         yield 'lower as int' => [10, 20, 30];
@@ -153,7 +153,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         self::assertEquals($expected, $this->validateNumberBetween($value, $min, $max));
     }
 
-    public function provideValidNumbersBetween(): iterable
+    public static function provideValidNumbersBetween(): iterable
     {
         yield 'first as string' => ['20', 20, 30, 20];
         yield 'first as int' => [20, 20, 30, 20];

@@ -47,7 +47,7 @@ class ShortUrlModeConfigOptionTest extends TestCase
         self::assertEquals($choice, $answer);
     }
 
-    public function provideChoices(): iterable
+    public static function provideChoices(): iterable
     {
         yield 'strict' => ['strict'];
         yield 'loose' => ['loose'];
@@ -62,7 +62,7 @@ class ShortUrlModeConfigOptionTest extends TestCase
         self::assertEquals($expectedResult, $this->configOption->tryToMigrateValue($existingValue));
     }
 
-    public function provideMigrationValues(): iterable
+    public static function provideMigrationValues(): iterable
     {
         yield 'strict' => ['strict', 'strict'];
         yield 'loose' => ['loose', 'loose'];

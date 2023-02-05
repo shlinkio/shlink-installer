@@ -41,7 +41,7 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideChoices(): iterable
+    public static function provideChoices(): iterable
     {
         yield '302 redirect' => [
             'All visits will always be tracked. Not that good for SEO. Only GET requests will be redirected.',

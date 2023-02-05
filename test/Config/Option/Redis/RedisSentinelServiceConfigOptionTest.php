@@ -40,7 +40,7 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
         self::assertEquals($answer, $results);
     }
 
-    public function provideValidAnswers(): iterable
+    public static function provideValidAnswers(): iterable
     {
         yield ['the_answer'];
         yield [null];
@@ -55,7 +55,7 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'not exists in config' => [[], false];
         yield 'redis enabled in config' => [[RedisServersConfigOption::ENV_VAR => 'bar'], true];

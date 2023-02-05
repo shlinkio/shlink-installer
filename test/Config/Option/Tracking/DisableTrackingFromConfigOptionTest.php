@@ -40,7 +40,7 @@ class DisableTrackingFromConfigOptionTest extends TestCase
         self::assertEquals($answer, $result);
     }
 
-    public function provideAnswers(): iterable
+    public static function provideAnswers(): iterable
     {
         yield 'no addresses' => [null];
         yield 'some addresses' => ['192.168.1.1,192.168.0.0/24'];

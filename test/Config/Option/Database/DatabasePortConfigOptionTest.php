@@ -40,7 +40,7 @@ class DatabasePortConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         $buildCollection = static fn (string $driver): array => [DatabaseDriverConfigOption::ENV_VAR => $driver];
 
