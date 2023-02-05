@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Changed
 * Changed `loosely` by `loose` for the short URL mode, ensuring a migration for those who previously set `loosely`.
+* Updated to PHPUnit 10.
 
 ### Deprecated
 * *Nothing*
