@@ -25,11 +25,10 @@
     },
     "require-dev": {
         "devster/ubench": "^2.0",
-        "infection/infection": "^0.26.15",
+        "infection/infection": "^0.26.19",
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-phpunit": "^1.2",
         "phpunit/phpunit": "^10.0",
-        "sebastian/diff": "5.0 as 4.0.4",
         "roave/security-advisories": "dev-master",
         "shlinkio/php-coding-standard": "~2.3.0",
         "symfony/var-dumper": "^6.1"
