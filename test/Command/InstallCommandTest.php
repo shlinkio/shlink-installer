@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
@@ -49,7 +50,7 @@ class InstallCommandTest extends TestCase
         $this->commandTester = new CommandTester($command);
     }
 
-    /** @test */
+    #[Test]
     public function commandIsExecutedAsExpected(): void
     {
         $this->commandsRunner->expects(

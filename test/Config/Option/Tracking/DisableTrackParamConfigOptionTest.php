@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackParamConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,13 +19,13 @@ class DisableTrackParamConfigOptionTest extends TestCase
         $this->configOption = new DisableTrackParamConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DISABLE_TRACK_PARAM', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'the_answer';
@@ -38,17 +40,14 @@ class DisableTrackParamConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfig
-     */
+    #[Test, DataProvider('provideConfig')]
     public function shouldBeAskedReturnsExpectedValue(array $config, bool $expected): void
     {
         $result = $this->configOption->shouldBeAsked($config);
         self::assertEquals($expected, $result);
     }
 
-    public function provideConfig(): iterable
+    public static function provideConfig(): iterable
     {
         yield 'config is set' => [['DISABLE_TRACK_PARAM' => 'something'], false];
         yield 'config is not set' => [[], true];

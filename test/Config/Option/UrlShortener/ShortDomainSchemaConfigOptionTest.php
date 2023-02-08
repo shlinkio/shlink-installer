@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,13 +18,13 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
         $this->configOption = new ShortDomainSchemaConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('IS_HTTPS_ENABLED', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = true;

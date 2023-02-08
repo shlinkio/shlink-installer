@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseHostConfigOption;
@@ -19,16 +21,13 @@ class DatabaseHostConfigOptionTest extends TestCase
         $this->configOption = new DatabaseHostConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DB_HOST', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideDrivers
-     */
+    #[Test, DataProvider('provideDrivers')]
     public function expectedQuestionIsAsked(string $driver, string $expectedQuestionText): void
     {
         $expectedAnswer = 'the_answer';
@@ -44,29 +43,26 @@ class DatabaseHostConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideDrivers(): iterable
+    public static function provideDrivers(): iterable
     {
         yield 'mysql' => [DatabaseDriver::MYSQL->value, 'Database host'];
         yield 'mssql' => [DatabaseDriver::MSSQL->value, 'Database host'];
         yield 'postgres' => [DatabaseDriver::POSTGRES->value, 'Database host (or unix socket)'];
     }
 
-    /** @test */
+    #[Test]
     public function dependsOnDriver(): void
     {
         self::assertEquals(DatabaseDriverConfigOption::class, $this->configOption->getDependentOption());
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeCalledOnlyIfNotSetAndDriverIsNotSqlite(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         $buildCollection = static function (string $driver, bool $withHost = false): array {
             $collection = [DatabaseDriverConfigOption::ENV_VAR => $driver];

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Tracking;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableUaTrackingConfigOption;
@@ -18,13 +20,13 @@ class DisableUaTrackingConfigOptionTest extends TestCase
         $this->configOption = new DisableUaTrackingConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DISABLE_UA_TRACKING', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = true;
@@ -39,16 +41,13 @@ class DisableUaTrackingConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    /** @test */
+    #[Test]
     public function getDependentOptionReturnsExpectedOption(): void
     {
         self::assertEquals(DisableTrackingConfigOption::class, $this->configOption->getDependentOption());
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeAskedReturnsExpectedResultBasedOnCurrentOptions(
         array $currentOptions,
         bool $expected,
@@ -56,7 +55,7 @@ class DisableUaTrackingConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'empty options' => [[], true];
         yield 'tracking not disabled' => [[DisableTrackingConfigOption::ENV_VAR => false], true];

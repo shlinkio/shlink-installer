@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Worker\TaskWorkerNumConfigOption;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
@@ -22,16 +24,13 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         $this->configOption = new TaskWorkerNumConfigOption(fn () => $this->swooleInstalled);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('TASK_WORKER_NUM', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideValidValues
-     */
+    #[Test, DataProvider('provideValidValues')]
     public function expectedQuestionIsAsked(int $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -50,17 +49,14 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield [4];
         yield [10];
         yield [16];
     }
 
-    /**
-     * @test
-     * @dataProvider provideInvalidValues
-     */
+    #[Test, DataProvider('provideInvalidValues')]
     public function throwsAnErrorWhenProvidedValueDoesNotMeetTheMinimum(
         mixed $expectedAnswer,
         string $expectedMessage,
@@ -85,7 +81,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         $this->configOption->ask($io, []);
     }
 
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield '3' => [3, 'Provided value "3" is invalid. Expected a number greater or equal than 4'];
         yield '2' => [2, 'Provided value "2" is invalid. Expected a number greater or equal than 4'];
@@ -97,10 +93,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeAskedWhenNotPresentAndSwooleIsInstalled(
         bool $swooleInstalled,
         array $currentOptions,
@@ -110,7 +103,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'without swoole' => [false, [], false];
         yield 'with swoole and no config' => [true, [], true];

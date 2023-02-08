@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\AppendExtraPathConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,13 +18,13 @@ class AppendExtraPathConfigOptionTest extends TestCase
         $this->configOption = new AppendExtraPathConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('REDIRECT_APPEND_EXTRA_PATH', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);

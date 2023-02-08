@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\RabbitMq;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqVhostConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,13 +18,13 @@ class RabbitMqVhostConfigOptionTest extends TestCase
         $this->configOption = new RabbitMqVhostConfigOption(fn () => true);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('RABBITMQ_VHOST', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'the_answer';

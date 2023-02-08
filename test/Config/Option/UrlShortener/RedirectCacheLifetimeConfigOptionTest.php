@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\RedirectStatusCodeConfigOption;
@@ -18,22 +20,19 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
         $this->configOption = new RedirectCacheLifeTimeConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('REDIRECT_CACHE_LIFETIME', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeCalledOnlyIfRedirectStatusIsPermanent(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         $buildCollection = static fn (int $status): array => [RedirectStatusCodeConfigOption::ENV_VAR => $status];
 
@@ -43,13 +42,13 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
         yield 'status 308' => [$buildCollection(308), true];
     }
 
-    /** @test */
+    #[Test]
     public function dependsOnStatusCode(): void
     {
         self::assertEquals(RedirectStatusCodeConfigOption::class, $this->configOption->getDependentOption());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 60;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureJwtSecretConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,13 +18,13 @@ class MercureJwtSecretConfigOptionTest extends TestCase
         $this->configOption = new MercureJwtSecretConfigOption(fn () => false);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('MERCURE_JWT_SECRET', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = 'foobar.com';

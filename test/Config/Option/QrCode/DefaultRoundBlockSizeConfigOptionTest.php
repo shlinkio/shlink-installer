@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultRoundBlockSizeConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,16 +19,13 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
         $this->configOption = new DefaultRoundBlockSizeConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DEFAULT_QR_CODE_ROUND_BLOCK_SIZE', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideAnswers
-     */
+    #[Test, DataProvider('provideAnswers')]
     public function expectedQuestionIsAsked(string $providedAnswer, bool $expected): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -45,7 +44,7 @@ class DefaultRoundBlockSizeConfigOptionTest extends TestCase
         self::assertEquals($expected, $answer);
     }
 
-    public function provideAnswers(): iterable
+    public static function provideAnswers(): iterable
     {
         yield 'yes' => ['yes', true];
         yield 'no' => ['no', false];

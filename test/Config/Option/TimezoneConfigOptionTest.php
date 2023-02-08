@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\TimezoneConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,16 +19,13 @@ class TimezoneConfigOptionTest extends TestCase
         $this->configOption = new TimezoneConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('TIMEZONE', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideValidAnswers
-     */
+    #[Test, DataProvider('provideValidAnswers')]
     public function expectedQuestionIsAsked(?string $answer, string $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -39,22 +38,19 @@ class TimezoneConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideValidAnswers(): iterable
+    public static function provideValidAnswers(): iterable
     {
         yield ['the_answer', 'the_answer'];
         yield [null, ''];
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeCalledOnlyIfItDoesNotYetExist(array $currentOptions, bool $expected): void
     {
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'not exists in config' => [[], true];
         yield 'exists in config' => [['TIMEZONE' => 'America/Los_Angeles'], false];

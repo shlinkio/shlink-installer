@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Factory;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Factory\ProcessHelperFactory;
 
@@ -16,7 +17,7 @@ class ProcessHelperFactoryTest extends TestCase
         $this->factory = new ProcessHelperFactory();
     }
 
-    /** @test */
+    #[Test]
     public function createsTheServiceWithTheProperSetOfHelpers(): void
     {
         $processHelper = ($this->factory)();
