@@ -85,6 +85,6 @@ class UpdateCommandTest extends TestCase
         ];
 
         yield 'no rr binary' => [false, $postUpdateCommands];
-        yield 'rr binary' => [true, [...$postUpdateCommands, InstallationCommand::ROAD_RUNNER_UPDATE]];
+        yield 'rr binary' => [true, [...$postUpdateCommands, InstallationCommand::ROAD_RUNNER_BINARY_DOWNLOAD]];
     }
 }

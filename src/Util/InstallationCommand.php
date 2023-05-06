@@ -12,7 +12,7 @@ enum InstallationCommand: string
     case ORM_CLEAR_CACHE = 'orm_clear_cache';
     case GEOLITE_DOWNLOAD_DB = 'geolite_download_db';
     case API_KEY_GENERATE = 'api_key_generate';
-    case ROAD_RUNNER_UPDATE = 'road_runner_update';
+    case ROAD_RUNNER_BINARY_DOWNLOAD = 'road_runner_update';
 
     /**
      * @return iterable<self>
@@ -35,7 +35,7 @@ enum InstallationCommand: string
         if (! $isUpdate) {
             yield self::API_KEY_GENERATE;
         } elseif ($roadRunnerBinaryExists) {
-            yield self::ROAD_RUNNER_UPDATE;
+            yield self::ROAD_RUNNER_BINARY_DOWNLOAD;
         }
     }
 }
