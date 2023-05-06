@@ -12,18 +12,30 @@ enum InstallationCommand: string
     case ORM_CLEAR_CACHE = 'orm_clear_cache';
     case GEOLITE_DOWNLOAD_DB = 'geolite_download_db';
     case API_KEY_GENERATE = 'api_key_generate';
+    case ROAD_RUNNER_UPDATE = 'road_runner_update';
 
-    public const POST_INSTALL_COMMANDS = [
-        self::DB_CREATE_SCHEMA,
-        self::DB_MIGRATE,
-        self::ORM_PROXIES,
-        self::GEOLITE_DOWNLOAD_DB,
-        self::API_KEY_GENERATE,
-    ];
-    public const POST_UPDATE_COMMANDS = [
-        self::DB_MIGRATE,
-        self::ORM_PROXIES,
-        self::ORM_CLEAR_CACHE,
-        self::GEOLITE_DOWNLOAD_DB,
-    ];
+    /**
+     * @return iterable<self>
+     */
+    public static function resolveCommandsForContext(bool $isUpdate, bool $roadRunnerBinaryExists): iterable
+    {
+        if (! $isUpdate) {
+            yield self::DB_CREATE_SCHEMA;
+        }
+
+        yield self::DB_MIGRATE;
+        yield self::ORM_PROXIES;
+
+        if ($isUpdate) {
+            yield self::ORM_CLEAR_CACHE;
+        }
+
+        yield self::GEOLITE_DOWNLOAD_DB;
+
+        if (! $isUpdate) {
+            yield self::API_KEY_GENERATE;
+        } elseif ($roadRunnerBinaryExists) {
+            yield self::ROAD_RUNNER_UPDATE;
+        }
+    }
 }

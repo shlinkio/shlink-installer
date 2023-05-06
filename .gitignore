@@ -5,3 +5,4 @@ vendor/
 docker-compose.override.yml
 config/*.local.php
 data
+bin/rr

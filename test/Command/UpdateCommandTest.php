@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -46,21 +47,20 @@ class UpdateCommandTest extends TestCase
         $this->commandTester = new CommandTester($command);
     }
 
-    #[Test]
-    public function commandIsExecutedAsExpected(): void
+    #[Test, DataProvider('provideCommands')]
+    public function commandIsExecutedAsExpected(bool $rrBinExists, array $postUpdateCommands): void
     {
-        $this->commandsRunner->expects(
-            $this->exactly(count(InstallationCommand::POST_UPDATE_COMMANDS)),
-        )->method('execPhpCommand')->with(
-            $this->callback(function (string $commandName) {
+        $this->commandsRunner->expects($this->exactly(count($postUpdateCommands)))->method('execPhpCommand')->with(
+            $this->callback(function (string $commandName) use ($postUpdateCommands) {
                 Assert::assertContains($commandName, map(
-                    InstallationCommand::POST_UPDATE_COMMANDS,
+                    $postUpdateCommands,
                     fn (InstallationCommand $command) => $command->value,
                 ));
                 return true;
             }),
             $this->anything(),
         )->willReturn(true);
+        $this->assetsHandler->expects($this->once())->method('roadRunnerBinaryExistsInPath')->willReturn($rrBinExists);
         $this->assetsHandler->expects($this->once())->method('resolvePreviousConfig')->willReturn(
             ImportedConfig::notImported(),
         );
@@ -73,5 +73,18 @@ class UpdateCommandTest extends TestCase
 
         $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);
+    }
+
+    public static function provideCommands(): iterable
+    {
+        $postUpdateCommands = [
+            InstallationCommand::DB_MIGRATE,
+            InstallationCommand::ORM_PROXIES,
+            InstallationCommand::ORM_CLEAR_CACHE,
+            InstallationCommand::GEOLITE_DOWNLOAD_DB,
+        ];
+
+        yield 'no rr binary' => [false, $postUpdateCommands];
+        yield 'rr binary' => [true, [...$postUpdateCommands, InstallationCommand::ROAD_RUNNER_UPDATE]];
     }
 }

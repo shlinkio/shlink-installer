@@ -53,12 +53,18 @@ class InstallCommandTest extends TestCase
     #[Test]
     public function commandIsExecutedAsExpected(): void
     {
-        $this->commandsRunner->expects(
-            $this->exactly(count(InstallationCommand::POST_INSTALL_COMMANDS)),
-        )->method('execPhpCommand')->with(
-            $this->callback(function (string $commandName) {
+        $postInstallCommands = [
+            InstallationCommand::DB_CREATE_SCHEMA,
+            InstallationCommand::DB_MIGRATE,
+            InstallationCommand::ORM_PROXIES,
+            InstallationCommand::GEOLITE_DOWNLOAD_DB,
+            InstallationCommand::API_KEY_GENERATE,
+        ];
+
+        $this->commandsRunner->expects($this->exactly(count($postInstallCommands)))->method('execPhpCommand')->with(
+            $this->callback(function (string $commandName) use ($postInstallCommands) {
                 Assert::assertContains($commandName, map(
-                    InstallationCommand::POST_INSTALL_COMMANDS,
+                    $postInstallCommands,
                     fn (InstallationCommand $command) => $command->value,
                 ));
                 return true;
