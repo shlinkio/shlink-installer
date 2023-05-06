@@ -54,7 +54,7 @@ abstract class AbstractInstallCommand extends Command
         $io->text('<info>Custom configuration properly generated!</info>');
         $io->newLine();
 
-        if (! $this->execPostInstallCommands($io)) {
+        if (! $this->execPostInstallCommands($io, $importedConfig)) {
             return -1;
         }
 
@@ -71,11 +71,12 @@ abstract class AbstractInstallCommand extends Command
         return ImportedConfig::notImported();
     }
 
-    private function execPostInstallCommands(SymfonyStyle $io): bool
+    private function execPostInstallCommands(SymfonyStyle $io, ImportedConfig $importedConfig): bool
     {
-        $commands = $this->isUpdate()
-            ? InstallationCommand::POST_UPDATE_COMMANDS
-            : InstallationCommand::POST_INSTALL_COMMANDS;
+        $commands = InstallationCommand::resolveCommandsForContext(
+            $this->isUpdate(),
+            $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
+        );
 
         return every(
             $commands,

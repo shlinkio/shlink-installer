@@ -20,6 +20,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
     private const CACHED_CONFIGS_PATHS = ['data/cache/app_config.php', 'data/cache/fastroute_cached_routes.php'];
     private const SQLITE_DB_PATH = 'data/database.sqlite';
     private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
+    private const ROAD_RUNNER_BINARY_PATH = 'bin/rr';
 
     public function __construct(private Filesystem $filesystem)
     {
@@ -61,7 +62,6 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
             return ImportedConfig::notImported();
         }
 
-        $keepAsking = true;
         do {
             $installationPath = $this->askRequired(
                 $io,
@@ -70,13 +70,10 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
             );
             $configFile = sprintf('%s/%s', $installationPath, self::GENERATED_CONFIG_PATH);
             $configExists = $this->filesystem->exists($configFile);
-
-            if (! $configExists) {
-                $keepAsking = $io->confirm(
-                    'Provided path does not seem to be a valid shlink root path. Do you want to try another path?',
-                );
-            }
-        } while (! $configExists && $keepAsking);
+        } while (
+            ! $configExists &&
+            $io->confirm('Provided path does not seem to be a valid shlink root path. Do you want to try another path?')
+        );
 
         // If after some retries the user has chosen not to test another path, return
         if (! $configExists) {
@@ -88,8 +85,8 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 
     public function importShlinkAssetsFromPath(StyleInterface $io, string $path): void
     {
-        $this->importSqliteIfNeeded($io, $path . '/' . self::SQLITE_DB_PATH);
-        $this->importGeoLiteDbIfNeeded($io, $path . '/' . self::GEO_LITE_DB_PATH);
+        $this->importSqliteIfNeeded($io, sprintf('%s/%s', $path, self::SQLITE_DB_PATH));
+        $this->importGeoLiteDbIfNeeded($io, sprintf('%s/%s', $path, self::GEO_LITE_DB_PATH));
     }
 
     private function importSqliteIfNeeded(StyleInterface $io, string $fileToImport): void
@@ -117,5 +114,10 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
         } catch (IOException) {
             $io->note('It was not possible to import GeoLite db. Skipping and letting regular update take care of it.');
         }
+    }
+
+    public function roadRunnerBinaryExistsInPath(string $path): bool
+    {
+        return $this->filesystem->exists(sprintf('%s/%s', $path, self::ROAD_RUNNER_BINARY_PATH));
     }
 }

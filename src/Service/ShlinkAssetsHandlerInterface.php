@@ -18,4 +18,6 @@ interface ShlinkAssetsHandlerInterface
     public function resolvePreviousConfig(StyleInterface $io): ImportedConfig;
 
     public function importShlinkAssetsFromPath(StyleInterface $io, string $path): void;
+
+    public function roadRunnerBinaryExistsInPath(string $path): bool;
 }

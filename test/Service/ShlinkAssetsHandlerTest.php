@@ -164,4 +164,23 @@ class ShlinkAssetsHandlerTest extends TestCase
 
         $this->assetsHandler->importShlinkAssetsFromPath($this->io, $path);
     }
+
+    #[Test, DataProvider('providePaths')]
+    public function roadRunnerBinaryExistsInPathChecksExpectedFile(string $path, bool $expectedResult): void
+    {
+        $this->filesystem->expects($this->once())->method('exists')->with($path . '/bin/rr')->willReturn(
+            $expectedResult,
+        );
+
+        $result = $this->assetsHandler->roadRunnerBinaryExistsInPath($path);
+
+        self::assertEquals($expectedResult, $result);
+    }
+
+    public static function providePaths(): iterable
+    {
+        yield ['foo', true];
+        yield ['foo/bar', false];
+        yield ['foo/bar/baz', true];
+    }
 }
