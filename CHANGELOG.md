@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* [#184](https://github.com/shlinkio/shlink-installer/issues/184) During updates, the installer can now detect if the RoadRunner binary exists in the "old" installation folder, in which case it downloads a new instance as part of the process.
 
 ### Changed
 * Changed `loosely` by `loose` for the short URL mode, ensuring a migration for those who previously set `loosely`.
