@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
+* [#183](https://github.com/shlinkio/shlink-installer/issues/183) Create new `init` command that can be used to set up and initialize the environment for Shlink.
+
+    This command makes sure the database is created, caches are cleared, etc., and can be used by those who wish to automate Shlink installations with env vars instead of the interactive `install`/`update`.
+
+    The existing `install` and `update` commands use this one internally, and it is also suitable for the docker image entry point.
+
 * [#184](https://github.com/shlinkio/shlink-installer/issues/184) During updates, the installer can now detect if the RoadRunner binary exists in the "old" installation folder, in which case it downloads a new instance as part of the process.
 
 ### Changed
