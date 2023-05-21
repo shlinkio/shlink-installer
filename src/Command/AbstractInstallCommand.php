@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer\Command;
 use Laminas\Config\Writer\WriterInterface;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
+use Shlinkio\Shlink\Installer\Model\ShlinkInitConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
@@ -73,9 +74,15 @@ abstract class AbstractInstallCommand extends Command
 
     private function execPostInstallCommands(SymfonyStyle $io, ImportedConfig $importedConfig): bool
     {
-        $commands = InstallationCommand::resolveCommandsForContext(
-            $this->isUpdate(),
-            $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
+        $isUpdate = $this->isUpdate();
+        $commands = InstallationCommand::resolveCommandsForConfig(
+            new ShlinkInitConfig(
+                initializeDb: ! $isUpdate,
+                clearDbCache: $isUpdate,
+                isRoadRunnerInstance:
+                    $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
+                generateApiKey: ! $isUpdate,
+            ),
         );
 
         return every(

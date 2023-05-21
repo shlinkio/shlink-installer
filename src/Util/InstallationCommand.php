@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Util;
 
+use Shlinkio\Shlink\Installer\Model\ShlinkInitConfig;
+
 enum InstallationCommand: string
 {
     case DB_CREATE_SCHEMA = 'db_create_schema';
@@ -17,24 +19,26 @@ enum InstallationCommand: string
     /**
      * @return iterable<self>
      */
-    public static function resolveCommandsForContext(bool $isUpdate, bool $roadRunnerBinaryExists): iterable
+    public static function resolveCommandsForConfig(ShlinkInitConfig $config): iterable
     {
-        if (! $isUpdate) {
+        if ($config->initializeDb) {
             yield self::DB_CREATE_SCHEMA;
         }
 
         yield self::DB_MIGRATE;
         yield self::ORM_PROXIES;
 
-        if ($isUpdate) {
+        if ($config->clearDbCache) {
             yield self::ORM_CLEAR_CACHE;
         }
 
         yield self::GEOLITE_DOWNLOAD_DB;
 
-        if (! $isUpdate) {
+        if ($config->generateApiKey) {
             yield self::API_KEY_GENERATE;
-        } elseif ($roadRunnerBinaryExists) {
+        }
+
+        if ($config->isRoadRunnerInstance) {
             yield self::ROAD_RUNNER_BINARY_DOWNLOAD;
         }
     }
