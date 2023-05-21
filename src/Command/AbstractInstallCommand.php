@@ -77,7 +77,6 @@ abstract class AbstractInstallCommand extends Command
             '--update-roadrunner-binary' =>
                 $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
         ];
-        // TODO Inherit verbosity
 
         $command = $this->getApplication()?->find(InitCommand::NAME);
         $exitCode = $command?->run(new ArrayInput($input), $io);

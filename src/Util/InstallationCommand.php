@@ -32,7 +32,9 @@ enum InstallationCommand: string
             yield self::ORM_CLEAR_CACHE;
         }
 
-        yield self::GEOLITE_DOWNLOAD_DB;
+        if ($config->downloadGeoLiteDb) {
+            yield self::GEOLITE_DOWNLOAD_DB;
+        }
 
         if ($config->generateApiKey) {
             yield self::API_KEY_GENERATE;
