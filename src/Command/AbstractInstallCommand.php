@@ -7,18 +7,14 @@ namespace Shlinkio\Shlink\Installer\Command;
 use Laminas\Config\Writer\WriterInterface;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
-use Shlinkio\Shlink\Installer\Model\ShlinkInitConfig;
-use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
-use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Shlinkio\Shlink\Installer\Util\Utils;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
-use function Functional\every;
 
 abstract class AbstractInstallCommand extends Command
 {
@@ -26,7 +22,6 @@ abstract class AbstractInstallCommand extends Command
         private readonly WriterInterface $configWriter,
         private readonly ShlinkAssetsHandlerInterface $assetsHandler,
         private readonly ConfigGeneratorInterface $configGenerator,
-        private readonly InstallationCommandsRunnerInterface $commandsRunner,
     ) {
         parent::__construct();
     }
@@ -55,7 +50,7 @@ abstract class AbstractInstallCommand extends Command
         $io->text('<info>Custom configuration properly generated!</info>');
         $io->newLine();
 
-        if (! $this->execPostInstallCommands($io, $importedConfig)) {
+        if (! $this->execInitCommand($io, $importedConfig)) {
             return -1;
         }
 
@@ -72,24 +67,22 @@ abstract class AbstractInstallCommand extends Command
         return ImportedConfig::notImported();
     }
 
-    private function execPostInstallCommands(SymfonyStyle $io, ImportedConfig $importedConfig): bool
+    private function execInitCommand(SymfonyStyle $io, ImportedConfig $importedConfig): bool
     {
         $isUpdate = $this->isUpdate();
-        $commands = InstallationCommand::resolveCommandsForConfig(
-            new ShlinkInitConfig(
-                initializeDb: ! $isUpdate,
-                clearDbCache: $isUpdate,
-                updateRoadrunnerBinary:
-                    $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
-                generateApiKey: ! $isUpdate,
-                downloadGeoLiteDb: true,
-            ),
-        );
+        $input = [
+            '--skip-initialize-db' => $isUpdate,
+            '--clear-db-cache' => $isUpdate,
+            '--initial-api-key' => ! $isUpdate,
+            '--update-roadrunner-binary' =>
+                $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
+        ];
+        // TODO Inherit verbosity
 
-        return every(
-            $commands,
-            fn (InstallationCommand $command) => $this->commandsRunner->execPhpCommand($command->value, $io),
-        );
+        $command = $this->getApplication()?->find(InitCommand::NAME);
+        $exitCode = $command?->run(new ArrayInput($input), $io);
+
+        return $exitCode === 0;
     }
 
     abstract protected function isUpdate(): bool;

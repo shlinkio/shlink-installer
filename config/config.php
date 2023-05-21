@@ -202,13 +202,11 @@ return [
             PhpArrayConfigWriter::class,
             Service\ShlinkAssetsHandler::class,
             Config\ConfigGenerator::class,
-            Service\InstallationCommandsRunner::class,
         ],
         Command\UpdateCommand::class => [
             PhpArrayConfigWriter::class,
             Service\ShlinkAssetsHandler::class,
             Config\ConfigGenerator::class,
-            Service\InstallationCommandsRunner::class,
         ],
         Command\SetOptionCommand::class => [
             PhpArrayConfigWriter::class,

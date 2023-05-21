@@ -9,23 +9,21 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Installer\Command\InitCommand;
 use Shlinkio\Shlink\Installer\Command\InstallCommand;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
-use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
-use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
-
-use function count;
-use function Functional\map;
 
 class InstallCommandTest extends TestCase
 {
     private CommandTester $commandTester;
-    private MockObject $configWriter;
-    private MockObject $assetsHandler;
-    private MockObject $commandsRunner;
+    private MockObject & WriterInterface $configWriter;
+    private MockObject & ShlinkAssetsHandlerInterface $assetsHandler;
+    private MockObject & Command $initCommand;
 
     public function setUp(): void
     {
@@ -33,7 +31,6 @@ class InstallCommandTest extends TestCase
         $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny');
 
         $this->configWriter = $this->createMock(WriterInterface::class);
-        $this->commandsRunner = $this->createMock(InstallationCommandsRunnerInterface::class);
 
         $configGenerator = $this->createMock(ConfigGeneratorInterface::class);
         $configGenerator->method('generateConfigInteractively')->willReturn([]);
@@ -43,9 +40,13 @@ class InstallCommandTest extends TestCase
             $this->configWriter,
             $this->assetsHandler,
             $configGenerator,
-            $this->commandsRunner,
         );
         $app->add($command);
+
+        $this->initCommand = $this->createMock(Command::class);
+        $this->initCommand->method('getName')->willReturn(InitCommand::NAME);
+        $this->initCommand->method('isEnabled')->willReturn(true);
+        $app->add($this->initCommand);
 
         $this->commandTester = new CommandTester($command);
     }
@@ -53,24 +54,16 @@ class InstallCommandTest extends TestCase
     #[Test]
     public function commandIsExecutedAsExpected(): void
     {
-        $postInstallCommands = [
-            InstallationCommand::DB_CREATE_SCHEMA,
-            InstallationCommand::DB_MIGRATE,
-            InstallationCommand::ORM_PROXIES,
-            InstallationCommand::GEOLITE_DOWNLOAD_DB,
-            InstallationCommand::API_KEY_GENERATE,
-        ];
-
-        $this->commandsRunner->expects($this->exactly(count($postInstallCommands)))->method('execPhpCommand')->with(
-            $this->callback(function (string $commandName) use ($postInstallCommands) {
-                Assert::assertContains($commandName, map(
-                    $postInstallCommands,
-                    fn (InstallationCommand $command) => $command->value,
-                ));
+        $this->initCommand->expects($this->once())->method('run')->with(
+            $this->callback(function (ArrayInput $input) {
+                Assert::assertEquals(
+                    '--skip-initialize-db --clear-db-cache --initial-api-key=1 --update-roadrunner-binary',
+                    $input->__toString(),
+                );
                 return true;
             }),
             $this->anything(),
-        )->willReturn(true);
+        )->willReturn(0);
         $this->assetsHandler->expects($this->never())->method('resolvePreviousConfig');
         $this->assetsHandler->expects($this->never())->method('importShlinkAssetsFromPath');
         $this->configWriter->expects($this->once())->method('toFile')->with(
