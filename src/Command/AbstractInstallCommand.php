@@ -23,10 +23,10 @@ use function Functional\every;
 abstract class AbstractInstallCommand extends Command
 {
     public function __construct(
-        private WriterInterface $configWriter,
-        private ShlinkAssetsHandlerInterface $assetsHandler,
-        private ConfigGeneratorInterface $configGenerator,
-        private InstallationCommandsRunnerInterface $commandsRunner,
+        private readonly WriterInterface $configWriter,
+        private readonly ShlinkAssetsHandlerInterface $assetsHandler,
+        private readonly ConfigGeneratorInterface $configGenerator,
+        private readonly InstallationCommandsRunnerInterface $commandsRunner,
     ) {
         parent::__construct();
     }
@@ -79,9 +79,10 @@ abstract class AbstractInstallCommand extends Command
             new ShlinkInitConfig(
                 initializeDb: ! $isUpdate,
                 clearDbCache: $isUpdate,
-                isRoadRunnerInstance:
+                updateRoadrunnerBinary:
                     $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
                 generateApiKey: ! $isUpdate,
+                downloadGeoLiteDb: true,
             ),
         );
 
