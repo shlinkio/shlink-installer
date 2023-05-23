@@ -13,9 +13,9 @@
     ],
     "require": {
         "php": "^8.1",
-        "laminas/laminas-config": "^3.7",
+        "laminas/laminas-config": "^3.8",
         "laminas/laminas-config-aggregator": "^1.13",
-        "laminas/laminas-servicemanager": "^3.20",
+        "laminas/laminas-servicemanager": "^3.21",
         "laminas/laminas-stdlib": "^3.17",
         "lstrojny/functional-php": "^1.17",
         "shlinkio/shlink-config": "^2.4",
@@ -24,7 +24,7 @@
         "symfony/process": "^6.2"
     },
     "require-dev": {
-        "devster/ubench": "^2.0",
+        "devster/ubench": "^2.1",
         "infection/infection": "^0.27",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-phpunit": "^1.3",

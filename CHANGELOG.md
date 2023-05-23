@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [8.4.0] - 2023-05-23
 ### Added
 * [#183](https://github.com/shlinkio/shlink-installer/issues/183) Create new `init` command that can be used to set up and initialize the environment for Shlink.
 
