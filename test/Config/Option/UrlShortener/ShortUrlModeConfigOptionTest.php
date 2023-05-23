@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortUrlModeConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -19,16 +21,13 @@ class ShortUrlModeConfigOptionTest extends TestCase
         $this->configOption = new ShortUrlModeConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('SHORT_URL_MODE', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideChoices
-     */
+    #[Test, DataProvider('provideChoices')]
     public function expectedQuestionIsAsked(string $choice): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -47,9 +46,22 @@ class ShortUrlModeConfigOptionTest extends TestCase
         self::assertEquals($choice, $answer);
     }
 
-    public function provideChoices(): iterable
+    public static function provideChoices(): iterable
     {
         yield 'strict' => ['strict'];
-        yield 'loosely' => ['loosely'];
+        yield 'loose' => ['loose'];
+    }
+
+    #[Test, DataProvider('provideMigrationValues')]
+    public function deprecatedValueIsProperlyMigrated(string $existingValue, string $expectedResult): void
+    {
+        self::assertEquals($expectedResult, $this->configOption->tryToMigrateValue($existingValue));
+    }
+
+    public static function provideMigrationValues(): iterable
+    {
+        yield 'strict' => ['strict', 'strict'];
+        yield 'loose' => ['loose', 'loose'];
+        yield 'loosely' => ['loosely', 'loose'];
     }
 }

@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [8.4.0] - 2023-05-23
+### Added
+* [#183](https://github.com/shlinkio/shlink-installer/issues/183) Create new `init` command that can be used to set up and initialize the environment for Shlink.
+
+    This command makes sure the database is created, caches are cleared, etc., and can be used by those who wish to automate Shlink installations with env vars instead of the interactive `install`/`update`.
+
+    The existing `install` and `update` commands use this one internally, and it is also suitable for the docker image entry point.
+
+* [#184](https://github.com/shlinkio/shlink-installer/issues/184) During updates, the installer can now detect if the RoadRunner binary exists in the "old" installation folder, in which case it downloads a new instance as part of the process.
+
+### Changed
+* Changed `loosely` by `loose` for the short URL mode, ensuring a migration for those who previously set `loosely`.
+* Updated to PHPUnit 10 and migrated config to PHPUnit 10.1 format.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [8.3.0] - 2023-01-28
 ### Added
 * [#174](https://github.com/shlinkio/shlink-installer/issues/174) Added support for redirect status codes 308 and 307.

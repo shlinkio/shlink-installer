@@ -31,6 +31,7 @@ return [
             Command\InstallCommand::class => ConfigAbstractFactory::class,
             Command\UpdateCommand::class => ConfigAbstractFactory::class,
             Command\SetOptionCommand::class => ConfigAbstractFactory::class,
+            Command\InitCommand::class => ConfigAbstractFactory::class,
         ],
     ],
 
@@ -201,13 +202,11 @@ return [
             PhpArrayConfigWriter::class,
             Service\ShlinkAssetsHandler::class,
             Config\ConfigGenerator::class,
-            Service\InstallationCommandsRunner::class,
         ],
         Command\UpdateCommand::class => [
             PhpArrayConfigWriter::class,
             Service\ShlinkAssetsHandler::class,
             Config\ConfigGenerator::class,
-            Service\InstallationCommandsRunner::class,
         ],
         Command\SetOptionCommand::class => [
             PhpArrayConfigWriter::class,
@@ -217,6 +216,7 @@ return [
             'config.config_options.groups',
             'config.installer.enabled_options',
         ],
+        Command\InitCommand::class => [Service\InstallationCommandsRunner::class],
     ],
 
     'installer' => [
@@ -224,6 +224,7 @@ return [
             Command\InstallCommand::NAME => Command\InstallCommand::class,
             Command\UpdateCommand::NAME => Command\UpdateCommand::class,
             Command\SetOptionCommand::NAME => Command\SetOptionCommand::class,
+            Command\InitCommand::NAME => Command\InitCommand::class,
         ],
 
         'enabled_options' => null,
@@ -231,7 +232,7 @@ return [
         'installation_commands' => [
             InstallationCommand::DB_CREATE_SCHEMA->value => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:schema-tool:create',
-                'initMessage' => 'Initializing database...',
+                'initMessage' => 'Initializing database if needed...',
                 'errorMessage' => 'Error generating database.',
                 'failOnError' => true,
                 'printOutput' => false,
@@ -270,6 +271,13 @@ return [
                 'errorMessage' => 'Error generating first API key.',
                 'failOnError' => false,
                 'printOutput' => true,
+            ],
+            InstallationCommand::ROAD_RUNNER_BINARY_DOWNLOAD->value => [
+                'command' => 'vendor/bin/rr get --no-interaction  --no-config --location bin/',
+                'initMessage' => 'Downloading RoadRunner binary...',
+                'errorMessage' => 'Error downloading RoadRunner binary.',
+                'failOnError' => false,
+                'printOutput' => false,
             ],
         ],
     ],

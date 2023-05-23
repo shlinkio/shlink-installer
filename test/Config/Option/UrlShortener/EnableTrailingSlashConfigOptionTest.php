@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\EnableTrailingSlashConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,13 +18,13 @@ class EnableTrailingSlashConfigOptionTest extends TestCase
         $this->configOption = new EnableTrailingSlashConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('SHORT_URL_TRAILING_SLASH', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);

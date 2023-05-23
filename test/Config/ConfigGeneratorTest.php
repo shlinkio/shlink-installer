@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\ConfigGenerator;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionMigratorInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -29,10 +32,7 @@ class ConfigGeneratorTest extends TestCase
         $this->io = $this->createMock(StyleInterface::class);
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfigOptions
-     */
+    #[Test, DataProvider('provideConfigOptions')]
     public function configuresExpectedPlugins(
         array $configOptionsGroups,
         ?array $enabledOptions,
@@ -53,7 +53,7 @@ class ConfigGeneratorTest extends TestCase
         $generator->generateConfigInteractively($this->io, []);
     }
 
-    public function provideConfigOptions(): iterable
+    public static function provideConfigOptions(): iterable
     {
         $optionsGroups = [
             'group_a' => ['some', 'thing'],
@@ -69,7 +69,7 @@ class ConfigGeneratorTest extends TestCase
         yield '1 enabled' => [$optionsGroups, ['foo'], 1];
     }
 
-    /** @test */
+    #[Test]
     public function pluginsAreAskedInProperOrder(): void
     {
         $orderedAskedOptions = [];
@@ -141,5 +141,48 @@ class ConfigGeneratorTest extends TestCase
         $generator->generateConfigInteractively($this->io, []);
 
         self::assertEquals(['a', 'depends_on_a'], $orderedAskedOptions);
+    }
+
+    #[Test, DataProvider('provideMigratorValues')]
+    public function migratorPluginsAreProcessedWhenTheValuesShouldNotBeAsked(
+        array $oldConfig,
+        array $expectedResult,
+    ): void {
+        $regularPlugin = new class implements ConfigOptionInterface, ConfigOptionMigratorInterface {
+            public function getEnvVar(): string
+            {
+                return 'env_var';
+            }
+
+            public function shouldBeAsked(array $currentOptions): bool
+            {
+                return false;
+            }
+
+            public function ask(StyleInterface $io, array $currentOptions): string
+            {
+                return 'value';
+            }
+
+            public function tryToMigrateValue(mixed $currentValue): mixed
+            {
+                return $currentValue === 'foo' ? 'migrated_value' : $currentValue;
+            }
+        };
+
+        $this->configOptionsManager->expects($this->once())->method('get')->willReturn($regularPlugin);
+
+        $optionsGroups = ['group_a' => ['a']];
+        $generator = new ConfigGenerator($this->configOptionsManager, $optionsGroups, null);
+        $result = $generator->generateConfigInteractively($this->io, $oldConfig);
+
+        self::assertEquals($expectedResult, $result);
+    }
+
+    public static function provideMigratorValues(): iterable
+    {
+        yield [['env_var' => 'old_value'], ['env_var' => 'old_value']];
+        yield [['env_var' => 'foo'], ['env_var' => 'migrated_value']];
+        yield [[], []];
     }
 }

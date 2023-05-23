@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Factory;
 
 use Laminas\ServiceManager\ServiceManager;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Factory\ApplicationFactory;
 use Symfony\Component\Console\Command\Command;
@@ -24,9 +25,7 @@ class ApplicationFactoryTest extends TestCase
         $this->factory = new ApplicationFactory();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function serviceIsCreated(): void
     {
         $createEnabledCommandWithName = function (string $name) {

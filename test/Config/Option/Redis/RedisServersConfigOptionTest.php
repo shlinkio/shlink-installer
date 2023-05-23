@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption;
@@ -20,13 +22,13 @@ class RedisServersConfigOptionTest extends TestCase
         $this->io = $this->createMock(StyleInterface::class);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('REDIS_SERVERS', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function serversAreNotRequestedWhenNoRedisConfigIsProvided(): void
     {
         $this->io->expects($this->once())->method('confirm')->with(
@@ -41,10 +43,7 @@ class RedisServersConfigOptionTest extends TestCase
         self::assertNull($answer);
     }
 
-    /**
-     * @test
-     * @dataProvider provideAnswers
-     */
+    #[Test, DataProvider('provideAnswers')]
     public function serversAreRequestedWhenRedisConfigIsProvided(?string $serversAnswer): void
     {
         $this->io->expects($this->once())->method('confirm')->with(
@@ -61,7 +60,7 @@ class RedisServersConfigOptionTest extends TestCase
         self::assertEquals($serversAnswer, $result);
     }
 
-    public function provideAnswers(): iterable
+    public static function provideAnswers(): iterable
     {
         yield 'one server' => ['foo'];
         yield 'multiple servers' => ['foo,bar,baz'];

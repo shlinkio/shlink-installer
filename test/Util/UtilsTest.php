@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Util;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
@@ -11,16 +13,13 @@ use Shlinkio\Shlink\Installer\Util\Utils;
 
 class UtilsTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider provideEnvVars
-     */
+    #[Test, DataProvider('provideEnvVars')]
     public function normalizeAndKeepEnvVarKeysReturnsExpectedValue(array $input, array $expected): void
     {
         self::assertEquals($expected, Utils::normalizeAndKeepEnvVarKeys($input));
     }
 
-    public function provideEnvVars(): iterable
+    public static function provideEnvVars(): iterable
     {
         yield [[
             'foo' => [
@@ -63,16 +62,13 @@ class UtilsTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider provideCommaSeparatedLists
-     */
+    #[Test, DataProvider('provideCommaSeparatedLists')]
     public function commaSeparatedToListReturnsExpectedValue(string $list, array $expectedResult): void
     {
         self::assertEquals($expectedResult, Utils::commaSeparatedToList($list));
     }
 
-    public function provideCommaSeparatedLists(): iterable
+    public static function provideCommaSeparatedLists(): iterable
     {
         yield 'single item' => ['foo', ['foo']];
         yield 'multiple items' => ['foo,bar bar,baz', ['foo', 'bar bar', 'baz']];

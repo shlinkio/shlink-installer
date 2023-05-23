@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\RedirectStatusCodeConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -17,16 +19,13 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
         $this->configOption = new RedirectStatusCodeConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('REDIRECT_STATUS_CODE', $this->configOption->getEnvVar());
     }
 
-    /**
-     * @test
-     * @dataProvider provideChoices
-     */
+    #[Test, DataProvider('provideChoices')]
     public function expectedQuestionIsAsked(string $choice, int $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
@@ -41,7 +40,7 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    public function provideChoices(): iterable
+    public static function provideChoices(): iterable
     {
         yield '302 redirect' => [
             'All visits will always be tracked. Not that good for SEO. Only GET requests will be redirected.',

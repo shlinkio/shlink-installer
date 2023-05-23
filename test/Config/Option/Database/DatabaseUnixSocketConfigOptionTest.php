@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseDriverConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseUnixSocketConfigOption;
@@ -18,13 +19,13 @@ class DatabaseUnixSocketConfigOptionTest extends TestCase
         $this->configOption = new DatabaseUnixSocketConfigOption();
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('DB_UNIX_SOCKET', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $expectedAnswer = '/var/run/mysqld/mysqld.sock';
@@ -38,7 +39,7 @@ class DatabaseUnixSocketConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    /** @test */
+    #[Test]
     public function dependsOnDriver(): void
     {
         self::assertEquals(DatabaseDriverConfigOption::class, $this->configOption->getDependentOption());

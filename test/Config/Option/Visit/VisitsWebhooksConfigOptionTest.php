@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -19,13 +21,13 @@ class VisitsWebhooksConfigOptionTest extends TestCase
         $this->configOption = new VisitsWebhooksConfigOption(fn () => $this->swooleInstalled);
     }
 
-    /** @test */
+    #[Test]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('VISITS_WEBHOOKS', $this->configOption->getEnvVar());
     }
 
-    /** @test */
+    #[Test]
     public function expectedQuestionIsAsked(): void
     {
         $urls = ['foo', 'bar'];
@@ -43,10 +45,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
         self::assertEquals($expectedAnswer, $answer);
     }
 
-    /**
-     * @test
-     * @dataProvider provideCurrentOptions
-     */
+    #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeAskedWhenNotPresentAndSwooleIsInstalled(
         bool $swooleInstalled,
         array $currentOptions,
@@ -56,7 +55,7 @@ class VisitsWebhooksConfigOptionTest extends TestCase
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
-    public function provideCurrentOptions(): iterable
+    public static function provideCurrentOptions(): iterable
     {
         yield 'without swoole' => [false, [], false];
         yield 'with swoole and no config' => [true, [], true];
