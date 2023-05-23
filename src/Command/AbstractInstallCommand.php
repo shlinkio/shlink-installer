@@ -74,7 +74,7 @@ abstract class AbstractInstallCommand extends Command
             '--skip-initialize-db' => $isUpdate,
             '--clear-db-cache' => $isUpdate,
             '--initial-api-key' => ! $isUpdate,
-            '--update-roadrunner-binary' =>
+            '--download-rr-binary' =>
                 $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
         ];
 

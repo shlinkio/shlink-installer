@@ -39,9 +39,8 @@ class InitCommand extends Command
         $this->initialApiKey = new FlagOption($this, 'initial-api-key', 'Create and print initial admin API key.');
         $this->updateRoadRunnerBin = new FlagOption(
             $this,
-            'update-roadrunner-binary',
-            'Try to update the RoadRunner binary. Providing this flag for a non-RoadRunner Shlink instance will '
-            . 'result in an error.',
+            'download-rr-binary',
+            'Download a RoadRunner binary. Useful only if you plan to serve Shlink with Roadrunner.',
         );
         $this->skipDownloadGeoLiteDb = new FlagOption(
             $this,

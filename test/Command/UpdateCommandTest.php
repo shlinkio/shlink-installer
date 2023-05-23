@@ -81,11 +81,11 @@ class UpdateCommandTest extends TestCase
     {
         yield 'no rr binary' => [
             false,
-            '--skip-initialize-db=1 --clear-db-cache=1 --initial-api-key --update-roadrunner-binary',
+            '--skip-initialize-db=1 --clear-db-cache=1 --initial-api-key --download-rr-binary',
         ];
         yield 'rr binary' => [
             true,
-            '--skip-initialize-db=1 --clear-db-cache=1 --initial-api-key --update-roadrunner-binary=1',
+            '--skip-initialize-db=1 --clear-db-cache=1 --initial-api-key --download-rr-binary=1',
         ];
     }
 }

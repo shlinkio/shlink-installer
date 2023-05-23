@@ -59,7 +59,7 @@ class InitCommandTest extends TestCase
         yield 'all' => [[
             '--clear-db-cache' => true,
             '--initial-api-key' => true,
-            '--update-roadrunner-binary' => true,
+            '--download-rr-binary' => true,
         ], [
             InstallationCommand::DB_CREATE_SCHEMA->value,
             InstallationCommand::DB_MIGRATE->value,

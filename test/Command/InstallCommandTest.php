@@ -57,7 +57,7 @@ class InstallCommandTest extends TestCase
         $this->initCommand->expects($this->once())->method('run')->with(
             $this->callback(function (ArrayInput $input) {
                 Assert::assertEquals(
-                    '--skip-initialize-db --clear-db-cache --initial-api-key=1 --update-roadrunner-binary',
+                    '--skip-initialize-db --clear-db-cache --initial-api-key=1 --download-rr-binary',
                     $input->__toString(),
                 );
                 return true;
