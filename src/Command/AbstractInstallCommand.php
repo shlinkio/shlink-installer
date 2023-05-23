@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Command;
 
 use Laminas\Config\Writer\WriterInterface;
+use Shlinkio\Shlink\Installer\Command\Model\InitOption;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
@@ -71,10 +72,10 @@ abstract class AbstractInstallCommand extends Command
     {
         $isUpdate = $this->isUpdate();
         $input = [
-            '--skip-initialize-db' => $isUpdate,
-            '--clear-db-cache' => $isUpdate,
-            '--initial-api-key' => ! $isUpdate,
-            '--download-rr-binary' =>
+            InitOption::SKIP_INITIALIZE_DB->asCliFlag() => $isUpdate,
+            InitOption::CLEAR_DB_CACHE->asCliFlag() => $isUpdate,
+            InitOption::INITIAL_API_KEY->asCliFlag() => ! $isUpdate,
+            InitOption::DOWNLOAD_RR_BINARY->asCliFlag() =>
                 $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
         ];
 

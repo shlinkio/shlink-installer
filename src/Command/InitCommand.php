@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
+use Shlinkio\Shlink\Installer\Command\Model\InitOption;
 use Shlinkio\Shlink\Installer\Model\FlagOption;
 use Shlinkio\Shlink\Installer\Model\ShlinkInitConfig;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
@@ -29,25 +30,11 @@ class InitCommand extends Command
     {
         parent::__construct();
 
-        $this->skipInitDb = new FlagOption(
-            $this,
-            'skip-initialize-db',
-            'Skip the initial empty database creation. It will make this command fail on a later stage if the '
-            . 'database was not created manually.',
-        );
-        $this->clearDbCache = new FlagOption($this, 'clear-db-cache', 'Clear the database metadata cache.');
-        $this->initialApiKey = new FlagOption($this, 'initial-api-key', 'Create and print initial admin API key.');
-        $this->updateRoadRunnerBin = new FlagOption(
-            $this,
-            'download-rr-binary',
-            'Download a RoadRunner binary. Useful only if you plan to serve Shlink with Roadrunner.',
-        );
-        $this->skipDownloadGeoLiteDb = new FlagOption(
-            $this,
-            'skip-download-geolite',
-            'Skip downloading the initial GeoLite DB file. Shlink will try to download it the first time it needs to '
-            . 'geolocate visits.',
-        );
+        $this->skipInitDb = InitOption::SKIP_INITIALIZE_DB->toFlagOption($this);
+        $this->clearDbCache = InitOption::CLEAR_DB_CACHE->toFlagOption($this);
+        $this->initialApiKey = InitOption::INITIAL_API_KEY->toFlagOption($this);
+        $this->updateRoadRunnerBin = InitOption::DOWNLOAD_RR_BINARY->toFlagOption($this);
+        $this->skipDownloadGeoLiteDb = InitOption::SKIP_DOWNLOAD_GEOLITE->toFlagOption($this);
     }
 
     protected function configure(): void
