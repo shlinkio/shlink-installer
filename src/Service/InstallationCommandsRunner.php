@@ -9,9 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 
+use function array_filter;
 use function explode;
 use function implode;
 use function sprintf;
+use function trim;
 
 class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
 {
@@ -47,7 +49,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             return true;
         }
 
-        $command = [$this->phpBinary, ...explode(' ', $command)];
+        $command = [$this->phpBinary, ...$this->commandToArray($command)];
         $io->write(
             sprintf(' <options=bold>[Running "%s"]</> ', implode(' ', $command)),
             false,
@@ -55,11 +57,16 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         );
 
         $process = $this->processHelper->run($io, $command);
-        $isSuccessful = ! $failOnError || $process->isSuccessful();
+        $isSuccess = $process->isSuccessful();
+        $isWarning = ! $isSuccess && ! $failOnError;
+        $isVerbose = $io->isVerbose();
 
-        if ($isSuccessful) {
+        if ($isSuccess) {
             $io->writeln(' <info>Success!</info>');
-        } elseif (! $io->isVerbose()) {
+        } elseif ($isWarning) {
+            $io->write(' <comment>Warning!</comment>');
+            $io->writeln($isVerbose ? '' : ' Run with -vvv to see error.');
+        } elseif (! $isVerbose) {
             $io->error(sprintf('%s. Run this command with -vvv to see specific error info.', $errorMessage));
         }
 
@@ -67,6 +74,13 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             $io->text($process->getOutput());
         }
 
-        return $isSuccessful;
+        return $isSuccess || $isWarning;
+    }
+
+    private function commandToArray(string $command): array
+    {
+        $splitBySpace = explode(' ', trim($command));
+        // array_filter ensures empty entries are removed, in case the command has duplicated spaces
+        return array_filter($splitBySpace);
     }
 }
