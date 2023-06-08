@@ -9,9 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 
+use function array_filter;
 use function explode;
 use function implode;
 use function sprintf;
+use function trim;
 
 class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
 {
@@ -47,7 +49,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             return true;
         }
 
-        $command = [$this->phpBinary, ...explode(' ', $command)];
+        $command = [$this->phpBinary, ...$this->commandToArray($command)];
         $io->write(
             sprintf(' <options=bold>[Running "%s"]</> ', implode(' ', $command)),
             false,
@@ -68,5 +70,12 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         }
 
         return $isSuccessful;
+    }
+
+    private function commandToArray(string $command): array
+    {
+        $splitBySpace = explode(' ', trim($command));
+        // array_filter ensures empty entries are removed, in case the command has duplicated spaces
+        return array_filter($splitBySpace);
     }
 }

@@ -34,7 +34,7 @@ class InstallationCommandsRunnerTest extends TestCase
 
         $this->processHelper = $this->createMock(ProcessHelper::class);
         $this->commandsRunner = new InstallationCommandsRunner($this->processHelper, $phpFinder, $this->buildCommands(
-            ['foo', 'bar', 'null_command'],
+            ['foo', 'bar', 'null_command', 'multiple  spaces   '],
         ));
 
         $this->io = $this->createMock(SymfonyStyle::class);
