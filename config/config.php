@@ -273,7 +273,7 @@ return [
                 'printOutput' => true,
             ],
             InstallationCommand::ROAD_RUNNER_BINARY_DOWNLOAD->value => [
-                'command' => 'vendor/bin/rr get --no-interaction  --no-config --location bin/',
+                'command' => 'vendor/bin/rr get --no-interaction --no-config --location bin/',
                 'initMessage' => 'Downloading RoadRunner binary...',
                 'errorMessage' => 'Error downloading RoadRunner binary.',
                 'failOnError' => false,
