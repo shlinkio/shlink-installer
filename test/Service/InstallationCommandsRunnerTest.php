@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -11,7 +12,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
 use Symfony\Component\Console\Helper\ProcessHelper;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -33,16 +33,18 @@ class InstallationCommandsRunnerTest extends TestCase
         $phpFinder->method('find')->with(false)->willReturn('php');
 
         $this->processHelper = $this->createMock(ProcessHelper::class);
-        $this->commandsRunner = new InstallationCommandsRunner($this->processHelper, $phpFinder, $this->buildCommands(
-            ['foo', 'bar', 'null_command', 'multiple  spaces   '],
-        ));
+        $this->commandsRunner = new InstallationCommandsRunner(
+            $this->processHelper,
+            $phpFinder,
+            $this->buildCommands(),
+        );
 
         $this->io = $this->createMock(SymfonyStyle::class);
-        $this->io->method('isVerbose')->willReturn(false);
     }
 
-    private function buildCommands(array $names): array
+    private function buildCommands(): array
     {
+        $names = ['foo', 'bar', 'null_command', 'multiple  spaces   '];
         return array_combine($names, map($names, fn (string $name) => [
             'command' => $name === 'null_command' ? null : sprintf('%s something', $name),
             'initMessage' => sprintf('%s_init', $name),
@@ -58,25 +60,23 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io));
     }
 
-    #[Test, DataProvider('provideCommandNames')]
-    public function returnsSuccessWhenProcessIsProperlyRunOrDoesNotFailOnError(string $name): void
+    #[Test]
+    public function returnsSuccessWhenProcessIsProperlyRunOrDoesNotFailOnError(): void
     {
+        $name = 'foo';
         $command = ['php', $name, 'something'];
 
-        $process = $this->createProcessMock($name === 'foo');
+        $process = $this->createProcessMock(true);
         $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
 
-        $callCount = 0;
-        $this->io->expects($this->exactly(2))->method('write')->willReturnCallback(
-            function (string $messages, bool $newline, int $type) use (&$callCount, $name, $command): void {
-                if ($callCount === 0) {
-                    Assert::assertEquals(sprintf('%s_init', $name), $messages);
-                } elseif ($callCount === 1) {
-                    Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $messages);
-                    Assert::assertFalse($newline);
-                    Assert::assertEquals(OutputInterface::VERBOSITY_VERBOSE, $type);
-                }
-                $callCount++;
+        $writeCallMatcher = $this->exactly(2);
+        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
+            function (string $message) use ($writeCallMatcher, $name, $command): void {
+                match ($writeCallMatcher->numberOfInvocations()) {
+                    1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
+                    2 => Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $message),
+                    default => throw new InvalidArgumentException('Not valid case'),
+                };
             },
         );
         $this->io->expects($this->once())->method('writeln')->with(' <info>Success!</info>', $this->anything());
@@ -85,9 +85,37 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
     }
 
-    public static function provideCommandNames(): array
+    #[Test, DataProvider('provideExtraLines')]
+    public function returnsWarningWhenProcessFailsButErrorIsAllowed(bool $isVerbose, string $extraLine): void
     {
-        return [['foo'], ['bar']];
+        $name = 'bar';
+        $command = ['php', $name, 'something'];
+
+        $process = $this->createProcessMock(false);
+        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
+        $this->io->method('isVerbose')->willReturn($isVerbose);
+
+        $writeCallMatcher = $this->exactly(3);
+        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
+            function (string $message) use ($writeCallMatcher, $name, $command): void {
+                match ($writeCallMatcher->numberOfInvocations()) {
+                    1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
+                    2 => Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $message),
+                    3 => Assert::assertEquals(' <comment>Warning!</comment>', $message),
+                    default => throw new InvalidArgumentException('Not valid case'),
+                };
+            },
+        );
+        $this->io->expects($this->once())->method('writeln')->with($extraLine);
+        $this->io->expects($this->never())->method('error');
+
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+    }
+
+    public static function provideExtraLines(): iterable
+    {
+        yield 'verbose output' => [true, ''];
+        yield 'not verbose output' => [false, ' Run with -vvv to see error.'];
     }
 
     #[Test]
@@ -99,17 +127,14 @@ class InstallationCommandsRunnerTest extends TestCase
         $process = $this->createProcessMock(false);
         $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
 
-        $callCount = 0;
-        $this->io->expects($this->exactly(2))->method('write')->willReturnCallback(
-            function (string $messages, bool $newline, int $type) use (&$callCount, $name, $command): void {
-                if ($callCount === 0) {
-                    Assert::assertEquals(sprintf('%s_init', $name), $messages);
-                } elseif ($callCount === 1) {
-                    Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $messages);
-                    Assert::assertFalse($newline);
-                    Assert::assertEquals(OutputInterface::VERBOSITY_VERBOSE, $type);
-                }
-                $callCount++;
+        $writeCallMatcher = $this->exactly(2);
+        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
+            function (string $message) use ($writeCallMatcher, $name, $command): void {
+                match ($writeCallMatcher->numberOfInvocations()) {
+                    1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
+                    2 => Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $message),
+                    default => throw new InvalidArgumentException('Not valid case'),
+                };
             },
         );
         $this->io->expects($this->once())->method('error')->with($this->stringContains(sprintf('%s_error', $name)));

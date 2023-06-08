@@ -57,11 +57,16 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         );
 
         $process = $this->processHelper->run($io, $command);
-        $isSuccessful = ! $failOnError || $process->isSuccessful();
+        $isSuccess = $process->isSuccessful();
+        $isWarning = ! $isSuccess && ! $failOnError;
+        $isVerbose = $io->isVerbose();
 
-        if ($isSuccessful) {
+        if ($isSuccess) {
             $io->writeln(' <info>Success!</info>');
-        } elseif (! $io->isVerbose()) {
+        } elseif ($isWarning) {
+            $io->write(' <comment>Warning!</comment>');
+            $io->writeln($isVerbose ? '' : ' Run with -vvv to see error.');
+        } elseif (! $isVerbose) {
             $io->error(sprintf('%s. Run this command with -vvv to see specific error info.', $errorMessage));
         }
 
@@ -69,7 +74,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             $io->text($process->getOutput());
         }
 
-        return $isSuccessful;
+        return $isSuccess || $isWarning;
     }
 
     private function commandToArray(string $command): array
