@@ -51,6 +51,7 @@ class InstallationCommandsRunnerTest extends TestCase
             'errorMessage' => sprintf('%s_error', $name),
             'failOnError' => $name === 'foo',
             'printOutput' => false,
+            'timeout' => $name === 'foo' ? 1000 : null,
         ]));
     }
 
@@ -60,14 +61,16 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io));
     }
 
-    #[Test]
-    public function returnsSuccessWhenProcessIsProperlyRunOrDoesNotFailOnError(): void
+    #[Test, DataProvider('provideTimeouts')]
+    public function returnsSuccessWhenProcessIsProperlyRun(string $name, float $expectedTimeout): void
     {
-        $name = 'foo';
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(true);
-        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->callback(fn (Process $process) => $expectedTimeout === $process->getTimeout()),
+        )->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
         $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
@@ -85,6 +88,12 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
     }
 
+    public static function provideTimeouts(): iterable
+    {
+        yield 'default timeout' => ['bar', 60];
+        yield 'explicit timeout' => ['foo', 1000];
+    }
+
     #[Test, DataProvider('provideExtraLines')]
     public function returnsWarningWhenProcessFailsButErrorIsAllowed(bool $isVerbose, string $extraLine): void
     {
@@ -92,7 +101,10 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
-        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->isInstanceOf(Process::class),
+        )->willReturn($process);
         $this->io->method('isVerbose')->willReturn($isVerbose);
 
         $writeCallMatcher = $this->exactly(3);
@@ -125,7 +137,10 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
-        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->isInstanceOf(Process::class),
+        )->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
         $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(

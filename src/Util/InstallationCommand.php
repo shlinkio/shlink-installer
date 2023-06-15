@@ -40,7 +40,7 @@ enum InstallationCommand: string
             yield self::API_KEY_GENERATE;
         }
 
-        if ($config->updateRoadrunnerBinary) {
+        if ($config->downloadRoadrunnerBinary) {
             yield self::ROAD_RUNNER_BINARY_DOWNLOAD;
         }
     }
