@@ -23,7 +23,7 @@ class InitCommand extends Command
     private readonly FlagOption $skipInitDb;
     private readonly FlagOption $clearDbCache;
     private readonly FlagOption $initialApiKey;
-    private readonly FlagOption $updateRoadRunnerBin;
+    private readonly FlagOption $downloadRoadRunnerBin;
     private readonly FlagOption $skipDownloadGeoLiteDb;
 
     public function __construct(private readonly InstallationCommandsRunnerInterface $commandsRunner)
@@ -33,7 +33,7 @@ class InitCommand extends Command
         $this->skipInitDb = InitOption::SKIP_INITIALIZE_DB->toFlagOption($this);
         $this->clearDbCache = InitOption::CLEAR_DB_CACHE->toFlagOption($this);
         $this->initialApiKey = InitOption::INITIAL_API_KEY->toFlagOption($this);
-        $this->updateRoadRunnerBin = InitOption::DOWNLOAD_RR_BINARY->toFlagOption($this);
+        $this->downloadRoadRunnerBin = InitOption::DOWNLOAD_RR_BINARY->toFlagOption($this);
         $this->skipDownloadGeoLiteDb = InitOption::SKIP_DOWNLOAD_GEOLITE->toFlagOption($this);
     }
 
@@ -52,7 +52,7 @@ class InitCommand extends Command
         $config = new ShlinkInitConfig(
             initializeDb: ! $this->skipInitDb->get($input),
             clearDbCache: $this->clearDbCache->get($input),
-            updateRoadrunnerBinary: $this->updateRoadRunnerBin->get($input),
+            downloadRoadrunnerBinary: $this->downloadRoadRunnerBin->get($input),
             generateApiKey: $this->initialApiKey->get($input),
             downloadGeoLiteDb: ! $this->skipDownloadGeoLiteDb->get($input),
         );
