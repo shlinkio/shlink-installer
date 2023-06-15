@@ -8,6 +8,7 @@ use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 use function array_filter;
 use function explode;
@@ -56,7 +57,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             OutputInterface::VERBOSITY_VERBOSE,
         );
 
-        $process = $this->processHelper->run($io, $command);
+        $process = $this->processHelper->run($io, new Process($command, timeout: $commandConfig['timeout'] ?? 60));
         $isSuccess = $process->isSuccessful();
         $isWarning = ! $isSuccess && ! $failOnError;
         $isVerbose = $io->isVerbose();

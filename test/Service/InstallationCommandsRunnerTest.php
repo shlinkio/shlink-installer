@@ -67,7 +67,10 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(true);
-        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->isInstanceOf(Process::class),
+        )->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
         $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
@@ -92,7 +95,10 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
-        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->isInstanceOf(Process::class),
+        )->willReturn($process);
         $this->io->method('isVerbose')->willReturn($isVerbose);
 
         $writeCallMatcher = $this->exactly(3);
@@ -125,7 +131,10 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
-        $this->processHelper->expects($this->once())->method('run')->with($this->io, $command)->willReturn($process);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->isInstanceOf(Process::class),
+        )->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
         $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
