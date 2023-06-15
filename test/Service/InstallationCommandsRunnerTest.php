@@ -51,6 +51,7 @@ class InstallationCommandsRunnerTest extends TestCase
             'errorMessage' => sprintf('%s_error', $name),
             'failOnError' => $name === 'foo',
             'printOutput' => false,
+            'timeout' => $name === 'foo' ? 1000 : null,
         ]));
     }
 
@@ -60,16 +61,15 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io));
     }
 
-    #[Test]
-    public function returnsSuccessWhenProcessIsProperlyRunOrDoesNotFailOnError(): void
+    #[Test, DataProvider('provideTimeouts')]
+    public function returnsSuccessWhenProcessIsProperlyRun(string $name, float $expectedTimeout): void
     {
-        $name = 'foo';
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(true);
         $this->processHelper->expects($this->once())->method('run')->with(
             $this->io,
-            $this->isInstanceOf(Process::class),
+            $this->callback(fn (Process $process) => $expectedTimeout === $process->getTimeout()),
         )->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
@@ -86,6 +86,12 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->never())->method('error');
 
         self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+    }
+
+    public static function provideTimeouts(): iterable
+    {
+        yield 'default timeout' => ['bar', 60];
+        yield 'explicit timeout' => ['foo', 1000];
     }
 
     #[Test, DataProvider('provideExtraLines')]
