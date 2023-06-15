@@ -236,6 +236,7 @@ return [
                 'errorMessage' => 'Error generating database.',
                 'failOnError' => true,
                 'printOutput' => false,
+                'timeout' => 600, // 10 minutes
             ],
             InstallationCommand::DB_MIGRATE->value => [
                 'command' => 'vendor/doctrine/migrations/bin/doctrine-migrations.php migrations:migrate',
@@ -243,6 +244,7 @@ return [
                 'errorMessage' => 'Error updating database.',
                 'failOnError' => true,
                 'printOutput' => false,
+                'timeout' => 600, // 10 minutes
             ],
             InstallationCommand::ORM_PROXIES->value => [
                 'command' => 'vendor/doctrine/orm/bin/doctrine.php orm:generate-proxies',
