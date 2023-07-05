@@ -59,9 +59,10 @@ class InitCommand extends Command
         $commands = InstallationCommand::resolveCommandsForConfig($config);
         $io = new SymfonyStyle($input, $output);
 
-        return every(
-            $commands,
-            fn (InstallationCommand $command) => $this->commandsRunner->execPhpCommand($command->value, $io),
-        ) ? 0 : -1;
+        return every($commands, fn (InstallationCommand $command) => $this->commandsRunner->execPhpCommand(
+            $command->value,
+            $io,
+            $input->isInteractive(),
+        )) ? 0 : -1;
     }
 }

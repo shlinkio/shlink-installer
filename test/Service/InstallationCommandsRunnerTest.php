@@ -58,7 +58,7 @@ class InstallationCommandsRunnerTest extends TestCase
     #[Test]
     public function doesNothingWhenRequestedCommandDoesNotExist(): void
     {
-        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io));
+        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io, interactive: true));
     }
 
     #[Test, DataProvider('provideTimeouts')]
@@ -85,7 +85,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->once())->method('writeln')->with(' <info>Success!</info>', $this->anything());
         $this->io->expects($this->never())->method('error');
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true));
     }
 
     public static function provideTimeouts(): iterable
@@ -95,8 +95,11 @@ class InstallationCommandsRunnerTest extends TestCase
     }
 
     #[Test, DataProvider('provideExtraLines')]
-    public function returnsWarningWhenProcessFailsButErrorIsAllowed(bool $isVerbose, string $extraLine): void
-    {
+    public function returnsWarningWhenProcessFailsButErrorIsAllowed(
+        bool $isVerbose,
+        bool $isInteractive,
+        string $extraLine,
+    ): void {
         $name = 'bar';
         $command = ['php', $name, 'something'];
 
@@ -121,18 +124,23 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->once())->method('writeln')->with($extraLine);
         $this->io->expects($this->never())->method('error');
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive));
     }
 
     public static function provideExtraLines(): iterable
     {
-        yield 'verbose output' => [true, ''];
-        yield 'not verbose output' => [false, ' Run with -vvv to see error.'];
+        yield 'interactive, verbose output' => [true, true, ''];
+        yield 'interactive, not verbose output' => [false, true, ' Run with -vvv to see error.'];
+        yield 'non-interactive, verbose output' => [true, false, ''];
+        yield 'non-interactive, not verbose output' => [false, false, ' Set SHELL_VERBOSITY=3 to see error.'];
     }
 
-    #[Test]
-    public function returnsErrorWhenProcessIsNotProperlyRun(): void
-    {
+    #[Test, DataProvider('provideInteractivityFlag')]
+    public function returnsErrorWhenProcessIsNotProperlyRun(
+        bool $isInteractive,
+        string $expectedError,
+        string $notExpectedError,
+    ): void {
         $name = 'foo';
         $command = ['php', $name, 'something'];
 
@@ -152,10 +160,23 @@ class InstallationCommandsRunnerTest extends TestCase
                 };
             },
         );
-        $this->io->expects($this->once())->method('error')->with($this->stringContains(sprintf('%s_error', $name)));
+        $this->io->expects($this->once())->method('error')->with($this->logicalAnd(
+            $this->stringContains(sprintf('%s_error', $name)),
+            $this->stringContains($expectedError),
+            $this->logicalNot($this->stringContains($notExpectedError)),
+        ));
         $this->io->expects($this->never())->method('writeln');
 
-        self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive));
+    }
+
+    public static function provideInteractivityFlag(): iterable
+    {
+        $verbosityFlagMessage = 'Run with -vvv';
+        $envVarMessage = 'Set SHELL_VERBOSITY=3';
+
+        yield 'interactive' => [true, $verbosityFlagMessage, $envVarMessage];
+        yield 'non-interactive' => [false, $envVarMessage, $verbosityFlagMessage];
     }
 
     #[Test]
@@ -168,7 +189,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->never())->method('error');
         $this->io->expects($this->once())->method('writeln')->with(' <comment>Skipped</comment>', $this->anything());
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true));
     }
 
     private function createProcessMock(bool $isSuccessful): MockObject & Process
