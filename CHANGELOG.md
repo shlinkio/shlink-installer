@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 ### Changed
+* [#193](https://github.com/shlinkio/shlink-installer/issues/193) Display improved verbosity hint for installation commands based on `interactive` flag, suggesting `-vvv` for interactive executions, and `SHELL_VERBOSITY=3` for non-interactive ones.
 * Display warning next to SQLite when selecting database, informing it is not supported for production setups.
 
 ### Deprecated
