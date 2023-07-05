@@ -34,14 +34,15 @@ class InitCommandTest extends TestCase
     }
 
     #[Test, DataProvider('provideInputs')]
-    public function expectedCommandsAreRunBasedOnInput(array $input, array $expectedCommands): void
+    public function expectedCommandsAreRunBasedOnInput(array $input, array $expectedCommands, bool $interactive): void
     {
         $this->commandsRunner->expects($this->exactly(count($expectedCommands)))->method('execPhpCommand')->with(
             $this->callback(fn (string $commandName) => contains($expectedCommands, $commandName)),
             $this->anything(),
+            $interactive,
         )->willReturn(true);
 
-        $this->tester->execute($input);
+        $this->tester->execute($input, ['interactive' => $interactive]);
     }
 
     public static function provideInputs(): iterable
@@ -51,11 +52,17 @@ class InitCommandTest extends TestCase
             InstallationCommand::DB_MIGRATE->value,
             InstallationCommand::ORM_PROXIES->value,
             InstallationCommand::GEOLITE_DOWNLOAD_DB->value,
-        ]];
+        ], true];
+        yield 'non-interactive' => [[], [
+            InstallationCommand::DB_CREATE_SCHEMA->value,
+            InstallationCommand::DB_MIGRATE->value,
+            InstallationCommand::ORM_PROXIES->value,
+            InstallationCommand::GEOLITE_DOWNLOAD_DB->value,
+        ], false];
         yield 'skips' => [['--skip-initialize-db' => true, '--skip-download-geolite' => true], [
             InstallationCommand::DB_MIGRATE->value,
             InstallationCommand::ORM_PROXIES->value,
-        ]];
+        ], true];
         yield 'all' => [[
             '--clear-db-cache' => true,
             '--initial-api-key' => true,
@@ -68,7 +75,7 @@ class InitCommandTest extends TestCase
             InstallationCommand::GEOLITE_DOWNLOAD_DB->value,
             InstallationCommand::API_KEY_GENERATE->value,
             InstallationCommand::ROAD_RUNNER_BINARY_DOWNLOAD->value,
-        ]];
+        ], true];
         yield 'mixed' => [[
             '--initial-api-key' => true,
             '--skip-download-geolite' => true,
@@ -77,7 +84,7 @@ class InitCommandTest extends TestCase
             InstallationCommand::DB_MIGRATE->value,
             InstallationCommand::ORM_PROXIES->value,
             InstallationCommand::API_KEY_GENERATE->value,
-        ]];
+        ], true];
     }
 
     #[Test, DataProvider('provideExitCodes')]

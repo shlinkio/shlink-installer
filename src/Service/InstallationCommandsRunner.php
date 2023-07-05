@@ -28,7 +28,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         $this->phpBinary = $phpFinder->find(false) ?: 'php';
     }
 
-    public function execPhpCommand(string $name, SymfonyStyle $io): bool
+    public function execPhpCommand(string $name, SymfonyStyle $io, bool $interactive): bool
     {
         $commandConfig = $this->commandsMapping[$name] ?? null;
         if ($commandConfig === null) {
@@ -61,14 +61,17 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         $isSuccess = $process->isSuccessful();
         $isWarning = ! $isSuccess && ! $failOnError;
         $isVerbose = $io->isVerbose();
+        $verbosityIndicator = $interactive ? 'Run with -vvv' : 'Set SHELL_VERBOSITY=3';
 
         if ($isSuccess) {
             $io->writeln(' <info>Success!</info>');
         } elseif ($isWarning) {
             $io->write(' <comment>Warning!</comment>');
-            $io->writeln($isVerbose ? '' : ' Run with -vvv to see error.');
+            $io->writeln($isVerbose ? '' : sprintf(' %s to see error.', $verbosityIndicator));
         } elseif (! $isVerbose) {
-            $io->error(sprintf('%s. Run this command with -vvv to see specific error info.', $errorMessage));
+            $io->error(
+                sprintf('%s. %s to see specific error info.', $errorMessage, $verbosityIndicator),
+            );
         }
 
         if ($printOutput) {
