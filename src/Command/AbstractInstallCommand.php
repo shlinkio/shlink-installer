@@ -74,10 +74,13 @@ abstract class AbstractInstallCommand extends Command
         $input = [
             InitOption::SKIP_INITIALIZE_DB->asCliFlag() => $isUpdate,
             InitOption::CLEAR_DB_CACHE->asCliFlag() => $isUpdate,
-            InitOption::INITIAL_API_KEY->asCliFlag() => ! $isUpdate,
             InitOption::DOWNLOAD_RR_BINARY->asCliFlag() =>
                 $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
         ];
+
+        if (! $isUpdate) {
+            $input[InitOption::INITIAL_API_KEY->asCliFlag()] = null;
+        }
 
         $command = $this->getApplication()?->find(InitCommand::NAME);
         $exitCode = $command?->run(new ArrayInput($input), $io);
