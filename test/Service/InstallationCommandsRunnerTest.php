@@ -58,7 +58,7 @@ class InstallationCommandsRunnerTest extends TestCase
     #[Test]
     public function doesNothingWhenRequestedCommandDoesNotExist(): void
     {
-        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io, interactive: true));
+        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io, interactive: true, args: []));
     }
 
     #[Test, DataProvider('provideTimeouts')]
@@ -85,7 +85,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->once())->method('writeln')->with(' <info>Success!</info>', $this->anything());
         $this->io->expects($this->never())->method('error');
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true, args: []));
     }
 
     public static function provideTimeouts(): iterable
@@ -124,7 +124,9 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->once())->method('writeln')->with($extraLine);
         $this->io->expects($this->never())->method('error');
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive));
+        self::assertTrue(
+            $this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive, args: []),
+        );
     }
 
     public static function provideExtraLines(): iterable
@@ -167,7 +169,9 @@ class InstallationCommandsRunnerTest extends TestCase
         ));
         $this->io->expects($this->never())->method('writeln');
 
-        self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive));
+        self::assertFalse(
+            $this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive, args: []),
+        );
     }
 
     public static function provideInteractivityFlag(): iterable
@@ -189,7 +193,12 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->never())->method('error');
         $this->io->expects($this->once())->method('writeln')->with(' <comment>Skipped</comment>', $this->anything());
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true, args: []));
+    }
+
+    #[Test]
+    public function appendsProviedArgumentsToCommand(): void
+    {
     }
 
     private function createProcessMock(bool $isSuccessful): MockObject & Process

@@ -274,6 +274,13 @@ return [
                 'failOnError' => false,
                 'printOutput' => true,
             ],
+            InstallationCommand::API_KEY_CREATE->value => [
+                'command' => null, // Disabled by default, to avoid dependency on consumer (Shlink)
+                'initMessage' => 'Creating first API key...',
+                'errorMessage' => 'Error creating first API key.',
+                'failOnError' => false,
+                'printOutput' => true,
+            ],
             InstallationCommand::ROAD_RUNNER_BINARY_DOWNLOAD->value => [
                 'command' => 'vendor/bin/rr get --no-interaction --no-config --location bin/',
                 'initMessage' => 'Downloading RoadRunner binary...',
