@@ -20,6 +20,7 @@ use function array_combine;
 use function Functional\map;
 use function implode;
 use function sprintf;
+use function str_contains;
 
 class InstallationCommandsRunnerTest extends TestCase
 {
@@ -58,7 +59,7 @@ class InstallationCommandsRunnerTest extends TestCase
     #[Test]
     public function doesNothingWhenRequestedCommandDoesNotExist(): void
     {
-        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io));
+        self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io, interactive: true, args: []));
     }
 
     #[Test, DataProvider('provideTimeouts')]
@@ -85,7 +86,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->once())->method('writeln')->with(' <info>Success!</info>', $this->anything());
         $this->io->expects($this->never())->method('error');
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true, args: []));
     }
 
     public static function provideTimeouts(): iterable
@@ -95,8 +96,11 @@ class InstallationCommandsRunnerTest extends TestCase
     }
 
     #[Test, DataProvider('provideExtraLines')]
-    public function returnsWarningWhenProcessFailsButErrorIsAllowed(bool $isVerbose, string $extraLine): void
-    {
+    public function returnsWarningWhenProcessFailsButErrorIsAllowed(
+        bool $isVerbose,
+        bool $isInteractive,
+        string $extraLine,
+    ): void {
         $name = 'bar';
         $command = ['php', $name, 'something'];
 
@@ -121,18 +125,25 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->once())->method('writeln')->with($extraLine);
         $this->io->expects($this->never())->method('error');
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertTrue(
+            $this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive, args: []),
+        );
     }
 
     public static function provideExtraLines(): iterable
     {
-        yield 'verbose output' => [true, ''];
-        yield 'not verbose output' => [false, ' Run with -vvv to see error.'];
+        yield 'interactive, verbose output' => [true, true, ''];
+        yield 'interactive, not verbose output' => [false, true, ' Run with -vvv to see error.'];
+        yield 'non-interactive, verbose output' => [true, false, ''];
+        yield 'non-interactive, not verbose output' => [false, false, ' Set SHELL_VERBOSITY=3 to see error.'];
     }
 
-    #[Test]
-    public function returnsErrorWhenProcessIsNotProperlyRun(): void
-    {
+    #[Test, DataProvider('provideInteractivityFlag')]
+    public function returnsErrorWhenProcessIsNotProperlyRun(
+        bool $isInteractive,
+        string $expectedError,
+        string $notExpectedError,
+    ): void {
         $name = 'foo';
         $command = ['php', $name, 'something'];
 
@@ -152,10 +163,25 @@ class InstallationCommandsRunnerTest extends TestCase
                 };
             },
         );
-        $this->io->expects($this->once())->method('error')->with($this->stringContains(sprintf('%s_error', $name)));
+        $this->io->expects($this->once())->method('error')->with($this->logicalAnd(
+            $this->stringContains(sprintf('%s_error', $name)),
+            $this->stringContains($expectedError),
+            $this->logicalNot($this->stringContains($notExpectedError)),
+        ));
         $this->io->expects($this->never())->method('writeln');
 
-        self::assertFalse($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertFalse(
+            $this->commandsRunner->execPhpCommand($name, $this->io, interactive: $isInteractive, args: []),
+        );
+    }
+
+    public static function provideInteractivityFlag(): iterable
+    {
+        $verbosityFlagMessage = 'Run with -vvv';
+        $envVarMessage = 'Set SHELL_VERBOSITY=3';
+
+        yield 'interactive' => [true, $verbosityFlagMessage, $envVarMessage];
+        yield 'non-interactive' => [false, $envVarMessage, $verbosityFlagMessage];
     }
 
     #[Test]
@@ -168,7 +194,35 @@ class InstallationCommandsRunnerTest extends TestCase
         $this->io->expects($this->never())->method('error');
         $this->io->expects($this->once())->method('writeln')->with(' <comment>Skipped</comment>', $this->anything());
 
-        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io));
+        self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true, args: []));
+    }
+
+    #[Test, DataProvider('provideArgs')]
+    public function appendsProvidedArgumentsToCommand(array $args): void
+    {
+        $name = 'foo';
+        $command = ['php', $name, 'something', ...$args];
+
+        $process = $this->createProcessMock(false);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->isInstanceOf(Process::class),
+        )->willReturn($process);
+
+        $writeCallMatcher = $this->exactly(2);
+        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
+            fn (string $message) => $writeCallMatcher->numberOfInvocations() !== 2
+                || str_contains(sprintf('Running "%s"', implode(' ', $command)), $message),
+        );
+
+        $this->commandsRunner->execPhpCommand($name, $this->io, interactive: false, args: $args);
+    }
+
+    public static function provideArgs(): iterable
+    {
+        yield 'no args' => [[]];
+        yield 'one arg' => [['something']];
+        yield 'multiple arg' => [['first', 'second', 'third']];
     }
 
     private function createProcessMock(bool $isSuccessful): MockObject & Process

@@ -8,5 +8,5 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 interface InstallationCommandsRunnerInterface
 {
-    public function execPhpCommand(string $name, SymfonyStyle $io): bool;
+    public function execPhpCommand(string $name, SymfonyStyle $io, bool $interactive, array $args): bool;
 }

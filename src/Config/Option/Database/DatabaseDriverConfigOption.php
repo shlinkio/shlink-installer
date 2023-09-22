@@ -18,7 +18,7 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         'MariaDB' => DatabaseDriver::MYSQL,
         'PostgreSQL' => DatabaseDriver::POSTGRES,
         'MicrosoftSQL' => DatabaseDriver::MSSQL,
-        'SQLite' => DatabaseDriver::SQLITE,
+        'SQLite [<options=bold;fg=yellow>Not supported for production</>]' => DatabaseDriver::SQLITE,
     ];
 
     public function getEnvVar(): string

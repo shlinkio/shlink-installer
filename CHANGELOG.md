@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [8.5.0] - 2023-09-22
+### Added
+* Improve `init` command's `--initial-api-key` flag, so that it can receive an optional value which will be used as the initial API key.
+
+### Changed
+* [#193](https://github.com/shlinkio/shlink-installer/issues/193) Display improved verbosity hint for installation commands based on `interactive` flag, suggesting `-vvv` for interactive executions, and `SHELL_VERBOSITY=3` for non-interactive ones.
+* Display warning next to SQLite when selecting database, informing it is not supported for production setups.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [8.4.2] - 2023-06-15
 ### Added
 * *Nothing*
