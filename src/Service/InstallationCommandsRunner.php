@@ -28,7 +28,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
         $this->phpBinary = $phpFinder->find(false) ?: 'php';
     }
 
-    public function execPhpCommand(string $name, SymfonyStyle $io, bool $interactive): bool
+    public function execPhpCommand(string $name, SymfonyStyle $io, bool $interactive, array $args): bool
     {
         $commandConfig = $this->commandsMapping[$name] ?? null;
         if ($commandConfig === null) {
@@ -50,7 +50,7 @@ class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
             return true;
         }
 
-        $command = [$this->phpBinary, ...$this->commandToArray($command)];
+        $command = [$this->phpBinary, ...$this->commandToArray($command), ...$args];
         $io->write(
             sprintf(' <options=bold>[Running "%s"]</> ', implode(' ', $command)),
             false,
