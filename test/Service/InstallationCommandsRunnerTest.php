@@ -20,6 +20,7 @@ use function array_combine;
 use function Functional\map;
 use function implode;
 use function sprintf;
+use function str_contains;
 
 class InstallationCommandsRunnerTest extends TestCase
 {
@@ -196,9 +197,32 @@ class InstallationCommandsRunnerTest extends TestCase
         self::assertTrue($this->commandsRunner->execPhpCommand($name, $this->io, interactive: true, args: []));
     }
 
-    #[Test]
-    public function appendsProviedArgumentsToCommand(): void
+    #[Test, DataProvider('provideArgs')]
+    public function appendsProvidedArgumentsToCommand(array $args): void
     {
+        $name = 'foo';
+        $command = ['php', $name, 'something', ...$args];
+
+        $process = $this->createProcessMock(false);
+        $this->processHelper->expects($this->once())->method('run')->with(
+            $this->io,
+            $this->isInstanceOf(Process::class),
+        )->willReturn($process);
+
+        $writeCallMatcher = $this->exactly(2);
+        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
+            fn (string $message) => $writeCallMatcher->numberOfInvocations() !== 2
+                || str_contains(sprintf('Running "%s"', implode(' ', $command)), $message),
+        );
+
+        $this->commandsRunner->execPhpCommand($name, $this->io, interactive: false, args: $args);
+    }
+
+    public static function provideArgs(): iterable
+    {
+        yield 'no args' => [[]];
+        yield 'one arg' => [['something']];
+        yield 'multiple arg' => [['first', 'second', 'third']];
     }
 
     private function createProcessMock(bool $isSuccessful): MockObject & Process

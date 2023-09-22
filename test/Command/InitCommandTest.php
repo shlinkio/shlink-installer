@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Command;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,7 +16,6 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use function count;
-use function Functional\contains;
 
 class InitCommandTest extends TestCase
 {
@@ -34,13 +34,17 @@ class InitCommandTest extends TestCase
     }
 
     #[Test, DataProvider('provideInputs')]
-    public function expectedCommandsAreRunBasedOnInput(array $input, array $expectedCommands, bool $interactive): void
+    public function expectedCommandsAreRunBasedOnInput(array $input, array $commands, bool $interactive): void
     {
-        $this->commandsRunner->expects($this->exactly(count($expectedCommands)))->method('execPhpCommand')->with(
-            $this->callback(fn (string $commandName) => contains($expectedCommands, $commandName)),
-            $this->anything(),
-            $interactive,
-        )->willReturn(true);
+        $this->commandsRunner->expects($this->exactly(count($commands)))->method('execPhpCommand')->willReturnCallback(
+            function (string $commandName, $_, bool $isInteractive, array $args) use ($commands, $interactive): bool {
+                Assert::assertContains($commandName, $commands);
+                Assert::assertEquals($interactive, $isInteractive);
+                Assert::assertEquals($commandName === InstallationCommand::API_KEY_CREATE->value ? ['foo'] : [], $args);
+
+                return true;
+            },
+        );
 
         $this->tester->execute($input, ['interactive' => $interactive]);
     }
@@ -65,7 +69,7 @@ class InitCommandTest extends TestCase
         ], true];
         yield 'all' => [[
             '--clear-db-cache' => true,
-            '--initial-api-key' => true,
+            '--initial-api-key' => null,
             '--download-rr-binary' => true,
         ], [
             InstallationCommand::DB_CREATE_SCHEMA->value,
@@ -77,13 +81,22 @@ class InitCommandTest extends TestCase
             InstallationCommand::ROAD_RUNNER_BINARY_DOWNLOAD->value,
         ], true];
         yield 'mixed' => [[
-            '--initial-api-key' => true,
+            '--initial-api-key' => null,
             '--skip-download-geolite' => true,
         ], [
             InstallationCommand::DB_CREATE_SCHEMA->value,
             InstallationCommand::DB_MIGRATE->value,
             InstallationCommand::ORM_PROXIES->value,
             InstallationCommand::API_KEY_GENERATE->value,
+        ], true];
+        yield 'api key value' => [[
+            '--initial-api-key' => 'foo',
+        ], [
+            InstallationCommand::DB_CREATE_SCHEMA->value,
+            InstallationCommand::DB_MIGRATE->value,
+            InstallationCommand::ORM_PROXIES->value,
+            InstallationCommand::API_KEY_CREATE->value,
+            InstallationCommand::GEOLITE_DOWNLOAD_DB->value,
         ], true];
     }
 
