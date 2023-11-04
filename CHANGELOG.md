@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * Add `CacheNamespaceConfigOption` to customize the cache namespace.
+* Add support for PHP 8.3
 
 ### Changed
 * *Nothing*
@@ -15,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * *Nothing*
 
 ### Removed
-* *Nothing*
+* Drop support for PHP 8.1
 
 ### Fixed
 * *Nothing*
