@@ -11,7 +11,7 @@ class MatomoApiTokenConfigOption extends AbstractMatomoEnabledConfigOption
 
     public function getEnvVar(): string
     {
-        return 'MATOMO_TOKEN';
+        return 'MATOMO_API_TOKEN';
     }
 
     public function ask(StyleInterface $io, array $currentOptions): string
