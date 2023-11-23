@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Add `CacheNamespaceConfigOption` to customize the cache namespace.
 * Add support for PHP 8.3
 * [#200](https://github.com/shlinkio/shlink-installer/issues/200) Add Matomo integration config options.
+* Add `RedisDecodeCredentialsConfigOption` to enable/disable URL-decoding on redis server credentials.
 
 ### Changed
 * *Nothing*
