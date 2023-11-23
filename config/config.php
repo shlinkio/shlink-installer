@@ -98,6 +98,7 @@ return [
             ],
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
+                'Redis > decode credentials' => Config\Option\Redis\RedisDecodeCredentialsConfigOption::class,
                 'Redis > sentinels service' => Config\Option\Redis\RedisSentinelServiceConfigOption::class,
                 'Redis > Pub/sub enabled' => Config\Option\Redis\RedisPubSubConfigOption::class,
                 Config\Option\Mercure\EnableMercureConfigOption::class,
@@ -140,6 +141,7 @@ return [
             Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortUrlModeConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
+            Config\Option\Redis\RedisDecodeCredentialsConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
             Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
