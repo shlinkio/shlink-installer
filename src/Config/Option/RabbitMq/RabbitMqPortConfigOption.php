@@ -18,10 +18,16 @@ class RabbitMqPortConfigOption extends AbstractRabbitMqEnabledConfigOption
 
     public function ask(StyleInterface $io, array $currentOptions): int
     {
+        $useSsl = $currentOptions[RabbitMqUseSslConfigOption::ENV_VAR] ?? false;
         return (int) $io->ask(
             'RabbitMQ port',
-            '5672',
+            $useSsl ? '5671' : '5672',
             fn (mixed $value) => $this->validateNumberBetween($value, 1, 65535),
         );
+    }
+
+    public function getDependentOption(): string
+    {
+        return RabbitMqUseSslConfigOption::class;
     }
 }
