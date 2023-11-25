@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\RabbitMq;
 
-use Shlinkio\Shlink\Installer\Config\Option\AbstractSwooleDependentConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Server\AbstractAsyncRuntimeDependentConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class RabbitMqEnabledConfigOption extends AbstractSwooleDependentConfigOption
+class RabbitMqEnabledConfigOption extends AbstractAsyncRuntimeDependentConfigOption
 {
     public const ENV_VAR = 'RABBITMQ_ENABLED';
 

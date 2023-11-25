@@ -52,7 +52,8 @@ class RedisServersConfigOptionTest extends TestCase
             false,
         )->willReturn(true);
         $this->io->expects($this->once())->method('ask')->with(
-            'Provide a comma-separated list of URIs (redis servers/sentinel instances)',
+            'Provide a comma-separated list of URIs (redis servers/sentinel instances). If they contains credentials '
+            . 'with URL-reserved chars, make sure they are URL-encoded',
         )->willReturn($serversAnswer);
 
         $result = $this->configOption->ask($this->io, []);

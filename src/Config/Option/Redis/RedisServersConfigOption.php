@@ -27,6 +27,9 @@ class RedisServersConfigOption extends BaseConfigOption
             return null;
         }
 
-        return $io->ask('Provide a comma-separated list of URIs (redis servers/sentinel instances)');
+        return $io->ask(
+            'Provide a comma-separated list of URIs (redis servers/sentinel instances). If they contains credentials '
+            . 'with URL-reserved chars, make sure they are URL-encoded',
+        );
     }
 }

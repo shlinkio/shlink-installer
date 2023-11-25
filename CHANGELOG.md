@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [8.6.0] - 2023-11-25
+### Added
+* Add `CacheNamespaceConfigOption` to customize the cache namespace.
+* Add support for PHP 8.3
+* [#200](https://github.com/shlinkio/shlink-installer/issues/200) Add Matomo integration config options.
+* Add `RedisDecodeCredentialsConfigOption` to enable/disable URL-decoding on redis server credentials.
+* Add `RabbitMqUseSslConfigOption` to enable SSL connections to RabbitMQ servers.
+
+### Changed
+* [#199](https://github.com/shlinkio/shlink-installer/issues/199) Async-related questions no longer depend on the presence of the swoole/openswoole extension. Instead, a question is asked at first to know the runtime to be used.
+
+  This ensures those questions are asked for roadrunner too, and skipped if swoole/openswoole is installed but not meant to be used.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Drop support for PHP 8.1
+
+### Fixed
+* *Nothing*
+
+
 ## [8.5.0] - 2023-09-22
 ### Added
 * Improve `init` command's `--initial-api-key` flag, so that it can receive an optional value which will be used as the initial API key.

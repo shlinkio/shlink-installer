@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option\RabbitMq;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Matomo;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqEnabledConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoEnabledConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class RabbitMqEnabledConfigOptionTest extends TestCase
+class MatomoEnabledConfigOptionTest extends TestCase
 {
-    private RabbitMqEnabledConfigOption $configOption;
+    private MatomoEnabledConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new RabbitMqEnabledConfigOption();
+        $this->configOption = new MatomoEnabledConfigOption();
     }
 
     #[Test]
     public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals('RABBITMQ_ENABLED', $this->configOption->getEnvVar());
+        self::assertEquals('MATOMO_ENABLED', $this->configOption->getEnvVar());
     }
 
     #[Test]
@@ -29,12 +29,12 @@ class RabbitMqEnabledConfigOptionTest extends TestCase
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('confirm')->with(
-            'Do you want Shlink to publish real-time updates in a RabbitMQ instance?',
+            'Do you want Shlink to send all visits to an external Matomo server?',
             false,
         )->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
 
-        self::assertEquals(true, $answer);
+        self::assertTrue($answer);
     }
 }
