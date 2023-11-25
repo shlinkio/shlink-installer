@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Add support for PHP 8.3
 * [#200](https://github.com/shlinkio/shlink-installer/issues/200) Add Matomo integration config options.
 * Add `RedisDecodeCredentialsConfigOption` to enable/disable URL-decoding on redis server credentials.
+* Add `RabbitMqUseSslConfigOption` to enable SSL connections to RabbitMQ servers.
 
 ### Changed
 * [#199](https://github.com/shlinkio/shlink-installer/issues/199) Async-related questions no longer depend on the presence of the swoole/openswoole extension. Instead, a question is asked at first to know the runtime to be used.
