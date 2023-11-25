@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [8.6.0] - 2023-11-25
 ### Added
 * Add `CacheNamespaceConfigOption` to customize the cache namespace.
 * Add support for PHP 8.3
