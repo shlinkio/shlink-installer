@@ -7,8 +7,10 @@ namespace ShlinkioTest\Shlink\Installer\Config\Option\Visit;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Installer\Config\Option\Server\RuntimeConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\OrphanVisitsWebhooksConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Visit\VisitsWebhooksConfigOption;
+use Shlinkio\Shlink\Installer\Config\Util\RuntimeType;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class OrphanVisitsWebhooksConfigOptionTest extends TestCase
@@ -17,7 +19,7 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new OrphanVisitsWebhooksConfigOption(static fn () => true);
+        $this->configOption = new OrphanVisitsWebhooksConfigOption();
     }
 
     #[Test]
@@ -52,7 +54,10 @@ class OrphanVisitsWebhooksConfigOptionTest extends TestCase
         array $currentOptions,
         bool $expected,
     ): void {
-        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked([
+            RuntimeConfigOption::ENV_VAR => RuntimeType::ASYNC->value,
+            ...$currentOptions,
+        ]));
     }
 
     public static function provideCurrentOptions(): iterable

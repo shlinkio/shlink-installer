@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Shlinkio\Shlink\Config\Factory\SwooleInstalledFactory;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 
 return [
@@ -21,12 +20,14 @@ return [
             InstallationCommand::ORM_CLEAR_CACHE->value => [
                 'command' => '-v', // Just print PHP version
             ],
-        ],
-    ],
-
-    'dependencies' => [
-        'services' => [
-            SwooleInstalledFactory::SWOOLE_INSTALLED => static fn () => true,
+            InstallationCommand::GEOLITE_DOWNLOAD_DB->value => [
+                // This forces an error, but this command is allowed to fail
+                'command' => '-r "throw new Exception(\'foo\')"',
+                'failOnError' => false,
+            ],
+            InstallationCommand::ROAD_RUNNER_BINARY_DOWNLOAD->value => [
+                'command' => '-v', // Just print PHP version
+            ],
         ],
     ],
 

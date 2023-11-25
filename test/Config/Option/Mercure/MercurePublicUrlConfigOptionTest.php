@@ -15,7 +15,7 @@ class MercurePublicUrlConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new MercurePublicUrlConfigOption(fn () => false);
+        $this->configOption = new MercurePublicUrlConfigOption();
     }
 
     #[Test]

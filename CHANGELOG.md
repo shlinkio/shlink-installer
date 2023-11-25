@@ -12,7 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Add `RedisDecodeCredentialsConfigOption` to enable/disable URL-decoding on redis server credentials.
 
 ### Changed
-* *Nothing*
+* [#199](https://github.com/shlinkio/shlink-installer/issues/199) Async-related questions no longer depend on the presence of the swoole/openswoole extension. Instead, a question is asked at first to know the runtime to be used.
+
+  This ensures those questions are asked for roadrunner too, and skipped if swoole/openswoole is installed but not meant to be used.
 
 ### Deprecated
 * *Nothing*
