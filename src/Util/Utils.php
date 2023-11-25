@@ -35,8 +35,10 @@ class Utils
         return map(
             array_filter(
                 $array,
-                static fn (string $key) => every(explode('_', $key), static fn (string $part) =>
-                    ctype_upper($part) || is_numeric($part)),
+                static fn (string $key) =>
+                    // Filter out env vars which are not fully in uppercase.
+                    // Numbers are also valid, as some env vars (like `DEFAULT_REGULAR_404_REDIRECT`) contain them.
+                    every(explode('_', $key), static fn (string $part) => ctype_upper($part) || is_numeric($part)),
                 ARRAY_FILTER_USE_KEY,
             ),
             // This maps old values that have been imported, to the new expected values

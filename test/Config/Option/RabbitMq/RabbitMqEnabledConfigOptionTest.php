@@ -15,7 +15,7 @@ class RabbitMqEnabledConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new RabbitMqEnabledConfigOption(fn () => true);
+        $this->configOption = new RabbitMqEnabledConfigOption();
     }
 
     #[Test]

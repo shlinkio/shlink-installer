@@ -15,7 +15,7 @@ class RabbitMqVhostConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new RabbitMqVhostConfigOption(fn () => true);
+        $this->configOption = new RabbitMqVhostConfigOption();
     }
 
     #[Test]

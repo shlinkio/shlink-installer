@@ -8,7 +8,9 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Installer\Config\Option\Server\RuntimeConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Worker\TaskWorkerNumConfigOption;
+use Shlinkio\Shlink\Installer\Config\Util\RuntimeType;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 use Symfony\Component\Console\Style\StyleInterface;
 use Throwable;
@@ -16,12 +18,10 @@ use Throwable;
 class TaskWorkerNumConfigOptionTest extends TestCase
 {
     private TaskWorkerNumConfigOption $configOption;
-    private bool $swooleInstalled;
 
     public function setUp(): void
     {
-        $this->swooleInstalled = true;
-        $this->configOption = new TaskWorkerNumConfigOption(fn () => $this->swooleInstalled);
+        $this->configOption = new TaskWorkerNumConfigOption();
     }
 
     #[Test]
@@ -35,8 +35,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('ask')->with(
-            'How many concurrent background tasks do you want Shlink to be able to execute? (Ignore this if you are '
-            . 'not serving shlink with swoole or openswoole)',
+            'How many concurrent background tasks do you want Shlink to be able to execute?',
             '16',
             $this->callback(function (callable $arg) use ($expectedAnswer) {
                 $arg($expectedAnswer);
@@ -63,8 +62,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     ): void {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('ask')->with(
-            'How many concurrent background tasks do you want Shlink to be able to execute? (Ignore this if you are '
-            . 'not serving shlink with swoole or openswoole)',
+            'How many concurrent background tasks do you want Shlink to be able to execute?',
             '16',
             $this->callback(function (callable $arg) use ($expectedAnswer, $expectedMessage) {
                 try {
@@ -95,18 +93,26 @@ class TaskWorkerNumConfigOptionTest extends TestCase
 
     #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeAskedWhenNotPresentAndSwooleIsInstalled(
-        bool $swooleInstalled,
         array $currentOptions,
         bool $expected,
     ): void {
-        $this->swooleInstalled = $swooleInstalled;
         self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
     }
 
     public static function provideCurrentOptions(): iterable
     {
-        yield 'without swoole' => [false, [], false];
-        yield 'with swoole and no config' => [true, [], true];
-        yield 'with swoole and config' => [true, ['TASK_WORKER_NUM' => 16], false];
+        yield 'without runtime' => [[], false];
+        yield 'with async runtime and no config' => [[RuntimeConfigOption::ENV_VAR => RuntimeType::ASYNC->value], true];
+        yield 'with regular runtime and no config' => [[
+            RuntimeConfigOption::ENV_VAR => RuntimeType::REGULAR->value,
+        ], false];
+        yield 'with async runtime and config' => [[
+            RuntimeConfigOption::ENV_VAR => RuntimeType::ASYNC->value,
+            'TASK_WORKER_NUM' => 16,
+        ], false];
+        yield 'with regular runtime and config' => [[
+            RuntimeConfigOption::ENV_VAR => RuntimeType::REGULAR->value,
+            'TASK_WORKER_NUM' => 16,
+        ], false];
     }
 }

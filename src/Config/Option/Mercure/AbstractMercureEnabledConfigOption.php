@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Mercure;
 
-use Shlinkio\Shlink\Installer\Config\Option\AbstractSwooleDependentConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Config\Option\Server\AbstractAsyncRuntimeDependentConfigOption;
 
-abstract class AbstractMercureEnabledConfigOption extends AbstractSwooleDependentConfigOption implements
+abstract class AbstractMercureEnabledConfigOption extends AbstractAsyncRuntimeDependentConfigOption implements
     DependentConfigOptionInterface
 {
     public function shouldBeAsked(array $currentOptions): bool

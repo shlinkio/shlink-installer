@@ -15,7 +15,7 @@ class RabbitMqPasswordConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new RabbitMqPasswordConfigOption(fn () => true);
+        $this->configOption = new RabbitMqPasswordConfigOption();
     }
 
     #[Test]

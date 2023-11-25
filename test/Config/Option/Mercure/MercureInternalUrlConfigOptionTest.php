@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\EnableMercureConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureInternalUrlConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Server\RuntimeConfigOption;
+use Shlinkio\Shlink\Installer\Config\Util\RuntimeType;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class MercureInternalUrlConfigOptionTest extends TestCase
@@ -17,7 +19,7 @@ class MercureInternalUrlConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new MercureInternalUrlConfigOption(fn() => true);
+        $this->configOption = new MercureInternalUrlConfigOption();
     }
 
     #[Test]
@@ -49,7 +51,10 @@ class MercureInternalUrlConfigOptionTest extends TestCase
     #[Test, DataProvider('provideCurrentOptions')]
     public function shouldBeAskedOnlyIfMercureIsEnabled(array $currentOptions, bool $expected): void
     {
-        self::assertEquals($expected, $this->configOption->shouldBeAsked($currentOptions));
+        self::assertEquals($expected, $this->configOption->shouldBeAsked([
+            RuntimeConfigOption::ENV_VAR => RuntimeType::ASYNC->value,
+            ...$currentOptions,
+        ]));
     }
 
     public static function provideCurrentOptions(): iterable

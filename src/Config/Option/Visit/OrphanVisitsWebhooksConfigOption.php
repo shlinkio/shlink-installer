@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Visit;
 
-use Shlinkio\Shlink\Installer\Config\Option\AbstractSwooleDependentConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Config\Option\Server\AbstractAsyncRuntimeDependentConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /** @deprecated */
-class OrphanVisitsWebhooksConfigOption extends AbstractSwooleDependentConfigOption implements
+class OrphanVisitsWebhooksConfigOption extends AbstractAsyncRuntimeDependentConfigOption implements
     DependentConfigOptionInterface
 {
     public function getEnvVar(): string

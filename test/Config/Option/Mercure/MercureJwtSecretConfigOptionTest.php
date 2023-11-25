@@ -15,7 +15,7 @@ class MercureJwtSecretConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new MercureJwtSecretConfigOption(fn () => false);
+        $this->configOption = new MercureJwtSecretConfigOption();
     }
 
     #[Test]

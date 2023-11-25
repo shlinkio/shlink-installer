@@ -15,7 +15,7 @@ class RabbitMqPortConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new RabbitMqPortConfigOption(fn () => true);
+        $this->configOption = new RabbitMqPortConfigOption();
     }
 
     #[Test]

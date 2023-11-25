@@ -7,7 +7,6 @@ namespace Shlinkio\Shlink\Installer;
 use Laminas\Config\Writer\PhpArray as PhpArrayConfigWriter;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Shlinkio\Shlink\Config\Factory\SwooleInstalledFactory;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem\Filesystem;
@@ -37,6 +36,11 @@ return [
 
     'config_options' => [
         'groups' => [
+            // Options with no explicit key are ignored by set-option command, but asked normally by install and update
+            // commands
+            'SERVER' => [
+                Config\Option\Server\RuntimeConfigOption::class,
+            ],
             'DATABASE' => [
                 'Database > Driver' => Config\Option\Database\DatabaseDriverConfigOption::class,
                 'Database > Name' => Config\Option\Database\DatabaseNameConfigOption::class,
@@ -93,8 +97,8 @@ return [
                 'Base path' => Config\Option\BasePathConfigOption::class,
                 'Timezone' => Config\Option\TimezoneConfigOption::class,
                 'Cache > namespace' => Config\Option\Cache\CacheNamespaceConfigOption::class,
-                'Swoole > Amount of task workers' => Config\Option\Worker\TaskWorkerNumConfigOption::class,
-                'Swoole > Amount of web workers' => Config\Option\Worker\WebWorkerNumConfigOption::class,
+                'Server > Amount of task workers' => Config\Option\Worker\TaskWorkerNumConfigOption::class,
+                'Server > Amount of web workers' => Config\Option\Worker\WebWorkerNumConfigOption::class,
             ],
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
@@ -119,6 +123,7 @@ return [
         ],
 
         'factories' => [
+            Config\Option\Server\RuntimeConfigOption::class => InvokableFactory::class,
             Config\Option\BasePathConfigOption::class => InvokableFactory::class,
             Config\Option\TimezoneConfigOption::class => InvokableFactory::class,
             Config\Option\Cache\CacheNamespaceConfigOption::class => InvokableFactory::class,
@@ -144,21 +149,21 @@ return [
             Config\Option\Redis\RedisDecodeCredentialsConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
-            Config\Option\Visit\VisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\Worker\TaskWorkerNumConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\Worker\WebWorkerNumConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\Visit\VisitsWebhooksConfigOption::class => InvokableFactory::class,
+            Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => InvokableFactory::class,
+            Config\Option\Worker\TaskWorkerNumConfigOption::class => InvokableFactory::class,
+            Config\Option\Worker\WebWorkerNumConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortCodeLengthOption::class => InvokableFactory::class,
-            Config\Option\Mercure\EnableMercureConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\Mercure\MercurePublicUrlConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\Mercure\MercureInternalUrlConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\Mercure\MercureJwtSecretConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\RabbitMq\RabbitMqEnabledConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\RabbitMq\RabbitMqHostConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\RabbitMq\RabbitMqPortConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\RabbitMq\RabbitMqUserConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\RabbitMq\RabbitMqPasswordConfigOption::class => ConfigAbstractFactory::class,
-            Config\Option\RabbitMq\RabbitMqVhostConfigOption::class => ConfigAbstractFactory::class,
+            Config\Option\Mercure\EnableMercureConfigOption::class => InvokableFactory::class,
+            Config\Option\Mercure\MercurePublicUrlConfigOption::class => InvokableFactory::class,
+            Config\Option\Mercure\MercureInternalUrlConfigOption::class => InvokableFactory::class,
+            Config\Option\Mercure\MercureJwtSecretConfigOption::class => InvokableFactory::class,
+            Config\Option\RabbitMq\RabbitMqEnabledConfigOption::class => InvokableFactory::class,
+            Config\Option\RabbitMq\RabbitMqHostConfigOption::class => InvokableFactory::class,
+            Config\Option\RabbitMq\RabbitMqPortConfigOption::class => InvokableFactory::class,
+            Config\Option\RabbitMq\RabbitMqUserConfigOption::class => InvokableFactory::class,
+            Config\Option\RabbitMq\RabbitMqPasswordConfigOption::class => InvokableFactory::class,
+            Config\Option\RabbitMq\RabbitMqVhostConfigOption::class => InvokableFactory::class,
             Config\Option\Matomo\MatomoEnabledConfigOption::class => InvokableFactory::class,
             Config\Option\Matomo\MatomoBaseUrlConfigOption::class => InvokableFactory::class,
             Config\Option\Matomo\MatomoSiteIdConfigOption::class => InvokableFactory::class,
@@ -183,21 +188,6 @@ return [
     ],
 
     ConfigAbstractFactory::class => [
-        Config\Option\Visit\VisitsWebhooksConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Visit\OrphanVisitsWebhooksConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Worker\TaskWorkerNumConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Worker\WebWorkerNumConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\EnableMercureConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\MercurePublicUrlConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\MercureInternalUrlConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\Mercure\MercureJwtSecretConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\RabbitMq\RabbitMqEnabledConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\RabbitMq\RabbitMqHostConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\RabbitMq\RabbitMqPortConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\RabbitMq\RabbitMqUserConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\RabbitMq\RabbitMqPasswordConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-        Config\Option\RabbitMq\RabbitMqVhostConfigOption::class => [SwooleInstalledFactory::SWOOLE_INSTALLED],
-
         Config\ConfigGenerator::class => [
             Config\ConfigOptionsManager::class,
             'config.config_options.groups',

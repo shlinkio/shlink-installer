@@ -63,11 +63,11 @@ class ConfigGenerator implements ConfigGeneratorInterface
      */
     private function resolveAndSortOptions(): array
     {
+        // Sort plugins based on which other plugins they depend on
         $dependentPluginSorter = static fn (ConfigOptionInterface $a, ConfigOptionInterface $b): int =>
             $a instanceof DependentConfigOptionInterface && $a->getDependentOption() === get_class($b) ? 1 : 0;
         $sortAndResolvePlugins = fn (array $configOptions) => array_combine(
             $configOptions,
-            // Resolve all plugins for every config option, and then sort them
             sort(
                 map(
                     $configOptions,

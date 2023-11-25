@@ -15,7 +15,7 @@ class EnableMercureConfigOptionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configOption = new EnableMercureConfigOption(fn () => false);
+        $this->configOption = new EnableMercureConfigOption();
     }
 
     #[Test]
