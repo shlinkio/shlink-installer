@@ -10,9 +10,9 @@ use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
 use function array_combine;
+use function array_map;
 use function Functional\compose;
 use function Functional\contains;
-use function Functional\map;
 use function Functional\select;
 use function Functional\sort;
 use function get_class;
@@ -69,9 +69,9 @@ class ConfigGenerator implements ConfigGeneratorInterface
         $sortAndResolvePlugins = fn (array $configOptions) => array_combine(
             $configOptions,
             sort(
-                map(
-                    $configOptions,
+                array_map(
                     fn (string $configOption) => $this->configOptionsManager->get($configOption),
+                    $configOptions,
                 ),
                 $dependentPluginSorter,
             ),
@@ -81,6 +81,6 @@ class ConfigGenerator implements ConfigGeneratorInterface
             fn (string $option) => $this->enabledOptions === null || contains($this->enabledOptions, $option),
         );
 
-        return map($this->configOptionsGroups, compose($filterDisabledOptions, $sortAndResolvePlugins));
+        return array_map(compose($filterDisabledOptions, $sortAndResolvePlugins), $this->configOptionsGroups);
     }
 }
