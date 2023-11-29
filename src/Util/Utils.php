@@ -10,9 +10,9 @@ use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 
 use function array_filter;
 use function array_map;
+use function array_reduce;
 use function ctype_upper;
 use function explode;
-use function Functional\every;
 use function implode;
 use function is_array;
 use function is_bool;
@@ -36,7 +36,11 @@ class Utils
             static fn (string $key) =>
                 // Filter out env vars which are not fully in uppercase.
                 // Numbers are also valid, as some env vars (like `DEFAULT_REGULAR_404_REDIRECT`) contain them.
-                every(explode('_', $key), static fn (string $part) => ctype_upper($part) || is_numeric($part)),
+                array_reduce(
+                    explode('_', $key),
+                    static fn (bool $carry, string $part) => $carry && (ctype_upper($part) || is_numeric($part)),
+                    initial: true,
+                ),
             ARRAY_FILTER_USE_KEY,
         );
 
