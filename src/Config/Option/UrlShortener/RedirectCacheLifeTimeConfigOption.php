@@ -7,9 +7,8 @@ namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
+use Shlinkio\Shlink\Installer\Util\ArrayUtils;
 use Symfony\Component\Console\Style\StyleInterface;
-
-use function Functional\contains;
 
 class RedirectCacheLifeTimeConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
@@ -28,7 +27,7 @@ class RedirectCacheLifeTimeConfigOption extends BaseConfigOption implements Depe
 
     private function isPermanentRedirectStatus(int $redirectStatus): bool
     {
-        return contains([301, 308], $redirectStatus);
+        return ArrayUtils::contains($redirectStatus, [301, 308]);
     }
 
     public function ask(StyleInterface $io, array $currentOptions): int

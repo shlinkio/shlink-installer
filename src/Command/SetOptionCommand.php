@@ -11,6 +11,7 @@ use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Exception\InvalidShlinkPathException;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
+use Shlinkio\Shlink\Installer\Util\ArrayUtils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +20,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use function array_filter;
 use function array_keys;
-use function Functional\contains;
 use function getcwd;
 use function is_iterable;
 use function is_numeric;
@@ -43,7 +43,10 @@ class SetOptionCommand extends Command
         parent::__construct();
         $this->groups = array_filter(
             iterator_to_array($this->flattenGroupsWithTitle($groups)),
-            static fn (string $configOption) => $enabledOptions === null || contains($enabledOptions, $configOption),
+            static fn (string $configOption) => $enabledOptions === null || ArrayUtils::contains(
+                $configOption,
+                $enabledOptions,
+            ),
         );
         $this->generatedConfigPath = getcwd() . '/' . ShlinkAssetsHandler::GENERATED_CONFIG_PATH;
     }

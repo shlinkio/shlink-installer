@@ -8,11 +8,11 @@ use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Factory\ApplicationFactory;
+use Shlinkio\Shlink\Installer\Util\ArrayUtils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 
 use function array_filter;
-use function Functional\contains;
 
 use const ARRAY_FILTER_USE_KEY;
 
@@ -55,7 +55,7 @@ class ApplicationFactoryTest extends TestCase
         $commands = array_filter(
             $app->all(),
             // Remove standard symfony commands
-            static fn (string $key) => ! contains(['list', 'help', 'completion', '_complete'], $key),
+            static fn (string $key) => ! ArrayUtils::contains($key, ['list', 'help', 'completion', '_complete']),
             ARRAY_FILTER_USE_KEY,
         );
 

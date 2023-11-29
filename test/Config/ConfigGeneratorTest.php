@@ -13,10 +13,10 @@ use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionMigratorInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Util\ArrayUtils;
 use Symfony\Component\Console\Style\StyleInterface;
 
 use function count;
-use function Functional\flatten;
 use function get_class;
 
 class ConfigGeneratorTest extends TestCase
@@ -38,7 +38,7 @@ class ConfigGeneratorTest extends TestCase
         ?array $enabledOptions,
         int $expectedPrintTitleCalls,
     ): void {
-        $totalPlugins = count(flatten($configOptionsGroups));
+        $totalPlugins = count(ArrayUtils::flatten($configOptionsGroups));
         $expectedQuestions = $enabledOptions === null ? $totalPlugins : count($enabledOptions);
 
         $this->plugin->expects($this->exactly($expectedQuestions))->method('shouldBeAsked')->willReturn(true);

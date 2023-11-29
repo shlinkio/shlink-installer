@@ -17,7 +17,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 use function array_combine;
-use function Functional\map;
+use function array_map;
 use function implode;
 use function sprintf;
 use function str_contains;
@@ -46,14 +46,17 @@ class InstallationCommandsRunnerTest extends TestCase
     private function buildCommands(): array
     {
         $names = ['foo', 'bar', 'null_command', 'multiple  spaces   '];
-        return array_combine($names, map($names, fn (string $name) => [
-            'command' => $name === 'null_command' ? null : sprintf('%s something', $name),
-            'initMessage' => sprintf('%s_init', $name),
-            'errorMessage' => sprintf('%s_error', $name),
-            'failOnError' => $name === 'foo',
-            'printOutput' => false,
-            'timeout' => $name === 'foo' ? 1000 : null,
-        ]));
+        return array_combine(
+            $names,
+            array_map(fn (string $name) => [
+                'command' => $name === 'null_command' ? null : sprintf('%s something', $name),
+                'initMessage' => sprintf('%s_init', $name),
+                'errorMessage' => sprintf('%s_error', $name),
+                'failOnError' => $name === 'foo',
+                'printOutput' => false,
+                'timeout' => $name === 'foo' ? 1000 : null,
+            ], $names),
+        );
     }
 
     #[Test]

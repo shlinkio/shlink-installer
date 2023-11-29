@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-use function Functional\every;
+use function array_reduce;
 
 class InitCommand extends Command
 {
@@ -56,10 +56,10 @@ class InitCommand extends Command
             generateApiKey: $this->initialApiKey->get($input),
             downloadGeoLiteDb: ! $this->skipDownloadGeoLiteDb->get($input),
         );
-        $commands = InstallationCommand::resolveCommandsForConfig($config);
+        $commands = [...InstallationCommand::resolveCommandsForConfig($config)];
         $io = new SymfonyStyle($input, $output);
 
-        return every($commands, function (array $commandInfo) use ($input, $io): bool {
+        return array_reduce($commands, function (bool $carry, array $commandInfo) use ($input, $io): bool {
             /** @var array{InstallationCommand, string | null} $commandInfo */
             [$command, $arg] = $commandInfo;
 
@@ -68,7 +68,7 @@ class InitCommand extends Command
                 io: $io,
                 interactive: $input->isInteractive(),
                 args: $arg !== null ? [$arg] : [],
-            );
-        }) ? 0 : -1;
+            ) && $carry;
+        }, initial: true) ? 0 : -1;
     }
 }
