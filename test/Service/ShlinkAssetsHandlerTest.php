@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
-use function Functional\map;
+use function array_map;
 use function str_starts_with;
 
 class ShlinkAssetsHandlerTest extends TestCase
@@ -113,9 +113,9 @@ class ShlinkAssetsHandlerTest extends TestCase
     {
         $path = '/foo/bar';
         $assets = ['database.sqlite', 'GeoLite2-City.mmdb'];
-        $this->filesystem->expects($this->exactly(2))->method('exists')->willReturnMap(map(
-            $assets,
+        $this->filesystem->expects($this->exactly(2))->method('exists')->willReturnMap(array_map(
             fn (string $asset) => [$path . '/data/' . $asset, $assetsExist],
+            $assets,
         ));
         $this->filesystem->expects($expectedCopies)->method('copy')->withAnyParameters();
 

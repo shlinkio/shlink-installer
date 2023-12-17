@@ -7,15 +7,13 @@ namespace Shlinkio\Shlink\Installer\Config;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionMigratorInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
+use Shlinkio\Shlink\Installer\Util\ArrayUtils;
 use Symfony\Component\Console\Style\StyleInterface;
 
 use function array_combine;
-use function Functional\compose;
-use function Functional\contains;
-use function Functional\map;
-use function Functional\select;
-use function Functional\sort;
-use function get_class;
+use function array_filter;
+use function array_map;
+use function usort;
 
 class ConfigGenerator implements ConfigGeneratorInterface
 {
@@ -35,7 +33,10 @@ class ConfigGenerator implements ConfigGeneratorInterface
         // FIXME Improve code quality on these nested loops
         foreach ($pluginsGroups as $title => $configOptions) {
             foreach ($configOptions as $configOption => $plugin) {
-                $optionIsEnabled = $this->enabledOptions === null || contains($this->enabledOptions, $configOption);
+                $optionIsEnabled = $this->enabledOptions === null || ArrayUtils::contains(
+                    $configOption,
+                    $this->enabledOptions,
+                );
                 $shouldAsk = $optionIsEnabled && $plugin->shouldBeAsked($answers);
                 if (! $shouldAsk) {
                     if ($plugin instanceof ConfigOptionMigratorInterface && isset($answers[$plugin->getEnvVar()])) {
@@ -46,7 +47,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
                 }
 
                 // Render every title only once, and only as soon as we find a plugin that should be asked
-                if (! contains($alreadyRenderedTitles, $title)) {
+                if (! ArrayUtils::contains($title, $alreadyRenderedTitles)) {
                     $alreadyRenderedTitles[] = $title;
                     $io->title($title);
                 }
@@ -63,24 +64,32 @@ class ConfigGenerator implements ConfigGeneratorInterface
      */
     private function resolveAndSortOptions(): array
     {
-        // Sort plugins based on which other plugins they depend on
-        $dependentPluginSorter = static fn (ConfigOptionInterface $a, ConfigOptionInterface $b): int =>
-            $a instanceof DependentConfigOptionInterface && $a->getDependentOption() === get_class($b) ? 1 : 0;
-        $sortAndResolvePlugins = fn (array $configOptions) => array_combine(
+        $resolveAndSortPlugins = function (array $configOptions) {
+            $plugins = array_map(
+                fn (string $configOption) => $this->configOptionsManager->get($configOption),
+                $configOptions,
+            );
+
+            // Sort plugins based on which other plugins they depend on
+            usort(
+                $plugins,
+                static fn (ConfigOptionInterface $a, ConfigOptionInterface $b): int =>
+                    $a instanceof DependentConfigOptionInterface && $a->getDependentOption() === $b::class ? 1 : 0,
+            );
+
+            return array_combine($configOptions, $plugins);
+        };
+        $filterDisabledOptions = fn (array $configOptions) => array_filter(
             $configOptions,
-            sort(
-                map(
-                    $configOptions,
-                    fn (string $configOption) => $this->configOptionsManager->get($configOption),
-                ),
-                $dependentPluginSorter,
+            fn (string $option) => $this->enabledOptions === null || ArrayUtils::contains(
+                $option,
+                $this->enabledOptions,
             ),
         );
-        $filterDisabledOptions = fn (array $configOptions) => select(
-            $configOptions,
-            fn (string $option) => $this->enabledOptions === null || contains($this->enabledOptions, $option),
-        );
 
-        return map($this->configOptionsGroups, compose($filterDisabledOptions, $sortAndResolvePlugins));
+        return array_map(
+            static fn (array $configOptions) => $resolveAndSortPlugins($filterDisabledOptions($configOptions)),
+            $this->configOptionsGroups,
+        );
     }
 }
