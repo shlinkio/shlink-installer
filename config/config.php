@@ -91,6 +91,8 @@ return [
                 'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,
                 'QR codes > Default error correction' => Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class,
                 'QR codes > Default round block size' => Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class,
+                'QR codes > Enabled for disabled short URLs'
+                    => Config\Option\QrCode\EnabledForDisabledShortUrlsConfigOption::class,
             ],
             'APPLICATION' => [
                 'Delete short URLs > Visits threshold' => Config\Option\Visit\VisitsThresholdConfigOption::class,
@@ -186,6 +188,7 @@ return [
             Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class => InvokableFactory::class,
+            Config\Option\QrCode\EnabledForDisabledShortUrlsConfigOption::class => InvokableFactory::class,
         ],
     ],
 
