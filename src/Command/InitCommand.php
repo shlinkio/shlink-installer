@@ -47,7 +47,7 @@ class InitCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = new ShlinkInitConfig(
             initializeDb: ! $this->skipInitDb->get($input),

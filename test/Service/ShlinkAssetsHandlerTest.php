@@ -40,7 +40,7 @@ class ShlinkAssetsHandlerTest extends TestCase
         ]);
         $this->filesystem->expects($this->exactly($expectedRemoveCalls))->method('remove')->with(
             $this->stringContains('data/cache'),
-        )->willReturn(null);
+        );
 
         $this->assetsHandler->dropCachedConfigIfAny($this->io);
     }
