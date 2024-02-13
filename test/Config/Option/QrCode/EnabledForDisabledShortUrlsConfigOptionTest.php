@@ -32,7 +32,6 @@ class EnabledForDisabledShortUrlsConfigOptionTest extends TestCase
             'Should Shlink be able to generate QR codes for short URLs which are not enabled? (Short URLs are not '
             . 'enabled if they have a "valid since" in the future, a "valid until" in the past, or reached the maximum '
             . 'amount of allowed visits)',
-            false,
         )->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
