@@ -10,12 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Changed
 * Update dependencies
+* Default value for QR codes enabled for disabled short URLs is now true.
 
 ### Deprecated
 * *Nothing*
 
 ### Removed
-* *Nothing*
+* Remove config options related with webhooks.
+* Remove config option to decode redis credentials.
 
 ### Fixed
 * *Nothing*
