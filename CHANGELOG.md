@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Removed
 * Remove config options related with webhooks.
 * Remove config option to decode redis credentials.
+* Remove support for openswoole.
 
 ### Fixed
 * *Nothing*

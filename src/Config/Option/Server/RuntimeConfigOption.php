@@ -15,7 +15,6 @@ class RuntimeConfigOption extends BaseConfigOption
     public const ENV_VAR = 'RUNTIME';
     private const RUNTIMES = [
         'RoadRunner' => RuntimeType::ASYNC,
-        'Openswoole' => RuntimeType::ASYNC,
         'Classic web server (Nginx, Apache, etc)' => RuntimeType::REGULAR,
     ];
 
