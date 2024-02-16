@@ -92,7 +92,7 @@ class TaskWorkerNumConfigOptionTest extends TestCase
     }
 
     #[Test, DataProvider('provideCurrentOptions')]
-    public function shouldBeAskedWhenNotPresentAndSwooleIsInstalled(
+    public function shouldBeAskedWhenNotPresentAndRuntimeIsAsync(
         array $currentOptions,
         bool $expected,
     ): void {
