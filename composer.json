@@ -17,7 +17,7 @@
         "laminas/laminas-config-aggregator": "^1.14",
         "laminas/laminas-servicemanager": "^3.22",
         "laminas/laminas-stdlib": "^3.19",
-        "shlinkio/shlink-config": "^2.5",
+        "shlinkio/shlink-config": "^3.0 || ^2.5",
         "symfony/console": "^7.0 || ^6.4",
         "symfony/filesystem": "^7.0 || ^6.4",
         "symfony/process": "^7.0 || ^6.4"
