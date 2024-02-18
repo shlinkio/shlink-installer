@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Changed
 * Update dependencies
 * Default value for QR codes enabled for disabled short URLs is now true.
+* Title resolution defaults to true now.
 
 ### Deprecated
 * *Nothing*

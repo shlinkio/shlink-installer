@@ -31,7 +31,6 @@ class AutoResolveTitlesConfigOptionTest extends TestCase
         $io->expects($this->once())->method('confirm')->with(
             'Do you want Shlink to resolve the short URL title based on the long URL\'s title tag (if any)? '
                 . 'Otherwise, it will be kept empty unless explicitly provided.',
-            false,
         )->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
