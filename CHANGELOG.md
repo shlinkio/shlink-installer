@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* Add QR code options for foreground color, background color and logo URL.
 
 ### Changed
 * Update dependencies

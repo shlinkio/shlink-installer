@@ -9,7 +9,6 @@ use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfig
 use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 
 use function array_filter;
-use function array_map;
 use function array_reduce;
 use function ctype_upper;
 use function explode;
@@ -17,17 +16,11 @@ use function implode;
 use function is_array;
 use function is_bool;
 use function is_numeric;
-use function trim;
 
 use const ARRAY_FILTER_USE_KEY;
 
 class Utils
 {
-    public static function commaSeparatedToList(string $list): array
-    {
-        return array_map(static fn (string $value) => trim($value), explode(',', $list));
-    }
-
     public static function normalizeAndKeepEnvVarKeys(array $array): array
     {
         $dbEnvVar = DatabaseDriverConfigOption::ENV_VAR;

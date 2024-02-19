@@ -7,59 +7,25 @@ namespace ShlinkioTest\Shlink\Installer\Config\Util;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
+use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
 
-class ConfigOptionsValidatorsTraitTest extends TestCase
+class ConfigOptionsValidatorTest extends TestCase
 {
-    use ConfigOptionsValidatorsTrait;
-
-    #[Test, DataProvider('provideValidUrls')]
-    public function urlsAreProperlySplitAndValidated(?string $urls, array $expectedResult): void
-    {
-        $result = $this->splitAndValidateMultipleUrls($urls);
-        self::assertEquals($expectedResult, $result);
-    }
-
-    public static function provideValidUrls(): iterable
-    {
-        yield 'no urls' => [null, []];
-        yield 'single url' => ['https://foo.com/bar', ['https://foo.com/bar']];
-        yield 'multiple urls' => ['https://foo.com/bar,http://bar.io/foo/bar', [
-            'https://foo.com/bar',
-            'http://bar.io/foo/bar',
-        ]];
-    }
-
-    #[Test, DataProvider('provideInvalidUrls')]
-    public function splitUrlsFailWhenProvidedValueIsNotValidUrl(string $urls): void
-    {
-        $this->expectException(InvalidConfigOptionException::class);
-        $this->splitAndValidateMultipleUrls($urls);
-    }
-
-    public static function provideInvalidUrls(): iterable
-    {
-        yield 'single invalid url' => ['invalid'];
-        yield 'first invalid url' => ['invalid,http://bar.io/foo/bar'];
-        yield 'last invalid url' => ['http://bar.io/foo/bar,invalid'];
-        yield 'middle invalid url' => ['http://bar.io/foo/bar,invalid,https://foo.com/bar'];
-    }
-
     #[Test]
     public function throwsAnExceptionIfInvalidUrlIsProvided(): void
     {
         $this->expectException(InvalidConfigOptionException::class);
         $this->expectExceptionMessage('Provided value "something" is not a valid URL');
 
-        $this->validateUrl('something');
+        ConfigOptionsValidator::validateUrl('something');
     }
 
     #[Test, DataProvider('provideInvalidValues')]
     public function validateNumberGreaterThanThrowsExceptionWhenProvidedValueIsInvalid(array $args): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validateNumberGreaterThan(...$args);
+        ConfigOptionsValidator::validateNumberGreaterThan(...$args);
     }
 
     public static function provideInvalidValues(): iterable
@@ -77,7 +43,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
     #[Test, DataProvider('providePositiveNumbers')]
     public function validatePositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, int $expected): void
     {
-        self::assertEquals($expected, $this->validatePositiveNumber($value));
+        self::assertEquals($expected, ConfigOptionsValidator::validatePositiveNumber($value));
     }
 
     public static function providePositiveNumbers(): iterable
@@ -91,7 +57,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
     #[Test, DataProvider('provideOptionalPositiveNumbers')]
     public function validateOptionalPositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, ?int $expected): void
     {
-        self::assertEquals($expected, $this->validateOptionalPositiveNumber($value));
+        self::assertEquals($expected, ConfigOptionsValidator::validateOptionalPositiveNumber($value));
     }
 
     public static function provideOptionalPositiveNumbers(): iterable
@@ -107,7 +73,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         int $max,
     ): void {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->validateNumberBetween($value, $min, $max);
+        ConfigOptionsValidator::validateNumberBetween($value, $min, $max);
     }
 
     public static function provideInvalidNumbersBetween(): iterable
@@ -131,7 +97,7 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         int $max,
         int $expected,
     ): void {
-        self::assertEquals($expected, $this->validateNumberBetween($value, $min, $max));
+        self::assertEquals($expected, ConfigOptionsValidator::validateNumberBetween($value, $min, $max));
     }
 
     public static function provideValidNumbersBetween(): iterable
@@ -142,5 +108,44 @@ class ConfigOptionsValidatorsTraitTest extends TestCase
         yield 'between as int' => [25, 20, 40, 25];
         yield 'last as string' => ['55', 20, 55, 55];
         yield 'last as int' => [55, 20, 55, 55];
+    }
+
+    #[Test, DataProvider('provideInvalidColors')]
+    public function validateHexColorThrowsForInvalidValues(string $color, string $expectedMessage): void
+    {
+        $this->expectException(InvalidConfigOptionException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
+        ConfigOptionsValidator::validateHexColor($color);
+    }
+
+    public static function provideInvalidColors(): iterable
+    {
+        yield ['11', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['1111', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['11111', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['1111111', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['#11', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['#1111', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['#11111', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['#1111111', 'Provided value must have 3 or 6 characters, and be optionally preceded by the # character'];
+        yield ['foo', 'Provided value must be the hexadecimal number representation of a color'];
+        yield ['foobar', 'Provided value must be the hexadecimal number representation of a color'];
+        yield ['#foo', 'Provided value must be the hexadecimal number representation of a color'];
+        yield ['#foobar', 'Provided value must be the hexadecimal number representation of a color'];
+    }
+
+    #[Test, DataProvider('provideValidColors')]
+    public function validateHexColorReturnsOriginalValueWhenValid(string $color): void
+    {
+        self::assertSame($color, ConfigOptionsValidator::validateHexColor($color));
+    }
+
+    public static function provideValidColors(): iterable
+    {
+        yield ['#111'];
+        yield ['111'];
+        yield ['#aaaaaa'];
+        yield ['aaa'];
     }
 }
