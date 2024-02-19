@@ -61,17 +61,4 @@ class UtilsTest extends TestCase
             [DatabaseDriverConfigOption::ENV_VAR => 'mysql'],
         ];
     }
-
-    #[Test, DataProvider('provideCommaSeparatedLists')]
-    public function commaSeparatedToListReturnsExpectedValue(string $list, array $expectedResult): void
-    {
-        self::assertEquals($expectedResult, Utils::commaSeparatedToList($list));
-    }
-
-    public static function provideCommaSeparatedLists(): iterable
-    {
-        yield 'single item' => ['foo', ['foo']];
-        yield 'multiple items' => ['foo,bar bar,baz', ['foo', 'bar bar', 'baz']];
-        yield 'extra spaces' => ['  foo ,  bar   ,  baz ', ['foo', 'bar', 'baz']];
-    }
 }
