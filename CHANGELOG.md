@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Remove config options related with webhooks.
 * Remove config option to decode redis credentials.
 * Remove support for openswoole.
+* Remove infection and mutation tests.
 
 ### Fixed
 * *Nothing*
