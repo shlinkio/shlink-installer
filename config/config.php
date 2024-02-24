@@ -100,8 +100,6 @@ return [
                 'Base path' => Config\Option\BasePathConfigOption::class,
                 'Timezone' => Config\Option\TimezoneConfigOption::class,
                 'Cache > namespace' => Config\Option\Cache\CacheNamespaceConfigOption::class,
-                'Server > Amount of task workers' => Config\Option\Worker\TaskWorkerNumConfigOption::class,
-                'Server > Amount of web workers' => Config\Option\Worker\WebWorkerNumConfigOption::class,
             ],
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
@@ -151,8 +149,6 @@ return [
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
-            Config\Option\Worker\TaskWorkerNumConfigOption::class => InvokableFactory::class,
-            Config\Option\Worker\WebWorkerNumConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortCodeLengthOption::class => InvokableFactory::class,
             Config\Option\Mercure\EnableMercureConfigOption::class => InvokableFactory::class,
             Config\Option\Mercure\MercurePublicUrlConfigOption::class => InvokableFactory::class,
