@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Remove config option to decode redis credentials.
 * Remove support for openswoole.
 * Remove infection and mutation tests.
+* Remove web and task worker config options.
 
 ### Fixed
 * *Nothing*
