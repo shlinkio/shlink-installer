@@ -2,36 +2,36 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option\Worker;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\QrCode;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Shlinkio\Shlink\Installer\Config\Option\Worker\WebWorkerNumConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\QrCode\DefaultBgColorConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class WebWorkerNumConfigOptionTest extends TestCase
+class DefaultBgColorConfigOptionTest extends TestCase
 {
-    private WebWorkerNumConfigOption $configOption;
+    private DefaultBgColorConfigOption $configOption;
 
     public function setUp(): void
     {
-        $this->configOption = new WebWorkerNumConfigOption();
+        $this->configOption = new DefaultBgColorConfigOption();
     }
 
     #[Test]
     public function returnsExpectedEnvVar(): void
     {
-        self::assertEquals('WEB_WORKER_NUM', $this->configOption->getEnvVar());
+        self::assertEquals('DEFAULT_QR_CODE_BG_COLOR', $this->configOption->getEnvVar());
     }
 
     #[Test]
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = 16;
+        $expectedAnswer = 'aaa';
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('ask')->with(
-            'How many concurrent requests do you want Shlink to be able to serve?',
-            '16',
+            'What\'s the default background color for generated QR codes',
+            '#FFFFFF',
             $this->anything(),
         )->willReturn($expectedAnswer);
 

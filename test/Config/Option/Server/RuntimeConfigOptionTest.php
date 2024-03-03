@@ -35,7 +35,6 @@ class RuntimeConfigOptionTest extends TestCase
             . 'follow-up questions)',
             [
                 'RoadRunner',
-                'Openswoole',
                 'Classic web server (Nginx, Apache, etc)',
             ],
             'RoadRunner',
@@ -49,7 +48,6 @@ class RuntimeConfigOptionTest extends TestCase
     public static function provideRuntimes(): iterable
     {
         yield 'RoadRunner' => ['RoadRunner', RuntimeType::ASYNC];
-        yield 'Openswoole' => ['Openswoole', RuntimeType::ASYNC];
         yield 'Classic web server' => ['Classic web server (Nginx, Apache, etc)', RuntimeType::REGULAR];
     }
 }

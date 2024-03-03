@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [9.0.0] - 2024-03-03
+### Added
+* Add QR code options for foreground color, background color and logo URL.
+
+### Changed
+* Update dependencies
+* Default value for QR codes enabled for disabled short URLs is now true.
+* Title resolution defaults to true now.
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Remove config options related with webhooks.
+* Remove config option to decode redis credentials.
+* Remove support for openswoole.
+* Remove infection and mutation tests.
+* Remove web and task worker config options.
+
+### Fixed
+* *Nothing*
+
+
 ## [8.7.0] - 2023-12-26
 ### Added
 * Add config option to enable/disable QR codes for disables short URLs.

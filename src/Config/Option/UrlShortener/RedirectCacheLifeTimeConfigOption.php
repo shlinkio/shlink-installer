@@ -6,14 +6,12 @@ namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
-use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidatorsTrait;
+use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Shlinkio\Shlink\Installer\Util\ArrayUtils;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RedirectCacheLifeTimeConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
-    use ConfigOptionsValidatorsTrait;
-
     public function getEnvVar(): string
     {
         return 'REDIRECT_CACHE_LIFETIME';
@@ -35,7 +33,7 @@ class RedirectCacheLifeTimeConfigOption extends BaseConfigOption implements Depe
         return $io->ask(
             'How long (in seconds) do you want your redirects to be cached by visitors?',
             '30',
-            [$this, 'validatePositiveNumber'],
+            ConfigOptionsValidator::validatePositiveNumber(...),
         );
     }
 

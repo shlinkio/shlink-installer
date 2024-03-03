@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Util;
 
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
-use Shlinkio\Shlink\Installer\Util\Utils;
 
-use function array_map;
+use function ctype_xdigit;
 use function is_numeric;
+use function ltrim;
 use function preg_match;
 use function sprintf;
+use function strlen;
 
-trait ConfigOptionsValidatorsTrait
+class ConfigOptionsValidator
 {
-    public function validateUrl(?string $value): ?string
+    public static function validateUrl(?string $value): ?string
     {
         $httpUrlRegexp =
             '/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}'
@@ -30,27 +31,17 @@ trait ConfigOptionsValidatorsTrait
         return $value;
     }
 
-    public function splitAndValidateMultipleUrls(?string $urls): array
+    public static function validateOptionalPositiveNumber(mixed $value): ?int
     {
-        if ($urls === null) {
-            return [];
-        }
-
-        $splitUrls = Utils::commaSeparatedToList($urls);
-        return array_map($this->validateUrl(...), $splitUrls);
+        return $value === null ? $value : self::validatePositiveNumber($value);
     }
 
-    public function validateOptionalPositiveNumber(mixed $value): ?int
+    public static function validatePositiveNumber(mixed $value): int
     {
-        return $value === null ? $value : $this->validatePositiveNumber($value);
+        return self::validateNumberGreaterThan($value, 1);
     }
 
-    public function validatePositiveNumber(mixed $value): int
-    {
-        return $this->validateNumberGreaterThan($value, 1);
-    }
-
-    public function validateNumberGreaterThan(mixed $value, int $min): int
+    public static function validateNumberGreaterThan(mixed $value, int $min): int
     {
         $intValue = (int) $value;
         if (! is_numeric($value) || $intValue < $min) {
@@ -62,7 +53,7 @@ trait ConfigOptionsValidatorsTrait
         return $intValue;
     }
 
-    public function validateNumberBetween(mixed $value, int $min, int $max): int
+    public static function validateNumberBetween(mixed $value, int $min, int $max): int
     {
         $intValue = (int) $value;
         if (! is_numeric($value) || $intValue < $min || $intValue > $max) {
@@ -72,5 +63,25 @@ trait ConfigOptionsValidatorsTrait
         }
 
         return $intValue;
+    }
+
+    public static function validateHexColor(string $color): string
+    {
+        $onlyDigitsColor = ltrim($color, '#');
+        $digitsLength = strlen($onlyDigitsColor);
+
+        if ($digitsLength !== 3 && $digitsLength !== 6) {
+            throw new InvalidConfigOptionException(
+                'Provided value must have 3 or 6 characters, and be optionally preceded by the # character',
+            );
+        }
+
+        if (! ctype_xdigit($onlyDigitsColor)) {
+            throw new InvalidConfigOptionException(
+                'Provided value must be the hexadecimal number representation of a color',
+            );
+        }
+
+        return $color;
     }
 }

@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
-use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionMigratorInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
 use const PHP_EOL;
 
-class ShortUrlModeConfigOption extends BaseConfigOption implements ConfigOptionMigratorInterface
+class ShortUrlModeConfigOption extends BaseConfigOption
 {
     private const MODES = [
         'strict' => 'Short codes and custom slugs will be matched in a case-sensitive way ("foo" !== "FOO"). '
@@ -36,10 +35,5 @@ class ShortUrlModeConfigOption extends BaseConfigOption implements ConfigOptionM
             $options,
             'strict',
         );
-    }
-
-    public function tryToMigrateValue(mixed $currentValue): mixed
-    {
-        return $currentValue === 'loosely' ? 'loose' : $currentValue;
     }
 }
