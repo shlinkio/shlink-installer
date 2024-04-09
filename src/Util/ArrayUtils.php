@@ -16,7 +16,6 @@ final class ArrayUtils
 
     /**
      * @param array[] $multiArray
-     * @return array
      */
     public static function flatten(array $multiArray): array
     {

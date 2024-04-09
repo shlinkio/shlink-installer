@@ -20,8 +20,7 @@ class BaseUrlRedirectConfigOption extends BaseConfigOption
         return $io->ask(
             'Custom URL to redirect to when a user hits Shlink\'s base URL (If no value is provided, the '
             . 'user will see a default "404 not found" page)',
-            null,
-            ConfigOptionsValidator::validateUrl(...),
+            validator: ConfigOptionsValidator::validateUrl(...),
         );
     }
 }
