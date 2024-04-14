@@ -84,4 +84,16 @@ class ConfigOptionsValidator
 
         return $color;
     }
+
+    public static function validateMemoryValue(string $value): string
+    {
+        if (preg_match('/^\d+([KMG])?$/i', $value) === 1) {
+            return $value;
+        }
+
+        throw new InvalidConfigOptionException(
+            'Provided value is invalid. It should be an amount in bytes (1024), or a number followed by K, M, or G '
+            . '(512M, 1G)',
+        );
+    }
 }

@@ -6,6 +6,7 @@ namespace ShlinkioTest\Shlink\Installer\Config\Util;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
@@ -147,5 +148,30 @@ class ConfigOptionsValidatorTest extends TestCase
         yield ['111'];
         yield ['#aaaaaa'];
         yield ['aaa'];
+    }
+
+    #[Test]
+    #[TestWith(['2048'])]
+    #[TestWith(['1G'])]
+    #[TestWith(['1g'])]
+    #[TestWith(['1024K'])]
+    #[TestWith(['1024k'])]
+    #[TestWith(['256M'])]
+    #[TestWith(['256m'])]
+    public function validateMemoryValueReturnsValidValues(string $value): void
+    {
+        self::assertEquals($value, ConfigOptionsValidator::validateMemoryValue($value));
+    }
+
+    #[Test]
+    #[TestWith(['aaaa'])]
+    #[TestWith(['foo'])]
+    #[TestWith(['1gb'])]
+    #[TestWith(['1024KB'])]
+    #[TestWith(['100.86'])]
+    public function validateMemoryValueThrowsWhenAnInvalidValueIsProvided(string $invalidValue): void
+    {
+        $this->expectException(InvalidConfigOptionException::class);
+        ConfigOptionsValidator::validateMemoryValue($invalidValue);
     }
 }
