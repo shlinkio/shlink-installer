@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Add `ROBOTS_ALLOW_ALL_SHORT_URLS` config option.
 
 ### Changed
-* *Nothing*
+* Update to PHPUnit 11
 
 ### Deprecated
 * *Nothing*
