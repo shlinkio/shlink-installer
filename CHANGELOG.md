@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Changed
 * Update to PHPUnit 11
+* Update to PHPStan 1.11
 
 ### Deprecated
 * *Nothing*
