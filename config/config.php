@@ -68,10 +68,6 @@ return [
                 'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
             ],
-            'ROBOTS' => [
-                'Robots.txt > allow all' => Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class,
-//                'Robots.txt > user agents' => Config\Option\Robots\RobotsUserAgents::class,
-            ],
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
                 'Tracking > Param to disable tracking' => Config\Option\Tracking\DisableTrackParamConfigOption::class,
@@ -99,6 +95,10 @@ return [
                 'QR codes > Default logo URL' => Config\Option\QrCode\DefaultLogoUrlConfigOption::class,
                 'QR codes > Enabled for disabled short URLs'
                     => Config\Option\QrCode\EnabledForDisabledShortUrlsConfigOption::class,
+            ],
+            'ROBOTS' => [
+                'Robots.txt > allow all' => Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class,
+                'Robots.txt > user agents' => Config\Option\Robots\RobotsUserAgentsConfigOption::class,
             ],
             'APPLICATION' => [
                 'Delete short URLs > Visits threshold' => Config\Option\Visit\VisitsThresholdConfigOption::class,
