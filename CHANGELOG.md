@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ## [Unreleased]
 ### Added
 * Add `ROBOTS_ALLOW_ALL_SHORT_URLS` config option.
+* Add `ROBOTS_USER_AGENTS` config option.
 
 ### Changed
 * Update to PHPUnit 11

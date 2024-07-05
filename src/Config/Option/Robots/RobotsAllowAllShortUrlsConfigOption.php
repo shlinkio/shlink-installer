@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
+namespace Shlinkio\Shlink\Installer\Config\Option\Robots;
 
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
