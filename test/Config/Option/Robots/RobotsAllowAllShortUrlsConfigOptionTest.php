@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
+namespace ShlinkioTest\Shlink\Installer\Config\Option\Robots;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\RobotsAllowAllShortUrlsConfigOption;
+use Shlinkio\Shlink\Installer\Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RobotsAllowAllShortUrlsConfigOptionTest extends TestCase

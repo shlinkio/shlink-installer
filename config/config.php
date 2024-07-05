@@ -64,11 +64,13 @@ return [
                     => Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
                 'URL shortener > Trailing slashes' => Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class,
                 'URL shortener > Mode' => Config\Option\UrlShortener\ShortUrlModeConfigOption::class,
-                'URL shortener > robots.txt allow all'
-                    => Config\Option\UrlShortener\RobotsAllowAllShortUrlsConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
                 'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
+            ],
+            'ROBOTS' => [
+                'Robots.txt > allow all' => Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class,
+//                'Robots.txt > user agents' => Config\Option\Robots\RobotsUserAgents::class,
             ],
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
@@ -150,7 +152,7 @@ return [
             Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortUrlModeConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\RobotsAllowAllShortUrlsConfigOption::class => InvokableFactory::class,
+            Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
