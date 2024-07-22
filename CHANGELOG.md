@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Added
 * Add `ROBOTS_ALLOW_ALL_SHORT_URLS` config option.
 * Add `ROBOTS_USER_AGENTS` config option.
+* Add support for `laminas/laminas-servicemanager` v4.x.
 
 ### Changed
 * Update to PHPUnit 11
