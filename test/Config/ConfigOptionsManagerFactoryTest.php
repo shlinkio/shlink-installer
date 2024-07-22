@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use ReflectionObject;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerFactory;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 
@@ -25,23 +24,22 @@ class ConfigOptionsManagerFactoryTest extends TestCase
     }
 
     #[Test, DataProvider('provideConfigs')]
-    public function createsServiceWithExpectedPlugins(callable $configCreator, int $expectedSize): void
+    public function createsServiceWithExpectedPlugins(callable $configCreator, bool $servicesExist): void
     {
         $config = $configCreator($this);
         $this->container->expects($this->once())->method('get')->with('config')->willReturn($config);
 
-        $service = ($this->factory)($this->container);
-        $ref = new ReflectionObject($service);
-        $servicesProp = $ref->getProperty('services');
-        $servicesProp->setAccessible(true);
+        $manager = ($this->factory)($this->container);
 
-        self::assertCount($expectedSize, $servicesProp->getValue($service));
+        self::assertEquals($servicesExist, $manager->has('a'));
+        self::assertEquals($servicesExist, $manager->has('b'));
+        self::assertEquals($servicesExist, $manager->has('c'));
     }
 
     public static function provideConfigs(): iterable
     {
-        yield 'config_options not defined' => [static fn (TestCase $test) => [], 0];
-        yield 'config_options empty' => [static fn (TestCase $test) => ['config_options' => []], 0];
+        yield 'config_options not defined' => [static fn (TestCase $test) => [], false];
+        yield 'config_options empty' => [static fn (TestCase $test) => ['config_options' => []], false];
         yield 'config_options with values' => [
             static fn (TestCase $test) => [
                 'config_options' => [
@@ -52,7 +50,7 @@ class ConfigOptionsManagerFactoryTest extends TestCase
                     ],
                 ],
             ],
-            3,
+            true,
         ];
     }
 }
