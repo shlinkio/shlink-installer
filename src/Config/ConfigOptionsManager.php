@@ -11,7 +11,7 @@ use function get_debug_type;
 use function sprintf;
 
 /**
- * @extends AbstractPluginManager<Option\ConfigOptionInterface>+
+ * @extends AbstractPluginManager<Option\ConfigOptionInterface>
  * @todo Extend from AbstractSingleInstancePluginManager once servicemanager 3 is no longer supported
  */
 class ConfigOptionsManager extends AbstractPluginManager implements ConfigOptionsManagerInterface
