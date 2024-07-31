@@ -49,7 +49,7 @@
         ],
         "cs": "phpcs",
         "cs:fix": "phpcbf",
-        "stan": "phpstan analyse src test test-resources config --level=8",
+        "stan": "phpstan analyse",
         "test": "phpunit --order-by=random --testdox --colors=always",
         "test:ci": "@test --coverage-clover=build/clover.xml",
         "test:pretty": "@test --coverage-html=build/coverage-html"
