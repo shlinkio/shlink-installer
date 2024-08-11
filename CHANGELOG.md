@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [9.2.0] - 2024-08-11
 ### Added
 * Add `ROBOTS_ALLOW_ALL_SHORT_URLS` config option.
 * Add `ROBOTS_USER_AGENTS` config option.
