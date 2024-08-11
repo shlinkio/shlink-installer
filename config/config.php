@@ -96,6 +96,10 @@ return [
                 'QR codes > Enabled for disabled short URLs'
                     => Config\Option\QrCode\EnabledForDisabledShortUrlsConfigOption::class,
             ],
+            'ROBOTS' => [
+                'Robots.txt > allow all' => Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class,
+                'Robots.txt > user agents' => Config\Option\Robots\RobotsUserAgentsConfigOption::class,
+            ],
             'APPLICATION' => [
                 'Delete short URLs > Visits threshold' => Config\Option\Visit\VisitsThresholdConfigOption::class,
                 'Base path' => Config\Option\BasePathConfigOption::class,
@@ -148,6 +152,7 @@ return [
             Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortUrlModeConfigOption::class => InvokableFactory::class,
+            Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
