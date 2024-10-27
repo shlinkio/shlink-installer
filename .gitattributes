@@ -7,7 +7,6 @@ test-resources export-ignore
 .gitignore export-ignore
 .phpstorm.meta.php export-ignore
 CHANGELOG.md export-ignore
-docker-compose.override.yml.dist export-ignore
 docker-compose.yml export-ignore
 Dockerfile export-ignore
 indocker export-ignore
