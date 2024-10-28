@@ -11,7 +11,7 @@ use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 
 class ApplicationFactory
 {
-    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Application
+    public function __invoke(ContainerInterface $container, string $requestedName): Application
     {
         $commandMap = $container->get('config')['installer']['commands'] ?? [];
         $app = new Application(

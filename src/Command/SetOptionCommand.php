@@ -38,7 +38,7 @@ class SetOptionCommand extends Command
         private ConfigOptionsManagerInterface $optionsManager,
         private Filesystem $filesystem,
         array $groups,
-        ?array $enabledOptions,
+        array|null $enabledOptions,
     ) {
         parent::__construct();
         $this->groups = array_filter(

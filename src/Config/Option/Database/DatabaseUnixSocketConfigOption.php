@@ -14,7 +14,7 @@ class DatabaseUnixSocketConfigOption extends AbstractDriverDependentConfigOption
         return 'DB_UNIX_SOCKET';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask('Unix socket (leave empty to not use a socket)');
     }

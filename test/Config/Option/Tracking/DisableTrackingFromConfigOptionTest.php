@@ -26,7 +26,7 @@ class DisableTrackingFromConfigOptionTest extends TestCase
     }
 
     #[Test, DataProvider('provideAnswers')]
-    public function expectedQuestionIsAsked(?string $answer): void
+    public function expectedQuestionIsAsked(string|null $answer): void
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('ask')->with(

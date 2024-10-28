@@ -13,7 +13,7 @@ class MercureInternalUrlConfigOption extends AbstractMercureEnabledConfigOption
         return 'MERCURE_INTERNAL_HUB_URL';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask('Internal URL of the mercure hub server (leave empty to use the public one)');
     }
