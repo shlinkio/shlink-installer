@@ -14,7 +14,7 @@ class GeoLiteLicenseKeyConfigOption extends BaseConfigOption
         return 'GEOLITE_LICENSE_KEY';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Provide a GeoLite2 license key. Leave empty to disable geolocation. '

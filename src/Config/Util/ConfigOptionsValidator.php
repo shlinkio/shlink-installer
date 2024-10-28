@@ -15,7 +15,7 @@ use function strlen;
 
 class ConfigOptionsValidator
 {
-    public static function validateUrl(?string $value): ?string
+    public static function validateUrl(string|null $value): string|null
     {
         $httpUrlRegexp =
             '/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}'
@@ -31,7 +31,7 @@ class ConfigOptionsValidator
         return $value;
     }
 
-    public static function validateOptionalPositiveNumber(mixed $value): ?int
+    public static function validateOptionalPositiveNumber(mixed $value): int|null
     {
         return $value === null ? $value : self::validatePositiveNumber($value);
     }

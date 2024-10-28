@@ -26,7 +26,7 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
     }
 
     #[Test, DataProvider('provideAnswers')]
-    public function expectedQuestionIsAsked(?string $answer, ?string $expectedResult): void
+    public function expectedQuestionIsAsked(string|null $answer, string|null $expectedResult): void
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('ask')->with(

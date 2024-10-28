@@ -16,7 +16,7 @@ class RedisServersConfigOption extends BaseConfigOption
         return self::ENV_VAR;
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         $useRedis = $io->confirm(
             'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '

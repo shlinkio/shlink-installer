@@ -26,7 +26,7 @@ class BasePathConfigOptionTest extends TestCase
     }
 
     #[Test, DataProvider('provideValidAnswers')]
-    public function expectedQuestionIsAsked(?string $answer, string $expectedAnswer): void
+    public function expectedQuestionIsAsked(string|null $answer, string $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('ask')->with(

@@ -35,7 +35,7 @@ class ConfigGeneratorTest extends TestCase
     #[Test, DataProvider('provideConfigOptions')]
     public function configuresExpectedPlugins(
         array $configOptionsGroups,
-        ?array $enabledOptions,
+        array|null $enabledOptions,
         int $expectedPrintTitleCalls,
     ): void {
         $totalPlugins = count(ArrayUtils::flatten($configOptionsGroups));

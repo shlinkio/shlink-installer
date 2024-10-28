@@ -11,7 +11,7 @@ enum DatabaseDriver: string
     case MSSQL = 'mssql';
     case SQLITE = 'sqlite';
 
-    public function defaultPort(): ?string
+    public function defaultPort(): string|null
     {
         return match ($this) {
             self::MYSQL => '3306',

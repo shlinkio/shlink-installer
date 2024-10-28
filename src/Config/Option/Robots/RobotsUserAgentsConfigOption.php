@@ -14,7 +14,7 @@ class RobotsUserAgentsConfigOption extends BaseConfigOption
         return 'ROBOTS_USER_AGENTS';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Provide a comma-separated list of user agents for your robots.txt file. Defaults to all user agents (*)',

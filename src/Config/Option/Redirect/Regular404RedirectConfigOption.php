@@ -15,7 +15,7 @@ class Regular404RedirectConfigOption extends BaseConfigOption
         return 'DEFAULT_REGULAR_404_REDIRECT';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Custom URL to redirect to when a user hits a not found URL other than an invalid short URL '

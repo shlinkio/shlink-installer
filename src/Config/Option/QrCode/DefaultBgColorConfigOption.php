@@ -15,7 +15,7 @@ class DefaultBgColorConfigOption extends BaseConfigOption
         return 'DEFAULT_QR_CODE_BG_COLOR';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'What\'s the default background color for generated QR codes',

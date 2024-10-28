@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 trait AskUtilsTrait
 {
-    private function askRequired(StyleInterface $io, string $optionName, ?string $question = null): string
+    private function askRequired(StyleInterface $io, string $optionName, string|null $question = null): string
     {
         return $io->ask($question ?? $optionName, null, static function ($value) use ($optionName) {
             if (empty($value)) {
