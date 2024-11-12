@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Changed
 * Switch to xdebug for code coverage reports, as pcov is not marking functions as covered
 * Update shlinkio coding standard to v2.4
+* Update to PHPStan 2.0
 
 ### Deprecated
 * *Nothing*
