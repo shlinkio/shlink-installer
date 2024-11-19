@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Command;
 
-use Laminas\Config\Writer\WriterInterface;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -13,6 +12,7 @@ use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Exception\InvalidShlinkPathException;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
+use Shlinkio\Shlink\Installer\Util\ConfigWriterInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -24,7 +24,7 @@ use function getcwd;
 class SetOptionCommandTest extends TestCase
 {
     private CommandTester $commandTester;
-    private MockObject & WriterInterface $configWriter;
+    private MockObject & ConfigWriterInterface $configWriter;
     private MockObject & ShlinkAssetsHandlerInterface $assetsHandler;
     private MockObject & ConfigOptionsManagerInterface $optionsManager;
     private MockObject & Filesystem $filesystem;
@@ -35,7 +35,7 @@ class SetOptionCommandTest extends TestCase
         $this->initialCwd = getcwd() ?: '';
         chdir(__DIR__ . '/../../test-resources');
 
-        $this->configWriter = $this->createMock(WriterInterface::class);
+        $this->configWriter = $this->createMock(ConfigWriterInterface::class);
         $this->assetsHandler = $this->createMock(ShlinkAssetsHandlerInterface::class);
         $this->optionsManager = $this->createMock(ConfigOptionsManagerInterface::class);
         $this->filesystem = $this->createMock(Filesystem::class);
