@@ -5,3 +5,4 @@ vendor/
 config/*.local.php
 data
 bin/rr
+test-resources/config/params/generated-in-test.php
