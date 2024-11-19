@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
-use Laminas\Config\Writer\WriterInterface;
 use Shlinkio\Shlink\Installer\Command\Model\InitOption;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
+use Shlinkio\Shlink\Installer\Util\ConfigWriterInterface;
 use Shlinkio\Shlink\Installer\Util\Utils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 abstract class AbstractInstallCommand extends Command
 {
     public function __construct(
-        private readonly WriterInterface $configWriter,
+        private readonly ConfigWriterInterface $configWriter,
         private readonly ShlinkAssetsHandlerInterface $assetsHandler,
         private readonly ConfigGeneratorInterface $configGenerator,
     ) {
@@ -47,7 +47,7 @@ abstract class AbstractInstallCommand extends Command
         $normalizedConfig = Utils::normalizeAndKeepEnvVarKeys($config);
 
         // Generate config params files
-        $this->configWriter->toFile(ShlinkAssetsHandler::GENERATED_CONFIG_PATH, $normalizedConfig, false);
+        $this->configWriter->toFile(ShlinkAssetsHandler::GENERATED_CONFIG_PATH, $normalizedConfig);
         $io->text('<info>Custom configuration properly generated!</info>');
         $io->newLine();
 

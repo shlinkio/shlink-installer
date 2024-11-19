@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer;
 
-use Laminas\Config\Writer\PhpArray as PhpArrayConfigWriter;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Shlinkio\Shlink\Installer\Util\ConfigWriter;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem\Filesystem;
@@ -19,7 +19,7 @@ return [
             Console\Application::class => Factory\ApplicationFactory::class,
             Filesystem::class => InvokableFactory::class,
             PhpExecutableFinder::class => InvokableFactory::class,
-            PhpArrayConfigWriter::class => InvokableFactory::class,
+            ConfigWriter::class => InvokableFactory::class,
             Console\Helper\ProcessHelper::class => Factory\ProcessHelperFactory::class,
 
             Service\InstallationCommandsRunner::class => ConfigAbstractFactory::class,
@@ -209,17 +209,17 @@ return [
         ],
 
         Command\InstallCommand::class => [
-            PhpArrayConfigWriter::class,
+            ConfigWriter::class,
             Service\ShlinkAssetsHandler::class,
             Config\ConfigGenerator::class,
         ],
         Command\UpdateCommand::class => [
-            PhpArrayConfigWriter::class,
+            ConfigWriter::class,
             Service\ShlinkAssetsHandler::class,
             Config\ConfigGenerator::class,
         ],
         Command\SetOptionCommand::class => [
-            PhpArrayConfigWriter::class,
+            ConfigWriter::class,
             Service\ShlinkAssetsHandler::class,
             Config\ConfigOptionsManager::class,
             Filesystem::class,
