@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Command;
 
 use Generator;
-use Laminas\Config\Writer\WriterInterface;
 use Shlinkio\Shlink\Installer\Config\ConfigOptionsManagerInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Exception\InvalidShlinkPathException;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
 use Shlinkio\Shlink\Installer\Util\ArrayUtils;
+use Shlinkio\Shlink\Installer\Util\ConfigWriterInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,12 +33,12 @@ class SetOptionCommand extends Command
     private string $generatedConfigPath;
 
     public function __construct(
-        private WriterInterface $configWriter,
+        private ConfigWriterInterface $configWriter,
         private ShlinkAssetsHandlerInterface $assetsHandler,
         private ConfigOptionsManagerInterface $optionsManager,
         private Filesystem $filesystem,
         array $groups,
-        ?array $enabledOptions,
+        array|null $enabledOptions,
     ) {
         parent::__construct();
         $this->groups = array_filter(
@@ -85,7 +85,7 @@ class SetOptionCommand extends Command
         $plugin = $this->optionsManager->get($this->groups[$optionTitle]);
         $answers = include $this->generatedConfigPath;
         $answers[$plugin->getEnvVar()] = $plugin->ask($io, $answers);
-        $this->configWriter->toFile($this->generatedConfigPath, $answers, false);
+        $this->configWriter->toFile($this->generatedConfigPath, $answers);
         $this->assetsHandler->dropCachedConfigIfAny($io);
 
         $io->success('Configuration properly updated');

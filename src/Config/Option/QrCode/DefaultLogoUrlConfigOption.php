@@ -15,7 +15,7 @@ class DefaultLogoUrlConfigOption extends BaseConfigOption
         return 'DEFAULT_QR_CODE_LOGO_URL';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Provide a URL for a logo to be placed inside the QR code (leave empty to use no logo)',

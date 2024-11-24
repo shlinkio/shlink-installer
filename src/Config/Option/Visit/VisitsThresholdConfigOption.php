@@ -15,7 +15,7 @@ class VisitsThresholdConfigOption extends BaseConfigOption
         return 'DELETE_SHORT_URL_THRESHOLD';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?int
+    public function ask(StyleInterface $io, array $currentOptions): int|null
     {
         $result = $io->ask(
             'What is the amount of visits from which the system will not allow short URLs to be deleted? Leave empty '

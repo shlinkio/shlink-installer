@@ -13,7 +13,7 @@ class DisableTrackParamConfigOption extends AbstractDisableTrackingDependentConf
         return 'DISABLE_TRACK_PARAM';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Provide a parameter name that you will be able to use to disable tracking on specific request to '

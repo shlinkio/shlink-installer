@@ -56,8 +56,10 @@ class ConfigOptionsValidatorTest extends TestCase
     }
 
     #[Test, DataProvider('provideOptionalPositiveNumbers')]
-    public function validateOptionalPositiveNumberCastsToIntWhenProvidedValueIsValid(mixed $value, ?int $expected): void
-    {
+    public function validateOptionalPositiveNumberCastsToIntWhenProvidedValueIsValid(
+        mixed $value,
+        int|null $expected,
+    ): void {
         self::assertEquals($expected, ConfigOptionsValidator::validateOptionalPositiveNumber($value));
     }
 

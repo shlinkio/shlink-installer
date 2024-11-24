@@ -26,7 +26,7 @@ class VisitsThresholdConfigOptionTest extends TestCase
     }
 
     #[Test, DataProvider('provideValidAnswers')]
-    public function expectedQuestionIsAsked(string|int|null $answer, ?int $expectedAnswer): void
+    public function expectedQuestionIsAsked(string|int|null $answer, int|null $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('ask')->with(

@@ -13,22 +13,22 @@
     ],
     "require": {
         "php": "^8.2",
-        "laminas/laminas-config": "^3.9",
         "laminas/laminas-config-aggregator": "^1.15",
         "laminas/laminas-servicemanager": "^4.2 || ^3.22",
         "laminas/laminas-stdlib": "^3.19",
         "shlinkio/shlink-config": "^3.1",
         "symfony/console": "^7.1",
         "symfony/filesystem": "^7.1",
-        "symfony/process": "^7.1"
+        "symfony/process": "^7.1",
+        "webimpress/safe-writer": "^2.2"
     },
     "require-dev": {
         "devster/ubench": "^2.1",
-        "phpstan/phpstan": "^1.11",
-        "phpstan/phpstan-phpunit": "^1.4",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^11.3",
         "roave/security-advisories": "dev-master",
-        "shlinkio/php-coding-standard": "~2.3.0",
+        "shlinkio/php-coding-standard": "~2.4.0",
         "symfony/var-dumper": "^7.1"
     },
     "autoload": {
@@ -51,8 +51,14 @@
         "cs:fix": "phpcbf",
         "stan": "phpstan analyse",
         "test": "phpunit --order-by=random --testdox --testdox-summary",
-        "test:ci": "@test --coverage-clover=build/clover.xml",
-        "test:pretty": "@test --coverage-html=build/coverage-html"
+        "test:ci": [
+            "@putenv XDEBUG_MODE=coverage",
+            "@test --coverage-clover=build/clover.xml"
+        ],
+        "test:pretty": [
+            "@putenv XDEBUG_MODE=coverage",
+            "@test --coverage-html=build/coverage-html"
+        ]
     },
     "scripts-descriptions": {
         "ci": "<fg=blue;options=bold>Alias for \"cs\", \"stan\" and \"test:ci\"</>",

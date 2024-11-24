@@ -44,7 +44,7 @@ class RedisServersConfigOptionTest extends TestCase
     }
 
     #[Test, DataProvider('provideAnswers')]
-    public function serversAreRequestedWhenRedisConfigIsProvided(?string $serversAnswer): void
+    public function serversAreRequestedWhenRedisConfigIsProvided(string|null $serversAnswer): void
     {
         $this->io->expects($this->once())->method('confirm')->with(
             'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '

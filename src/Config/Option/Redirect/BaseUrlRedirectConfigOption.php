@@ -15,7 +15,7 @@ class BaseUrlRedirectConfigOption extends BaseConfigOption
         return 'DEFAULT_BASE_URL_REDIRECT';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Custom URL to redirect to when a user hits Shlink\'s base URL (If no value is provided, the '

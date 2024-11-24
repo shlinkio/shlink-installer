@@ -13,7 +13,7 @@ class TimezoneConfigOption extends BaseConfigOption
         return 'TIMEZONE';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Set the timezone in which your Shlink instance is running (leave empty to use the one set in PHP config)',

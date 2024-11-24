@@ -21,7 +21,7 @@ class RedisSentinelServiceConfigOption extends BaseConfigOption implements Depen
         return $isRedisEnabled !== null && parent::shouldBeAsked($currentOptions);
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask('Provide the name of the sentinel service (leave empty if not using redis sentinel)');
     }

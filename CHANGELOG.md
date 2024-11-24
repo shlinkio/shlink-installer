@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [9.3.0] - 2024-11-24
+### Added
+* *Nothing*
+
+### Changed
+* Switch to xdebug for code coverage reports, as pcov is not marking functions as covered
+* Update shlinkio coding standard to v2.4
+* Update to PHPStan 2.0
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Remove dependency on `laminas/laminas-config`.
+
+### Fixed
+* *Nothing*
+
+
 ## [9.2.0] - 2024-08-11
 ### Added
 * Add `ROBOTS_ALLOW_ALL_SHORT_URLS` config option.

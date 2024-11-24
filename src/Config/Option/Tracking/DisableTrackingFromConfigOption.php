@@ -13,7 +13,7 @@ class DisableTrackingFromConfigOption extends AbstractDisableTrackingDependentCo
         return 'DISABLE_TRACKING_FROM';
     }
 
-    public function ask(StyleInterface $io, array $currentOptions): ?string
+    public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(
             'Provide a comma-separated list of IP addresses, CIDR blocks or wildcard addresses (1.2.*.*) from '
