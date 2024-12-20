@@ -52,6 +52,7 @@ return [
                 'Database > Password' => Config\Option\Database\DatabasePasswordConfigOption::class,
                 'Database > Unix socket (Mysql/MariaDB)'
                     => Config\Option\Database\DatabaseUnixSocketConfigOption::class,
+                'Database > Use encryption' => Config\Option\Database\DatabaseUseEncryptionConfigOption::class,
             ],
             'URL SHORTENER' => [
                 'URL shortener > Short domain' => Config\Option\UrlShortener\ShortDomainHostConfigOption::class,
@@ -143,6 +144,7 @@ return [
             Config\Option\Database\DatabaseUserConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabasePasswordConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseUnixSocketConfigOption::class => InvokableFactory::class,
+            Config\Option\Database\DatabaseUseEncryptionConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\BaseUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\Regular404RedirectConfigOption::class => InvokableFactory::class,
