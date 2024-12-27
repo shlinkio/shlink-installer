@@ -52,6 +52,7 @@ return [
                 'Database > Password' => Config\Option\Database\DatabasePasswordConfigOption::class,
                 'Database > Unix socket (Mysql/MariaDB)'
                     => Config\Option\Database\DatabaseUnixSocketConfigOption::class,
+                'Database > Use encryption' => Config\Option\Database\DatabaseUseEncryptionConfigOption::class,
             ],
             'URL SHORTENER' => [
                 'URL shortener > Short domain' => Config\Option\UrlShortener\ShortDomainHostConfigOption::class,
@@ -60,6 +61,7 @@ return [
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
                 'URL shortener > Append extra path' => Config\Option\UrlShortener\AppendExtraPathConfigOption::class,
+                'URL shortener > Extra path mode' => Config\Option\UrlShortener\ExtraPathModeConfigOption::class,
                 'URL shortener > Multi-segment slugs'
                     => Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
                 'URL shortener > Trailing slashes' => Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class,
@@ -142,6 +144,7 @@ return [
             Config\Option\Database\DatabaseUserConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabasePasswordConfigOption::class => InvokableFactory::class,
             Config\Option\Database\DatabaseUnixSocketConfigOption::class => InvokableFactory::class,
+            Config\Option\Database\DatabaseUseEncryptionConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\BaseUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class => InvokableFactory::class,
             Config\Option\Redirect\Regular404RedirectConfigOption::class => InvokableFactory::class,
@@ -149,6 +152,7 @@ return [
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
+            Config\Option\UrlShortener\ExtraPathModeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortUrlModeConfigOption::class => InvokableFactory::class,

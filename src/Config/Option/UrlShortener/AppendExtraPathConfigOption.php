@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated */
 class AppendExtraPathConfigOption extends BaseConfigOption
 {
     public function getEnvVar(): string

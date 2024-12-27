@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [9.4.0] - 2024-12-27
+### Added
+* Add config option for `REDIRECT_EXTRA_PATH_MODE`
+* Add config option for `DB_USE_ENCRYPTION`
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* Deprecate `AppendExtraPathConfigOption`.
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [9.3.0] - 2024-11-24
 ### Added
 * *Nothing*
