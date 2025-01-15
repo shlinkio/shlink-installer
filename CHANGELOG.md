@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Drop support for PHP 8.2
+
+### Fixed
+* *Nothing*
+
+
 ## [9.4.0] - 2024-12-27
 ### Added
 * Add config option for `REDIRECT_EXTRA_PATH_MODE`
