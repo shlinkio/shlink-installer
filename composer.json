@@ -12,11 +12,11 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "laminas/laminas-config-aggregator": "^1.17",
         "laminas/laminas-servicemanager": "^4.3 || ^3.23",
         "laminas/laminas-stdlib": "^3.20",
-        "shlinkio/shlink-config": "^3.4",
+        "shlinkio/shlink-config": "^4.0 || ^3.4",
         "symfony/console": "^7.2",
         "symfony/filesystem": "^7.2",
         "symfony/process": "^7.2",
