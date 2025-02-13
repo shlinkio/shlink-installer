@@ -31,7 +31,7 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('choice')->with(
             'What kind of redirect do you want your short URLs to have?',
-            $this->isType('array'),
+            $this->isArray(),
             $this->anything(),
         )->willReturn($choice);
 

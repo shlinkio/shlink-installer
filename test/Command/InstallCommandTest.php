@@ -66,7 +66,7 @@ class InstallCommandTest extends TestCase
         )->willReturn(0);
         $this->assetsHandler->expects($this->never())->method('resolvePreviousConfig');
         $this->assetsHandler->expects($this->never())->method('importShlinkAssetsFromPath');
-        $this->configWriter->expects($this->once())->method('toFile')->with($this->anything(), $this->isType('array'));
+        $this->configWriter->expects($this->once())->method('toFile')->with($this->anything(), $this->isArray());
 
         $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);
