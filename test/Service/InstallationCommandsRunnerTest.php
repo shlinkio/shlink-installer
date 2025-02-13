@@ -31,7 +31,7 @@ class InstallationCommandsRunnerTest extends TestCase
     public function setUp(): void
     {
         $phpFinder = $this->createMock(PhpExecutableFinder::class);
-        $phpFinder->method('find')->with(false)->willReturn('php');
+        $phpFinder->method('find')->willReturn('php');
 
         $this->processHelper = $this->createMock(ProcessHelper::class);
         $this->commandsRunner = new InstallationCommandsRunner(

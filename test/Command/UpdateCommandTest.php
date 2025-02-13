@@ -67,7 +67,7 @@ class UpdateCommandTest extends TestCase
             ImportedConfig::notImported(),
         );
         $this->assetsHandler->expects($this->once())->method('importShlinkAssetsFromPath');
-        $this->configWriter->expects($this->once())->method('toFile')->with($this->anything(), $this->isType('array'));
+        $this->configWriter->expects($this->once())->method('toFile')->with($this->anything(), $this->isArray());
 
         $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);

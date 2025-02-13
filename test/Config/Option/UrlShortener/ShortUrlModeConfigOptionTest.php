@@ -37,7 +37,7 @@ class ShortUrlModeConfigOptionTest extends TestCase
             . '<options=bold;fg=yellow> Warning!</> <comment>This feature is experimental. It only applies to public '
             . 'routes (short URLs and QR codes). REST API routes always use strict match.</comment>'
             . PHP_EOL,
-            $this->isType('array'),
+            $this->isArray(),
             'strict',
         )->willReturn($choice);
 
