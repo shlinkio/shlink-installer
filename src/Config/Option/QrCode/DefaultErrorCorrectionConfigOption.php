@@ -7,9 +7,10 @@ namespace Shlinkio\Shlink\Installer\Config\Option\QrCode;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated Shlink has deprecated support for QR codes */
 class DefaultErrorCorrectionConfigOption extends BaseConfigOption
 {
-    private const SUPPORTED_ERROR_CORRECTIONS = [
+    private const array SUPPORTED_ERROR_CORRECTIONS = [
         'l' => 'Low',
         'm' => 'Medium',
         'q' => 'Quartile',

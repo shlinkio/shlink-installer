@@ -86,7 +86,7 @@ return [
                 'Redirects > Invalid short URL' => Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class,
                 'Redirects > Regular 404' => Config\Option\Redirect\Regular404RedirectConfigOption::class,
             ],
-            'QR CODES' => [
+            'QR CODES [DEPRECATED]' => [
                 'QR codes > Default size' => Config\Option\QrCode\DefaultSizeConfigOption::class,
                 'QR codes > Default margin' => Config\Option\QrCode\DefaultMarginConfigOption::class,
                 'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,

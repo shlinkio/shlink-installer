@@ -8,10 +8,11 @@ use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated Shlink has deprecated support for QR codes */
 class DefaultSizeConfigOption extends BaseConfigOption
 {
-    private const MIN_SIZE = 50;
-    private const MAX_SIZE = 1000;
+    private const int MIN_SIZE = 50;
+    private const int MAX_SIZE = 1000;
 
     public function getEnvVar(): string
     {
