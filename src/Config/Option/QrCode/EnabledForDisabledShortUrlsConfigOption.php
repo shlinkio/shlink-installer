@@ -7,6 +7,7 @@ namespace Shlinkio\Shlink\Installer\Config\Option\QrCode;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated Shlink has deprecated support for QR codes */
 class EnabledForDisabledShortUrlsConfigOption extends BaseConfigOption
 {
     public function getEnvVar(): string

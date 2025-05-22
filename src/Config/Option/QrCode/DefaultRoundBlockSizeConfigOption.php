@@ -7,10 +7,11 @@ namespace Shlinkio\Shlink\Installer\Config\Option\QrCode;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated Shlink has deprecated support for QR codes */
 class DefaultRoundBlockSizeConfigOption extends BaseConfigOption
 {
-    private const YES = 'yes';
-    private const NO = 'no';
+    private const string YES = 'yes';
+    private const string NO = 'no';
 
     public function getEnvVar(): string
     {
