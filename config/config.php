@@ -127,6 +127,7 @@ return [
                 'Matomo > Server URL' => Config\Option\Matomo\MatomoBaseUrlConfigOption::class,
                 'Matomo > Site ID' => Config\Option\Matomo\MatomoSiteIdConfigOption::class,
                 'Matomo > API token' => Config\Option\Matomo\MatomoApiTokenConfigOption::class,
+                'Real-time updates > topics' => Config\Option\RealTimeUpdates\RealTimeUpdatesTopicsConfigOption::class,
             ],
         ],
 
@@ -187,6 +188,7 @@ return [
             Config\Option\Tracking\DisableUaTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
+            Config\Option\RealTimeUpdates\RealTimeUpdatesTopicsConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultSizeConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,

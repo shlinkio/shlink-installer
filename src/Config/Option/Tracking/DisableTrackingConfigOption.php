@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class DisableTrackingConfigOption extends BaseConfigOption
 {
-    public const ENV_VAR = 'DISABLE_TRACKING';
+    public const string ENV_VAR = 'DISABLE_TRACKING';
 
     public function getEnvVar(): string
     {

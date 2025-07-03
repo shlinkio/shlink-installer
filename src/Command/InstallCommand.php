@@ -6,7 +6,7 @@ namespace Shlinkio\Shlink\Installer\Command;
 
 class InstallCommand extends AbstractInstallCommand
 {
-    public const NAME = 'install';
+    public const string NAME = 'install';
 
     protected function configure(): void
     {

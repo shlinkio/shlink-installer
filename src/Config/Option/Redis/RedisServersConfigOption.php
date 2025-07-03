@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class RedisServersConfigOption extends BaseConfigOption
 {
-    public const ENV_VAR = 'REDIS_SERVERS';
+    public const string ENV_VAR = 'REDIS_SERVERS';
 
     public function getEnvVar(): string
     {

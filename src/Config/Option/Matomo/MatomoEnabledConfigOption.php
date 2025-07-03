@@ -7,7 +7,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class MatomoEnabledConfigOption extends BaseConfigOption
 {
-    public const ENV_VAR = 'MATOMO_ENABLED';
+    public const string ENV_VAR = 'MATOMO_ENABLED';
 
     public function getEnvVar(): string
     {

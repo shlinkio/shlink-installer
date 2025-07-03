@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class ExtraPathModeConfigOption extends BaseConfigOption
 {
-    public const MODES = [
+    public const array MODES = [
         'default' => 'Match strictly',
         'append' => 'Append extra path',
         'ignore' => 'Discard extra path',

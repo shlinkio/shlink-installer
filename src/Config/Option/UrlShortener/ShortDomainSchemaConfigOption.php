@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortDomainSchemaConfigOption extends BaseConfigOption
 {
-    public const ENV_VAR = 'IS_HTTPS_ENABLED';
+    public const string ENV_VAR = 'IS_HTTPS_ENABLED';
 
     public function getEnvVar(): string
     {

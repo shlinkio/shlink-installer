@@ -27,7 +27,7 @@ use function iterator_to_array;
 
 class SetOptionCommand extends Command
 {
-    public const NAME = 'set-option';
+    public const string NAME = 'set-option';
 
     private array $groups;
     private string $generatedConfigPath;

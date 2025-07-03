@@ -8,7 +8,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class RabbitMqUseSslConfigOption extends AbstractRabbitMqEnabledConfigOption
 {
-    public const ENV_VAR = 'RABBITMQ_USE_SSL';
+    public const string ENV_VAR = 'RABBITMQ_USE_SSL';
 
     public function getEnvVar(): string
     {

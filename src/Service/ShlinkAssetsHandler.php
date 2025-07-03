@@ -16,11 +16,11 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 {
     use AskUtilsTrait;
 
-    public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
-    private const CACHED_CONFIGS_PATHS = ['data/cache/app_config.php', 'data/cache/fastroute_cached_routes.php'];
-    private const SQLITE_DB_PATH = 'data/database.sqlite';
-    private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
-    private const ROAD_RUNNER_BINARY_PATH = 'bin/rr';
+    public const string GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
+    private const array CACHED_CONFIGS_PATHS = ['data/cache/app_config.php', 'data/cache/fastroute_cached_routes.php'];
+    private const string SQLITE_DB_PATH = 'data/database.sqlite';
+    private const string GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
+    private const string ROAD_RUNNER_BINARY_PATH = 'bin/rr';
 
     public function __construct(private Filesystem $filesystem)
     {
