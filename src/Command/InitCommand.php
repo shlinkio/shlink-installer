@@ -18,7 +18,7 @@ use function array_reduce;
 
 class InitCommand extends Command
 {
-    public const NAME = 'init';
+    public const string NAME = 'init';
 
     private readonly CLIOption $skipInitDb;
     private readonly CLIOption $clearDbCache;

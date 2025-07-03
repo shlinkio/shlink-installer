@@ -11,8 +11,8 @@ use function array_flip;
 
 class RedirectStatusCodeConfigOption extends BaseConfigOption
 {
-    public const ENV_VAR = 'REDIRECT_STATUS_CODE';
-    private const REDIRECT_STATUSES = [
+    public const string ENV_VAR = 'REDIRECT_STATUS_CODE';
+    private const array REDIRECT_STATUSES = [
         302 => 'All visits will always be tracked. Not that good for SEO. Only GET requests will be redirected.',
         301 => 'Best option for SEO. Redirect will be cached for a short period of time, making some visits not to be '
             . 'tracked. Only GET requests will be redirected.',

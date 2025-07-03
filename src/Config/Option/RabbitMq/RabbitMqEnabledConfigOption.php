@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class RabbitMqEnabledConfigOption extends AbstractAsyncRuntimeDependentConfigOption
 {
-    public const ENV_VAR = 'RABBITMQ_ENABLED';
+    public const string ENV_VAR = 'RABBITMQ_ENABLED';
 
     public function getEnvVar(): string
     {

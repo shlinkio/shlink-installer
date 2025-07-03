@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* Add `REAL_TIME_UPDATES_TOPICS` config option.
 
 ### Changed
 * Update to PHPUnit 12

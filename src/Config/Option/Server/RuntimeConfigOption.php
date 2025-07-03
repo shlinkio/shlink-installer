@@ -12,8 +12,8 @@ use function array_keys;
 
 class RuntimeConfigOption extends BaseConfigOption
 {
-    public const ENV_VAR = 'RUNTIME';
-    private const RUNTIMES = [
+    public const string ENV_VAR = 'RUNTIME';
+    private const array RUNTIMES = [
         'RoadRunner' => RuntimeType::ASYNC,
         'Classic web server (Nginx, Apache, etc)' => RuntimeType::REGULAR,
     ];
