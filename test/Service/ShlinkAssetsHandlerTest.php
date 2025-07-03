@@ -83,7 +83,7 @@ class ShlinkAssetsHandlerTest extends TestCase
     }
 
     #[Test, DataProvider('provideExists')]
-    public function configIsImportedOnlyIfExistingPathIsProvided(bool $exists): void
+    public function configIsImportedOnlyIfExistingPathIsProvided(bool $exists, mixed $_): void
     {
         $count = 0;
         $importPath = __DIR__ . '/../../test-resources';
