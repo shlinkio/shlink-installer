@@ -102,6 +102,11 @@ return [
                 'Robots.txt > allow all' => Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class,
                 'Robots.txt > user agents' => Config\Option\Robots\RobotsUserAgentsConfigOption::class,
             ],
+            'CORS' => [
+                'CORS > Allow origin' => Config\Option\Cors\CorsAllowOriginConfigOption::class,
+                'CORS > Allow credentials' => Config\Option\Cors\CorsAllowCredentialsConfigOption::class,
+                'CORS > Max age' => Config\Option\Cors\CorsMaxAgeConfigOption::class,
+            ],
             'APPLICATION' => [
                 'Delete short URLs > Visits threshold' => Config\Option\Visit\VisitsThresholdConfigOption::class,
                 'Base path' => Config\Option\BasePathConfigOption::class,
@@ -189,6 +194,9 @@ return [
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
             Config\Option\RealTimeUpdates\RealTimeUpdatesTopicsConfigOption::class => InvokableFactory::class,
+            Config\Option\Cors\CorsAllowOriginConfigOption::class => InvokableFactory::class,
+            Config\Option\Cors\CorsAllowCredentialsConfigOption::class => InvokableFactory::class,
+            Config\Option\Cors\CorsMaxAgeConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultSizeConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,
