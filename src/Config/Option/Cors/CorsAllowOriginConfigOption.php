@@ -25,7 +25,7 @@ class CorsAllowOriginConfigOption extends BaseConfigOption
                     . 'Origin header)',
                 'allowlist' => 'Provide a list of hosts that are allowed',
             ],
-            '*'
+            '*',
         );
 
         return $answer !== 'allowlist' ? $answer : $io->ask(
