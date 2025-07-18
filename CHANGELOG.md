@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Added
 * Add `REAL_TIME_UPDATES_TOPICS` config option.
 * Add CORS-related config options.
+* Add `TRUSTED_PROXIES` config option.
 
 ### Changed
 * Update to PHPUnit 12

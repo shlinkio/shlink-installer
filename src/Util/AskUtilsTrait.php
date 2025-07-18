@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Util;
 
-use Shlinkio\Shlink\Installer\Exception\MissingRequiredOptionException;
+use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated */
 trait AskUtilsTrait
 {
+    /** @deprecated Use ConfigOptionsValidator::validateRequired instead */
     private function askRequired(StyleInterface $io, string $optionName, string|null $question = null): string
     {
-        return $io->ask($question ?? $optionName, null, static function ($value) use ($optionName) {
-            if (empty($value)) {
-                throw MissingRequiredOptionException::fromOption($optionName);
-            }
-
-            return $value;
-        });
+        return $io->ask(
+            $question ?? $optionName,
+            validator: static fn ($value) => ConfigOptionsValidator::validateRequired($value, $optionName),
+        );
     }
 }
