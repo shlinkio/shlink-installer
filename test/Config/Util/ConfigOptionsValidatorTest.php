@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
+use Shlinkio\Shlink\Installer\Exception\MissingRequiredOptionException;
 
 class ConfigOptionsValidatorTest extends TestCase
 {
@@ -175,5 +176,20 @@ class ConfigOptionsValidatorTest extends TestCase
     {
         $this->expectException(InvalidConfigOptionException::class);
         ConfigOptionsValidator::validateMemoryValue($invalidValue);
+    }
+
+    #[Test]
+    public function validateRequiredThrowsWhenValueIsEmpty(): void
+    {
+        $this->expectException(MissingRequiredOptionException::class);
+        $this->expectExceptionMessage('The "name" is required and can\'t be empty');
+
+        ConfigOptionsValidator::validateRequired('', 'name');
+    }
+
+    #[Test]
+    public function validateRequiredReturnsValueWhenNotEmpty(): void
+    {
+        self::assertEquals('foo', ConfigOptionsValidator::validateRequired('foo', 'name'));
     }
 }
