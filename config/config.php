@@ -112,6 +112,7 @@ return [
                 'Base path' => Config\Option\BasePathConfigOption::class,
                 'Timezone' => Config\Option\TimezoneConfigOption::class,
                 'Cache > namespace' => Config\Option\Cache\CacheNamespaceConfigOption::class,
+                'Trusted proxies' => Config\Option\TrustedProxiesConfigOption::class,
             ],
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
