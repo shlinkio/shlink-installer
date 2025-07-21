@@ -67,8 +67,11 @@ return [
                 'URL shortener > Trailing slashes' => Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class,
                 'URL shortener > Mode' => Config\Option\UrlShortener\ShortUrlModeConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
-                'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
+                'Redirects > Status code (301/302/307/308)'
+                    => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
+                'Redirects > Caching visibility'
+                    => Config\Option\UrlShortener\RedirectCacheVisibilityConfigOption::class,
             ],
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
@@ -194,6 +197,7 @@ return [
             Config\Option\Tracking\DisableUaTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
+            Config\Option\UrlShortener\RedirectCacheVisibilityConfigOption::class => InvokableFactory::class,
             Config\Option\RealTimeUpdates\RealTimeUpdatesTopicsConfigOption::class => InvokableFactory::class,
             Config\Option\Cors\CorsAllowOriginConfigOption::class => InvokableFactory::class,
             Config\Option\Cors\CorsAllowCredentialsConfigOption::class => InvokableFactory::class,

@@ -98,7 +98,7 @@ class ConfigOptionsValidator
         );
     }
 
-    public static function validateRequired(string $value, string $optionName): string
+    public static function validateRequired(string|null $value, string $optionName): string
     {
         if (empty($value)) {
             throw MissingRequiredOptionException::fromOption($optionName);
