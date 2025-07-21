@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Add `REAL_TIME_UPDATES_TOPICS` config option.
 * Add CORS-related config options.
 * Add `TRUSTED_PROXIES` config option.
+* Add `REDIRECT_CACHE_VISIBILITY` config option.
 
 ### Changed
 * Update to PHPUnit 12
