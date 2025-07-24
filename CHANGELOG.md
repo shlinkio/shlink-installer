@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * Add CORS-related config options.
 * Add `TRUSTED_PROXIES` config option.
 * Add `REDIRECT_CACHE_VISIBILITY` config option.
+* Add `LOGS_FORMAT` config option.
 
 ### Changed
 * Update to PHPUnit 12

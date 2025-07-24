@@ -41,6 +41,7 @@ return [
             'SERVER' => [
                 Config\Option\Server\RuntimeConfigOption::class,
                 'Memory limit' => Config\Option\Server\MemoryLimitConfigOption::class,
+                'Logs format' => Config\Option\Server\LogsFormatConfigOption::class,
             ],
             'DATABASE' => [
                 'Database > Driver' => Config\Option\Database\DatabaseDriverConfigOption::class,
@@ -143,6 +144,7 @@ return [
         'factories' => [
             Config\Option\Server\RuntimeConfigOption::class => InvokableFactory::class,
             Config\Option\Server\MemoryLimitConfigOption::class => InvokableFactory::class,
+            Config\Option\Server\LogsFormatConfigOption::class => InvokableFactory::class,
             Config\Option\BasePathConfigOption::class => InvokableFactory::class,
             Config\Option\TimezoneConfigOption::class => InvokableFactory::class,
             Config\Option\Cache\CacheNamespaceConfigOption::class => InvokableFactory::class,
