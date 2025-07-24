@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Service;
 
+use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
-use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
 use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,13 +14,11 @@ use function sprintf;
 
 class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 {
-    use AskUtilsTrait;
-
-    public const GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
-    private const CACHED_CONFIGS_PATHS = ['data/cache/app_config.php', 'data/cache/fastroute_cached_routes.php'];
-    private const SQLITE_DB_PATH = 'data/database.sqlite';
-    private const GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
-    private const ROAD_RUNNER_BINARY_PATH = 'bin/rr';
+    public const string GENERATED_CONFIG_PATH = 'config/params/generated_config.php';
+    private const array CACHED_CONFIGS_PATHS = ['data/cache/app_config.php', 'data/cache/fastroute_cached_routes.php'];
+    private const string SQLITE_DB_PATH = 'data/database.sqlite';
+    private const string GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
+    private const string ROAD_RUNNER_BINARY_PATH = 'bin/rr';
 
     public function __construct(private Filesystem $filesystem)
     {
@@ -63,10 +61,12 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
         }
 
         do {
-            $installationPath = $this->askRequired(
-                $io,
-                'previous installation path',
+            $installationPath = $io->ask(
                 'Previous shlink installation path from which to import config',
+                validator: static fn ($value) => ConfigOptionsValidator::validateRequired(
+                    $value,
+                    'previous installation path',
+                ),
             );
             $configFile = sprintf('%s/%s', $installationPath, self::GENERATED_CONFIG_PATH);
             $configExists = $this->filesystem->exists($configFile);

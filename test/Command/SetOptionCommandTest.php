@@ -65,7 +65,7 @@ class SetOptionCommandTest extends TestCase
     #[Test]
     public function exceptionIsThrownWhenGeneratedConfigFileDoesNotExist(): void
     {
-        $this->filesystem->expects($this->once())->method('exists')->with($this->isType('string'))->willReturn(false);
+        $this->filesystem->expects($this->once())->method('exists')->with($this->isString())->willReturn(false);
         $this->configWriter->expects($this->never())->method('toFile');
         $this->assetsHandler->expects($this->never())->method('dropCachedConfigIfAny');
         $this->optionsManager->expects($this->never())->method('get');
@@ -77,7 +77,7 @@ class SetOptionCommandTest extends TestCase
     #[Test]
     public function expectedOptionsAreOfferedBasedOnConfig(): void
     {
-        $this->filesystem->expects($this->once())->method('exists')->with($this->isType('string'))->willReturn(true);
+        $this->filesystem->expects($this->once())->method('exists')->with($this->isString())->willReturn(true);
         $this->configWriter->expects($this->once())->method('toFile');
         $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny')->with(
             $this->isInstanceOf(SymfonyStyle::class),
@@ -86,7 +86,7 @@ class SetOptionCommandTest extends TestCase
         $plugin = $this->createMock(ConfigOptionInterface::class);
         $plugin->expects($this->once())->method('ask')->willReturn('');
         $plugin->expects($this->once())->method('getEnvVar')->willReturn('foo');
-        $this->optionsManager->expects($this->once())->method('get')->with($this->isType('string'))->willReturn(
+        $this->optionsManager->expects($this->once())->method('get')->with($this->isString())->willReturn(
             $plugin,
         );
 

@@ -7,9 +7,10 @@ namespace Shlinkio\Shlink\Installer\Config\Option\QrCode;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated Shlink has deprecated support for QR codes */
 class DefaultFormatConfigOption extends BaseConfigOption
 {
-    private const SUPPORTED_FORMATS = ['png', 'svg'];
+    private const array SUPPORTED_FORMATS = ['png', 'svg'];
 
     public function getEnvVar(): string
     {

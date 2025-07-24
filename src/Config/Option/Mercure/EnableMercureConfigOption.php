@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 
 class EnableMercureConfigOption extends AbstractAsyncRuntimeDependentConfigOption
 {
-    public const ENV_VAR = 'MERCURE_ENABLED';
+    public const string ENV_VAR = 'MERCURE_ENABLED';
 
     public function getEnvVar(): string
     {

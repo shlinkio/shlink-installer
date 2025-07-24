@@ -12,8 +12,8 @@ use function array_keys;
 
 class DatabaseDriverConfigOption extends BaseConfigOption
 {
-    public const ENV_VAR = 'DB_DRIVER';
-    private const DATABASE_DRIVERS = [
+    public const string ENV_VAR = 'DB_DRIVER';
+    private const array DATABASE_DRIVERS = [
         'MySQL' => DatabaseDriver::MYSQL,
         'MariaDB' => DatabaseDriver::MYSQL,
         'PostgreSQL' => DatabaseDriver::POSTGRES,

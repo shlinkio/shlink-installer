@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [9.6.0] - 2025-07-24
+### Added
+* Add `REAL_TIME_UPDATES_TOPICS` config option.
+* Add CORS-related config options.
+* Add `TRUSTED_PROXIES` config option.
+* Add `REDIRECT_CACHE_VISIBILITY` config option.
+* Add `LOGS_FORMAT` config option.
+
+### Changed
+* Update to PHPUnit 12
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* Drop support for shlink-config 3.0
+
+### Fixed
+* *Nothing*
+
+
 ## [9.5.0] - 2025-01-25
 ### Added
 * Support shlink-config 4.0

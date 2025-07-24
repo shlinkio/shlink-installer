@@ -2,13 +2,11 @@
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Matomo;
 
-use Shlinkio\Shlink\Installer\Util\AskUtilsTrait;
+use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class MatomoApiTokenConfigOption extends AbstractMatomoEnabledConfigOption
 {
-    use AskUtilsTrait;
-
     public function getEnvVar(): string
     {
         return 'MATOMO_API_TOKEN';
@@ -16,6 +14,10 @@ class MatomoApiTokenConfigOption extends AbstractMatomoEnabledConfigOption
 
     public function ask(StyleInterface $io, array $currentOptions): string
     {
-        return $this->askRequired($io, 'Matomo API token');
+        $option = 'Matomo API token';
+        return $io->ask(
+            $option,
+            validator: static fn ($value) => ConfigOptionsValidator::validateRequired($value, $option),
+        );
     }
 }

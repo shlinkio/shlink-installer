@@ -8,6 +8,7 @@ use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
+/** @deprecated Shlink has deprecated support for QR codes */
 class DefaultLogoUrlConfigOption extends BaseConfigOption
 {
     public function getEnvVar(): string

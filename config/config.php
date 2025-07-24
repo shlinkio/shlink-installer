@@ -41,6 +41,7 @@ return [
             'SERVER' => [
                 Config\Option\Server\RuntimeConfigOption::class,
                 'Memory limit' => Config\Option\Server\MemoryLimitConfigOption::class,
+                'Logs format' => Config\Option\Server\LogsFormatConfigOption::class,
             ],
             'DATABASE' => [
                 'Database > Driver' => Config\Option\Database\DatabaseDriverConfigOption::class,
@@ -67,8 +68,11 @@ return [
                 'URL shortener > Trailing slashes' => Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class,
                 'URL shortener > Mode' => Config\Option\UrlShortener\ShortUrlModeConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
-                'Redirects > Status code (301/302)' => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
+                'Redirects > Status code (301/302/307/308)'
+                    => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
+                'Redirects > Caching visibility'
+                    => Config\Option\UrlShortener\RedirectCacheVisibilityConfigOption::class,
             ],
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
@@ -86,7 +90,7 @@ return [
                 'Redirects > Invalid short URL' => Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class,
                 'Redirects > Regular 404' => Config\Option\Redirect\Regular404RedirectConfigOption::class,
             ],
-            'QR CODES' => [
+            'QR CODES [DEPRECATED]' => [
                 'QR codes > Default size' => Config\Option\QrCode\DefaultSizeConfigOption::class,
                 'QR codes > Default margin' => Config\Option\QrCode\DefaultMarginConfigOption::class,
                 'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,
@@ -102,11 +106,17 @@ return [
                 'Robots.txt > allow all' => Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class,
                 'Robots.txt > user agents' => Config\Option\Robots\RobotsUserAgentsConfigOption::class,
             ],
+            'CORS' => [
+                'CORS > Allow origin' => Config\Option\Cors\CorsAllowOriginConfigOption::class,
+                'CORS > Allow credentials' => Config\Option\Cors\CorsAllowCredentialsConfigOption::class,
+                'CORS > Max age' => Config\Option\Cors\CorsMaxAgeConfigOption::class,
+            ],
             'APPLICATION' => [
                 'Delete short URLs > Visits threshold' => Config\Option\Visit\VisitsThresholdConfigOption::class,
                 'Base path' => Config\Option\BasePathConfigOption::class,
                 'Timezone' => Config\Option\TimezoneConfigOption::class,
                 'Cache > namespace' => Config\Option\Cache\CacheNamespaceConfigOption::class,
+                'Trusted proxies' => Config\Option\TrustedProxiesConfigOption::class,
             ],
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
@@ -127,12 +137,14 @@ return [
                 'Matomo > Server URL' => Config\Option\Matomo\MatomoBaseUrlConfigOption::class,
                 'Matomo > Site ID' => Config\Option\Matomo\MatomoSiteIdConfigOption::class,
                 'Matomo > API token' => Config\Option\Matomo\MatomoApiTokenConfigOption::class,
+                'Real-time updates > topics' => Config\Option\RealTimeUpdates\RealTimeUpdatesTopicsConfigOption::class,
             ],
         ],
 
         'factories' => [
             Config\Option\Server\RuntimeConfigOption::class => InvokableFactory::class,
             Config\Option\Server\MemoryLimitConfigOption::class => InvokableFactory::class,
+            Config\Option\Server\LogsFormatConfigOption::class => InvokableFactory::class,
             Config\Option\BasePathConfigOption::class => InvokableFactory::class,
             Config\Option\TimezoneConfigOption::class => InvokableFactory::class,
             Config\Option\Cache\CacheNamespaceConfigOption::class => InvokableFactory::class,
@@ -187,6 +199,11 @@ return [
             Config\Option\Tracking\DisableUaTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class => InvokableFactory::class,
+            Config\Option\UrlShortener\RedirectCacheVisibilityConfigOption::class => InvokableFactory::class,
+            Config\Option\RealTimeUpdates\RealTimeUpdatesTopicsConfigOption::class => InvokableFactory::class,
+            Config\Option\Cors\CorsAllowOriginConfigOption::class => InvokableFactory::class,
+            Config\Option\Cors\CorsAllowCredentialsConfigOption::class => InvokableFactory::class,
+            Config\Option\Cors\CorsMaxAgeConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultSizeConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
             Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,

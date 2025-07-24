@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Installer\Config\Util;
 
 use Shlinkio\Shlink\Installer\Exception\InvalidConfigOptionException;
+use Shlinkio\Shlink\Installer\Exception\MissingRequiredOptionException;
 
 use function ctype_xdigit;
 use function is_numeric;
@@ -95,5 +96,14 @@ class ConfigOptionsValidator
             'Provided value is invalid. It should be an amount in bytes (1024), or a number followed by K, M, or G '
             . '(512M, 1G)',
         );
+    }
+
+    public static function validateRequired(string|null $value, string $optionName): string
+    {
+        if (empty($value)) {
+            throw MissingRequiredOptionException::fromOption($optionName);
+        }
+
+        return $value;
     }
 }
