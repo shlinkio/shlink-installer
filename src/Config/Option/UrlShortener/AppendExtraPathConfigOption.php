@@ -18,7 +18,7 @@ class AppendExtraPathConfigOption extends BaseConfigOption
     public function ask(StyleInterface $io, array $currentOptions): bool
     {
         return $io->confirm(
-            //@codingStandardsIgnoreStart
+            // phpcs:disable
             <<<FOO
             Do you want Shlink to redirect short URLs as soon as the first segment of the path matches a short code, appending the rest to the long URL?
                * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}/[...extraPath]
@@ -26,7 +26,7 @@ class AppendExtraPathConfigOption extends BaseConfigOption
                * https://example.com/abc123/shlinkio      -> https://www.twitter.com/shlinkio
                
             FOO,
-            //@codingStandardsIgnoreEnd
+            // phpcs:disable
             false,
         );
     }

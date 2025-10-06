@@ -29,7 +29,7 @@ class AppendExtraPathConfigOptionTest extends TestCase
     {
         $io = $this->createMock(StyleInterface::class);
         $io->expects($this->once())->method('confirm')->with(
-        //@codingStandardsIgnoreStart
+        // phpcs:disable
             <<<FOO
             Do you want Shlink to redirect short URLs as soon as the first segment of the path matches a short code, appending the rest to the long URL?
                * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}/[...extraPath]
@@ -37,7 +37,7 @@ class AppendExtraPathConfigOptionTest extends TestCase
                * https://example.com/abc123/shlinkio      -> https://www.twitter.com/shlinkio
                
             FOO,
-            //@codingStandardsIgnoreEnd
+            // phpcs:disable
             false,
         )->willReturn(true);
 
