@@ -8,28 +8,26 @@ use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
-class RedisSentinelServiceConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
+class RedisServersPasswordConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
-    public const string ENV_VAR = 'REDIS_SENTINEL_SERVICE';
-
     public function getEnvVar(): string
     {
-        return self::ENV_VAR;
+        return 'REDIS_SERVERS_PASSWORD';
     }
 
     public function shouldBeAsked(array $currentOptions): bool
     {
-        $isRedisEnabled = $currentOptions[RedisServersConfigOption::ENV_VAR] ?? null;
-        return $isRedisEnabled !== null && parent::shouldBeAsked($currentOptions);
+        $isSentinelEnabled = $currentOptions[RedisSentinelServiceConfigOption::ENV_VAR] ?? null;
+        return $isSentinelEnabled !== null && parent::shouldBeAsked($currentOptions);
     }
 
     public function ask(StyleInterface $io, array $currentOptions): string|null
     {
-        return $io->ask('Provide the name of the sentinel service (leave empty if not using redis sentinel)');
+        return $io->ask('Provide a password for your redis connection (leave empty if ACL is not required)');
     }
 
     public function getDependentOption(): string
     {
-        return RedisServersConfigOption::class;
+        return RedisSentinelServiceConfigOption::class;
     }
 }
