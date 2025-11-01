@@ -121,6 +121,8 @@ return [
             'INTEGRATIONS' => [
                 'Redis > servers' => Config\Option\Redis\RedisServersConfigOption::class,
                 'Redis > sentinels service' => Config\Option\Redis\RedisSentinelServiceConfigOption::class,
+                'Redis > servers user' => Config\Option\Redis\RedisServersUserConfigOption::class,
+                'Redis > servers password' => Config\Option\Redis\RedisServersPasswordConfigOption::class,
                 'Redis > Pub/sub enabled' => Config\Option\Redis\RedisPubSubConfigOption::class,
                 Config\Option\Mercure\EnableMercureConfigOption::class,
                 'Mercure > Public URL' => Config\Option\Mercure\MercurePublicUrlConfigOption::class,
@@ -171,6 +173,8 @@ return [
             Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisServersConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisSentinelServiceConfigOption::class => InvokableFactory::class,
+            Config\Option\Redis\RedisServersUserConfigOption::class => InvokableFactory::class,
+            Config\Option\Redis\RedisServersPasswordConfigOption::class => InvokableFactory::class,
             Config\Option\Redis\RedisPubSubConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortCodeLengthOption::class => InvokableFactory::class,
             Config\Option\Mercure\EnableMercureConfigOption::class => InvokableFactory::class,

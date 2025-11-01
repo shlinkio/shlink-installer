@@ -13,23 +13,23 @@
     ],
     "require": {
         "php": "^8.3",
-        "laminas/laminas-config-aggregator": "^1.17",
-        "laminas/laminas-servicemanager": "^4.3 || ^3.23",
+        "laminas/laminas-config-aggregator": "^1.18",
+        "laminas/laminas-servicemanager": "^4.4 || ^3.23",
         "laminas/laminas-stdlib": "^3.20",
         "shlinkio/shlink-config": "^4.0",
-        "symfony/console": "^7.2",
-        "symfony/filesystem": "^7.2",
-        "symfony/process": "^7.2",
+        "symfony/console": "^7.3",
+        "symfony/filesystem": "^7.3",
+        "symfony/process": "^7.3",
         "webimpress/safe-writer": "^2.2"
     },
     "require-dev": {
         "devster/ubench": "^2.1",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^12.0",
+        "phpunit/phpunit": "^12.4",
         "roave/security-advisories": "dev-master",
-        "shlinkio/php-coding-standard": "~2.4.0",
-        "symfony/var-dumper": "^7.2"
+        "shlinkio/php-coding-standard": "~2.5.0",
+        "symfony/var-dumper": "^7.3"
     },
     "autoload": {
         "psr-4": {

@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [9.7.0] - 2025-11-01
+### Added
+* Add `REDIS_SERVERS_USER` and `REDIS_SERVERS_PASSWORD` config options.
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [9.6.0] - 2025-07-24
 ### Added
 * Add `REAL_TIME_UPDATES_TOPICS` config option.
