@@ -61,7 +61,6 @@ return [
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
-                'URL shortener > Append extra path' => Config\Option\UrlShortener\AppendExtraPathConfigOption::class,
                 'URL shortener > Extra path mode' => Config\Option\UrlShortener\ExtraPathModeConfigOption::class,
                 'URL shortener > Multi-segment slugs'
                     => Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
@@ -153,7 +152,6 @@ return [
             Config\Option\UrlShortener\ShortDomainHostConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ExtraPathModeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class => InvokableFactory::class,

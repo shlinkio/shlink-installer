@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Removed
 * Remove QR code config options that were deprecated.
+* Remove append extra path config option that was deprecated.
 
 ### Fixed
 * *Nothing*
