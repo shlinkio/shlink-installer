@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* Add support for Symfony 8.0
 
 ### Changed
 * *Nothing*
@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Removed
 * Remove QR code config options that were deprecated.
 * Remove append extra path config option that was deprecated.
+* Drop support for PHP 8.3.
 
 ### Fixed
 * *Nothing*

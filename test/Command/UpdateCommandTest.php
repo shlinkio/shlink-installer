@@ -39,12 +39,12 @@ class UpdateCommandTest extends TestCase
 
         $app = new Application();
         $command = new UpdateCommand($this->configWriter, $this->assetsHandler, $generator);
-        $app->add($command);
+        $app->addCommand($command);
 
         $this->initCommand = $this->createMock(Command::class);
         $this->initCommand->method('getName')->willReturn(InitCommand::NAME);
         $this->initCommand->method('isEnabled')->willReturn(true);
-        $app->add($this->initCommand);
+        $app->addCommand($this->initCommand);
 
         $this->commandTester = new CommandTester($command);
     }
