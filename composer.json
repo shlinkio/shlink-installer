@@ -12,14 +12,14 @@
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "laminas/laminas-config-aggregator": "^1.18",
         "laminas/laminas-servicemanager": "^4.4 || ^3.23",
         "laminas/laminas-stdlib": "^3.20",
         "shlinkio/shlink-config": "^4.0",
-        "symfony/console": "^7.3",
-        "symfony/filesystem": "^7.3",
-        "symfony/process": "^7.3",
+        "symfony/console": "^8.0 || ^7.4",
+        "symfony/filesystem": "^8.0 || ^7.4",
+        "symfony/process": "^8.0 || ^7.4",
         "webimpress/safe-writer": "^2.2"
     },
     "require-dev": {
@@ -29,7 +29,7 @@
         "phpunit/phpunit": "^12.4",
         "roave/security-advisories": "dev-master",
         "shlinkio/php-coding-standard": "~2.5.0",
-        "symfony/var-dumper": "^7.3"
+        "symfony/var-dumper": "^8.0"
     },
     "autoload": {
         "psr-4": {

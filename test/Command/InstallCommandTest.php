@@ -41,12 +41,12 @@ class InstallCommandTest extends TestCase
             $this->assetsHandler,
             $configGenerator,
         );
-        $app->add($command);
+        $app->addCommand($command);
 
         $this->initCommand = $this->createMock(Command::class);
         $this->initCommand->method('getName')->willReturn(InitCommand::NAME);
         $this->initCommand->method('isEnabled')->willReturn(true);
-        $app->add($this->initCommand);
+        $app->addCommand($this->initCommand);
 
         $this->commandTester = new CommandTester($command);
     }

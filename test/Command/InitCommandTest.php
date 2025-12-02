@@ -28,7 +28,7 @@ class InitCommandTest extends TestCase
 
         $app = new Application();
         $command = new InitCommand($this->commandsRunner);
-        $app->add($command);
+        $app->addCommand($command);
 
         $this->tester = new CommandTester($command);
     }
