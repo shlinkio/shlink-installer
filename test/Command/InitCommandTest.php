@@ -13,6 +13,7 @@ use Shlinkio\Shlink\Installer\Command\InitCommand;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use function count;
@@ -111,7 +112,7 @@ class InitCommandTest extends TestCase
 
     public static function provideExitCodes(): iterable
     {
-        yield 'success' => [true, 0];
-        yield 'error' => [false, -1];
+        yield 'success' => [true, Command::SUCCESS];
+        yield 'error' => [false, Command::FAILURE];
     }
 }
