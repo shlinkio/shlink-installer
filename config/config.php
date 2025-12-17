@@ -23,6 +23,7 @@ return [
             Console\Helper\ProcessHelper::class => Factory\ProcessHelperFactory::class,
 
             Service\InstallationCommandsRunner::class => ConfigAbstractFactory::class,
+            Service\InstallationRunner::class => ConfigAbstractFactory::class,
             Service\ShlinkAssetsHandler::class => ConfigAbstractFactory::class,
             Config\ConfigGenerator::class => ConfigAbstractFactory::class,
             Config\ConfigOptionsManager::class => Config\ConfigOptionsManagerFactory::class,
@@ -209,17 +210,14 @@ return [
             PhpExecutableFinder::class,
             'config.installer.installation_commands',
         ],
+        Service\InstallationRunner::class => [
+            ConfigWriter::class,
+            Service\ShlinkAssetsHandler::class,
+            Config\ConfigGenerator::class,
+        ],
 
-        Command\InstallCommand::class => [
-            ConfigWriter::class,
-            Service\ShlinkAssetsHandler::class,
-            Config\ConfigGenerator::class,
-        ],
-        Command\UpdateCommand::class => [
-            ConfigWriter::class,
-            Service\ShlinkAssetsHandler::class,
-            Config\ConfigGenerator::class,
-        ],
+        Command\InstallCommand::class => [Service\InstallationRunner::class],
+        Command\UpdateCommand::class => [Service\InstallationRunner::class],
         Command\SetOptionCommand::class => [
             ConfigWriter::class,
             Service\ShlinkAssetsHandler::class,

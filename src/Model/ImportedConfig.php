@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Model;
 
-final class ImportedConfig
+final readonly class ImportedConfig
 {
-    private function __construct(public readonly string $importPath, public readonly array $importedConfig)
+    private function __construct(public string $importPath, public array $importedConfig)
     {
     }
 
