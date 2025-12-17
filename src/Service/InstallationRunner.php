@@ -75,7 +75,7 @@ readonly class InstallationRunner implements InstallationRunnerInterface
         Command|null $initCommand,
         SymfonyStyle $io,
         bool $isUpdate,
-        ImportedConfig $importedConfig
+        ImportedConfig $importedConfig,
     ): bool {
         $input = [
             InitOption::SKIP_INITIALIZE_DB->asCliFlag() => $isUpdate,

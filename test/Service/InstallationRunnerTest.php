@@ -96,7 +96,5 @@ class InstallationRunnerTest extends TestCase
             true,
             '--skip-initialize-db=1 --clear-db-cache=1 --download-rr-binary=1',
         ];
-
-
     }
 }
