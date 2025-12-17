@@ -4,9 +4,20 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
-class UpdateCommand extends AbstractInstallCommand
+use Shlinkio\Shlink\Installer\Service\InstallationRunnerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+class UpdateCommand extends Command
 {
     public const string NAME = 'update';
+
+    public function __construct(private readonly InstallationRunnerInterface $installationRunner)
+    {
+        parent::__construct();
+    }
 
     protected function configure(): void
     {
@@ -15,8 +26,11 @@ class UpdateCommand extends AbstractInstallCommand
             ->setDescription('Helps you import Shlink\'s config from an older version to a new one.');
     }
 
-    protected function isUpdate(): bool
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        return true;
+        $io = new SymfonyStyle($input, $output);
+        $initCommand = $this->getApplication()?->find(InitCommand::NAME);
+
+        return $this->installationRunner->runUpdate($initCommand, $io);
     }
 }
