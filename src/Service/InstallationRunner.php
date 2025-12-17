@@ -25,14 +25,29 @@ readonly class InstallationRunner implements InstallationRunnerInterface
     /** @inheritDoc */
     public function runInstallation(Command|null $initCommand, SymfonyStyle $io): int
     {
-        return $this->run($initCommand, $io, isUpdate: false, importedConfig: ImportedConfig::notImported());
+        $initCommandInput = [InitOption::INITIAL_API_KEY->asCliFlag() => null];
+        return $this->run($initCommand, $io, $initCommandInput, ImportedConfig::notImported());
     }
 
     /** @inheritDoc */
     public function runUpdate(Command|null $initCommand, SymfonyStyle $io): int
     {
         $importConfig = $this->assetsHandler->resolvePreviousConfig($io);
-        return $this->run($initCommand, $io, isUpdate: true, importedConfig: $importConfig);
+
+        // Check if a cached config file exists and drop it if so
+        $this->assetsHandler->dropCachedConfigIfAny($io);
+        $this->assetsHandler->importShlinkAssetsFromPath($io, $importConfig->importPath);
+
+        $initCommandInput = [
+            InitOption::SKIP_INITIALIZE_DB->asCliFlag() => null,
+            InitOption::CLEAR_DB_CACHE->asCliFlag() => null,
+        ];
+
+        if ($this->assetsHandler->roadRunnerBinaryExistsInPath($importConfig->importPath)) {
+            $initCommandInput[InitOption::DOWNLOAD_RR_BINARY->asCliFlag()] = null;
+        }
+
+        return $this->run($initCommand, $io, $initCommandInput, $importConfig);
     }
 
     /**
@@ -41,7 +56,7 @@ readonly class InstallationRunner implements InstallationRunnerInterface
     private function run(
         Command|null $initCommand,
         SymfonyStyle $io,
-        bool $isUpdate,
+        array $initCommandInput,
         ImportedConfig $importedConfig,
     ): int {
         $io->text([
@@ -49,12 +64,6 @@ readonly class InstallationRunner implements InstallationRunnerInterface
             'This tool will guide you through the installation process.',
         ]);
 
-        // Check if a cached config file exists and drop it if so
-        $this->assetsHandler->dropCachedConfigIfAny($io);
-
-        if ($isUpdate) {
-            $this->assetsHandler->importShlinkAssetsFromPath($io, $importedConfig->importPath);
-        }
         $config = $this->configGenerator->generateConfigInteractively($io, $importedConfig->importedConfig);
         $normalizedConfig = Utils::normalizeAndKeepEnvVarKeys($config);
 
@@ -63,31 +72,12 @@ readonly class InstallationRunner implements InstallationRunnerInterface
         $io->text('<info>Custom configuration properly generated!</info>');
         $io->newLine();
 
-        if (! $this->execInitCommand($initCommand, $io, $isUpdate, $importedConfig)) {
+        $initCommandResult = $initCommand?->run(new ArrayInput($initCommandInput), $io);
+        if ($initCommandResult !== Command::SUCCESS) {
             return Command::FAILURE;
         }
 
         $io->success('Installation complete!');
         return Command::SUCCESS;
-    }
-
-    private function execInitCommand(
-        Command|null $initCommand,
-        SymfonyStyle $io,
-        bool $isUpdate,
-        ImportedConfig $importedConfig,
-    ): bool {
-        $input = [
-            InitOption::SKIP_INITIALIZE_DB->asCliFlag() => $isUpdate,
-            InitOption::CLEAR_DB_CACHE->asCliFlag() => $isUpdate,
-            InitOption::DOWNLOAD_RR_BINARY->asCliFlag() =>
-                $isUpdate && $this->assetsHandler->roadRunnerBinaryExistsInPath($importedConfig->importPath),
-        ];
-
-        if (! $isUpdate) {
-            $input[InitOption::INITIAL_API_KEY->asCliFlag()] = null;
-        }
-
-        return $initCommand?->run(new ArrayInput($input), $io) === Command::SUCCESS;
     }
 }

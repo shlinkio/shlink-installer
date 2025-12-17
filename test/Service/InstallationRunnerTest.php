@@ -28,10 +28,7 @@ class InstallationRunnerTest extends TestCase
     protected function setUp(): void
     {
         $this->initCommand = $this->createMock(Command::class);
-
         $this->assetsHandler = $this->createMock(ShlinkAssetsHandlerInterface::class);
-        $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny');
-
         $this->configWriter = $this->createMock(ConfigWriterInterface::class);
 
         $configGenerator = $this->createStub(ConfigGeneratorInterface::class);
@@ -45,16 +42,13 @@ class InstallationRunnerTest extends TestCase
     {
         $this->initCommand->expects($this->once())->method('run')->with(
             $this->callback(function (ArrayInput $input) {
-
-                Assert::assertEquals(
-                    '--skip-initialize-db --clear-db-cache --download-rr-binary --initial-api-key',
-                    $input->__toString(),
-                );
+                Assert::assertEquals('--initial-api-key', $input->__toString());
                 return true;
             }),
             $this->anything(),
         )->willReturn(Command::SUCCESS);
 
+        $this->assetsHandler->expects($this->never())->method('dropCachedConfigIfAny');
         $this->assetsHandler->expects($this->never())->method('resolvePreviousConfig');
         $this->assetsHandler->expects($this->never())->method('roadRunnerBinaryExistsInPath');
         $this->assetsHandler->expects($this->never())->method('importShlinkAssetsFromPath');
@@ -75,6 +69,7 @@ class InstallationRunnerTest extends TestCase
             $this->anything(),
         )->willReturn(0);
 
+        $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny');
         $this->assetsHandler->expects($this->once())->method('resolvePreviousConfig')->willReturn(
             ImportedConfig::notImported(),
         );
@@ -90,11 +85,11 @@ class InstallationRunnerTest extends TestCase
     {
         yield 'update with no rr binary' => [
             false,
-            '--skip-initialize-db=1 --clear-db-cache=1 --download-rr-binary',
+            '--skip-initialize-db --clear-db-cache',
         ];
         yield 'update with rr binary' => [
             true,
-            '--skip-initialize-db=1 --clear-db-cache=1 --download-rr-binary=1',
+            '--skip-initialize-db --clear-db-cache --download-rr-binary',
         ];
     }
 }
