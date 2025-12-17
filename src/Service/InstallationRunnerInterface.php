@@ -12,10 +12,10 @@ interface InstallationRunnerInterface
     /**
      * @return Command::SUCCESS|Command::FAILURE
      */
-    public function runInstallation(Command|null $initCommand, SymfonyStyle $io): int;
+    public function runInstallation(SymfonyStyle $io, Command|null $initCommand): int;
 
     /**
      * @return Command::SUCCESS|Command::FAILURE
      */
-    public function runUpdate(Command|null $initCommand, SymfonyStyle $io): int;
+    public function runUpdate(SymfonyStyle $io, Command|null $initCommand): int;
 }

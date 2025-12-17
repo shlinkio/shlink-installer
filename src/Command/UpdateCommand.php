@@ -22,6 +22,6 @@ class UpdateCommand extends Command
     public function __invoke(SymfonyStyle $io): int
     {
         $initCommand = $this->getApplication()?->find(InitCommand::NAME);
-        return $this->installationRunner->runUpdate($initCommand, $io);
+        return $this->installationRunner->runUpdate($io, $initCommand);
     }
 }

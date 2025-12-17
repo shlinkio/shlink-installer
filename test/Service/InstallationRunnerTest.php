@@ -55,7 +55,7 @@ class InstallationRunnerTest extends TestCase
 
         $this->configWriter->expects($this->once())->method('toFile')->with($this->anything(), $this->isArray());
 
-        $this->installationRunner->runInstallation($this->initCommand, $this->createStub(SymfonyStyle::class));
+        $this->installationRunner->runInstallation($this->createStub(SymfonyStyle::class), $this->initCommand);
     }
 
     #[Test, DataProvider('provideCommands')]
@@ -78,7 +78,7 @@ class InstallationRunnerTest extends TestCase
 
         $this->configWriter->expects($this->once())->method('toFile')->with($this->anything(), $this->isArray());
 
-        $this->installationRunner->runUpdate($this->initCommand, $this->createStub(SymfonyStyle::class));
+        $this->installationRunner->runUpdate($this->createStub(SymfonyStyle::class), $this->initCommand);
     }
 
     public static function provideCommands(): iterable

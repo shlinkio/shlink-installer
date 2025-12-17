@@ -23,14 +23,14 @@ readonly class InstallationRunner implements InstallationRunnerInterface
     }
 
     /** @inheritDoc */
-    public function runInstallation(Command|null $initCommand, SymfonyStyle $io): int
+    public function runInstallation(SymfonyStyle $io, Command|null $initCommand): int
     {
         $initCommandInput = [InitOption::INITIAL_API_KEY->asCliFlag() => null];
-        return $this->run($initCommand, $io, $initCommandInput, ImportedConfig::notImported());
+        return $this->run($io, $initCommand, $initCommandInput, ImportedConfig::notImported());
     }
 
     /** @inheritDoc */
-    public function runUpdate(Command|null $initCommand, SymfonyStyle $io): int
+    public function runUpdate(SymfonyStyle $io, Command|null $initCommand): int
     {
         $importConfig = $this->assetsHandler->resolvePreviousConfig($io);
 
@@ -47,15 +47,15 @@ readonly class InstallationRunner implements InstallationRunnerInterface
             $initCommandInput[InitOption::DOWNLOAD_RR_BINARY->asCliFlag()] = null;
         }
 
-        return $this->run($initCommand, $io, $initCommandInput, $importConfig);
+        return $this->run($io, $initCommand, $initCommandInput, $importConfig);
     }
 
     /**
      * @return Command::SUCCESS|Command::FAILURE
      */
     private function run(
-        Command|null $initCommand,
         SymfonyStyle $io,
+        Command|null $initCommand,
         array $initCommandInput,
         ImportedConfig $importedConfig,
     ): int {

@@ -22,6 +22,6 @@ class InstallCommand extends Command
     public function __invoke(SymfonyStyle $io): int
     {
         $initCommand = $this->getApplication()?->find(InitCommand::NAME);
-        return $this->installationRunner->runInstallation($initCommand, $io);
+        return $this->installationRunner->runInstallation($io, $initCommand);
     }
 }
