@@ -37,7 +37,7 @@ class RealTimeUpdatesTopicsConfigOptionTest extends TestCase
         array $topicAnswers,
         array|null $expectedTopics,
     ): void {
-        $io = $this->createMock(StyleInterface::class);
+        $io = $this->createStub(StyleInterface::class);
         $io->method('confirm')->willReturnOnConsecutiveCalls($individualTopicsAnswer, ...$topicAnswers);
 
         $answer = $this->configOption->ask($io, []);

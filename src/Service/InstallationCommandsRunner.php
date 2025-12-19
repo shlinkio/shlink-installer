@@ -16,7 +16,7 @@ use function implode;
 use function sprintf;
 use function trim;
 
-class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
+readonly class InstallationCommandsRunner implements InstallationCommandsRunnerInterface
 {
     private string $phpBinary;
 

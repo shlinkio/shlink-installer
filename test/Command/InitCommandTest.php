@@ -104,7 +104,7 @@ class InitCommandTest extends TestCase
     #[Test, DataProvider('provideExitCodes')]
     public function properExitCodeIsReturnedBasedOnCommandsExecution(bool $result, int $expectedExitCode): void
     {
-        $this->commandsRunner->method('execPhpCommand')->willReturn($result);
+        $this->commandsRunner->expects($this->atLeastOnce())->method('execPhpCommand')->willReturn($result);
         $exitCode = $this->tester->execute([]);
 
         self::assertEquals($expectedExitCode, $exitCode);

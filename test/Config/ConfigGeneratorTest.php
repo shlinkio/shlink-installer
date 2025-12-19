@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,13 +23,11 @@ use function get_class;
 class ConfigGeneratorTest extends TestCase
 {
     private MockObject & ConfigOptionsManagerInterface $configOptionsManager;
-    private MockObject & ConfigOptionInterface $plugin;
     private MockObject & StyleInterface $io;
 
     public function setUp(): void
     {
         $this->configOptionsManager = $this->createMock(ConfigOptionsManagerInterface::class);
-        $this->plugin = $this->createMock(ConfigOptionInterface::class);
         $this->io = $this->createMock(StyleInterface::class);
     }
 
@@ -41,12 +40,11 @@ class ConfigGeneratorTest extends TestCase
         $totalPlugins = count(ArrayUtils::flatten($configOptionsGroups));
         $expectedQuestions = $enabledOptions === null ? $totalPlugins : count($enabledOptions);
 
-        $this->plugin->expects($this->exactly($expectedQuestions))->method('shouldBeAsked')->willReturn(true);
-        $this->plugin->expects($this->exactly($expectedQuestions))->method('getEnvVar')->willReturn('ENV_VAR');
-        $this->plugin->expects($this->exactly($expectedQuestions))->method('ask')->willReturn('value');
-        $this->configOptionsManager->expects($this->exactly($expectedQuestions))->method('get')->willReturn(
-            $this->plugin,
-        );
+        $plugin = $this->createMock(ConfigOptionInterface::class);
+        $plugin->expects($this->exactly($expectedQuestions))->method('shouldBeAsked')->willReturn(true);
+        $plugin->expects($this->exactly($expectedQuestions))->method('getEnvVar')->willReturn('ENV_VAR');
+        $plugin->expects($this->exactly($expectedQuestions))->method('ask')->willReturn('value');
+        $this->configOptionsManager->expects($this->exactly($expectedQuestions))->method('get')->willReturn($plugin);
         $this->io->expects($this->exactly($expectedPrintTitleCalls))->method('title');
 
         $generator = new ConfigGenerator($this->configOptionsManager, $configOptionsGroups, $enabledOptions);
@@ -69,7 +67,7 @@ class ConfigGeneratorTest extends TestCase
         yield '1 enabled' => [$optionsGroups, ['foo'], 1];
     }
 
-    #[Test]
+    #[Test, AllowMockObjectsWithoutExpectations]
     public function pluginsAreAskedInProperOrder(): void
     {
         $orderedAskedOptions = [];
@@ -143,7 +141,7 @@ class ConfigGeneratorTest extends TestCase
         self::assertEquals(['a', 'depends_on_a'], $orderedAskedOptions);
     }
 
-    #[Test, DataProvider('provideMigratorValues')]
+    #[Test, DataProvider('provideMigratorValues'), AllowMockObjectsWithoutExpectations]
     public function migratorPluginsAreProcessedWhenTheValuesShouldNotBeAsked(
         array $oldConfig,
         array $expectedResult,
