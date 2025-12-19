@@ -29,7 +29,7 @@ class ApplicationFactoryTest extends TestCase
     public function serviceIsCreated(): void
     {
         $createEnabledCommandWithName = function (string $name) {
-            $command = $this->createMock(Command::class);
+            $command = $this->createStub(Command::class);
             $command->method('isEnabled')->willReturn(true);
             $command->method('getAliases')->willReturn([]);
             $command->method('getName')->willReturn($name);

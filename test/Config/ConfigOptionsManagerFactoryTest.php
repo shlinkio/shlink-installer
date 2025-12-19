@@ -44,9 +44,9 @@ class ConfigOptionsManagerFactoryTest extends TestCase
             static fn (TestCase $test) => [
                 'config_options' => [
                     'services' => [
-                        'a' => $test->createMock(ConfigOptionInterface::class),
-                        'b' => $test->createMock(ConfigOptionInterface::class),
-                        'c' => $test->createMock(ConfigOptionInterface::class),
+                        'a' => $test->createStub(ConfigOptionInterface::class),
+                        'b' => $test->createStub(ConfigOptionInterface::class),
+                        'c' => $test->createStub(ConfigOptionInterface::class),
                     ],
                 ],
             ],
