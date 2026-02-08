@@ -12,9 +12,8 @@ use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandler;
 use Shlinkio\Shlink\Installer\Service\ShlinkAssetsHandlerInterface;
 use Shlinkio\Shlink\Installer\Util\ArrayUtils;
 use Shlinkio\Shlink\Installer\Util\ConfigWriterInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -25,6 +24,7 @@ use function is_iterable;
 use function is_numeric;
 use function iterator_to_array;
 
+#[AsCommand(SetOptionCommand::NAME, 'Allows you to set new values for any config option')]
 class SetOptionCommand extends Command
 {
     public const string NAME = 'set-option';
@@ -33,10 +33,10 @@ class SetOptionCommand extends Command
     private string $generatedConfigPath;
 
     public function __construct(
-        private ConfigWriterInterface $configWriter,
-        private ShlinkAssetsHandlerInterface $assetsHandler,
-        private ConfigOptionsManagerInterface $optionsManager,
-        private Filesystem $filesystem,
+        private readonly ConfigWriterInterface $configWriter,
+        private readonly ShlinkAssetsHandlerInterface $assetsHandler,
+        private readonly ConfigOptionsManagerInterface $optionsManager,
+        private readonly Filesystem $filesystem,
         array $groups,
         array|null $enabledOptions,
     ) {
@@ -62,23 +62,12 @@ class SetOptionCommand extends Command
         }
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->setName(self::NAME)
-            ->setDescription('Allows you to set new values for any config option.');
-    }
-
-    protected function interact(InputInterface $input, OutputInterface $output): void
+    public function __invoke(SymfonyStyle $io): int
     {
         if (! $this->filesystem->exists($this->generatedConfigPath)) {
             throw InvalidShlinkPathException::forCurrentPath();
         }
-    }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
         $optionTitle = $io->choice('What config option do you want to change', array_keys($this->groups));
 
         /** @var ConfigOptionInterface $plugin */

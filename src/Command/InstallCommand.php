@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Command;
 
-class InstallCommand extends AbstractInstallCommand
+use Shlinkio\Shlink\Installer\Service\InstallationRunnerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+#[AsCommand(InstallCommand::NAME, 'Guides you through the installation process, to get Shlink up and running')]
+class InstallCommand extends Command
 {
     public const string NAME = 'install';
 
-    protected function configure(): void
+    public function __construct(private readonly InstallationRunnerInterface $installationRunner)
     {
-        $this
-            ->setName(self::NAME)
-            ->setDescription('Guides you through the installation process, to get Shlink up and running.');
+        parent::__construct();
     }
 
-    protected function isUpdate(): bool
+    public function __invoke(SymfonyStyle $io): int
     {
-        return false;
+        $initCommand = $this->getApplication()?->find(InitCommand::NAME);
+        return $this->installationRunner->runInstallation($io, $initCommand);
     }
 }

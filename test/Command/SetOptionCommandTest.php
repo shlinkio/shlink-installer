@@ -53,7 +53,7 @@ class SetOptionCommandTest extends TestCase
             ]],
             ['option_1', 'option_3'],
         );
-        $app->add($command);
+        $app->addCommand($command);
         $this->commandTester = new CommandTester($command);
     }
 
@@ -90,7 +90,7 @@ class SetOptionCommandTest extends TestCase
             $plugin,
         );
 
-        $this->commandTester->setInputs([1]);
+        $this->commandTester->setInputs(['1']);
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
 

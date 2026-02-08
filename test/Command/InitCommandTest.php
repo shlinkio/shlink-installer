@@ -13,6 +13,7 @@ use Shlinkio\Shlink\Installer\Command\InitCommand;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunnerInterface;
 use Shlinkio\Shlink\Installer\Util\InstallationCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use function count;
@@ -28,7 +29,7 @@ class InitCommandTest extends TestCase
 
         $app = new Application();
         $command = new InitCommand($this->commandsRunner);
-        $app->add($command);
+        $app->addCommand($command);
 
         $this->tester = new CommandTester($command);
     }
@@ -103,7 +104,7 @@ class InitCommandTest extends TestCase
     #[Test, DataProvider('provideExitCodes')]
     public function properExitCodeIsReturnedBasedOnCommandsExecution(bool $result, int $expectedExitCode): void
     {
-        $this->commandsRunner->method('execPhpCommand')->willReturn($result);
+        $this->commandsRunner->expects($this->atLeastOnce())->method('execPhpCommand')->willReturn($result);
         $exitCode = $this->tester->execute([]);
 
         self::assertEquals($expectedExitCode, $exitCode);
@@ -111,7 +112,7 @@ class InitCommandTest extends TestCase
 
     public static function provideExitCodes(): iterable
     {
-        yield 'success' => [true, 0];
-        yield 'error' => [false, -1];
+        yield 'success' => [true, Command::SUCCESS];
+        yield 'error' => [false, Command::FAILURE];
     }
 }

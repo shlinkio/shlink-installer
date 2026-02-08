@@ -6,9 +6,11 @@ namespace ShlinkioTest\Shlink\Installer\Service;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -30,7 +32,7 @@ class InstallationCommandsRunnerTest extends TestCase
 
     public function setUp(): void
     {
-        $phpFinder = $this->createMock(PhpExecutableFinder::class);
+        $phpFinder = $this->createStub(PhpExecutableFinder::class);
         $phpFinder->method('find')->willReturn('php');
 
         $this->processHelper = $this->createMock(ProcessHelper::class);
@@ -59,7 +61,7 @@ class InstallationCommandsRunnerTest extends TestCase
         );
     }
 
-    #[Test]
+    #[Test, AllowMockObjectsWithoutExpectations]
     public function doesNothingWhenRequestedCommandDoesNotExist(): void
     {
         self::assertFalse($this->commandsRunner->execPhpCommand('invalid', $this->io, interactive: true, args: []));
@@ -228,9 +230,9 @@ class InstallationCommandsRunnerTest extends TestCase
         yield 'multiple arg' => [['first', 'second', 'third']];
     }
 
-    private function createProcessMock(bool $isSuccessful): MockObject & Process
+    private function createProcessMock(bool $isSuccessful): Stub & Process
     {
-        $process = $this->createMock(Process::class);
+        $process = $this->createStub(Process::class);
         $process->method('isSuccessful')->willReturn($isSuccessful);
 
         return $process;

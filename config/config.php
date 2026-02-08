@@ -23,6 +23,7 @@ return [
             Console\Helper\ProcessHelper::class => Factory\ProcessHelperFactory::class,
 
             Service\InstallationCommandsRunner::class => ConfigAbstractFactory::class,
+            Service\InstallationRunner::class => ConfigAbstractFactory::class,
             Service\ShlinkAssetsHandler::class => ConfigAbstractFactory::class,
             Config\ConfigGenerator::class => ConfigAbstractFactory::class,
             Config\ConfigOptionsManager::class => Config\ConfigOptionsManagerFactory::class,
@@ -61,7 +62,6 @@ return [
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
                 'URL shortener > Auto resolve titles'
                     => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
-                'URL shortener > Append extra path' => Config\Option\UrlShortener\AppendExtraPathConfigOption::class,
                 'URL shortener > Extra path mode' => Config\Option\UrlShortener\ExtraPathModeConfigOption::class,
                 'URL shortener > Multi-segment slugs'
                     => Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
@@ -89,18 +89,6 @@ return [
                 'Redirects > Base URL' => Config\Option\Redirect\BaseUrlRedirectConfigOption::class,
                 'Redirects > Invalid short URL' => Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::class,
                 'Redirects > Regular 404' => Config\Option\Redirect\Regular404RedirectConfigOption::class,
-            ],
-            'QR CODES [DEPRECATED]' => [
-                'QR codes > Default size' => Config\Option\QrCode\DefaultSizeConfigOption::class,
-                'QR codes > Default margin' => Config\Option\QrCode\DefaultMarginConfigOption::class,
-                'QR codes > Default format' => Config\Option\QrCode\DefaultFormatConfigOption::class,
-                'QR codes > Default error correction' => Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class,
-                'QR codes > Default round block size' => Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class,
-                'QR codes > Default color' => Config\Option\QrCode\DefaultColorConfigOption::class,
-                'QR codes > Default background color' => Config\Option\QrCode\DefaultBgColorConfigOption::class,
-                'QR codes > Default logo URL' => Config\Option\QrCode\DefaultLogoUrlConfigOption::class,
-                'QR codes > Enabled for disabled short URLs'
-                    => Config\Option\QrCode\EnabledForDisabledShortUrlsConfigOption::class,
             ],
             'ROBOTS' => [
                 'Robots.txt > allow all' => Config\Option\Robots\RobotsAllowAllShortUrlsConfigOption::class,
@@ -165,7 +153,6 @@ return [
             Config\Option\UrlShortener\ShortDomainHostConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class => InvokableFactory::class,
-            Config\Option\UrlShortener\AppendExtraPathConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\ExtraPathModeConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class => InvokableFactory::class,
@@ -208,15 +195,6 @@ return [
             Config\Option\Cors\CorsAllowOriginConfigOption::class => InvokableFactory::class,
             Config\Option\Cors\CorsAllowCredentialsConfigOption::class => InvokableFactory::class,
             Config\Option\Cors\CorsMaxAgeConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultSizeConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultMarginConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultFormatConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultErrorCorrectionConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultRoundBlockSizeConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultColorConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultBgColorConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\DefaultLogoUrlConfigOption::class => InvokableFactory::class,
-            Config\Option\QrCode\EnabledForDisabledShortUrlsConfigOption::class => InvokableFactory::class,
         ],
     ],
 
@@ -232,17 +210,14 @@ return [
             PhpExecutableFinder::class,
             'config.installer.installation_commands',
         ],
+        Service\InstallationRunner::class => [
+            ConfigWriter::class,
+            Service\ShlinkAssetsHandler::class,
+            Config\ConfigGenerator::class,
+        ],
 
-        Command\InstallCommand::class => [
-            ConfigWriter::class,
-            Service\ShlinkAssetsHandler::class,
-            Config\ConfigGenerator::class,
-        ],
-        Command\UpdateCommand::class => [
-            ConfigWriter::class,
-            Service\ShlinkAssetsHandler::class,
-            Config\ConfigGenerator::class,
-        ],
+        Command\InstallCommand::class => [Service\InstallationRunner::class],
+        Command\UpdateCommand::class => [Service\InstallationRunner::class],
         Command\SetOptionCommand::class => [
             ConfigWriter::class,
             Service\ShlinkAssetsHandler::class,

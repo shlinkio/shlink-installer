@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,13 +23,13 @@ class RedisServersConfigOptionTest extends TestCase
         $this->io = $this->createMock(StyleInterface::class);
     }
 
-    #[Test]
+    #[Test, AllowMockObjectsWithoutExpectations]
     public function returnsExpectedEnvVar(): void
     {
         self::assertEquals('REDIS_SERVERS', $this->configOption->getEnvVar());
     }
 
-    #[Test]
+    #[Test, AllowMockObjectsWithoutExpectations]
     public function serversAreNotRequestedWhenNoRedisConfigIsProvided(): void
     {
         $this->io->expects($this->once())->method('confirm')->with(

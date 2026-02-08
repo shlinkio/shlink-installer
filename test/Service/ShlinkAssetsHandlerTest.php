@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,6 +19,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use function array_map;
 use function str_starts_with;
 
+#[AllowMockObjectsWithoutExpectations]
 class ShlinkAssetsHandlerTest extends TestCase
 {
     private ShlinkAssetsHandler $assetsHandler;
