@@ -22,8 +22,8 @@ use function get_class;
 
 class ConfigGeneratorTest extends TestCase
 {
-    private MockObject & ConfigOptionsManagerInterface $configOptionsManager;
-    private MockObject & StyleInterface $io;
+    private MockObject&ConfigOptionsManagerInterface $configOptionsManager;
+    private MockObject&StyleInterface $io;
 
     public function setUp(): void
     {
@@ -71,7 +71,7 @@ class ConfigGeneratorTest extends TestCase
     public function pluginsAreAskedInProperOrder(): void
     {
         $orderedAskedOptions = [];
-        $regularPlugin = new class ($orderedAskedOptions) implements ConfigOptionInterface {
+        $regularPlugin = new class($orderedAskedOptions) implements ConfigOptionInterface {
             private array $orderedAskedOptions; // @phpstan-ignore-line
 
             public function __construct(array &$orderedAskedOptions)
@@ -95,10 +95,9 @@ class ConfigGeneratorTest extends TestCase
                 return 'value';
             }
         };
-        $dependentPlugin = new class ($orderedAskedOptions, get_class($regularPlugin)) implements
+        $dependentPlugin = new class($orderedAskedOptions, get_class($regularPlugin)) implements
             ConfigOptionInterface,
-            DependentConfigOptionInterface
-        {
+            DependentConfigOptionInterface {
             private array $orderedAskedOptions; // @phpstan-ignore-line
 
             public function __construct(array &$orderedAskedOptions, private string $regularPluginClass)
@@ -128,9 +127,12 @@ class ConfigGeneratorTest extends TestCase
             }
         };
 
-        $this->configOptionsManager->expects($this->exactly(2))->method('get')->willReturnCallback(
-            fn (string $configOption) => $configOption === 'a' ? $regularPlugin : $dependentPlugin,
-        );
+        $this->configOptionsManager
+            ->expects($this->exactly(2))
+            ->method('get')
+            ->willReturnCallback(
+                static fn (string $configOption) => $configOption === 'a' ? $regularPlugin : $dependentPlugin,
+            );
 
         $optionsGroups = [
             'group_a' => ['depends_on_a', 'a'],

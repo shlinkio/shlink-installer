@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shlinkio\Shlink\Installer\Config\Option\Matomo;
 
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;

@@ -31,17 +31,21 @@ class CorsAllowOriginConfigOptionTest extends TestCase
     public function answerReturnedAsIsWhenNoAllowlistIsSelected(string $answer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('choice')->with(
-            'How do you want Shlink to determine which origins are allowed for CORS requests?',
-            [
-                '*' => 'All hosts are implicitly allowed (Access-Control-Allow-Origin is set to "*")',
-                '<origin>' =>
-                    'All hosts are explicitly allowed (Access-Control-Allow-Origin is set to the value in request\'s '
-                    . 'Origin header)',
-                'allowlist' => 'Provide a list of hosts that are allowed',
-            ],
-            '*',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                'How do you want Shlink to determine which origins are allowed for CORS requests?',
+                [
+                    '*' => 'All hosts are implicitly allowed (Access-Control-Allow-Origin is set to "*")',
+                    '<origin>' =>
+                        'All hosts are explicitly allowed (Access-Control-Allow-Origin is set to the value in request\'s '
+                            . 'Origin header)',
+                    'allowlist' => 'Provide a list of hosts that are allowed',
+                ],
+                '*',
+            )
+            ->willReturn($answer);
         $io->expects($this->never())->method('ask');
 
         self::assertEquals($answer, $this->configOption->ask($io, []));

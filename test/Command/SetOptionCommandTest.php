@@ -24,10 +24,10 @@ use function getcwd;
 class SetOptionCommandTest extends TestCase
 {
     private CommandTester $commandTester;
-    private MockObject & ConfigWriterInterface $configWriter;
-    private MockObject & ShlinkAssetsHandlerInterface $assetsHandler;
-    private MockObject & ConfigOptionsManagerInterface $optionsManager;
-    private MockObject & Filesystem $filesystem;
+    private MockObject&ConfigWriterInterface $configWriter;
+    private MockObject&ShlinkAssetsHandlerInterface $assetsHandler;
+    private MockObject&ConfigOptionsManagerInterface $optionsManager;
+    private MockObject&Filesystem $filesystem;
     private string $initialCwd;
 
     public function setUp(): void
@@ -79,16 +79,23 @@ class SetOptionCommandTest extends TestCase
     {
         $this->filesystem->expects($this->once())->method('exists')->with($this->isString())->willReturn(true);
         $this->configWriter->expects($this->once())->method('toFile');
-        $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny')->with(
-            $this->isInstanceOf(SymfonyStyle::class),
-        );
+        $this->assetsHandler
+            ->expects($this->once())
+            ->method('dropCachedConfigIfAny')
+            ->with(
+                $this->isInstanceOf(SymfonyStyle::class),
+            );
 
         $plugin = $this->createMock(ConfigOptionInterface::class);
         $plugin->expects($this->once())->method('ask')->willReturn('');
         $plugin->expects($this->once())->method('getEnvVar')->willReturn('foo');
-        $this->optionsManager->expects($this->once())->method('get')->with($this->isString())->willReturn(
-            $plugin,
-        );
+        $this->optionsManager
+            ->expects($this->once())
+            ->method('get')
+            ->with($this->isString())
+            ->willReturn(
+                $plugin,
+            );
 
         $this->commandTester->setInputs(['1']);
         $this->commandTester->execute([]);

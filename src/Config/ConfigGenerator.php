@@ -21,8 +21,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
         private readonly ConfigOptionsManagerInterface $configOptionsManager,
         private readonly array $configOptionsGroups,
         private readonly array|null $enabledOptions,
-    ) {
-    }
+    ) {}
 
     public function generateConfigInteractively(StyleInterface $io, array $previousConfig): array
     {
@@ -33,12 +32,13 @@ class ConfigGenerator implements ConfigGeneratorInterface
         // FIXME Improve code quality on these nested loops
         foreach ($pluginsGroups as $title => $configOptions) {
             foreach ($configOptions as $configOption => $plugin) {
-                $optionIsEnabled = $this->enabledOptions === null || ArrayUtils::contains(
+                $optionIsEnabled = $this->enabledOptions === null
+                || ArrayUtils::contains(
                     $configOption,
                     $this->enabledOptions,
                 );
                 $shouldAsk = $optionIsEnabled && $plugin->shouldBeAsked($answers);
-                if (! $shouldAsk) {
+                if (!$shouldAsk) {
                     if ($plugin instanceof ConfigOptionMigratorInterface && isset($answers[$plugin->getEnvVar()])) {
                         $answers[$plugin->getEnvVar()] = $plugin->tryToMigrateValue($answers[$plugin->getEnvVar()]);
                     }
@@ -47,7 +47,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
                 }
 
                 // Render every title only once, and only as soon as we find a plugin that should be asked
-                if (! ArrayUtils::contains($title, $alreadyRenderedTitles)) {
+                if (!ArrayUtils::contains($title, $alreadyRenderedTitles)) {
                     $alreadyRenderedTitles[] = $title;
                     $io->title($title);
                 }
@@ -73,17 +73,23 @@ class ConfigGenerator implements ConfigGeneratorInterface
             // Sort plugins based on which other plugins they depend on
             usort(
                 $plugins,
-                static fn (ConfigOptionInterface $a, ConfigOptionInterface $b): int =>
-                    $a instanceof DependentConfigOptionInterface && $a->getDependentOption() === $b::class ? 1 : 0,
+                static fn (ConfigOptionInterface $a, ConfigOptionInterface $b): int => $a
+                    instanceof DependentConfigOptionInterface
+                    && $a->getDependentOption() === $b::class
+                        ? 1
+                        : 0,
             );
 
             return array_combine($configOptions, $plugins);
         };
         $filterDisabledOptions = fn (array $configOptions) => array_filter(
             $configOptions,
-            fn (string $option) => $this->enabledOptions === null || ArrayUtils::contains(
-                $option,
-                $this->enabledOptions,
+            fn (string $option) => (
+                $this->enabledOptions === null
+                || ArrayUtils::contains(
+                    $option,
+                    $this->enabledOptions,
+                )
             ),
         );
 

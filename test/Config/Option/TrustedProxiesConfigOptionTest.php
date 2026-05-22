@@ -29,10 +29,14 @@ class TrustedProxiesConfigOptionTest extends TestCase
     public function nullIsReturnedWhenNoProxiesAreSet(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you have more than one proxy in front of this Shlink instance?',
-            false,
-        )->willReturn(false);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you have more than one proxy in front of this Shlink instance?',
+                false,
+            )
+            ->willReturn(false);
         $io->expects($this->never())->method('choice');
         $io->expects($this->never())->method('ask');
 
@@ -44,29 +48,41 @@ class TrustedProxiesConfigOptionTest extends TestCase
     #[TestWith([
         'list',
         'Provide a comma-separated list of your proxies\' IP addresses, CIDR blocks or wildcard '
-        . 'addresses (1.2.*.*)',
+            . 'addresses (1.2.*.*)',
     ])]
     public function expectedQuestionIsAskedBasedOnChoice(string $option, string $expectedAskedQuestion): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you have more than one proxy in front of this Shlink instance?',
-            false,
-        )->willReturn(true);
-        $io->expects($this->once())->method('choice')->with(
-            'How do you want your proxies IP addresses to be identified, so that the visitor IP address can be '
-            . 'properly determined?',
-            [
-                'amount' => 'Just set the amount of proxies',
-                'list' => 'Define a comma-separated list of IP addresses, CIDR blocks or wildcard addresses (1.2.*.*)',
-            ],
-            'list',
-        )->willReturn($option);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you have more than one proxy in front of this Shlink instance?',
+                false,
+            )
+            ->willReturn(true);
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                'How do you want your proxies IP addresses to be identified, so that the visitor IP address can be '
+                . 'properly determined?',
+                [
+                    'amount' => 'Just set the amount of proxies',
+                    'list' => 'Define a comma-separated list of IP addresses, CIDR blocks or wildcard addresses (1.2.*.*)',
+                ],
+                'list',
+            )
+            ->willReturn($option);
 
         $answer = '5';
-        $io->expects($this->once())->method('ask')->with($expectedAskedQuestion, null, $this->isCallable())->willReturn(
-            $answer,
-        );
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with($expectedAskedQuestion, null, $this->isCallable())
+            ->willReturn(
+                $answer,
+            );
 
         self::assertEquals($answer, $this->configOption->ask($io, []));
     }

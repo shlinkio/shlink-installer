@@ -28,10 +28,14 @@ class RabbitMqEnabledConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want Shlink to publish real-time updates in a RabbitMQ instance?',
-            false,
-        )->willReturn(true);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want Shlink to publish real-time updates in a RabbitMQ instance?',
+                false,
+            )
+            ->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
 

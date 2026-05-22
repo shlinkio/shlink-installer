@@ -30,9 +30,13 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string|null $answer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Provide the name of the sentinel service (leave empty if not using redis sentinel)',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Provide the name of the sentinel service (leave empty if not using redis sentinel)',
+            )
+            ->willReturn($answer);
 
         $results = $this->configOption->ask($io, []);
 

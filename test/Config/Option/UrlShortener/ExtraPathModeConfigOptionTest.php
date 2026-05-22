@@ -29,25 +29,29 @@ class ExtraPathModeConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string $choice): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('choice')->with(
-            <<<QUESTION
-            Do you want Shlink to redirect short URLs as soon as the first segment of the path matches a short code?
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                <<<QUESTION
+                    Do you want Shlink to redirect short URLs as soon as the first segment of the path matches a short code?
 
-              append:
-                * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}/[...extraPath]
-                * https://s.test/abc123                    -> https://www.example.com
-                * https://s.test/abc123/shlinkio           -> https://www.example.com/shlinkio
+                      append:
+                        * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}/[...extraPath]
+                        * https://s.test/abc123                    -> https://www.example.com
+                        * https://s.test/abc123/shlinkio           -> https://www.example.com/shlinkio
 
-              ignore:
-                * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}
-                * https://s.test/abc123                    -> https://www.example.com
-                * https://s.test/abc123/shlinkio           -> https://www.example.com
+                      ignore:
+                        * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}
+                        * https://s.test/abc123                    -> https://www.example.com
+                        * https://s.test/abc123/shlinkio           -> https://www.example.com
 
 
-            QUESTION,
-            ExtraPathModeConfigOption::MODES,
-            'default',
-        )->willReturn($choice);
+                    QUESTION,
+                ExtraPathModeConfigOption::MODES,
+                'default',
+            )
+            ->willReturn($choice);
 
         $answer = $this->configOption->ask($io, []);
 

@@ -28,12 +28,16 @@ class MemoryLimitConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'What is the maximum amount of RAM every process run by Shlink should be allowed to use? (Provide a '
-            . 'number for bytes, a number followed by K for kilobytes, M for Megabytes or G for Gigabytes)',
-            '512M',
-            $this->anything(),
-        )->willReturn('1G');
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'What is the maximum amount of RAM every process run by Shlink should be allowed to use? (Provide a '
+                . 'number for bytes, a number followed by K for kilobytes, M for Megabytes or G for Gigabytes)',
+                '512M',
+                $this->anything(),
+            )
+            ->willReturn('1G');
 
         $answer = $this->configOption->ask($io, []);
 

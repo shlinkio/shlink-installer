@@ -31,11 +31,15 @@ class DatabaseUseEncryptionConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(bool $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want the database connection to be encrypted? Enabling this will make database connections fail if '
-            . 'your database server does not support or enforce encryption.',
-            false,
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want the database connection to be encrypted? Enabling this will make database connections fail if '
+                . 'your database server does not support or enforce encryption.',
+                false,
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

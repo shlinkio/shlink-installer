@@ -59,7 +59,7 @@ readonly class InstallationCommandsRunner implements InstallationCommandsRunnerI
 
         $process = $this->processHelper->run($io, new Process($command, timeout: $commandConfig['timeout'] ?? 60));
         $isSuccess = $process->isSuccessful();
-        $isWarning = ! $isSuccess && ! $failOnError;
+        $isWarning = !$isSuccess && !$failOnError;
         $isVerbose = $io->isVerbose();
         $verbosityIndicator = $interactive ? 'Run with -vvv' : 'Set SHELL_VERBOSITY=3';
 
@@ -68,7 +68,7 @@ readonly class InstallationCommandsRunner implements InstallationCommandsRunnerI
         } elseif ($isWarning) {
             $io->write(' <comment>Warning!</comment>');
             $io->writeln($isVerbose ? '' : sprintf(' %s to see error.', $verbosityIndicator));
-        } elseif (! $isVerbose) {
+        } elseif (!$isVerbose) {
             $io->error(
                 sprintf('%s. %s to see specific error info.', $errorMessage, $verbosityIndicator),
             );

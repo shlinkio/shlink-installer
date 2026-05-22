@@ -22,14 +22,16 @@ class CorsAllowOriginConfigOption extends BaseConfigOption
                 '*' => 'All hosts are implicitly allowed (Access-Control-Allow-Origin is set to "*")',
                 '<origin>' =>
                     'All hosts are explicitly allowed (Access-Control-Allow-Origin is set to the value in request\'s '
-                    . 'Origin header)',
+                        . 'Origin header)',
                 'allowlist' => 'Provide a list of hosts that are allowed',
             ],
             '*',
         );
 
-        return $answer !== 'allowlist' ? $answer : $io->ask(
-            'Provide a comma-separated list of origins that should be allowed to perform CORS requests to Shlink',
-        );
+        return $answer !== 'allowlist'
+            ? $answer
+            : $io->ask(
+                'Provide a comma-separated list of origins that should be allowed to perform CORS requests to Shlink',
+            );
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shlinkio\Shlink\Installer\Config\Option\RealTimeUpdates;
 
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
@@ -28,7 +30,7 @@ class RealTimeUpdatesTopicsConfigOption extends BaseConfigOption
             'Do you want to enable individual real-time updates topics? (All topics will be enabled otherwise)',
             default: false,
         );
-        if (! $individualTopics) {
+        if (!$individualTopics) {
             return null;
         }
 

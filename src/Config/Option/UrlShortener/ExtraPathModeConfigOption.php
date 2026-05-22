@@ -24,20 +24,20 @@ class ExtraPathModeConfigOption extends BaseConfigOption
     {
         return $io->choice(
             question: <<<QUESTION
-            Do you want Shlink to redirect short URLs as soon as the first segment of the path matches a short code?
+                Do you want Shlink to redirect short URLs as soon as the first segment of the path matches a short code?
 
-              append:
-                * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}/[...extraPath]
-                * https://s.test/abc123                    -> https://www.example.com
-                * https://s.test/abc123/shlinkio           -> https://www.example.com/shlinkio
+                  append:
+                    * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}/[...extraPath]
+                    * https://s.test/abc123                    -> https://www.example.com
+                    * https://s.test/abc123/shlinkio           -> https://www.example.com/shlinkio
 
-              ignore:
-                * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}
-                * https://s.test/abc123                    -> https://www.example.com
-                * https://s.test/abc123/shlinkio           -> https://www.example.com
+                  ignore:
+                    * {shortDomain}/{shortCode}/[...extraPath] -> {longUrl}
+                    * https://s.test/abc123                    -> https://www.example.com
+                    * https://s.test/abc123/shlinkio           -> https://www.example.com
 
 
-            QUESTION,
+                QUESTION,
             choices: self::MODES,
             default: 'default',
         );

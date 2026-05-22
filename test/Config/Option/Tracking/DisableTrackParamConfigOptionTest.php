@@ -30,10 +30,14 @@ class DisableTrackParamConfigOptionTest extends TestCase
     {
         $expectedAnswer = 'the_answer';
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Provide a parameter name that you will be able to use to disable tracking on specific request to '
-            . 'short URLs (leave empty and this feature won\'t be enabled)',
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Provide a parameter name that you will be able to use to disable tracking on specific request to '
+                . 'short URLs (leave empty and this feature won\'t be enabled)',
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

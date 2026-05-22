@@ -31,10 +31,14 @@ class DisableUaTrackingConfigOptionTest extends TestCase
     {
         $expectedAnswer = true;
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want to disable tracking of visitors\' "User Agents"?',
-            false,
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want to disable tracking of visitors\' "User Agents"?',
+                false,
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 
@@ -61,9 +65,12 @@ class DisableUaTrackingConfigOptionTest extends TestCase
         yield 'tracking not disabled' => [[DisableTrackingConfigOption::ENV_VAR => false], true];
         yield 'tracking disabled' => [[DisableTrackingConfigOption::ENV_VAR => true], false];
         yield 'option already set' => [['DISABLE_UA_TRACKING' => false], false];
-        yield 'tracking not disabled with option already set' => [[
-            DisableTrackingConfigOption::ENV_VAR => false,
-            'DISABLE_UA_TRACKING' => false,
-        ], false];
+        yield 'tracking not disabled with option already set' => [
+            [
+                DisableTrackingConfigOption::ENV_VAR => false,
+                'DISABLE_UA_TRACKING' => false,
+            ],
+            false,
+        ];
     }
 }

@@ -30,17 +30,21 @@ class DatabaseDriverConfigOptionTest extends TestCase
     {
         $expectedAnswer = DatabaseDriver::POSTGRES->value;
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('choice')->with(
-            'Select database type',
-            [
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                'Select database type',
+                [
+                    'MySQL',
+                    'MariaDB',
+                    'PostgreSQL',
+                    'MicrosoftSQL',
+                    'SQLite [<options=bold;fg=yellow>Not supported for production</>]',
+                ],
                 'MySQL',
-                'MariaDB',
-                'PostgreSQL',
-                'MicrosoftSQL',
-                'SQLite [<options=bold;fg=yellow>Not supported for production</>]',
-            ],
-            'MySQL',
-        )->willReturn('PostgreSQL');
+            )
+            ->willReturn('PostgreSQL');
 
         $answer = $this->configOption->ask($io, []);
 

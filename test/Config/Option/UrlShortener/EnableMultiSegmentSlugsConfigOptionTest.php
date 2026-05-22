@@ -29,17 +29,23 @@ class EnableMultiSegmentSlugsConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string $providedAnswer, bool $expected): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('choice')->with(
-            'Do you want to support short URLs with multi-segment custom slugs? '
-            . '(for example, https://example.com/foo/bar)',
-            [
-                'yes' => 'Custom slugs will support multiple segments (https://example.com/foo/bar/baz). Orphan '
-                    . 'visits will only have either "base_url" or "invalid_short_url" type.',
-                'no' => 'Slugs and short codes will support only one segment (https://example.com/foo). Orphan '
-                    . 'visits will have one of "base_url", "invalid_short_url" or "regular_404" type.',
-            ],
-            'no',
-        )->willReturn($providedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                'Do you want to support short URLs with multi-segment custom slugs? '
+                . '(for example, https://example.com/foo/bar)',
+                [
+                    'yes' =>
+                        'Custom slugs will support multiple segments (https://example.com/foo/bar/baz). Orphan '
+                            . 'visits will only have either "base_url" or "invalid_short_url" type.',
+                    'no' =>
+                        'Slugs and short codes will support only one segment (https://example.com/foo). Orphan '
+                            . 'visits will have one of "base_url", "invalid_short_url" or "regular_404" type.',
+                ],
+                'no',
+            )
+            ->willReturn($providedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

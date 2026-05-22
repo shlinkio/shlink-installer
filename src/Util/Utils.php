@@ -26,21 +26,22 @@ class Utils
         $dbEnvVar = DatabaseDriverConfigOption::ENV_VAR;
         $filteredEnvVars = array_filter(
             $array,
-            static fn (string $key) =>
+            static fn (string $key) => (
                 // Filter out env vars which are not fully in uppercase.
                 // Numbers are also valid, as some env vars (like `DEFAULT_REGULAR_404_REDIRECT`) contain them.
                 array_reduce(
                     explode('_', $key),
                     static fn (bool $carry, string $part) => $carry && (ctype_upper($part) || is_numeric($part)),
                     initial: true,
-                ),
+                )
+            ),
             ARRAY_FILTER_USE_KEY,
         );
 
         foreach ($filteredEnvVars as $envVar => $value) {
             $filteredEnvVars[$envVar] = match (true) {
                 is_array($value) => implode(',', $value),
-                $envVar === ShortDomainSchemaConfigOption::ENV_VAR && ! is_bool($value) => $value === 'https',
+                $envVar === ShortDomainSchemaConfigOption::ENV_VAR && !is_bool($value) => $value === 'https',
                 $envVar === $dbEnvVar && $value === 'pdo_pgsql' => DatabaseDriver::POSTGRES->value,
                 $envVar === $dbEnvVar && $value === 'pdo_sqlite' => DatabaseDriver::SQLITE->value,
                 $envVar === $dbEnvVar && $value === 'pdo_sqlsrv' => DatabaseDriver::MSSQL->value,

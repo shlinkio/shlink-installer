@@ -33,9 +33,13 @@ class MercureInternalUrlConfigOptionTest extends TestCase
     {
         $expectedAnswer = 'foobar.com';
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Internal URL of the mercure hub server (leave empty to use the public one)',
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Internal URL of the mercure hub server (leave empty to use the public one)',
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

@@ -21,28 +21,31 @@ class UtilsTest extends TestCase
 
     public static function provideEnvVars(): iterable
     {
-        yield [[
-            'foo' => [
-                'bar',
-            ],
-            'ENV_VAR' => 0,
-            'baz' => [],
-            'JARL' => '123',
-            'ignored' => [
+        yield [
+            [
                 'foo' => [
-                    'bar' => 'baz',
+                    'bar',
                 ],
+                'ENV_VAR' => 0,
+                'baz' => [],
+                'JARL' => '123',
+                'ignored' => [
+                    'foo' => [
+                        'bar' => 'baz',
+                    ],
+                ],
+                'AS_ARRAY' => ['foo', 'bar', 'baz'],
+                'REGULAR_404_REDIRECT' => 'this is kept',
+                ShortDomainSchemaConfigOption::ENV_VAR => 'https',
             ],
-            'AS_ARRAY' => ['foo', 'bar', 'baz'],
-            'REGULAR_404_REDIRECT' => 'this is kept',
-            ShortDomainSchemaConfigOption::ENV_VAR => 'https',
-        ], [
-            'ENV_VAR' => 0,
-            'JARL' => '123',
-            'AS_ARRAY' => 'foo,bar,baz',
-            'REGULAR_404_REDIRECT' => 'this is kept',
-            ShortDomainSchemaConfigOption::ENV_VAR => true,
-        ]];
+            [
+                'ENV_VAR' => 0,
+                'JARL' => '123',
+                'AS_ARRAY' => 'foo,bar,baz',
+                'REGULAR_404_REDIRECT' => 'this is kept',
+                ShortDomainSchemaConfigOption::ENV_VAR => true,
+            ],
+        ];
         yield [[ShortDomainSchemaConfigOption::ENV_VAR => 'http'], [ShortDomainSchemaConfigOption::ENV_VAR => false]];
         yield [
             [DatabaseDriverConfigOption::ENV_VAR => 'pdo_pgsql'],

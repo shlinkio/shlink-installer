@@ -42,7 +42,7 @@ final class InitCommandInput
      */
     public function resolveCommands(): iterable
     {
-        if (! $this->skipInitializeDb) {
+        if (!$this->skipInitializeDb) {
             yield [InstallationCommand::DB_CREATE_SCHEMA, null];
         }
 
@@ -53,7 +53,7 @@ final class InitCommandInput
             yield [InstallationCommand::ORM_CLEAR_CACHE, null];
         }
 
-        if (! $this->skipDownloadGeolite) {
+        if (!$this->skipDownloadGeolite) {
             yield [InstallationCommand::GEOLITE_DOWNLOAD_DB, null];
         }
 
