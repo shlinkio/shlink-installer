@@ -20,9 +20,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
     private const string GEO_LITE_DB_PATH = 'data/GeoLite2-City.mmdb';
     private const string ROAD_RUNNER_BINARY_PATH = 'bin/rr';
 
-    public function __construct(private Filesystem $filesystem)
-    {
-    }
+    public function __construct(private Filesystem $filesystem) {}
 
     /**
      * @throws IOException
@@ -36,7 +34,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 
     private function dropCachedConfigFile(string $file, StyleInterface $io): void
     {
-        if (! $this->filesystem->exists($file)) {
+        if (!$this->filesystem->exists($file)) {
             return;
         }
 
@@ -56,7 +54,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
             'Do you want to import configuration from previous installation? (You will still be asked for any new '
             . 'config option that did not exist in previous shlink versions)',
         );
-        if (! $importConfig) {
+        if (!$importConfig) {
             return ImportedConfig::notImported();
         }
 
@@ -71,12 +69,14 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
             $configFile = sprintf('%s/%s', $installationPath, self::GENERATED_CONFIG_PATH);
             $configExists = $this->filesystem->exists($configFile);
         } while (
-            ! $configExists &&
-            $io->confirm('Provided path does not seem to be a valid shlink root path. Do you want to try another path?')
+            !$configExists
+            && $io->confirm(
+                'Provided path does not seem to be a valid shlink root path. Do you want to try another path?',
+            )
         );
 
         // If after some retries the user has chosen not to test another path, return
-        if (! $configExists) {
+        if (!$configExists) {
             return ImportedConfig::notImported();
         }
 
@@ -91,7 +91,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 
     private function importSqliteIfNeeded(StyleInterface $io, string $fileToImport): void
     {
-        if (! $this->filesystem->exists($fileToImport)) {
+        if (!$this->filesystem->exists($fileToImport)) {
             return;
         }
 
@@ -105,7 +105,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
 
     private function importGeoLiteDbIfNeeded(StyleInterface $io, string $fileToImport): void
     {
-        if (! $this->filesystem->exists($fileToImport)) {
+        if (!$this->filesystem->exists($fileToImport)) {
             return;
         }
 

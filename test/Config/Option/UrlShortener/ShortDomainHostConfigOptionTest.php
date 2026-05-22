@@ -29,11 +29,15 @@ class ShortDomainHostConfigOptionTest extends TestCase
     {
         $expectedAnswer = 'the_answer';
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Default domain for generated short URLs',
-            null,
-            $this->anything(),
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Default domain for generated short URLs',
+                null,
+                $this->anything(),
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

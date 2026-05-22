@@ -16,7 +16,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 class UpdateCommandTest extends TestCase
 {
     private CommandTester $commandTester;
-    private MockObject & InstallationRunnerInterface $installationRunner;
+    private MockObject&InstallationRunnerInterface $installationRunner;
 
     public function setUp(): void
     {

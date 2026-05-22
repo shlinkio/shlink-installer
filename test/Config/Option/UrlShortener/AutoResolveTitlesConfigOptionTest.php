@@ -28,10 +28,14 @@ class AutoResolveTitlesConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want Shlink to resolve the short URL title based on the long URL\'s title tag (if any)? '
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want Shlink to resolve the short URL title based on the long URL\'s title tag (if any)? '
                 . 'Otherwise, it will be kept empty unless explicitly provided.',
-        )->willReturn(true);
+            )
+            ->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
 

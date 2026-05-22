@@ -13,7 +13,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 return [
-
     'dependencies' => [
         'factories' => [
             Console\Application::class => Factory\ApplicationFactory::class,
@@ -47,32 +46,32 @@ return [
             'DATABASE' => [
                 'Database > Driver' => Config\Option\Database\DatabaseDriverConfigOption::class,
                 'Database > Name' => Config\Option\Database\DatabaseNameConfigOption::class,
-                'Database > Host (or unix socket for PostgreSQL)'
-                    => Config\Option\Database\DatabaseHostConfigOption::class,
+                'Database > Host (or unix socket for PostgreSQL)' =>
+                    Config\Option\Database\DatabaseHostConfigOption::class,
                 'Database > Port' => Config\Option\Database\DatabasePortConfigOption::class,
                 'Database > User' => Config\Option\Database\DatabaseUserConfigOption::class,
                 'Database > Password' => Config\Option\Database\DatabasePasswordConfigOption::class,
-                'Database > Unix socket (Mysql/MariaDB)'
-                    => Config\Option\Database\DatabaseUnixSocketConfigOption::class,
+                'Database > Unix socket (Mysql/MariaDB)' =>
+                    Config\Option\Database\DatabaseUnixSocketConfigOption::class,
                 'Database > Use encryption' => Config\Option\Database\DatabaseUseEncryptionConfigOption::class,
             ],
             'URL SHORTENER' => [
                 'URL shortener > Short domain' => Config\Option\UrlShortener\ShortDomainHostConfigOption::class,
                 'URL shortener > Schema' => Config\Option\UrlShortener\ShortDomainSchemaConfigOption::class,
                 'URL shortener > Short codes length' => Config\Option\UrlShortener\ShortCodeLengthOption::class,
-                'URL shortener > Auto resolve titles'
-                    => Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
+                'URL shortener > Auto resolve titles' =>
+                    Config\Option\UrlShortener\AutoResolveTitlesConfigOption::class,
                 'URL shortener > Extra path mode' => Config\Option\UrlShortener\ExtraPathModeConfigOption::class,
-                'URL shortener > Multi-segment slugs'
-                    => Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
+                'URL shortener > Multi-segment slugs' =>
+                    Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
                 'URL shortener > Trailing slashes' => Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class,
                 'URL shortener > Mode' => Config\Option\UrlShortener\ShortUrlModeConfigOption::class,
                 'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
-                'Redirects > Status code (301/302/307/308)'
-                    => Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
+                'Redirects > Status code (301/302/307/308)' =>
+                    Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
-                'Redirects > Caching visibility'
-                    => Config\Option\UrlShortener\RedirectCacheVisibilityConfigOption::class,
+                'Redirects > Caching visibility' =>
+                    Config\Option\UrlShortener\RedirectCacheVisibilityConfigOption::class,
             ],
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
@@ -82,8 +81,8 @@ return [
                 'Tracking > Disable IP address tracking' => Config\Option\Tracking\DisableIpTrackingConfigOption::class,
                 'Tracking > IP Anonymization' => Config\Option\Tracking\IpAnonymizationConfigOption::class,
                 'Tracking > Disable user agent tracking' => Config\Option\Tracking\DisableUaTrackingConfigOption::class,
-                'Tracking > Disable referrer tracking'
-                    => Config\Option\Tracking\DisableReferrerTrackingConfigOption::class,
+                'Tracking > Disable referrer tracking' =>
+                    Config\Option\Tracking\DisableReferrerTrackingConfigOption::class,
             ],
             'REDIRECTS' => [
                 'Redirects > Base URL' => Config\Option\Redirect\BaseUrlRedirectConfigOption::class,
@@ -300,5 +299,4 @@ return [
             ],
         ],
     ],
-
 ];

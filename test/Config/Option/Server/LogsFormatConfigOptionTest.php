@@ -29,11 +29,15 @@ class LogsFormatConfigOptionTest extends TestCase
     {
         $io = $this->createMock(StyleInterface::class);
         $answer = 'json';
-        $io->expects($this->once())->method('choice')->with(
-            'In what format do you want Shlink to generate logs?',
-            ['console', 'json'],
-            'console',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                'In what format do you want Shlink to generate logs?',
+                ['console', 'json'],
+                'console',
+            )
+            ->willReturn($answer);
 
         $result = $this->configOption->ask($io, []);
 

@@ -29,10 +29,14 @@ class DisableTrackingFromConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string|null $answer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Provide a comma-separated list of IP addresses, CIDR blocks or wildcard addresses (1.2.*.*) from '
-            . 'which you want tracking to be disabled',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Provide a comma-separated list of IP addresses, CIDR blocks or wildcard addresses (1.2.*.*) from '
+                . 'which you want tracking to be disabled',
+            )
+            ->willReturn($answer);
 
         $result = $this->configOption->ask($io, []);
 

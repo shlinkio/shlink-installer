@@ -29,10 +29,14 @@ class GeoLiteLicenseKeyConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string|null $answer, string|null $expectedResult): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Provide a GeoLite2 license key. Leave empty to disable geolocation. '
-            . '(Go to https://shlink.io/documentation/geolite-license-key to know how to generate it)',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Provide a GeoLite2 license key. Leave empty to disable geolocation. '
+                . '(Go to https://shlink.io/documentation/geolite-license-key to know how to generate it)',
+            )
+            ->willReturn($answer);
 
         $result = $this->configOption->ask($io, []);
 

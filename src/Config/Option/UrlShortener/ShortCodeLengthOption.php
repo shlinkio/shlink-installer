@@ -21,7 +21,7 @@ class ShortCodeLengthOption extends BaseConfigOption
             'What is the default length you want generated short codes to have? (You will still be able to override '
             . 'this on every created short URL)',
             '5',
-            fn ($value) => ConfigOptionsValidator::validateNumberGreaterThan($value, 4),
+            static fn ($value) => ConfigOptionsValidator::validateNumberGreaterThan($value, 4),
         );
     }
 }

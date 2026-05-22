@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\StyleInterface;
 class RedisServersConfigOptionTest extends TestCase
 {
     private RedisServersConfigOption $configOption;
-    private MockObject & StyleInterface $io;
+    private MockObject&StyleInterface $io;
 
     public function setUp(): void
     {
@@ -32,11 +32,15 @@ class RedisServersConfigOptionTest extends TestCase
     #[Test, AllowMockObjectsWithoutExpectations]
     public function serversAreNotRequestedWhenNoRedisConfigIsProvided(): void
     {
-        $this->io->expects($this->once())->method('confirm')->with(
-            'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
-            . '(recommended if you run a cluster of Shlink instances)',
-            false,
-        )->willReturn(false);
+        $this->io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
+                . '(recommended if you run a cluster of Shlink instances)',
+                false,
+            )
+            ->willReturn(false);
         $this->io->expects($this->never())->method('ask');
 
         $answer = $this->configOption->ask($this->io, []);
@@ -47,15 +51,23 @@ class RedisServersConfigOptionTest extends TestCase
     #[Test, DataProvider('provideAnswers')]
     public function serversAreRequestedWhenRedisConfigIsProvided(string|null $serversAnswer): void
     {
-        $this->io->expects($this->once())->method('confirm')->with(
-            'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
-            . '(recommended if you run a cluster of Shlink instances)',
-            false,
-        )->willReturn(true);
-        $this->io->expects($this->once())->method('ask')->with(
-            'Provide a comma-separated list of URIs (redis servers/sentinel instances). If they contains credentials '
-            . 'with URL-reserved chars, make sure they are URL-encoded',
-        )->willReturn($serversAnswer);
+        $this->io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want to use a redis instance, redis cluster or redis sentinels as a shared cache for Shlink? '
+                . '(recommended if you run a cluster of Shlink instances)',
+                false,
+            )
+            ->willReturn(true);
+        $this->io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Provide a comma-separated list of URIs (redis servers/sentinel instances). If they contains credentials '
+                . 'with URL-reserved chars, make sure they are URL-encoded',
+            )
+            ->willReturn($serversAnswer);
 
         $result = $this->configOption->ask($this->io, []);
 

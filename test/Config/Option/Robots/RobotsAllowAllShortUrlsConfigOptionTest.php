@@ -28,11 +28,15 @@ class RobotsAllowAllShortUrlsConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want all short URLs to be crawlable/allowed by the robots.txt file? '
-            . 'You can still allow them individually, regardless of this.',
-            false,
-        )->willReturn(true);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want all short URLs to be crawlable/allowed by the robots.txt file? '
+                . 'You can still allow them individually, regardless of this.',
+                false,
+            )
+            ->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
 

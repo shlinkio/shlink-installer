@@ -30,11 +30,15 @@ class RabbitMqPortConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(array $currentOptions, string $expectedDefaultPort): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'RabbitMQ port',
-            $expectedDefaultPort,
-            $this->anything(),
-        )->willReturn('5672');
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'RabbitMQ port',
+                $expectedDefaultPort,
+                $this->anything(),
+            )
+            ->willReturn('5672');
 
         $answer = $this->configOption->ask($io, $currentOptions);
 

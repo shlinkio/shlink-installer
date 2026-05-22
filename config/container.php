@@ -24,7 +24,7 @@ foreach ($autoloadFiles as $autoloadFile) {
 
 $shlinkConfigLoader = static function () {
     $appConfigPath = __DIR__ . '/../../../../config/config.php';
-    if (! file_exists($appConfigPath)) {
+    if (!file_exists($appConfigPath)) {
         return [];
     }
 
@@ -35,12 +35,12 @@ $shlinkConfigLoader = static function () {
     return $appConfig;
 };
 
-$config = (new ConfigAggregator([
+$config = new ConfigAggregator([
     Config\ConfigProvider::class,
-    new PhpFileProvider(__DIR__ . '/config.php'),       // Installer config
-    $shlinkConfigLoader,                                // Overwritten config coming from Shlink
+    new PhpFileProvider(__DIR__ . '/config.php'), // Installer config
+    $shlinkConfigLoader, // Overwritten config coming from Shlink
     new PhpFileProvider(__DIR__ . '/config.local.php'), // Local config
-]))->getMergedConfig();
+])->getMergedConfig();
 
 $container = new ServiceManager($config['dependencies']);
 $container->setService('config', $config);

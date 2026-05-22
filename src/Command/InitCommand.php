@@ -18,7 +18,7 @@ use function array_reduce;
 #[AsCommand(
     name: InitCommand::NAME,
     description: 'Initializes external dependencies required for Shlink to properly work, like DB, cache warmup, '
-        . 'initial GeoLite DB download, etc',
+    . 'initial GeoLite DB download, etc',
 )]
 class InitCommand extends Command
 {
@@ -33,16 +33,25 @@ class InitCommand extends Command
     {
         $commands = [...$inputData->resolveCommands()];
 
-        return array_reduce($commands, function (bool $carry, array $commandInfo) use ($input, $io): bool {
-            /** @var array{InstallationCommand, string|null} $commandInfo */
-            [$command, $arg] = $commandInfo;
+        return array_reduce(
+            $commands,
+            function (bool $carry, array $commandInfo) use ($input, $io): bool {
+                /** @var array{InstallationCommand, string|null} $commandInfo */
+                [$command, $arg] = $commandInfo;
 
-            return $this->commandsRunner->execPhpCommand(
-                name: $command->value,
-                io: $io,
-                interactive: $input->isInteractive(),
-                args: $arg !== null ? [$arg] : [],
-            ) && $carry;
-        }, initial: true) ? self::SUCCESS : self::FAILURE;
+                return (
+                    $this->commandsRunner->execPhpCommand(
+                        name: $command->value,
+                        io: $io,
+                        interactive: $input->isInteractive(),
+                        args: $arg !== null ? [$arg] : [],
+                    )
+                    && $carry
+                );
+            },
+            initial: true,
+        )
+            ? self::SUCCESS
+            : self::FAILURE;
     }
 }

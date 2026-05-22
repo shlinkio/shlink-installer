@@ -6,6 +6,4 @@ namespace Shlinkio\Shlink\Installer\Config;
 
 use Psr\Container\ContainerInterface;
 
-interface ConfigOptionsManagerInterface extends ContainerInterface
-{
-}
+interface ConfigOptionsManagerInterface extends ContainerInterface {}

@@ -20,9 +20,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class InstallationRunnerTest extends TestCase
 {
-    private MockObject & ConfigWriterInterface $configWriter;
-    private MockObject & ShlinkAssetsHandlerInterface $assetsHandler;
-    private MockObject & Command $initCommand;
+    private MockObject&ConfigWriterInterface $configWriter;
+    private MockObject&ShlinkAssetsHandlerInterface $assetsHandler;
+    private MockObject&Command $initCommand;
     private InstallationRunner $installationRunner;
 
     protected function setUp(): void
@@ -40,13 +40,17 @@ class InstallationRunnerTest extends TestCase
     #[Test]
     public function installationIsExecutedAsExpected(): void
     {
-        $this->initCommand->expects($this->once())->method('run')->with(
-            $this->callback(function (ArrayInput $input) {
-                Assert::assertEquals('--initial-api-key', $input->__toString());
-                return true;
-            }),
-            $this->anything(),
-        )->willReturn(Command::SUCCESS);
+        $this->initCommand
+            ->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->callback(static function (ArrayInput $input) {
+                    Assert::assertEquals('--initial-api-key', $input->__toString());
+                    return true;
+                }),
+                $this->anything(),
+            )
+            ->willReturn(Command::SUCCESS);
 
         $this->assetsHandler->expects($this->never())->method('dropCachedConfigIfAny');
         $this->assetsHandler->expects($this->never())->method('resolvePreviousConfig');
@@ -61,18 +65,25 @@ class InstallationRunnerTest extends TestCase
     #[Test, DataProvider('provideCommands')]
     public function updateIsExecutedAsExpected(bool $rrBinExists, string $postUpdateCommands): void
     {
-        $this->initCommand->expects($this->once())->method('run')->with(
-            $this->callback(function (ArrayInput $input) use ($postUpdateCommands) {
-                Assert::assertEquals($postUpdateCommands, $input->__toString());
-                return true;
-            }),
-            $this->anything(),
-        )->willReturn(0);
+        $this->initCommand
+            ->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->callback(static function (ArrayInput $input) use ($postUpdateCommands) {
+                    Assert::assertEquals($postUpdateCommands, $input->__toString());
+                    return true;
+                }),
+                $this->anything(),
+            )
+            ->willReturn(0);
 
         $this->assetsHandler->expects($this->once())->method('dropCachedConfigIfAny');
-        $this->assetsHandler->expects($this->once())->method('resolvePreviousConfig')->willReturn(
-            ImportedConfig::notImported(),
-        );
+        $this->assetsHandler
+            ->expects($this->once())
+            ->method('resolvePreviousConfig')
+            ->willReturn(
+                ImportedConfig::notImported(),
+            );
         $this->assetsHandler->expects($this->once())->method('roadRunnerBinaryExistsInPath')->willReturn($rrBinExists);
         $this->assetsHandler->expects($this->once())->method('importShlinkAssetsFromPath');
 

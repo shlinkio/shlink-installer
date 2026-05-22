@@ -19,8 +19,7 @@ readonly class InstallationRunner implements InstallationRunnerInterface
         private ConfigWriterInterface $configWriter,
         private ShlinkAssetsHandlerInterface $assetsHandler,
         private ConfigGeneratorInterface $configGenerator,
-    ) {
-    }
+    ) {}
 
     /** @inheritDoc */
     public function runInstallation(SymfonyStyle $io, Command|null $initCommand): int

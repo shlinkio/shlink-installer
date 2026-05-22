@@ -30,9 +30,13 @@ class RedisServersPasswordConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string|null $answer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Provide a password for your redis connection (leave empty if ACL is not required)',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Provide a password for your redis connection (leave empty if ACL is not required)',
+            )
+            ->willReturn($answer);
 
         $results = $this->configOption->ask($io, []);
 

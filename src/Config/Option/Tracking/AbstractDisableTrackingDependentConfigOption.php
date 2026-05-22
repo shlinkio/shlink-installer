@@ -18,6 +18,6 @@ abstract class AbstractDisableTrackingDependentConfigOption extends BaseConfigOp
     public function shouldBeAsked(array $currentOptions): bool
     {
         $disableTracking = $currentOptions[DisableTrackingConfigOption::ENV_VAR] ?? false;
-        return ! $disableTracking && parent::shouldBeAsked($currentOptions);
+        return !$disableTracking && parent::shouldBeAsked($currentOptions);
     }
 }

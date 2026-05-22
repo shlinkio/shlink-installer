@@ -29,12 +29,16 @@ class VisitsThresholdConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string|int|null $answer, int|null $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'What is the amount of visits from which the system will not allow short URLs to be deleted? Leave empty '
-            . 'to always allow deleting short URLs, no matter what',
-            null,
-            $this->anything(),
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'What is the amount of visits from which the system will not allow short URLs to be deleted? Leave empty '
+                . 'to always allow deleting short URLs, no matter what',
+                null,
+                $this->anything(),
+            )
+            ->willReturn($answer);
 
         $answer = $this->configOption->ask($io, []);
 
@@ -56,8 +60,9 @@ class VisitsThresholdConfigOptionTest extends TestCase
 
     public static function provideCurrentOptions(): iterable
     {
-        $buildCollection = static fn (bool $withThreshold): array =>
-            $withThreshold ? ['DELETE_SHORT_URL_THRESHOLD' => 15] : [];
+        $buildCollection = static fn (bool $withThreshold): array => (
+            $withThreshold ? ['DELETE_SHORT_URL_THRESHOLD' => 15] : []
+        );
 
         yield 'without threshold' => [$buildCollection(false), true];
         yield 'with threshold' => [$buildCollection(true), false];

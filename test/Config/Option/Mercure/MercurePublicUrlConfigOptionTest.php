@@ -29,10 +29,14 @@ class MercurePublicUrlConfigOptionTest extends TestCase
     {
         $expectedAnswer = 'foobar.com';
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Public URL of the mercure hub server',
-            $this->anything(),
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Public URL of the mercure hub server',
+                $this->anything(),
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

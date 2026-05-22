@@ -10,6 +10,6 @@ abstract class BaseConfigOption implements ConfigOptionInterface
 {
     public function shouldBeAsked(array $currentOptions): bool
     {
-        return ! array_key_exists($this->getEnvVar(), $currentOptions);
+        return !array_key_exists($this->getEnvVar(), $currentOptions);
     }
 }
