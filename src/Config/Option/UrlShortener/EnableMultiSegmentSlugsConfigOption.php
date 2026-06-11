@@ -25,9 +25,10 @@ class EnableMultiSegmentSlugsConfigOption extends BaseConfigOption
             [
                 self::YES =>
                     'Custom slugs will support multiple segments (https://example.com/foo/bar/baz). Orphan visits will '
-                    . 'only have either "base_url" or "invalid_short_url" type.',
-                self::NO => 'Slugs and short codes will support only one segment (https://example.com/foo). Orphan '
-                    . 'visits will have one of "base_url", "invalid_short_url" or "regular_404" type.',
+                        . 'only have either "base_url" or "invalid_short_url" type.',
+                self::NO =>
+                    'Slugs and short codes will support only one segment (https://example.com/foo). Orphan '
+                        . 'visits will have one of "base_url", "invalid_short_url" or "regular_404" type.',
             ],
             self::NO,
         ) === self::YES;

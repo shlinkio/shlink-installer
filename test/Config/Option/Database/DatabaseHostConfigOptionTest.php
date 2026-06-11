@@ -34,9 +34,13 @@ class DatabaseHostConfigOptionTest extends TestCase
         $collection = [DatabaseDriverConfigOption::ENV_VAR => $driver];
 
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with($expectedQuestionText, 'localhost')->willReturn(
-            $expectedAnswer,
-        );
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with($expectedQuestionText, 'localhost')
+            ->willReturn(
+                $expectedAnswer,
+            );
 
         $answer = $this->configOption->ask($io, $collection);
 

@@ -29,9 +29,13 @@ class RabbitMqUserConfigOptionTest extends TestCase
     {
         $expectedAnswer = 'the_answer';
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with('RabbitMQ username', $this->anything())->willReturn(
-            $expectedAnswer,
-        );
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with('RabbitMQ username', $this->anything())
+            ->willReturn(
+                $expectedAnswer,
+            );
 
         $answer = $this->configOption->ask($io, []);
 

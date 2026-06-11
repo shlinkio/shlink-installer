@@ -30,9 +30,13 @@ class DatabaseUnixSocketConfigOptionTest extends TestCase
     {
         $expectedAnswer = '/var/run/mysqld/mysqld.sock';
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with('Unix socket (leave empty to not use a socket)')->willReturn(
-            $expectedAnswer,
-        );
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with('Unix socket (leave empty to not use a socket)')
+            ->willReturn(
+                $expectedAnswer,
+            );
 
         $answer = $this->configOption->ask($io, []);
 

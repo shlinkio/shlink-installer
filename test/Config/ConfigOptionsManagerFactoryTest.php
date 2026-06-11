@@ -15,7 +15,7 @@ use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 class ConfigOptionsManagerFactoryTest extends TestCase
 {
     private ConfigOptionsManagerFactory $factory;
-    private MockObject & ContainerInterface $container;
+    private MockObject&ContainerInterface $container;
 
     public function setUp(): void
     {

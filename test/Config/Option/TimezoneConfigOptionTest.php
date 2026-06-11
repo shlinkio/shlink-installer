@@ -29,9 +29,13 @@ class TimezoneConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string|null $answer, string $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Set the timezone in which your Shlink instance is running (leave empty to use the one set in PHP config)',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Set the timezone in which your Shlink instance is running (leave empty to use the one set in PHP config)',
+            )
+            ->willReturn($answer);
 
         $answer = $this->configOption->ask($io, []);
 

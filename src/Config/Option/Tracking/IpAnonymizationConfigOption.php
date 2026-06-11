@@ -21,7 +21,7 @@ class IpAnonymizationConfigOption extends BaseConfigOption implements DependentC
         $disableTracking = $currentOptions[DisableTrackingConfigOption::ENV_VAR] ?? false;
         $disableIpTracking = $currentOptions[DisableIpTrackingConfigOption::ENV_VAR] ?? false;
 
-        return $parentShouldBeAsked && ! $disableTracking && ! $disableIpTracking;
+        return $parentShouldBeAsked && !$disableTracking && !$disableIpTracking;
     }
 
     public function ask(StyleInterface $io, array $currentOptions): bool
@@ -37,7 +37,7 @@ class IpAnonymizationConfigOption extends BaseConfigOption implements DependentC
             'Careful! If you disable IP address anonymization, you will no longer be in compliance with the GDPR and '
             . 'other similar data protection regulations.',
         );
-        return ! $io->confirm('Do you still want to disable anonymization?', false);
+        return !$io->confirm('Do you still want to disable anonymization?', false);
     }
 
     public function getDependentOption(): string

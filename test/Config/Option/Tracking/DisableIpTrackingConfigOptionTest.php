@@ -29,10 +29,14 @@ class DisableIpTrackingConfigOptionTest extends TestCase
     {
         $expectedAnswer = true;
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want to disable tracking of visitors\' IP addresses?',
-            false,
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want to disable tracking of visitors\' IP addresses?',
+                false,
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

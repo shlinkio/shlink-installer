@@ -36,18 +36,24 @@ class IpAnonymizationConfigOptionTest extends TestCase
     ): void {
         $io = $this->createMock(StyleInterface::class);
 
-        $io->expects($this->exactly($shouldWarn ? 2 : 1))->method('confirm')->willReturnMap([
-            [
-                'Do you want visitors\' remote IP addresses to be anonymized before persisting them to the database?',
-                true,
-                $firstAnswer,
-            ],
-            ['Do you still want to disable anonymization?', false, $secondAnswer],
-        ]);
-        $io->expects($this->exactly($shouldWarn ? 1 : 0))->method('warning')->with(
-            'Careful! If you disable IP address anonymization, you will no longer be in compliance with the GDPR and '
-            . 'other similar data protection regulations.',
-        );
+        $io
+            ->expects($this->exactly($shouldWarn ? 2 : 1))
+            ->method('confirm')
+            ->willReturnMap([
+                [
+                    'Do you want visitors\' remote IP addresses to be anonymized before persisting them to the database?',
+                    true,
+                    $firstAnswer,
+                ],
+                ['Do you still want to disable anonymization?', false, $secondAnswer],
+            ]);
+        $io
+            ->expects($this->exactly($shouldWarn ? 1 : 0))
+            ->method('warning')
+            ->with(
+                'Careful! If you disable IP address anonymization, you will no longer be in compliance with the GDPR and '
+                . 'other similar data protection regulations.',
+            );
 
         $result = $this->configOption->ask($io, []);
 
@@ -79,10 +85,13 @@ class IpAnonymizationConfigOptionTest extends TestCase
         yield [[], true];
         yield [[DisableTrackingConfigOption::ENV_VAR => false], true];
         yield [[DisableIpTrackingConfigOption::ENV_VAR => false], true];
-        yield [[
-            DisableTrackingConfigOption::ENV_VAR => false,
-            DisableIpTrackingConfigOption::ENV_VAR => false,
-        ], true];
+        yield [
+            [
+                DisableTrackingConfigOption::ENV_VAR => false,
+                DisableIpTrackingConfigOption::ENV_VAR => false,
+            ],
+            true,
+        ];
         yield [[DisableTrackingConfigOption::ENV_VAR => true], false];
         yield [[DisableIpTrackingConfigOption::ENV_VAR => true], false];
         yield [['ANONYMIZE_REMOTE_ADDR' => true], false];

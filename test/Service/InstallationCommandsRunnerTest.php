@@ -27,8 +27,8 @@ use function str_contains;
 class InstallationCommandsRunnerTest extends TestCase
 {
     private InstallationCommandsRunner $commandsRunner;
-    private MockObject & ProcessHelper $processHelper;
-    private MockObject & SymfonyStyle $io;
+    private MockObject&ProcessHelper $processHelper;
+    private MockObject&SymfonyStyle $io;
 
     public function setUp(): void
     {
@@ -50,7 +50,7 @@ class InstallationCommandsRunnerTest extends TestCase
         $names = ['foo', 'bar', 'null_command', 'multiple  spaces   '];
         return array_combine(
             $names,
-            array_map(fn (string $name) => [
+            array_map(static fn (string $name) => [
                 'command' => $name === 'null_command' ? null : sprintf('%s something', $name),
                 'initMessage' => sprintf('%s_init', $name),
                 'errorMessage' => sprintf('%s_error', $name),
@@ -73,21 +73,31 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(true);
-        $this->processHelper->expects($this->once())->method('run')->with(
-            $this->io,
-            $this->callback(fn (Process $process) => $expectedTimeout === $process->getTimeout()),
-        )->willReturn($process);
+        $this->processHelper
+            ->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->io,
+                $this->callback(static fn (Process $process) => $expectedTimeout === $process->getTimeout()),
+            )
+            ->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
-        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
-            function (string $message) use ($writeCallMatcher, $name, $command): void {
-                match ($writeCallMatcher->numberOfInvocations()) {
-                    1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
-                    2 => Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $message),
-                    default => throw new InvalidArgumentException('Not valid case'),
-                };
-            },
-        );
+        $this->io
+            ->expects($writeCallMatcher)
+            ->method('write')
+            ->willReturnCallback(
+                static function (string $message) use ($writeCallMatcher, $name, $command): void {
+                    match ($writeCallMatcher->numberOfInvocations()) {
+                        1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
+                        2 => Assert::assertStringContainsString(
+                            sprintf('Running "%s"', implode(' ', $command)),
+                            $message,
+                        ),
+                        default => throw new InvalidArgumentException('Not valid case'),
+                    };
+                },
+            );
         $this->io->expects($this->once())->method('writeln')->with(' <info>Success!</info>', $this->anything());
         $this->io->expects($this->never())->method('error');
 
@@ -110,23 +120,33 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
-        $this->processHelper->expects($this->once())->method('run')->with(
-            $this->io,
-            $this->isInstanceOf(Process::class),
-        )->willReturn($process);
+        $this->processHelper
+            ->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->io,
+                $this->isInstanceOf(Process::class),
+            )
+            ->willReturn($process);
         $this->io->method('isVerbose')->willReturn($isVerbose);
 
         $writeCallMatcher = $this->exactly(3);
-        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
-            function (string $message) use ($writeCallMatcher, $name, $command): void {
-                match ($writeCallMatcher->numberOfInvocations()) {
-                    1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
-                    2 => Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $message),
-                    3 => Assert::assertEquals(' <comment>Warning!</comment>', $message),
-                    default => throw new InvalidArgumentException('Not valid case'),
-                };
-            },
-        );
+        $this->io
+            ->expects($writeCallMatcher)
+            ->method('write')
+            ->willReturnCallback(
+                static function (string $message) use ($writeCallMatcher, $name, $command): void {
+                    match ($writeCallMatcher->numberOfInvocations()) {
+                        1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
+                        2 => Assert::assertStringContainsString(
+                            sprintf('Running "%s"', implode(' ', $command)),
+                            $message,
+                        ),
+                        3 => Assert::assertEquals(' <comment>Warning!</comment>', $message),
+                        default => throw new InvalidArgumentException('Not valid case'),
+                    };
+                },
+            );
         $this->io->expects($this->once())->method('writeln')->with($extraLine);
         $this->io->expects($this->never())->method('error');
 
@@ -153,26 +173,39 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something'];
 
         $process = $this->createProcessMock(false);
-        $this->processHelper->expects($this->once())->method('run')->with(
-            $this->io,
-            $this->isInstanceOf(Process::class),
-        )->willReturn($process);
+        $this->processHelper
+            ->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->io,
+                $this->isInstanceOf(Process::class),
+            )
+            ->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
-        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
-            function (string $message) use ($writeCallMatcher, $name, $command): void {
-                match ($writeCallMatcher->numberOfInvocations()) {
-                    1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
-                    2 => Assert::assertStringContainsString(sprintf('Running "%s"', implode(' ', $command)), $message),
-                    default => throw new InvalidArgumentException('Not valid case'),
-                };
-            },
-        );
-        $this->io->expects($this->once())->method('error')->with($this->logicalAnd(
-            $this->stringContains(sprintf('%s_error', $name)),
-            $this->stringContains($expectedError),
-            $this->logicalNot($this->stringContains($notExpectedError)),
-        ));
+        $this->io
+            ->expects($writeCallMatcher)
+            ->method('write')
+            ->willReturnCallback(
+                static function (string $message) use ($writeCallMatcher, $name, $command): void {
+                    match ($writeCallMatcher->numberOfInvocations()) {
+                        1 => Assert::assertEquals(sprintf('%s_init', $name), $message),
+                        2 => Assert::assertStringContainsString(
+                            sprintf('Running "%s"', implode(' ', $command)),
+                            $message,
+                        ),
+                        default => throw new InvalidArgumentException('Not valid case'),
+                    };
+                },
+            );
+        $this->io
+            ->expects($this->once())
+            ->method('error')
+            ->with($this->logicalAnd(
+                $this->stringContains(sprintf('%s_error', $name)),
+                $this->stringContains($expectedError),
+                $this->logicalNot($this->stringContains($notExpectedError)),
+            ));
         $this->io->expects($this->never())->method('writeln');
 
         self::assertFalse(
@@ -209,16 +242,23 @@ class InstallationCommandsRunnerTest extends TestCase
         $command = ['php', $name, 'something', ...$args];
 
         $process = $this->createProcessMock(false);
-        $this->processHelper->expects($this->once())->method('run')->with(
-            $this->io,
-            $this->isInstanceOf(Process::class),
-        )->willReturn($process);
+        $this->processHelper
+            ->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->io,
+                $this->isInstanceOf(Process::class),
+            )
+            ->willReturn($process);
 
         $writeCallMatcher = $this->exactly(2);
-        $this->io->expects($writeCallMatcher)->method('write')->willReturnCallback(
-            fn (string $message) => $writeCallMatcher->numberOfInvocations() !== 2
+        $this->io
+            ->expects($writeCallMatcher)
+            ->method('write')
+            ->willReturnCallback(
+                static fn (string $message) => $writeCallMatcher->numberOfInvocations() !== 2
                 || str_contains(sprintf('Running "%s"', implode(' ', $command)), $message),
-        );
+            );
 
         $this->commandsRunner->execPhpCommand($name, $this->io, interactive: false, args: $args);
     }
@@ -230,7 +270,7 @@ class InstallationCommandsRunnerTest extends TestCase
         yield 'multiple arg' => [['first', 'second', 'third']];
     }
 
-    private function createProcessMock(bool $isSuccessful): Stub & Process
+    private function createProcessMock(bool $isSuccessful): Stub&Process
     {
         $process = $this->createStub(Process::class);
         $process->method('isSuccessful')->willReturn($isSuccessful);

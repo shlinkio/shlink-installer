@@ -28,10 +28,14 @@ class MatomoEnabledConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want Shlink to send all visits to an external Matomo server?',
-            false,
-        )->willReturn(true);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want Shlink to send all visits to an external Matomo server?',
+                false,
+            )
+            ->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
 

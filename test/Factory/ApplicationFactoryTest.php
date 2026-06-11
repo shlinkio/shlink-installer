@@ -38,24 +38,26 @@ class ApplicationFactoryTest extends TestCase
             return $command;
         };
 
-        $app = ($this->factory)(new ServiceManager(['services' => [
-            'config' => [
-                'installer' => [
-                    'commands' => [
-                        'install' => 'foo',
-                        'update' => 'bar',
+        $app = ($this->factory)(new ServiceManager([
+            'services' => [
+                'config' => [
+                    'installer' => [
+                        'commands' => [
+                            'install' => 'foo',
+                            'update' => 'bar',
+                        ],
                     ],
                 ],
+                'foo' => $createEnabledCommandWithName('install'),
+                'bar' => $createEnabledCommandWithName('update'),
             ],
-            'foo' => $createEnabledCommandWithName('install'),
-            'bar' => $createEnabledCommandWithName('update'),
-        ]]), '');
+        ]), '');
 
         /** @var Command[] $commands */
         $commands = array_filter(
             $app->all(),
             // Remove standard symfony commands
-            static fn (string $key) => ! ArrayUtils::contains($key, ['list', 'help', 'completion', '_complete']),
+            static fn (string $key) => !ArrayUtils::contains($key, ['list', 'help', 'completion', '_complete']),
             ARRAY_FILTER_USE_KEY,
         );
 

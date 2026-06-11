@@ -53,11 +53,15 @@ class RedirectCacheLifetimeConfigOptionTest extends TestCase
     {
         $expectedAnswer = 60;
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'How long (in seconds) do you want your redirects to be cached by visitors?',
-            '30',
-            $this->anything(),
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'How long (in seconds) do you want your redirects to be cached by visitors?',
+                '30',
+                $this->anything(),
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

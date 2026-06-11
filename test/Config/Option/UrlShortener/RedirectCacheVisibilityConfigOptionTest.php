@@ -31,10 +31,14 @@ class RedirectCacheVisibilityConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(bool $confirmAnswer, string $expectedResult): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want redirects to be cached by reverse proxies?',
-            false,
-        )->willReturn($confirmAnswer);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want redirects to be cached by reverse proxies?',
+                false,
+            )
+            ->willReturn($confirmAnswer);
 
         $result = $this->configOption->ask($io, []);
 

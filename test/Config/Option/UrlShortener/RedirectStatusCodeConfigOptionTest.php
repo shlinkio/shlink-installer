@@ -29,11 +29,15 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string $choice, int $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('choice')->with(
-            'What kind of redirect do you want your short URLs to have?',
-            $this->isArray(),
-            $this->anything(),
-        )->willReturn($choice);
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                'What kind of redirect do you want your short URLs to have?',
+                $this->isArray(),
+                $this->anything(),
+            )
+            ->willReturn($choice);
 
         $answer = $this->configOption->ask($io, []);
 
@@ -48,7 +52,7 @@ class RedirectStatusCodeConfigOptionTest extends TestCase
         ];
         yield '301 redirect' => [
             'Best option for SEO. Redirect will be cached for a short period of time, making some visits not to be '
-            . 'tracked. Only GET requests will be redirected.',
+                . 'tracked. Only GET requests will be redirected.',
             301,
         ];
         yield '307 redirect' => ['Same as 302, but Shlink will also redirect on non-GET requests.', 307];

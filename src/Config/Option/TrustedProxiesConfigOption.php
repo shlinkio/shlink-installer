@@ -16,7 +16,7 @@ class TrustedProxiesConfigOption extends BaseConfigOption
 
     public function ask(StyleInterface $io, array $currentOptions): string|int|null
     {
-        if (! $io->confirm('Do you have more than one proxy in front of this Shlink instance?', default: false)) {
+        if (!$io->confirm('Do you have more than one proxy in front of this Shlink instance?', default: false)) {
             return null;
         }
 

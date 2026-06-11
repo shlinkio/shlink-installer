@@ -43,7 +43,8 @@ class SetOptionCommand extends Command
         parent::__construct();
         $this->groups = array_filter(
             iterator_to_array($this->flattenGroupsWithTitle($groups)),
-            static fn (string $configOption) => $enabledOptions === null || ArrayUtils::contains(
+            static fn (string $configOption) => $enabledOptions === null
+            || ArrayUtils::contains(
                 $configOption,
                 $enabledOptions,
             ),
@@ -56,7 +57,7 @@ class SetOptionCommand extends Command
         foreach ($groups as $key => $value) {
             if (is_iterable($value)) {
                 yield from $this->flattenGroupsWithTitle($value);
-            } elseif (! is_numeric($key)) {
+            } elseif (!is_numeric($key)) {
                 yield $key => $value;
             }
         }
@@ -64,7 +65,7 @@ class SetOptionCommand extends Command
 
     public function __invoke(SymfonyStyle $io): int
     {
-        if (! $this->filesystem->exists($this->generatedConfigPath)) {
+        if (!$this->filesystem->exists($this->generatedConfigPath)) {
             throw InvalidShlinkPathException::forCurrentPath();
         }
 

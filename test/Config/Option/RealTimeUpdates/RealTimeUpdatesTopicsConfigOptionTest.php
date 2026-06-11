@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ShlinkioTest\Shlink\Installer\Config\Option\RealTimeUpdates;
 
 use PHPUnit\Framework\Attributes\Test;

@@ -29,10 +29,14 @@ class EnableMercureConfigOptionTest extends TestCase
     {
         $expectedAnswer = true;
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want Shlink to publish real-time updates in a Mercure hub server?',
-            false,
-        )->willReturn($expectedAnswer);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want Shlink to publish real-time updates in a Mercure hub server?',
+                false,
+            )
+            ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);
 

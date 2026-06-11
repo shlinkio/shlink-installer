@@ -28,11 +28,15 @@ class EnableTrailingSlashConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('confirm')->with(
-            'Do you want to support trailing slashes in short URLs? (https://s.test/foo and https://s.test/foo/ '
-            . 'will be considered the same)',
-            false,
-        )->willReturn(true);
+        $io
+            ->expects($this->once())
+            ->method('confirm')
+            ->with(
+                'Do you want to support trailing slashes in short URLs? (https://s.test/foo and https://s.test/foo/ '
+                . 'will be considered the same)',
+                false,
+            )
+            ->willReturn(true);
 
         $answer = $this->configOption->ask($io, []);
 

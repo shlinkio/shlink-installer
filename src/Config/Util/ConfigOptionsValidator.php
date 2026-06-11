@@ -23,7 +23,7 @@ class ConfigOptionsValidator
             . '\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/i';
         $valueIsValid = $value === null || (bool) preg_match($httpUrlRegexp, $value);
 
-        if (! $valueIsValid) {
+        if (!$valueIsValid) {
             throw new InvalidConfigOptionException(
                 sprintf('Provided value "%s" is not a valid URL', $value),
             );
@@ -45,7 +45,7 @@ class ConfigOptionsValidator
     public static function validateNumberGreaterThan(mixed $value, int $min): int
     {
         $intValue = (int) $value;
-        if (! is_numeric($value) || $intValue < $min) {
+        if (!is_numeric($value) || $intValue < $min) {
             throw new InvalidConfigOptionException(
                 sprintf('Provided value "%s" is invalid. Expected a number greater or equal than %s', $value, $min),
             );
@@ -57,7 +57,7 @@ class ConfigOptionsValidator
     public static function validateNumberBetween(mixed $value, int $min, int $max): int
     {
         $intValue = (int) $value;
-        if (! is_numeric($value) || $intValue < $min || $intValue > $max) {
+        if (!is_numeric($value) || $intValue < $min || $intValue > $max) {
             throw new InvalidConfigOptionException(
                 sprintf('Provided value "%s" is invalid. Expected a number between %s and %s', $value, $min, $max),
             );
@@ -77,7 +77,7 @@ class ConfigOptionsValidator
             );
         }
 
-        if (! ctype_xdigit($onlyDigitsColor)) {
+        if (!ctype_xdigit($onlyDigitsColor)) {
             throw new InvalidConfigOptionException(
                 'Provided value must be the hexadecimal number representation of a color',
             );

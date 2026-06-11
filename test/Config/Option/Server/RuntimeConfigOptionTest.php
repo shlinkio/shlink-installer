@@ -30,15 +30,19 @@ class RuntimeConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string $answer, RuntimeType $expectedRuntime): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('choice')->with(
-            'Select the runtime you are planning to use to serve Shlink (this is only used to conditionally skip some '
-            . 'follow-up questions)',
-            [
+        $io
+            ->expects($this->once())
+            ->method('choice')
+            ->with(
+                'Select the runtime you are planning to use to serve Shlink (this is only used to conditionally skip some '
+                . 'follow-up questions)',
+                [
+                    'RoadRunner',
+                    'Classic web server (Nginx, Apache, etc)',
+                ],
                 'RoadRunner',
-                'Classic web server (Nginx, Apache, etc)',
-            ],
-            'RoadRunner',
-        )->willReturn($answer);
+            )
+            ->willReturn($answer);
 
         $answer = $this->configOption->ask($io, []);
 

@@ -23,7 +23,7 @@ class RedisServersConfigOption extends BaseConfigOption
             . '(recommended if you run a cluster of Shlink instances)',
             false,
         );
-        if (! $useRedis) {
+        if (!$useRedis) {
             return null;
         }
 

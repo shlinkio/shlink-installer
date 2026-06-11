@@ -28,11 +28,15 @@ class CacheNamespaceConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'Prefix for cache entry keys. (Change this if you run multiple Shlink instances on this server, or they '
-            . 'share the same redis instance)',
-            'Shlink',
-        )->willReturn('Shlink');
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'Prefix for cache entry keys. (Change this if you run multiple Shlink instances on this server, or they '
+                . 'share the same redis instance)',
+                'Shlink',
+            )
+            ->willReturn('Shlink');
 
         $answer = $this->configOption->ask($io, []);
 

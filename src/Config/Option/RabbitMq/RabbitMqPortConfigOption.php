@@ -20,7 +20,7 @@ class RabbitMqPortConfigOption extends AbstractRabbitMqEnabledConfigOption
         return (int) $io->ask(
             'RabbitMQ port',
             $useSsl ? '5671' : '5672',
-            fn (mixed $value) => ConfigOptionsValidator::validateNumberBetween($value, 1, 65535),
+            static fn (mixed $value) => ConfigOptionsValidator::validateNumberBetween($value, 1, 65_535),
         );
     }
 

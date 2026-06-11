@@ -29,10 +29,14 @@ class BasePathConfigOptionTest extends TestCase
     public function expectedQuestionIsAsked(string|null $answer, string $expectedAnswer): void
     {
         $io = $this->createMock(StyleInterface::class);
-        $io->expects($this->once())->method('ask')->with(
-            'What is the path from which shlink is going to be served? (It must include a leading bar, like "/shlink". '
-            . 'Leave empty if you plan to serve shlink from the root of the domain)',
-        )->willReturn($answer);
+        $io
+            ->expects($this->once())
+            ->method('ask')
+            ->with(
+                'What is the path from which shlink is going to be served? (It must include a leading bar, like "/shlink". '
+                . 'Leave empty if you plan to serve shlink from the root of the domain)',
+            )
+            ->willReturn($answer);
 
         $answer = $this->configOption->ask($io, []);
 
