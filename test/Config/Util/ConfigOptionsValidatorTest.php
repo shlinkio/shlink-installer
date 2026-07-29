@@ -18,7 +18,7 @@ class ConfigOptionsValidatorTest extends TestCase
     public function throwsAnExceptionIfInvalidUrlIsProvided(): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->expectExceptionMessage('Provided value "something" is not a valid URL');
+        $this->expectExceptionMessageIs('Provided value "something" is not a valid URL');
 
         ConfigOptionsValidator::validateUrl('something');
     }
@@ -118,7 +118,7 @@ class ConfigOptionsValidatorTest extends TestCase
     public function validateHexColorThrowsForInvalidValues(string $color, string $expectedMessage): void
     {
         $this->expectException(InvalidConfigOptionException::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessageIs($expectedMessage);
 
         ConfigOptionsValidator::validateHexColor($color);
     }
@@ -182,7 +182,7 @@ class ConfigOptionsValidatorTest extends TestCase
     public function validateRequiredThrowsWhenValueIsEmpty(): void
     {
         $this->expectException(MissingRequiredOptionException::class);
-        $this->expectExceptionMessage('The "name" is required and can\'t be empty');
+        $this->expectExceptionMessageIs('The "name" is required and can\'t be empty');
 
         ConfigOptionsValidator::validateRequired('', 'name');
     }

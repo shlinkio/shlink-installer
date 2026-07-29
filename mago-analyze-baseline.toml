@@ -1,0 +1,733 @@
+variant = "loose"
+
+[[issues]]
+file = "config/container.php"
+code = "mixed-argument"
+message = '''Invalid argument type for argument #1 of `Laminas\ServiceManager\ServiceManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but found `mixed`.'''
+count = 1
+
+[[issues]]
+file = "config/container.php"
+code = "mixed-array-access"
+message = "Unsafe array access on type `mixed`."
+count = 1
+
+[[issues]]
+file = "config/container.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Command/InitCommand.php"
+code = "invalid-array-element-key"
+message = "Cannot use spread operator on an iterable with key type `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Command/SetOptionCommand.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Psr\Container\ContainerInterface::get`: expected `string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Command/SetOptionCommand.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface::ask`: expected `array<array-key, mixed>`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Command/SetOptionCommand.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Shlinkio\Shlink\Installer\Util\ConfigWriterInterface::toFile`: expected `array<array-key, mixed>`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Command/SetOptionCommand.php"
+code = "mixed-array-assignment"
+message = "Unsafe array assignment on type `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Command/SetOptionCommand.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 4
+
+[[issues]]
+file = "src/Command/SetOptionCommand.php"
+code = "possibly-false-operand"
+message = "Possibly false left operand used in string concatenation (type `false|non-empty-string`)."
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigGenerator.php"
+code = "less-specific-argument"
+message = 'Argument type mismatch for argument #1 of `Symfony\Component\Console\Style\StyleInterface::title`: expected `string`, but provided type `array-key` is less specific.'
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigGenerator.php"
+code = "less-specific-nested-argument-type"
+message = "Argument type mismatch for argument #1 of `array_combine`: expected `array<array-key, ('K.array_combine() extends array-key)>`, but provided type `array<array-key, mixed>` is less specific."
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigGenerator.php"
+code = "less-specific-nested-return-statement"
+message = '''Returned type `array<array-key, array<array-key, mixed>>|list<array<array-key, mixed>>` is less specific than the declared return type `array<array-key, array<array-key, Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface>>` for function `Shlinkio\Shlink\Installer\Config\ConfigGenerator::resolveAndSortOptions` due to nested 'mixed'.'''
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigGenerator.php"
+code = "template-constraint-violation"
+message = "Argument type mismatch for template `K`."
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigOptionsManager.php"
+code = "incompatible-property-type"
+message = 'Property `Shlinkio\Shlink\Installer\Config\ConfigOptionsManager::$instanceOf` has an incompatible type declaration from docblock.'
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigOptionsManagerFactory.php"
+code = "mixed-argument"
+message = '''Invalid argument type for argument #2 of `Laminas\ServiceManager\AbstractPluginManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but found `nonnull`.'''
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigOptionsManagerFactory.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/ConfigOptionsManagerFactory.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/BasePathConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\BasePathConfigOption::ask`. Saw type `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Cache/CacheNamespaceConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Cache\CacheNamespaceConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Cors/CorsAllowOriginConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Cors/CorsAllowOriginConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Cors\CorsAllowOriginConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Cors/CorsMaxAgeConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Cors\CorsMaxAgeConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/AbstractDriverDependentConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Option\Database\AbstractDriverDependentConfigOption::shouldBeAskedForDbDriver`: expected `string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/AbstractDriverDependentConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseDriverConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseHostConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver::tryFrom`: expected `string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseHostConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseHostConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseHostConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseNameConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseNameConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabasePasswordConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabasePasswordConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Database\DatabasePasswordConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabasePortConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Option\Database\DatabasePortConfigOption::getDefaultDbPortForDriver`: expected `string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabasePortConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Database\DatabasePortConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseUnixSocketConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseUnixSocketConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseUserConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Database/DatabaseUserConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Database\DatabaseUserConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/AbstractMatomoEnabledConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/AbstractMatomoEnabledConfigOption.php"
+code = "mixed-operand"
+message = "Left operand in `&&` operation has `mixed` type."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoApiTokenConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoApiTokenConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoApiTokenConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoBaseUrlConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoBaseUrlConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoBaseUrlConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoSiteIdConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoSiteIdConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoSiteIdConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/AbstractMercureEnabledConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/AbstractMercureEnabledConfigOption.php"
+code = "mixed-operand"
+message = "Right operand in `&&` operation has `mixed` type."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/MercureInternalUrlConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureInternalUrlConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/MercureJwtSecretConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/MercureJwtSecretConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureJwtSecretConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/MercurePublicUrlConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/MercurePublicUrlConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercurePublicUrlConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/AbstractRabbitMqEnabledConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/AbstractRabbitMqEnabledConfigOption.php"
+code = "mixed-operand"
+message = "Right operand in `&&` operation has `mixed` type."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqHostConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqHostConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqHostConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqPasswordConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqPasswordConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqPasswordConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqPortConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqUserConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqUserConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqUserConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/RabbitMq/RabbitMqVhostConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqVhostConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redirect/BaseUrlRedirectConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Redirect\BaseUrlRedirectConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redirect/InvalidShortUrlRedirectConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Redirect\InvalidShortUrlRedirectConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redirect/Regular404RedirectConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Redirect\Regular404RedirectConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisPubSubConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisSentinelServiceConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisSentinelServiceConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Redis\RedisSentinelServiceConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisServersConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisServersPasswordConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisServersPasswordConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersPasswordConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisServersUserConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Redis/RedisServersUserConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Redis\RedisServersUserConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Robots/RobotsUserAgentsConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Robots\RobotsUserAgentsConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Server/AbstractAsyncRuntimeDependentConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\RuntimeType::tryFrom`: expected `string`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Server/AbstractAsyncRuntimeDependentConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Server/LogsFormatConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Server\LogsFormatConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Server/MemoryLimitConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Server\MemoryLimitConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Server/RuntimeConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/TimezoneConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\TimezoneConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Tracking/AbstractDisableTrackingDependentConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Tracking/DisableTrackParamConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackParamConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Tracking/DisableTrackingFromConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Tracking\DisableTrackingFromConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Tracking/IpAnonymizationConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 2
+
+[[issues]]
+file = "src/Config/Option/TrustedProxiesConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/TrustedProxiesConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\TrustedProxiesConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/AbstractPermanentRedirectDependentConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Option\UrlShortener\AbstractPermanentRedirectDependentConfigOption::isPermanentRedirectStatus`: expected `int`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/AbstractPermanentRedirectDependentConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/ExtraPathModeConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ExtraPathModeConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/GeoLiteLicenseKeyConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/RedirectCacheLifeTimeConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/RedirectStatusCodeConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/ShortCodeLengthOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortCodeLengthOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/ShortDomainHostConfigOption.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/ShortDomainHostConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainHostConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/UrlShortener/ShortUrlModeConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortUrlModeConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Visit/VisitsThresholdConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Util/ConfigOptionsValidator.php"
+code = "mixed-argument"
+message = "Invalid argument type for argument #2 of `sprintf`: expected `Stringable|null|scalar`, but found `mixed`."
+count = 2
+
+[[issues]]
+file = "src/Factory/ApplicationFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Symfony\Component\Console\CommandLoader\ContainerCommandLoader::__construct`: expected `array<array-key, mixed>`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Factory/ApplicationFactory.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "invalid-destructuring-source"
+message = "Invalid destructuring assignment: Cannot unpack type `nonnull` into variables."
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "less-specific-nested-argument-type"
+message = 'Argument type mismatch for argument #1 of `Symfony\Component\Process\Process::__construct`: expected `array<array-key, string>`, but provided type `list{mixed, ...<mixed>}` is less specific.'
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "less-specific-nested-argument-type"
+message = "Argument type mismatch for argument #2 of `implode`: expected `array<array-key, Stringable|null|scalar>|null`, but provided type `list{mixed, ...<mixed>}` is less specific."
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Service\InstallationCommandsRunner::commandToArray`: expected `string`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Symfony\Component\Console\Style\SymfonyStyle::write`: expected `iterable<mixed, mixed>|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Symfony\Component\Process\Process::__construct`: expected `float|int|null`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "mixed-argument"
+message = "Invalid argument type for argument #2 of `sprintf`: expected `Stringable|null|scalar`, but found `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Service/InstallationCommandsRunner.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 6
+
+[[issues]]
+file = "src/Service/ShlinkAssetsHandler.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Service/ShlinkAssetsHandler.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Model\ImportedConfig::imported`: expected `string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Service/ShlinkAssetsHandler.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Shlinkio\Shlink\Installer\Model\ImportedConfig::imported`: expected `array<array-key, mixed>`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Service/ShlinkAssetsHandler.php"
+code = "mixed-argument"
+message = "Invalid argument type for argument #2 of `sprintf`: expected `Stringable|null|scalar`, but found `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Service/ShlinkAssetsHandler.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Util/Utils.php"
+code = "less-specific-nested-argument-type"
+message = "Argument type mismatch for argument #2 of `implode`: expected `array<array-key, Stringable|null|scalar>|null`, but provided type `array<array-key, mixed>` is less specific."
+count = 1
+
+[[issues]]
+file = "src/Util/Utils.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "test/Config/ConfigGeneratorTest.php"
+code = "less-specific-nested-argument-type"
+message = 'Argument type mismatch for argument #1 of `Shlinkio\Shlink\Installer\Util\ArrayUtils::flatten`: expected `array<array-key, array<array-key, mixed>>`, but provided type `array<array-key, mixed>` is less specific.'
+count = 1
+
+[[issues]]
+file = "test/Config/ConfigOptionsManagerFactoryTest.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "test/Config/Util/ConfigOptionsValidatorTest.php"
+code = "too-few-arguments"
+message = 'Too few arguments provided for method `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateNumberGreaterThan`.'
+count = 1
+
+[[issues]]
+file = "test/Factory/ApplicationFactoryTest.php"
+code = "invalid-argument"
+message = 'Invalid argument type for argument #2 of `array_filter`: expected `(callable(Symfony\Component\Console\Command\Command): bool)|(callable(Symfony\Component\Console\Command\Command, array-key): bool)|(callable(array-key): bool)|null`, but found `(closure(string): bool)`.'
+count = 1
+
+[[issues]]
+file = "test/Factory/ApplicationFactoryTest.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$commands`."
+count = 1
+
+[[issues]]
+file = "test/Service/InstallationCommandsRunnerTest.php"
+code = "less-specific-nested-argument-type"
+message = "Argument type mismatch for argument #2 of `implode`: expected `array<array-key, Stringable|null|scalar>|null`, but provided type `list{mixed, mixed, mixed, ...<mixed>}` is less specific."
+count = 1
+
+[[issues]]
+file = "test/Service/ShlinkAssetsHandlerTest.php"
+code = "redundant-comparison"
+message = "Redundant `<` comparison: left-hand side is always less than right-hand side."
+count = 1
