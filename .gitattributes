@@ -10,5 +10,6 @@ docker-compose.yml export-ignore
 Dockerfile export-ignore
 indocker export-ignore
 mago.toml export-ignore
+mago-analyze-baseline.toml export-ignore
 phpunit.xml.dist export-ignore
 shlink-installer.gif export-ignore
