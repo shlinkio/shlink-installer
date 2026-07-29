@@ -8,7 +8,8 @@ extends = "vendor/shlinkio/shlink-mago-config/mago.toml"
 [source]
 workspace = "."
 paths = ["config", "src", "test"]
-excludes = ["vendor"]
+excludes = ["config/params"]
+includes = ["vendor"]
 
 [source.glob]
 literal-separator = true
@@ -17,3 +18,6 @@ literal-separator = true
 no-literal-password = { exclude = ["test"] }
 no-empty-catch-clause = { exclude = ["test"] }
 no-empty-loop = { exclude = ["test"] }
+
+[analyzer]
+baseline = "mago-analyze-baseline.toml"

@@ -10,6 +10,5 @@ docker-compose.yml export-ignore
 Dockerfile export-ignore
 indocker export-ignore
 mago.toml export-ignore
-phpstan.neon export-ignore
 phpunit.xml.dist export-ignore
 shlink-installer.gif export-ignore
