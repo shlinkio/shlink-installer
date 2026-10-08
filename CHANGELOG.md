@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
-* *Nothing*
+* Add mercure version config option.
 
 ### Changed
 * Migrate form PHPStan to Mago for code analysis.
