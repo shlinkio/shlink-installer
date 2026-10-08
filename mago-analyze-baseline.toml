@@ -85,12 +85,6 @@ message = "Argument type mismatch for template `K`."
 count = 1
 
 [[issues]]
-file = "src/Config/ConfigOptionsManager.php"
-code = "incompatible-property-type"
-message = 'Property `Shlinkio\Shlink\Installer\Config\ConfigOptionsManager::$instanceOf` has an incompatible type declaration from docblock.'
-count = 1
-
-[[issues]]
 file = "src/Config/ConfigOptionsManagerFactory.php"
 code = "mixed-argument"
 message = '''Invalid argument type for argument #2 of `Laminas\ServiceManager\AbstractPluginManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but found `nonnull`.'''
@@ -310,6 +304,12 @@ count = 1
 file = "src/Config/Option/Mercure/MercurePublicUrlConfigOption.php"
 code = "mixed-return-statement"
 message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercurePublicUrlConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/MercureVersionConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureVersionConfigOption::ask`. Saw type `mixed`.'
 count = 1
 
 [[issues]]

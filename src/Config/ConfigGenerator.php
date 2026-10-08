@@ -32,11 +32,12 @@ class ConfigGenerator implements ConfigGeneratorInterface
         // FIXME Improve code quality on these nested loops
         foreach ($pluginsGroups as $title => $configOptions) {
             foreach ($configOptions as $configOption => $plugin) {
-                $optionIsEnabled = $this->enabledOptions === null
-                || ArrayUtils::contains(
-                    $configOption,
-                    $this->enabledOptions,
-                );
+                $optionIsEnabled =
+                    $this->enabledOptions === null
+                    || ArrayUtils::contains(
+                        $configOption,
+                        $this->enabledOptions,
+                    );
                 $shouldAsk = $optionIsEnabled && $plugin->shouldBeAsked($answers);
                 if (!$shouldAsk) {
                     if ($plugin instanceof ConfigOptionMigratorInterface && isset($answers[$plugin->getEnvVar()])) {
