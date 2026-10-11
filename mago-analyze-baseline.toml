@@ -277,6 +277,18 @@ message = "Right operand in `&&` operation has `mixed` type."
 count = 1
 
 [[issues]]
+file = "src/Config/Option/Mercure/MercureAuthCookieNameConfigOption.php"
+code = "mixed-assignment"
+message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Mercure/MercureAuthCookieNameConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureAuthCookieNameConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
 file = "src/Config/Option/Mercure/MercureInternalUrlConfigOption.php"
 code = "mixed-return-statement"
 message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureInternalUrlConfigOption::ask`. Saw type `mixed`.'
@@ -724,10 +736,4 @@ count = 1
 file = "test/Service/InstallationCommandsRunnerTest.php"
 code = "less-specific-nested-argument-type"
 message = "Argument type mismatch for argument #2 of `implode`: expected `array<array-key, Stringable|null|scalar>|null`, but provided type `list{mixed, mixed, mixed, ...<mixed>}` is less specific."
-count = 1
-
-[[issues]]
-file = "test/Service/ShlinkAssetsHandlerTest.php"
-code = "redundant-comparison"
-message = "Redundant `<` comparison: left-hand side is always less than right-hand side."
 count = 1
