@@ -277,18 +277,6 @@ message = "Right operand in `&&` operation has `mixed` type."
 count = 1
 
 [[issues]]
-file = "src/Config/Option/Mercure/MercureAuthCookieNameConfigOption.php"
-code = "mixed-assignment"
-message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
-count = 1
-
-[[issues]]
-file = "src/Config/Option/Mercure/MercureAuthCookieNameConfigOption.php"
-code = "mixed-return-statement"
-message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureAuthCookieNameConfigOption::ask`. Saw type `mixed`.'
-count = 1
-
-[[issues]]
 file = "src/Config/Option/Mercure/MercureInternalUrlConfigOption.php"
 code = "mixed-return-statement"
 message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Mercure\MercureInternalUrlConfigOption::ask`. Saw type `mixed`.'
