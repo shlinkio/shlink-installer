@@ -27,15 +27,15 @@ class MercureVersionConfigOptionTest extends TestCase
     #[Test]
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = 'stable';
+        $expectedAnswer = 'v1';
         $io = $this->createMock(StyleInterface::class);
         $io
             ->expects($this->once())
             ->method('choice')
             ->with(
                 'Version of the mercure hub',
-                ['legacy', 'stable'],
-                'legacy',
+                ['v0', 'v1'],
+                'v0',
             )
             ->willReturn($expectedAnswer);
 
