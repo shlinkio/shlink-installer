@@ -31,7 +31,7 @@ class ShortUrlModeConfigOption extends BaseConfigOption
             'How do you want short URLs to be matched?'
             . PHP_EOL
             . '<options=bold;fg=yellow> Warning!</> <comment>This feature is experimental. It only applies to public '
-            . 'routes (short URLs and QR codes). REST API routes always use strict match.</comment>'
+            . 'routes (short URLs). REST API routes always use strict match.</comment>'
             . PHP_EOL,
             self::MODES,
             'strict',

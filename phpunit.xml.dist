@@ -6,9 +6,11 @@
     colors="true"
     cacheDirectory="build/.phpunit.cache"
     displayDetailsOnPhpunitDeprecations="true"
-    displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnPhpunitNotices="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
 >
     <testsuites>
         <testsuite name="Installer">
