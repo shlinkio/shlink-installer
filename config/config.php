@@ -66,12 +66,15 @@ return [
                     Config\Option\UrlShortener\EnableMultiSegmentSlugsConfigOption::class,
                 'URL shortener > Trailing slashes' => Config\Option\UrlShortener\EnableTrailingSlashConfigOption::class,
                 'URL shortener > Mode' => Config\Option\UrlShortener\ShortUrlModeConfigOption::class,
-                'GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
                 'Redirects > Status code (301/302/307/308)' =>
                     Config\Option\UrlShortener\RedirectStatusCodeConfigOption::class,
                 'Redirects > Caching life time' => Config\Option\UrlShortener\RedirectCacheLifeTimeConfigOption::class,
                 'Redirects > Caching visibility' =>
                     Config\Option\UrlShortener\RedirectCacheVisibilityConfigOption::class,
+            ],
+            'GEOLOCATION' => [
+                'Geolocation > Strategies' => Config\Option\Geolocation\GeolocationStrategiesConfigOption::class,
+                'Geolocation > GeoLite2 license key' => Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class,
             ],
             'TRACKING' => [
                 'Tracking > Orphan visits tracking' => Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class,
@@ -181,6 +184,7 @@ return [
             Config\Option\Matomo\MatomoSiteIdConfigOption::class => InvokableFactory::class,
             Config\Option\Matomo\MatomoApiTokenConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
+            Config\Option\Geolocation\GeolocationStrategiesConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableTrackParamConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\DisableTrackingFromConfigOption::class => InvokableFactory::class,
