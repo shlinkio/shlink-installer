@@ -34,7 +34,7 @@ class MatomoVisitTypeDimensionIdConfigOptionTest extends TestCase
         $io
             ->expects($this->once())
             ->method('ask')
-            ->with('ID for the custom dimension where visit type will be set', null, $this->anything())
+            ->with('ID for the custom dimension where visit type will be set, if any', null, $this->anything())
             ->willReturn($expectedAnswer);
 
         $answer = $this->configOption->ask($io, []);

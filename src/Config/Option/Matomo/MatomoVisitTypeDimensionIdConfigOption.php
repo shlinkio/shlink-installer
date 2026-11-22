@@ -20,7 +20,7 @@ class MatomoVisitTypeDimensionIdConfigOption extends AbstractMatomoEnabledConfig
     public function ask(StyleInterface $io, array $currentOptions): int|null
     {
         return $io->ask(
-            'ID for the custom dimension where visit type will be set',
+            'ID for the custom dimension where visit type will be set, if any',
             validator: ConfigOptionsValidator::validateOptionalPositiveNumber(...),
         );
     }
