@@ -130,6 +130,11 @@ return [
                 'Matomo > Server URL' => Config\Option\Matomo\MatomoBaseUrlConfigOption::class,
                 'Matomo > Site ID' => Config\Option\Matomo\MatomoSiteIdConfigOption::class,
                 'Matomo > API token' => Config\Option\Matomo\MatomoApiTokenConfigOption::class,
+                'Matomo > Visit type dimension' => Config\Option\Matomo\MatomoVisitTypeDimensionIdConfigOption::class,
+                'Matomo > Visit domain dimension' =>
+                    Config\Option\Matomo\MatomoVisitDomainDimensionIdConfigOption::class,
+                'Matomo > Is orphan visit dimension' =>
+                    Config\Option\Matomo\MatomoIsOrphanDimensionIdConfigOption::class,
                 'Real-time updates > topics' => Config\Option\RealTimeUpdates\RealTimeUpdatesTopicsConfigOption::class,
             ],
         ],
@@ -183,6 +188,9 @@ return [
             Config\Option\Matomo\MatomoBaseUrlConfigOption::class => InvokableFactory::class,
             Config\Option\Matomo\MatomoSiteIdConfigOption::class => InvokableFactory::class,
             Config\Option\Matomo\MatomoApiTokenConfigOption::class => InvokableFactory::class,
+            Config\Option\Matomo\MatomoVisitTypeDimensionIdConfigOption::class => InvokableFactory::class,
+            Config\Option\Matomo\MatomoVisitDomainDimensionIdConfigOption::class => InvokableFactory::class,
+            Config\Option\Matomo\MatomoIsOrphanDimensionIdConfigOption::class => InvokableFactory::class,
             Config\Option\UrlShortener\GeoLiteLicenseKeyConfigOption::class => InvokableFactory::class,
             Config\Option\Geolocation\GeolocationStrategiesConfigOption::class => InvokableFactory::class,
             Config\Option\Tracking\OrphanVisitsTrackingConfigOption::class => InvokableFactory::class,
