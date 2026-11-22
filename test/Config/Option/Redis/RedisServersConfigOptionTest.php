@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
+use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -17,6 +18,7 @@ class RedisServersConfigOptionTest extends TestCase
     private RedisServersConfigOption $configOption;
     private MockObject&StyleInterface $io;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new RedisServersConfigOption();

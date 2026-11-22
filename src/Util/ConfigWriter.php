@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Util;
 
+use Override;
 use Webimpress\SafeWriter\FileWriter;
 
 use function sprintf;
@@ -20,6 +21,7 @@ class ConfigWriter implements ConfigWriterInterface
 
         TEMPLATE;
 
+    #[Override]
     public function toFile(string $fileName, array $config): void
     {
         $content = sprintf(self::CONFIG_TEMPLATE, var_export($config, return: true));

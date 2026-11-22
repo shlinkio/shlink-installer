@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Option\ConfigOptionMigratorInterface;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
@@ -23,6 +24,7 @@ class ConfigGenerator implements ConfigGeneratorInterface
         private readonly array|null $enabledOptions,
     ) {}
 
+    #[Override]
     public function generateConfigInteractively(StyleInterface $io, array $previousConfig): array
     {
         $pluginsGroups = $this->resolveAndSortOptions();

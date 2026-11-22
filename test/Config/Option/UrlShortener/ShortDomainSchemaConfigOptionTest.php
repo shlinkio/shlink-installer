@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\UrlShortener\ShortDomainSchemaConfigOption;
@@ -13,6 +14,7 @@ class ShortDomainSchemaConfigOptionTest extends TestCase
 {
     private ShortDomainSchemaConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new ShortDomainSchemaConfigOption();

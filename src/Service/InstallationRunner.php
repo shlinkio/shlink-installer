@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Service;
 
+use Override;
 use Shlinkio\Shlink\Installer\Command\Model\InitOption;
 use Shlinkio\Shlink\Installer\Config\ConfigGeneratorInterface;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
@@ -22,6 +23,7 @@ readonly class InstallationRunner implements InstallationRunnerInterface
     ) {}
 
     /** @inheritDoc */
+    #[Override]
     public function runInstallation(SymfonyStyle $io, Command|null $initCommand): int
     {
         $initCommandInput = [InitOption::INITIAL_API_KEY->asCliFlag() => null];
@@ -29,6 +31,7 @@ readonly class InstallationRunner implements InstallationRunnerInterface
     }
 
     /** @inheritDoc */
+    #[Override]
     public function runUpdate(SymfonyStyle $io, Command|null $initCommand): int
     {
         $importConfig = $this->assetsHandler->resolvePreviousConfig($io);

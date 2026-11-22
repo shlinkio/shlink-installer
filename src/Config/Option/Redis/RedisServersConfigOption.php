@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Redis;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -11,11 +12,13 @@ class RedisServersConfigOption extends BaseConfigOption
 {
     public const string ENV_VAR = 'REDIS_SERVERS';
 
+    #[Override]
     public function getEnvVar(): string
     {
         return self::ENV_VAR;
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         $useRedis = $io->confirm(

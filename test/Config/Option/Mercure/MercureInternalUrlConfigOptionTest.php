@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Mercure;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -17,6 +18,7 @@ class MercureInternalUrlConfigOptionTest extends TestCase
 {
     private MercureInternalUrlConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new MercureInternalUrlConfigOption();

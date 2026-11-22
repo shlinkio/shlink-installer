@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redis;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -15,6 +16,7 @@ class RedisSentinelServiceConfigOptionTest extends TestCase
 {
     private RedisSentinelServiceConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new RedisSentinelServiceConfigOption();

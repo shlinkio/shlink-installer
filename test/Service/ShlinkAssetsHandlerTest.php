@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -26,6 +27,7 @@ class ShlinkAssetsHandlerTest extends TestCase
     private MockObject&StyleInterface $io;
     private MockObject&Filesystem $filesystem;
 
+    #[Override]
     public function setUp(): void
     {
         $this->io = $this->createMock(StyleInterface::class);

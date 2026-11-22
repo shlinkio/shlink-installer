@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Cache;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class CacheNamespaceConfigOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'CACHE_NAMESPACE';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         return $io->ask(

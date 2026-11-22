@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
@@ -14,6 +15,7 @@ class TrustedProxiesConfigOptionTest extends TestCase
 {
     private TrustedProxiesConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new TrustedProxiesConfigOption();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Mercure;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\Server\AbstractAsyncRuntimeDependentConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -11,11 +12,13 @@ class EnableMercureConfigOption extends AbstractAsyncRuntimeDependentConfigOptio
 {
     public const string ENV_VAR = 'MERCURE_ENABLED';
 
+    #[Override]
     public function getEnvVar(): string
     {
         return self::ENV_VAR;
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): bool
     {
         return $io->confirm('Do you want Shlink to publish real-time updates in a Mercure hub server?', false);

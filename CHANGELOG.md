@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Added
 * Add mercure version config option.
 * Add geolocation strategies config option.
+* Add Matomo custom dimensions config option.
 
 ### Changed
 * Migrate form PHPStan to Mago for code analysis.

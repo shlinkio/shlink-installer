@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -15,11 +16,13 @@ class ExtraPathModeConfigOption extends BaseConfigOption
         'ignore' => 'Discard extra path',
     ];
 
+    #[Override]
     public function getEnvVar(): string
     {
         return 'REDIRECT_EXTRA_PATH_MODE';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         return $io->choice(

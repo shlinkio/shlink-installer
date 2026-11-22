@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Service;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Shlinkio\Shlink\Installer\Model\ImportedConfig;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -25,6 +26,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
     /**
      * @throws IOException
      */
+    #[Override]
     public function dropCachedConfigIfAny(StyleInterface $io): void
     {
         foreach (self::CACHED_CONFIGS_PATHS as $file) {
@@ -48,6 +50,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
         }
     }
 
+    #[Override]
     public function resolvePreviousConfig(StyleInterface $io): ImportedConfig
     {
         $importConfig = $io->confirm(
@@ -83,6 +86,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
         return ImportedConfig::imported($installationPath, include $configFile);
     }
 
+    #[Override]
     public function importShlinkAssetsFromPath(StyleInterface $io, string $path): void
     {
         $this->importSqliteIfNeeded($io, sprintf('%s/%s', $path, self::SQLITE_DB_PATH));
@@ -116,6 +120,7 @@ class ShlinkAssetsHandler implements ShlinkAssetsHandlerInterface
         }
     }
 
+    #[Override]
     public function roadRunnerBinaryExistsInPath(string $path): bool
     {
         return $this->filesystem->exists(sprintf('%s/%s', $path, self::ROAD_RUNNER_BINARY_PATH));

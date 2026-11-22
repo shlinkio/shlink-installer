@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class TrustedProxiesConfigOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'TRUSTED_PROXIES';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string|int|null
     {
         if (!$io->confirm('Do you have more than one proxy in front of this Shlink instance?', default: false)) {

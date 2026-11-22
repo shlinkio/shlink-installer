@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Server;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\RuntimeType;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -18,11 +19,13 @@ class RuntimeConfigOption extends BaseConfigOption
         'Classic web server (Nginx, Apache, etc)' => RuntimeType::REGULAR,
     ];
 
+    #[Override]
     public function getEnvVar(): string
     {
         return self::ENV_VAR;
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         $runtimes = array_keys(self::RUNTIMES);

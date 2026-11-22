@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Redirect;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Redirect\BaseUrlRedirectConfigOption;
@@ -13,6 +14,7 @@ class BaseUrlRedirectConfigOptionTest extends TestCase
 {
     private BaseUrlRedirectConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new BaseUrlRedirectConfigOption();

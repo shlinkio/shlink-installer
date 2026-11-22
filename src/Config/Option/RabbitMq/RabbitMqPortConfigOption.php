@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\RabbitMq;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class RabbitMqPortConfigOption extends AbstractRabbitMqEnabledConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'RABBITMQ_PORT';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): int
     {
         $useSsl = $currentOptions[RabbitMqUseSslConfigOption::ENV_VAR] ?? false;
@@ -24,6 +27,7 @@ class RabbitMqPortConfigOption extends AbstractRabbitMqEnabledConfigOption
         );
     }
 
+    #[Override]
     public function getDependentOption(): string
     {
         return RabbitMqUseSslConfigOption::class;

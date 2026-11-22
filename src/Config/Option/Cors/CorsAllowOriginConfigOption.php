@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Cors;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class CorsAllowOriginConfigOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'CORS_ALLOW_ORIGIN';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         $answer = $io->choice(

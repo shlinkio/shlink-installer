@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class EnableTrailingSlashConfigOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'SHORT_URL_TRAILING_SLASH';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): bool
     {
         return $io->confirm(

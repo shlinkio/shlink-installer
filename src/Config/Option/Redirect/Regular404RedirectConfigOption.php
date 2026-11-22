@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Redirect;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class Regular404RedirectConfigOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'DEFAULT_REGULAR_404_REDIRECT';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Server;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Server\LogsFormatConfigOption;
@@ -13,6 +14,7 @@ class LogsFormatConfigOptionTest extends TestCase
 {
     private LogsFormatConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new LogsFormatConfigOption();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
@@ -14,6 +15,7 @@ class DatabaseUseEncryptionConfigOptionTest extends TestCase
 {
     private DatabaseUseEncryptionConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new DatabaseUseEncryptionConfigOption();

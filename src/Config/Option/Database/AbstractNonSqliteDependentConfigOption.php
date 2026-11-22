@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Database;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 
 abstract class AbstractNonSqliteDependentConfigOption extends AbstractDriverDependentConfigOption
 {
+    #[Override]
     protected function shouldBeAskedForDbDriver(string $dbDriver): bool
     {
         return DatabaseDriver::tryFrom($dbDriver) !== DatabaseDriver::SQLITE;

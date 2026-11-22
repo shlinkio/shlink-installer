@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Util;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
@@ -17,11 +18,13 @@ class ConfigWriterTest extends TestCase
 
     private ConfigWriter $configWriter;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->configWriter = new ConfigWriter();
     }
 
+    #[Override]
     public static function tearDownAfterClass(): void
     {
         unlink(self::FILENAME);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Config\Option\RabbitMq;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\RabbitMq\RabbitMqUseSslConfigOption;
@@ -13,6 +14,7 @@ class RabbitMqUseSslConfigOptionTest extends TestCase
 {
     private RabbitMqUseSslConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new RabbitMqUseSslConfigOption();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\RealTimeUpdates;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -16,6 +17,7 @@ class RealTimeUpdatesTopicsConfigOption extends BaseConfigOption
         'NEW_SHORT_URL' => 'Notify created short URLs?',
     ];
 
+    #[Override]
     public function getEnvVar(): string
     {
         return 'REAL_TIME_UPDATES_TOPICS';
@@ -24,6 +26,7 @@ class RealTimeUpdatesTopicsConfigOption extends BaseConfigOption
     /**
      * @return string[]|null
      */
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): array|null
     {
         $individualTopics = $io->confirm(
