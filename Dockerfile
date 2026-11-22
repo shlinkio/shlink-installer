@@ -1,7 +1,7 @@
 FROM composer:2
 
+COPY --from=ghcr.io/php/pie:bin /pie /usr/bin/pie
 RUN apk add --update linux-headers && \
     apk add --no-cache --virtual .phpize-deps ${PHPIZE_DEPS} && \
-    pecl install xdebug && \
-    docker-php-ext-enable xdebug && \
+    pie install xdebug/xdebug && \
     apk del .phpize-deps
