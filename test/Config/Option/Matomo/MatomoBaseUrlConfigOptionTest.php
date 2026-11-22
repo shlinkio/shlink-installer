@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Matomo;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -15,6 +16,7 @@ class MatomoBaseUrlConfigOptionTest extends TestCase
 {
     private MatomoBaseUrlConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new MatomoBaseUrlConfigOption();

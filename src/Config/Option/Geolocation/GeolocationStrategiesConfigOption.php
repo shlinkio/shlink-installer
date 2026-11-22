@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Geolocation;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -16,11 +17,13 @@ class GeolocationStrategiesConfigOption extends BaseConfigOption
     private const string GEOLITE_STRATEGY = 'geolite2';
     private const string CLOUDFLARE_STRATEGY = 'cloudflare';
 
+    #[Override]
     public function getEnvVar(): string
     {
         return self::ENV_VAR;
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         $useGeolite = $io->confirm('Do you want to geolocate visitors using a GeoLite2 database?');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Factory;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Factory\ProcessHelperFactory;
@@ -12,6 +13,7 @@ class ProcessHelperFactoryTest extends TestCase
 {
     private ProcessHelperFactory $factory;
 
+    #[Override]
     public function setUp(): void
     {
         $this->factory = new ProcessHelperFactory();

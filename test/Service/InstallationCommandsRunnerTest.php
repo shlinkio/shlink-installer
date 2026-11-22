@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Service;
 
 use InvalidArgumentException;
+use Override;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -30,6 +31,7 @@ class InstallationCommandsRunnerTest extends TestCase
     private MockObject&ProcessHelper $processHelper;
     private MockObject&SymfonyStyle $io;
 
+    #[Override]
     public function setUp(): void
     {
         $phpFinder = $this->createStub(PhpExecutableFinder::class);

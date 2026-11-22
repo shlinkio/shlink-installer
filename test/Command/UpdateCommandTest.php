@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Command;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,6 +19,7 @@ class UpdateCommandTest extends TestCase
     private CommandTester $commandTester;
     private MockObject&InstallationRunnerInterface $installationRunner;
 
+    #[Override]
     public function setUp(): void
     {
         $this->installationRunner = $this->createMock(InstallationRunnerInterface::class);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -12,11 +13,13 @@ class EnableMultiSegmentSlugsConfigOption extends BaseConfigOption
     private const YES = 'yes';
     private const NO = 'no';
 
+    #[Override]
     public function getEnvVar(): string
     {
         return 'MULTI_SEGMENT_SLUGS_ENABLED';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): bool
     {
         return $io->choice(

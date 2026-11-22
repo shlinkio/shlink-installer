@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Service;
 
+use Override;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,6 +26,7 @@ class InstallationRunnerTest extends TestCase
     private MockObject&Command $initCommand;
     private InstallationRunner $installationRunner;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->initCommand = $this->createMock(Command::class);

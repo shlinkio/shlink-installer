@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option;
 
+use Override;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class BasePathConfigOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'BASE_PATH';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         return (

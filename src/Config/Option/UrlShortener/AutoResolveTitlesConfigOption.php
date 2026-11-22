@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class AutoResolveTitlesConfigOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'AUTO_RESOLVE_TITLES';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): bool
     {
         return $io->confirm(

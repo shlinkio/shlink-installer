@@ -6,6 +6,7 @@ namespace Shlinkio\Shlink\Installer\Config;
 
 use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
+use Override;
 
 use function get_debug_type;
 use function sprintf;
@@ -16,8 +17,9 @@ use function sprintf;
 class ConfigOptionsManager extends AbstractSingleInstancePluginManager implements ConfigOptionsManagerInterface
 {
     /** @var class-string<Option\ConfigOptionInterface> */
-    protected string $instanceOf = Option\ConfigOptionInterface::class; // phpcs:ignore
+    protected string $instanceOf = Option\ConfigOptionInterface::class;
 
+    #[Override]
     public function validate(mixed $instance): void
     {
         if ($instance instanceof $this->instanceOf) {

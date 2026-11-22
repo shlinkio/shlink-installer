@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Database;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\DatabaseDriver;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -21,11 +22,13 @@ class DatabaseDriverConfigOption extends BaseConfigOption
         'SQLite [<options=bold;fg=yellow>Not supported for production</>]' => DatabaseDriver::SQLITE,
     ];
 
+    #[Override]
     public function getEnvVar(): string
     {
         return self::ENV_VAR;
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         $databases = array_keys(self::DATABASE_DRIVERS);

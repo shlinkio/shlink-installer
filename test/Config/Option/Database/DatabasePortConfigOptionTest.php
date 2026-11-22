@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Database;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -16,6 +17,7 @@ class DatabasePortConfigOptionTest extends TestCase
 {
     private DatabasePortConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new DatabasePortConfigOption();

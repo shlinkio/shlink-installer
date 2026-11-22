@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ShlinkioTest\Shlink\Installer\Factory;
 
 use Laminas\ServiceManager\ServiceManager;
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Factory\ApplicationFactory;
@@ -20,6 +21,7 @@ class ApplicationFactoryTest extends TestCase
 {
     private ApplicationFactory $factory;
 
+    #[Override]
     public function setUp(): void
     {
         $this->factory = new ApplicationFactory();

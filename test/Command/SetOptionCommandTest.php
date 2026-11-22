@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Command;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -30,6 +31,7 @@ class SetOptionCommandTest extends TestCase
     private MockObject&Filesystem $filesystem;
     private string $initialCwd;
 
+    #[Override]
     public function setUp(): void
     {
         $this->initialCwd = getcwd() ?: '';
@@ -57,6 +59,7 @@ class SetOptionCommandTest extends TestCase
         $this->commandTester = new CommandTester($command);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         chdir($this->initialCwd);

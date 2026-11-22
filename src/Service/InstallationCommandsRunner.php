@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Service;
 
+use Override;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -28,6 +29,7 @@ readonly class InstallationCommandsRunner implements InstallationCommandsRunnerI
         $this->phpBinary = $phpFinder->find(false) ?: 'php';
     }
 
+    #[Override]
     public function execPhpCommand(string $name, SymfonyStyle $io, bool $interactive, array $args): bool
     {
         $commandConfig = $this->commandsMapping[$name] ?? null;

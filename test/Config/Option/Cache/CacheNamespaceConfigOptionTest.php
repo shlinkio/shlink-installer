@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Cache;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Cache\CacheNamespaceConfigOption;
@@ -13,6 +14,7 @@ class CacheNamespaceConfigOptionTest extends TestCase
 {
     private CacheNamespaceConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new CacheNamespaceConfigOption();

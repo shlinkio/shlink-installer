@@ -3,7 +3,7 @@ variant = "loose"
 [[issues]]
 file = "config/container.php"
 code = "mixed-argument"
-message = '''Invalid argument type for argument #1 of `Laminas\ServiceManager\ServiceManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but found `mixed`.'''
+message = '''Invalid argument type for argument #1 of `Laminas\ServiceManager\ServiceManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: array<string, array<array-key, (callable(Psr\Container\ContainerInterface, string, (callable(): mixed), array<array-key, mixed>|null): mixed)|Laminas\ServiceManager\Factory\DelegatorFactoryInterface|class-string<(!Laminas\ServiceManager\ServiceManager::DelegatorCallable)&object>|class-string<Laminas\ServiceManager\Factory\DelegatorFactoryInterface>>>, 'factories'?: array<string, (callable(Psr\Container\ContainerInterface, string, array<array-key, mixed>|null): mixed)|Laminas\ServiceManager\Factory\FactoryInterface|class-string<(!Laminas\ServiceManager\ServiceManager::FactoryCallable)&object>|class-string<Laminas\ServiceManager\Factory\FactoryInterface>>, 'initializers'?: array<array-key, (callable(Psr\Container\ContainerInterface, mixed): void)|Laminas\ServiceManager\Initializer\InitializerInterface|class-string<(!Laminas\ServiceManager\ServiceManager::InitializerCallable)&object>|class-string<Laminas\ServiceManager\Initializer\InitializerInterface>>, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but found `mixed`.'''
 count = 1
 
 [[issues]]
@@ -87,7 +87,7 @@ count = 1
 [[issues]]
 file = "src/Config/ConfigOptionsManagerFactory.php"
 code = "mixed-argument"
-message = '''Invalid argument type for argument #2 of `Laminas\ServiceManager\AbstractPluginManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but found `nonnull`.'''
+message = '''Invalid argument type for argument #2 of `Laminas\ServiceManager\AbstractPluginManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: array<string, array<array-key, (callable(Psr\Container\ContainerInterface, string, (callable(): mixed), array<array-key, mixed>|null): mixed)|Laminas\ServiceManager\Factory\DelegatorFactoryInterface|class-string<(!Laminas\ServiceManager\ServiceManager::DelegatorCallable)&object>|class-string<Laminas\ServiceManager\Factory\DelegatorFactoryInterface>>>, 'factories'?: array<string, (callable(Psr\Container\ContainerInterface, string, array<array-key, mixed>|null): mixed)|Laminas\ServiceManager\Factory\FactoryInterface|class-string<(!Laminas\ServiceManager\ServiceManager::FactoryCallable)&object>|class-string<Laminas\ServiceManager\Factory\FactoryInterface>>, 'initializers'?: array<array-key, (callable(Psr\Container\ContainerInterface, mixed): void)|Laminas\ServiceManager\Initializer\InitializerInterface|class-string<(!Laminas\ServiceManager\ServiceManager::InitializerCallable)&object>|class-string<Laminas\ServiceManager\Initializer\InitializerInterface>>, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but found `nonnull`.'''
 count = 1
 
 [[issues]]
@@ -259,6 +259,12 @@ message = 'Could not infer a precise return type for function `Shlinkio\Shlink\I
 count = 1
 
 [[issues]]
+file = "src/Config/Option/Matomo/MatomoIsOrphanDimensionIdConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoIsOrphanDimensionIdConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
 file = "src/Config/Option/Matomo/MatomoSiteIdConfigOption.php"
 code = "mixed-argument"
 message = 'Invalid argument type for argument #1 of `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateRequired`: expected `null|string`, but found `mixed`.'
@@ -268,6 +274,18 @@ count = 1
 file = "src/Config/Option/Matomo/MatomoSiteIdConfigOption.php"
 code = "mixed-return-statement"
 message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoSiteIdConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoVisitDomainDimensionIdConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoVisitDomainDimensionIdConfigOption::ask`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Config/Option/Matomo/MatomoVisitTypeDimensionIdConfigOption.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoVisitTypeDimensionIdConfigOption::ask`. Saw type `mixed`.'
 count = 1
 
 [[issues]]
@@ -712,12 +730,6 @@ count = 1
 file = "test/Config/ConfigOptionsManagerFactoryTest.php"
 code = "mixed-assignment"
 message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
-count = 1
-
-[[issues]]
-file = "test/Config/Util/ConfigOptionsValidatorTest.php"
-code = "too-few-arguments"
-message = 'Too few arguments provided for method `Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator::validateNumberGreaterThan`.'
 count = 1
 
 [[issues]]

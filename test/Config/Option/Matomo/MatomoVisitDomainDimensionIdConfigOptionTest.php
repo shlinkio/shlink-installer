@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config\Option\Matomo;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\Installer\Config\Option\Matomo\MatomoVisitDomainDimensionIdConfigOption;
@@ -13,6 +14,7 @@ class MatomoVisitDomainDimensionIdConfigOptionTest extends TestCase
 {
     private MatomoVisitDomainDimensionIdConfigOption $configOption;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOption = new MatomoVisitDomainDimensionIdConfigOption();
@@ -27,7 +29,7 @@ class MatomoVisitDomainDimensionIdConfigOptionTest extends TestCase
     #[Test]
     public function expectedQuestionIsAsked(): void
     {
-        $expectedAnswer = 12345;
+        $expectedAnswer = 12_345;
         $io = $this->createMock(StyleInterface::class);
         $io
             ->expects($this->once())

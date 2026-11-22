@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Mercure;
 
+use Override;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class MercureInternalUrlConfigOption extends AbstractMercureEnabledConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'MERCURE_INTERNAL_HUB_URL';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         return $io->ask('Internal URL of the mercure hub server (leave empty to use the public one)');

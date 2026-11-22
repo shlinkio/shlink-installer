@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Util\ConfigOptionsValidator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class ShortCodeLengthOption extends BaseConfigOption
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'DEFAULT_SHORT_CODES_LENGTH';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): int
     {
         return $io->ask(

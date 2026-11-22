@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\Tracking;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
 class IpAnonymizationConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'ANONYMIZE_REMOTE_ADDR';
     }
 
+    #[Override]
     public function shouldBeAsked(array $currentOptions): bool
     {
         $parentShouldBeAsked = parent::shouldBeAsked($currentOptions);
@@ -24,6 +27,7 @@ class IpAnonymizationConfigOption extends BaseConfigOption implements DependentC
         return $parentShouldBeAsked && !$disableTracking && !$disableIpTracking;
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): bool
     {
         $anonymize = $io->confirm(
@@ -40,6 +44,7 @@ class IpAnonymizationConfigOption extends BaseConfigOption implements DependentC
         return !$io->confirm('Do you still want to disable anonymization?', false);
     }
 
+    #[Override]
     public function getDependentOption(): string
     {
         return DisableIpTrackingConfigOption::class;

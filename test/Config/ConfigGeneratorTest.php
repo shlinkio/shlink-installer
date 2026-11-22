@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\Installer\Config;
 
+use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,6 +26,7 @@ class ConfigGeneratorTest extends TestCase
     private MockObject&ConfigOptionsManagerInterface $configOptionsManager;
     private MockObject&StyleInterface $io;
 
+    #[Override]
     public function setUp(): void
     {
         $this->configOptionsManager = $this->createMock(ConfigOptionsManagerInterface::class);
@@ -79,16 +81,19 @@ class ConfigGeneratorTest extends TestCase
                 $this->orderedAskedOptions = &$orderedAskedOptions;
             }
 
+            #[Override]
             public function getEnvVar(): string
             {
                 return '';
             }
 
+            #[Override]
             public function shouldBeAsked(array $currentOptions): bool
             {
                 return true;
             }
 
+            #[Override]
             public function ask(StyleInterface $io, array $currentOptions): string
             {
                 $this->orderedAskedOptions[] = 'a';
@@ -105,22 +110,26 @@ class ConfigGeneratorTest extends TestCase
                 $this->orderedAskedOptions = &$orderedAskedOptions;
             }
 
+            #[Override]
             public function getEnvVar(): string
             {
                 return '';
             }
 
+            #[Override]
             public function shouldBeAsked(array $currentOptions): bool
             {
                 return true;
             }
 
+            #[Override]
             public function ask(StyleInterface $io, array $currentOptions): string
             {
                 $this->orderedAskedOptions[] = 'depends_on_a';
                 return '';
             }
 
+            #[Override]
             public function getDependentOption(): string
             {
                 return $this->regularPluginClass;
@@ -149,21 +158,25 @@ class ConfigGeneratorTest extends TestCase
         array $expectedResult,
     ): void {
         $regularPlugin = new class implements ConfigOptionInterface, ConfigOptionMigratorInterface {
+            #[Override]
             public function getEnvVar(): string
             {
                 return 'env_var';
             }
 
+            #[Override]
             public function shouldBeAsked(array $currentOptions): bool
             {
                 return false;
             }
 
+            #[Override]
             public function ask(StyleInterface $io, array $currentOptions): string
             {
                 return 'value';
             }
 
+            #[Override]
             public function tryToMigrateValue(mixed $currentValue): mixed
             {
                 return $currentValue === 'foo' ? 'migrated_value' : $currentValue;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Shlinkio\Shlink\Installer\Config\Option\DependentConfigOptionInterface;
 use Shlinkio\Shlink\Installer\Config\Option\Geolocation\GeolocationStrategiesConfigOption;
@@ -17,11 +18,13 @@ use function str_contains;
  */
 class GeoLiteLicenseKeyConfigOption extends BaseConfigOption implements DependentConfigOptionInterface
 {
+    #[Override]
     public function getEnvVar(): string
     {
         return 'GEOLITE_LICENSE_KEY';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string|null
     {
         // Skip this question if GeoLite2 was not one of the selected geolocation strategies
@@ -36,6 +39,7 @@ class GeoLiteLicenseKeyConfigOption extends BaseConfigOption implements Dependen
         );
     }
 
+    #[Override]
     public function getDependentOption(): string
     {
         return GeolocationStrategiesConfigOption::class;

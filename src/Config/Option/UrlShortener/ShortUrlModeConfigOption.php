@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Installer\Config\Option\UrlShortener;
 
+use Override;
 use Shlinkio\Shlink\Installer\Config\Option\BaseConfigOption;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -20,11 +21,13 @@ class ShortUrlModeConfigOption extends BaseConfigOption
                 . 'Generated short codes will include only lowercase letters and numbers.',
     ];
 
+    #[Override]
     public function getEnvVar(): string
     {
         return 'SHORT_URL_MODE';
     }
 
+    #[Override]
     public function ask(StyleInterface $io, array $currentOptions): string
     {
         return $io->choice(
